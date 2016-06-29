@@ -51,7 +51,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+         
         JFrame mainFrame = new JFrame("Main");
         
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
