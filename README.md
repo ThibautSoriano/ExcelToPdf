@@ -1,7 +1,8 @@
 # ExcelToPdf
 
-* To compile this project, you need to add external jar POI.
-Download the .zip by this following link :
+### To compile this project, you need some things :
+
+* You need to download POI :
 
 http://www.apache.org/dyn/closer.lua/poi/release/bin/poi-bin-3.14.zip
 
@@ -18,5 +19,5 @@ https://sourceforge.net/projects/itext/?source=typ_redirect
 http://www.slf4j.org/download.html
 
 Add external JARs :
-** slf4j-api-1.7.21.jar
-** slf4j-simple-1.7.21.jar
+* slf4j-api-1.7.21.jar
+* slf4j-simple-1.7.21.jar
