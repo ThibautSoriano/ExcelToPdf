@@ -26,3 +26,10 @@ http://www.slf4j.org/download.html
 Add external JARs :
 * slf4j-api-1.7.21.jar
 * slf4j-simple-1.7.21.jar
+
+You need some swing :
+
+http://fr.osdn.jp/projects/sfnet_photoviewer/downloads/bot/1.0/miglayout15-swing.jar/
+
+Add external JARs :
+*  miglayout15-swing.jar
