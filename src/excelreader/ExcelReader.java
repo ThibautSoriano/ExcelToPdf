@@ -2,7 +2,6 @@ package excelreader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -20,14 +19,13 @@ public class ExcelReader {
 	/**
 	 * @return the ExcelSheet with fields filled in
 	 */
-	public ExcelSheet read() {
+	public ExcelSheet read(String fileName) {
 	
-	String filename = "meurguez.xls";
+	//String filename = "meurguez.xls";
 
     FileInputStream fis = null;
     try {
-        fis = new FileInputStream(filename);
-
+        fis = new FileInputStream(fileName);
         HSSFWorkbook workbook = new HSSFWorkbook(fis);
 
         // reading the first sheet (there is only one)
@@ -135,9 +133,9 @@ public class ExcelReader {
 	}
 	
 	public static void main(String args[]) {
-		ExcelReader zhengqin = new ExcelReader();
-		ExcelSheet junior = zhengqin.read();
-		System.out.println(junior);
+		//ExcelReader zhengqin = new ExcelReader();
+		//ExcelSheet junior = zhengqin.read();
+		//System.out.println(junior);
 	}
 
 }

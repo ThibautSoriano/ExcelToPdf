@@ -1,0 +1,45 @@
+package exceltopdf;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+
+import excelreader.ExcelReader;
+import excelreader.entities.ExcelSheet;
+
+public class ExcelToPdf {
+
+	public static final String DEST = "meurguez.pdf";
+	public static final String LOGO = "logo.png";
+	
+	private ExcelSheet excelSheet;
+	 
+    public static void main(String args[]) throws IOException {
+        new ExcelToPdf().createPdf("meurguez.xls", DEST, LOGO);
+    }
+ 
+    public void createPdf(String src, String dest, String image) throws IOException {
+        FileOutputStream fos = new FileOutputStream(dest);
+        PdfWriter writer = new PdfWriter(fos);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+ 
+        ExcelReader excelReader = new ExcelReader();
+        
+        excelSheet = excelReader.read(src);
+        
+        document.add(new Paragraph(excelSheet.getCampaignName()));
+        document.add(new Paragraph(excelSheet.getStartDate()));
+        Image logo = new Image(ImageDataFactory.create(image));
+        Paragraph p = new Paragraph("Company logo\n\n").add(logo);
+        document.add(p);
+        
+        document.close();
+    }
+}

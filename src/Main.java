@@ -1,11 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -13,7 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import sun.security.action.OpenFileInputStreamAction;
+import exceltopdf.ExcelToPdf;
 
 public class Main {
     
@@ -94,6 +93,18 @@ public class Main {
         b4.setVerticalTextPosition(AbstractButton.BOTTOM);
         //b2.setHorizontalTextPosition(AbstractButton.CENTER);
         b4.setText("Export to pdf");
+        b4.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               ExcelToPdf excelToPdf = new ExcelToPdf();
+               try {
+				excelToPdf.createPdf(fileNameLabel.getText(), Utils.changeExtension(fileNameLabel.getText()), imageNameLabel.getText());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+            }
+        });
         
         
         Container c = mainFrame.getContentPane();
