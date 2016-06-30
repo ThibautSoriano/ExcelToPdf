@@ -14,6 +14,11 @@ You can download it from here :
 
 https://sourceforge.net/projects/itext/?source=typ_redirect
 
+Add external JARs
+* itext7-io-7.0.0.jar
+* itext7-kernel-7.0.0.jar
+* itext7-layout-7.0.0.jar
+
 * We use slf4j :
 
 http://www.slf4j.org/download.html
@@ -21,3 +26,10 @@ http://www.slf4j.org/download.html
 Add external JARs :
 * slf4j-api-1.7.21.jar
 * slf4j-simple-1.7.21.jar
+
+You need some swing :
+
+http://fr.osdn.jp/projects/sfnet_photoviewer/downloads/bot/1.0/miglayout15-swing.jar/
+
+Add external JARs :
+*  miglayout15-swing.jar
