@@ -14,6 +14,13 @@ You can download it from here :
 
 https://sourceforge.net/projects/itext/?source=typ_redirect
 
+Add external JARs
+* itext7-io-7.0.0.jar
+* itext7-kernel-7.0.0.jar
+* itext7-layout-7.0.0.jar
+* itext7-forms-7.0.0.jar
+* itext7-font-asian-7.0.0.jar
+
 * We use slf4j :
 
 http://www.slf4j.org/download.html
