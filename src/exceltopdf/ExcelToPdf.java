@@ -35,7 +35,7 @@ public class ExcelToPdf {
         excelSheet = excelReader.read(src);
         
         document.add(new Paragraph(excelSheet.getCampaignName()));
-        document.add(new Paragraph(excelSheet.getStartDate()));
+        document.add(new Paragraph(excelSheet.getStartDate() + " to " + excelSheet.getEndDate()));
         Image logo = new Image(ImageDataFactory.create(image));
         Paragraph p = new Paragraph("Company logo\n\n").add(logo);
         document.add(p);
