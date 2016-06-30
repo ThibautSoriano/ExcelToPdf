@@ -12,6 +12,8 @@ public class ExcelSheet {
 	private String endDate;
 	
 	private List<Advertisement> advertisements = new ArrayList<>();
+	
+	private Advertisement all = new Advertisement();
 
 	public String getCampaignName() {
 		return campaignName;
@@ -43,6 +45,27 @@ public class ExcelSheet {
 
 	public void setAdvertisements(List<Advertisement> advertisements) {
 		this.advertisements = advertisements;
+	}
+
+	public Advertisement getAll() {
+		return all;
+	}
+
+	public void setAll(Advertisement all) {
+		this.all = all;
+	}
+	
+	@Override
+	public String toString() {
+		String res = "";
+		
+		res += "Campaign name : " + campaignName + "\n";
+		res += "Start date : " + startDate + "\n";
+		res += "End date : " + endDate + "\n";
+		res += "Advertisements : " + advertisements + "\n";
+		res += "All ads sump up : " + all + "\n";
+		
+		return res;
 	}
 
 }

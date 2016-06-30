@@ -15,7 +15,7 @@ public class Advertisement {
 	private int clickingUsers;
 	
 	/**
-	 * percentage
+	 * percentage : 0,01 for example
 	 */
 	private float clickThroughRate;
 	
@@ -23,6 +23,22 @@ public class Advertisement {
 	 * percentage
 	 */
 	private float uniqueCTR;
+	
+	public Advertisement() {
+		
+	}
+
+	public Advertisement(String placementName, int impressions, int uniqueCookies, int frequency, int clicks,
+			int clickingUsers, float clickThroughRate, float uniqueCTR) {
+		this.placementName = placementName;
+		this.impressions = impressions;
+		this.uniqueCookies = uniqueCookies;
+		this.frequency = frequency;
+		this.clicks = clicks;
+		this.clickingUsers = clickingUsers;
+		this.clickThroughRate = clickThroughRate;
+		this.uniqueCTR = uniqueCTR;
+	}
 
 	public String getPlacementName() {
 		return placementName;
@@ -92,6 +108,7 @@ public class Advertisement {
 	public String toString() {
 		String res = "";
 		
+		res += "\n";
 		res += placementName + "\t";
 		res += impressions + "\t";
 		res += uniqueCookies + "\t";
@@ -99,7 +116,7 @@ public class Advertisement {
 		res += clicks + "\t";
 		res += clickingUsers + "\t";
 		res += clickThroughRate + "\t";
-		res += uniqueCTR + "\t";
+		res += uniqueCTR;
 		
 		return res;
 	}
