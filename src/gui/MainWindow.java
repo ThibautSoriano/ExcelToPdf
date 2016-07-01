@@ -4,8 +4,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import exceltopdf.ExcelToPdf;
 import utils.Utils;
@@ -39,6 +43,13 @@ public class MainWindow {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					// set for file chooser look
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					e1.printStackTrace();
+				}
 				try {
 					MainWindow window = new MainWindow();
 					window.frmConverter.setVisible(true);
@@ -125,7 +136,12 @@ public class MainWindow {
 			public void mouseClicked(MouseEvent e) {
 				ExcelToPdf excelToPdf = new ExcelToPdf();
 	               try {
-					excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
+	            	   if (!Utils.isXlsExension(txtExcel.getText())) {
+	            		   JOptionPane.showMessageDialog(null, "Please put an Excel file as input (.xls)", "Bad input file", JOptionPane.ERROR_MESSAGE);
+	            	   }
+	            	   else {
+	            		   excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
+	            	   }
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
