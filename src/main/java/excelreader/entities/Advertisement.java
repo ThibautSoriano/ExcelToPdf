@@ -1,4 +1,4 @@
-package excelreader.entities;
+package main.java.excelreader.entities;
 
 public class Advertisement {
 

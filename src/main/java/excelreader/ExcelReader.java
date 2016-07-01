@@ -1,4 +1,4 @@
-package excelreader;
+package main.java.excelreader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 
-import excelreader.entities.Advertisement;
-import excelreader.entities.ExcelSheet;
+import main.java.excelreader.entities.Advertisement;
+import main.java.excelreader.entities.ExcelSheet;
 
 public class ExcelReader {
 	private ExcelSheet excelSheet = new ExcelSheet();

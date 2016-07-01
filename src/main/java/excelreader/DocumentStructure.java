@@ -1,4 +1,4 @@
-package excelreader;
+package main.java.excelreader;
 
 public class DocumentStructure {
 	public static final int CAMPAIGN_NAME_ROW = 3;

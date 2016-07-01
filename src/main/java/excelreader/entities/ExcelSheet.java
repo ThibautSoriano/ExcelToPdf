@@ -1,4 +1,4 @@
-package excelreader.entities;
+package main.java.excelreader.entities;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package exceltopdf;
+package main.java.exceltopdf;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 
-import excelreader.ExcelReader;
-import excelreader.entities.ExcelSheet;
+import main.java.excelreader.ExcelReader;
+import main.java.excelreader.entities.ExcelSheet;
 
 public class ExcelToPdf {
 

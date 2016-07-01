@@ -1,4 +1,4 @@
-package gui;
+package main.java.gui;
 
 import java.awt.EventQueue;
 
@@ -13,8 +13,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import exceltopdf.ExcelToPdf;
-import utils.FileType;
+import main.java.exceltopdf.ExcelToPdf;
+import main.java.utils.FileType;
 import utils.Utils;
 
 import java.awt.BorderLayout;
