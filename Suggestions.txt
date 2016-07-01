@@ -1,0 +1,12 @@
+display numbers in charts ?
+errors handling : extension file
+image not mandatory, just an option --> handle it
+image extension : convert into the right extension
+check image size : reduce it if needed
+settings in the application : application language and language of the output
+
+meurguez : lire le 2e excel et faire un diagramme avec les impressions (nombres + %)
+donc ajouter une option dans l'application pour sélectionner le 2e excel
+si un seul excel est sélectionné ce n'est pas une error
+
+**** attestation d'arrivée + 3 pages du kit*******
