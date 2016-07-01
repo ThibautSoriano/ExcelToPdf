@@ -10,3 +10,5 @@ donc ajouter une option dans l'application pour sélectionner le 2e excel
 si un seul excel est sélectionné ce n'est pas une error
 
 **** attestation d'arrivée + 3 pages du kit*******
+
+for the chart with cities : use a map with intense or less intense colors to show datas
