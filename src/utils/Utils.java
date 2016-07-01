@@ -8,4 +8,17 @@ public class Utils {
 		return namePdf;
 	}
 
+	public static boolean isXlsExension(String path) {
+		if (path.length() < 5) {
+			return false;
+		}
+		
+		String extension = path.substring(path.length()-3, path.length());
+		if (extension.equals("xls")) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
