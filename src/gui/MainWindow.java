@@ -10,8 +10,11 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import exceltopdf.ExcelToPdf;
+import utils.FileType;
 import utils.Utils;
 
 import java.awt.BorderLayout;
@@ -112,7 +115,7 @@ public class MainWindow {
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				openFileChooser(EXCEL);
+				openFileChooser(FileType.EXCEL);
 			}
 		});
 		btnExcel.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
@@ -125,7 +128,7 @@ public class MainWindow {
 		btnLogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				openFileChooser(LOGO);
+				openFileChooser(FileType.LOGO);
 			}
 		});
 		frmConverter.getContentPane().add(btnLogo);
@@ -152,7 +155,11 @@ public class MainWindow {
 		frmConverter.getContentPane().add(btnGo);
 	}
 	
-	public void openFileChooser(final int pathType) {
+	
+	
+	
+	
+	public void openFileChooser(final FileType fileType) {
         final JFrame frame = new JFrame("JFileChooser Popup");
         Container contentPane = frame.getContentPane();
         
@@ -160,17 +167,25 @@ public class MainWindow {
         fileChooser.setControlButtonsAreShown(true);
         contentPane.add(fileChooser, BorderLayout.CENTER);
         
+        
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        
+        FileFilter filter = new FileNameExtensionFilter(fileType.getDescription(), fileType.getAcceptedExtensions());
+        fileChooser.setFileFilter(filter);
+        
+        
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
               JFileChooser theFileChooser = (JFileChooser) actionEvent.getSource();
               String command = actionEvent.getActionCommand();
               if (command.equals(JFileChooser.APPROVE_SELECTION)) {
                 File selectedFile = theFileChooser.getSelectedFile();
-                if (pathType == EXCEL) {
-                	txtExcel.setText(selectedFile.getParent() + File.separator + selectedFile.getName());
+                if (fileType == fileType.EXCEL) {
+                	txtExcel.setText(selectedFile.getAbsolutePath());
                 }
-                else if (pathType == LOGO) {
-                	txtLogo.setText(selectedFile.getParent() + File.separator + selectedFile.getName());
+                else if (fileType == fileType.LOGO) {
+                	txtLogo.setText(selectedFile.getAbsolutePath());
                 }
                 
                 frame.dispose();
