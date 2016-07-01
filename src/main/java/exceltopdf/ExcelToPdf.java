@@ -11,6 +11,8 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 
 import main.java.excelreader.ExcelReader;
+import main.java.excelreader.ExcelReaderRankings;
+import main.java.excelreader.ExcelReaderTechnical;
 import main.java.excelreader.entities.ExcelSheet;
 
 public class ExcelToPdf {
@@ -30,9 +32,18 @@ public class ExcelToPdf {
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
  
-        ExcelReader excelReader = new ExcelReader();
+        ExcelReader excelReader = null;
         
-        excelSheet = excelReader.read(src);
+        if (src.contains("Rankings")) 
+            excelReader = new ExcelReaderRankings();
+        else if (src.contains("Technical")) 
+            excelReader =  new ExcelReaderTechnical();
+        else 
+        {
+            System.err.println("xls not recognized");
+            return;
+        }
+        excelSheet = excelReader.readExcelSheet(src);
         
         document.add(new Paragraph(excelSheet.getCampaignName()));
         document.add(new Paragraph(excelSheet.getStartDate() + " to " + excelSheet.getEndDate()));

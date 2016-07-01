@@ -11,10 +11,20 @@ public class ExcelSheet {
 	
 	private String endDate;
 	
-	private List<Advertisement> advertisements = new ArrayList<>();
+	private List<CampaignRow> campaignRows ;
 	
-	private Advertisement all = new Advertisement();
+	private CampaignRow all ;
 
+	
+	public void setAll(CampaignRow all) {
+        this.all = all;
+    }
+
+    public ExcelSheet() {
+	    campaignRows = new ArrayList<>();
+	    
+	}
+	
 	public String getCampaignName() {
 		return campaignName;
 	}
@@ -39,21 +49,23 @@ public class ExcelSheet {
 		this.endDate = endDate;
 	}
 
-	public List<Advertisement> getAdvertisements() {
-		return advertisements;
-	}
+	
 
-	public void setAdvertisements(List<Advertisement> advertisements) {
-		this.advertisements = advertisements;
-	}
+	
 
-	public Advertisement getAll() {
-		return all;
-	}
+    public List<CampaignRow> getCampaignRows() {
+        return campaignRows;
+    }
 
-	public void setAll(Advertisement all) {
-		this.all = all;
-	}
+    public void setCampaignRows(List<CampaignRow> campaignRows) {
+        this.campaignRows = campaignRows;
+    }
+
+    public CampaignRow getAll() {
+        return all;
+    }
+
+    
 	
 	@Override
 	public String toString() {
@@ -62,7 +74,7 @@ public class ExcelSheet {
 		res += "Campaign name : " + campaignName + "\n";
 		res += "Start date : " + startDate + "\n";
 		res += "End date : " + endDate + "\n";
-		res += "Advertisements : " + advertisements + "\n";
+		res += "Campaigns rows : " + campaignRows + "\n";
 		res += "All ads sump up : " + all + "\n";
 		
 		return res;
