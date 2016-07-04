@@ -65,7 +65,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		            //instantiate document and writer
 		            document = new Document();
 		            writer = PdfWriter.getInstance(document, outputStream);
-		             
+		            writer.setPageEvent(new PdfPage());
 		            //open document
 		            document.open();
 		             

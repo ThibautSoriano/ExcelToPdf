@@ -74,7 +74,7 @@ public class MainWindow {
 	private void initialize() {
 		frmConverter = new JFrame();
 		frmConverter.setTitle("Converter");
-		frmConverter.getContentPane().setBackground(new Color(0, 206, 209));
+		frmConverter.getContentPane().setBackground(Color.WHITE);
 		frmConverter.setBackground(Color.WHITE);
 		frmConverter.setBounds(200, 100, 450, 300);
 		frmConverter.setSize(800, 500);
@@ -83,18 +83,18 @@ public class MainWindow {
 		
 		JLabel lblTitle = new JLabel("Excel to pdf converter");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Gloucester MT Extra Condensed", Font.BOLD, 33));
-		lblTitle.setBounds(246, 11, 270, 34);
+		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
+		lblTitle.setBounds(244, 11, 314, 34);
 		frmConverter.getContentPane().add(lblTitle);
 		
 		JLabel lblChooseExcel = new JLabel("Choose an excel file");
-		lblChooseExcel.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
-		lblChooseExcel.setBounds(50, 97, 143, 22);
+		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblChooseExcel.setBounds(10, 98, 165, 22);
 		frmConverter.getContentPane().add(lblChooseExcel);
 		
 		JLabel lblLogo = new JLabel("Specify your logo (if you want)");
-		lblLogo.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
-		lblLogo.setBounds(50, 167, 177, 22);
+		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblLogo.setBounds(10, 168, 226, 22);
 		frmConverter.getContentPane().add(lblLogo);
 		
 		txtExcel = new JTextField();
@@ -116,12 +116,12 @@ public class MainWindow {
 				openFileChooser(FileType.EXCEL);
 			}
 		});
-		btnExcel.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
+		btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		btnExcel.setBounds(664, 98, 89, 23);
 		frmConverter.getContentPane().add(btnExcel);
 		
 		JButton btnLogo = new JButton("Browse");
-		btnLogo.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
+		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		btnLogo.setBounds(664, 168, 89, 23);
 		btnLogo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -148,7 +148,7 @@ public class MainWindow {
 				}
 			}
 		});
-		btnGo.setFont(new Font("Gloucester MT Extra Condensed", Font.PLAIN, 20));
+		btnGo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnGo.setBounds(299, 254, 89, 23);
 		frmConverter.getContentPane().add(btnGo);
 	}
