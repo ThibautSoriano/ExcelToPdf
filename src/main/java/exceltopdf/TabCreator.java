@@ -41,7 +41,7 @@ public class TabCreator {
         for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
             if (colsToPrint[j]) {
 
-                Font font = new Font(FontFamily.HELVETICA, 10, Font.BOLD);
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
                 Paragraph para = new Paragraph(labels.get(j), font);
                 para.setAlignment(Element.ALIGN_CENTER);
 
@@ -65,7 +65,7 @@ public class TabCreator {
                 for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
 
                     if (colsToPrint[j]) {
-                        Font font = new Font(FontFamily.HELVETICA, 10,
+                        Font font = new Font(FontFamily.HELVETICA, 8,
                                 Font.UNDEFINED);
                         Paragraph p = new Paragraph(l.get(j), font);
                         if (j != 0)
@@ -89,7 +89,7 @@ public class TabCreator {
         for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
             if (colsToPrint[j]) {
 
-                Font font = new Font(FontFamily.HELVETICA, 10, Font.BOLD);
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
                 Paragraph p = new Paragraph(all.get(j), font);
                 if (j != 0)
                     p.setAlignment(Element.ALIGN_CENTER);

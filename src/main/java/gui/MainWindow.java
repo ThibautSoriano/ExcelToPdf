@@ -13,6 +13,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.itextpdf.text.DocumentException;
+
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.utils.FileType;
 import main.java.utils.Utils;
@@ -143,7 +145,7 @@ public class MainWindow {
 	            	   else {
 	            		   excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
 	            	   }
-				} catch (IOException e1) {
+				} catch (IOException | DocumentException e1) {
 					e1.printStackTrace();
 				}
 			}

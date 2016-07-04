@@ -34,12 +34,12 @@ public class ExcelToPdf {
 
     public static void main(String args[])
             throws IOException, DocumentException {
-         new
-         ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
-         DEST, LOGO);
-//        new ExcelToPdf().createPdf(
-//                "./src/main/resources/Pannontej_Medve_nyar_July%2cTechnical%2c2016.06.27-2016.07.10_1467289337.xls",
-//                DEST, LOGO);
+//         new
+//         ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
+//         DEST, LOGO);
+        new ExcelToPdf().createPdf(
+                "./src/main/resources/Pannontej_Medve_nyar_July%2cTechnical%2c2016.06.27-2016.07.10_1467289337.xls",
+                DEST, LOGO);
 
     }
 
@@ -80,7 +80,7 @@ public class ExcelToPdf {
         // document.add(new Paragraph().add(createFirstTable()));
 
         boolean [] colsToPrint = {
-                true,true,true,true,true,true,true,true
+                true,true,true,true,true,true,true,false
         };
         
         TabCreator tc = new TabCreator(excelSheet);
