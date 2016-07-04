@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.utils.FileType;
-import utils.Utils;
+import main.java.utils.Utils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,8 +34,6 @@ import java.io.IOException;
 
 public class MainWindow {
 
-	private static final int EXCEL = 0;
-	private static final int LOGO = 1;
 	private JFrame frmConverter;
 	private JTextField txtExcel;
 	private JTextField txtLogo;
@@ -76,7 +74,7 @@ public class MainWindow {
 	private void initialize() {
 		frmConverter = new JFrame();
 		frmConverter.setTitle("Converter");
-		frmConverter.getContentPane().setBackground(new Color(152, 251, 152));
+		frmConverter.getContentPane().setBackground(new Color(0, 206, 209));
 		frmConverter.setBackground(Color.WHITE);
 		frmConverter.setBounds(200, 100, 450, 300);
 		frmConverter.setSize(800, 500);
@@ -181,10 +179,10 @@ public class MainWindow {
               String command = actionEvent.getActionCommand();
               if (command.equals(JFileChooser.APPROVE_SELECTION)) {
                 File selectedFile = theFileChooser.getSelectedFile();
-                if (fileType == fileType.EXCEL) {
+                if (fileType == FileType.EXCEL) {
                 	txtExcel.setText(selectedFile.getAbsolutePath());
                 }
-                else if (fileType == fileType.LOGO) {
+                else if (fileType == FileType.LOGO) {
                 	txtLogo.setText(selectedFile.getAbsolutePath());
                 }
                 

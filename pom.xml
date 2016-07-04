@@ -33,6 +33,12 @@
 	    <artifactId>layout</artifactId>
 	    <version>7.0.0</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>itextpdf</artifactId>
+	    <version>5.5.9</version>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 	<dependency>
 	    <groupId>org.slf4j</groupId>
