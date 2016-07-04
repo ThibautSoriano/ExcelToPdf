@@ -85,5 +85,11 @@ public class DocumentStructureRankings extends DocumentStructure {
         return 7;
     }
 
+    @Override
+    public int getColumsLabelsRow() {
+        
+        return 6;
+    }
+
    
 }

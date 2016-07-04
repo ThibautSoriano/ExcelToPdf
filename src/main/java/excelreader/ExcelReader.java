@@ -2,6 +2,8 @@ package main.java.excelreader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -82,6 +84,23 @@ public abstract class ExcelReader {
         excelSheet.setEndDate(s[2]);
     }
     
+    
+    public List<String> getColumsLabels() {
+        List<String> labels = new ArrayList<String>();
+        
+        HSSFRow row = sheet.getRow(documentStructure.getColumsLabelsRow());
+        
+//        while (true) {
+//            row.get
+//            
+//            if (row ==  null)
+//            {
+//                excelSheet.setAll(cr);
+//                break;
+//            }
+//        }
+        return null;
+    }
     
     public void readCampaignRows() {
         int index = documentStructure.getCampaignRowStartRow();

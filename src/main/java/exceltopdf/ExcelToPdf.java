@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.util.List;
 
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Paragraph;
+
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Image;
 
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
@@ -26,18 +29,24 @@ public class ExcelToPdf {
 	
 	private ExcelSheet excelSheet;
 	 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, DocumentException {
         //new ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls", DEST, LOGO);
         new ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July%2cTechnical%2c2016.06.27-2016.07.10_1467289337.xls", DEST, LOGO);
         
     }
  
-    public void createPdf(String src, String dest, String image) throws IOException {
-        FileOutputStream fos = new FileOutputStream(dest);
-        PdfWriter writer = new PdfWriter(fos);
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
- 
+    public void createPdf(String src, String dest, String image) throws IOException, DocumentException {
+        
+        
+        
+        Document document = new Document();
+        // step 2
+        PdfWriter.getInstance(document, new FileOutputStream(dest));
+        // step 3
+        document.open();
+        
+        
+        
         ExcelReader excelReader = null;
         
         if (src.contains("Rankings")) 
@@ -51,18 +60,18 @@ public class ExcelToPdf {
         }
         excelSheet = excelReader.readExcelSheet(src);
         
+        
+        
         document.add(new Paragraph(excelSheet.getCampaignName()));
         document.add(new Paragraph(excelSheet.getStartDate() + " to " + excelSheet.getEndDate()));
-        Image logo = new Image(ImageDataFactory.create(image));
-        Paragraph p = new Paragraph("Company logo\n\n").add(logo);
-        document.add(p);
+        Image logo = Image.getInstance(String.format(LOGO,(Object) null));
+
+        document.add(logo);
+//        List<CampaignRow> campaignRows = excelSheet.getCampaignRows();
+//        
+//        document.add(new Paragraph().add(createFirstTable()));
         
-        List<CampaignRow> campaignRows = excelSheet.getCampaignRows();
-        
-        
-        for (CampaignRow campaignRow : campaignRows) {
-            System.out.println(campaignRow.getFirstColumnData());
-        }
+        document.add(createFirstTable());
         
         document.close();
     }
@@ -88,5 +97,7 @@ public class ExcelToPdf {
         table.addCell("row 2; cell 2");
         return table;
     }
+    
+    public PdfPTable createTabCampaign()
     
 }

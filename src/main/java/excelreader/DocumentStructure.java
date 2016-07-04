@@ -26,6 +26,8 @@ public abstract class DocumentStructure {
     
     public abstract int getUniqueCtrCol();
     
+    public abstract int getColumsLabelsRow();
+    
     
 
 }
