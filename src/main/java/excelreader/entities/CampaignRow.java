@@ -1,17 +1,23 @@
 package main.java.excelreader.entities;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import main.java.utils.Percentage;
+
 public  class CampaignRow {
+    
+    public static final int MAX_COLUMNS = 8;
     
     protected String firstColumnData;
 
-   
-
-    
     protected int impressions;
 
     protected int uniqueCookies;
 
-    protected int frequency;
+    protected float frequency;
 
     protected int clicks;
 
@@ -20,12 +26,12 @@ public  class CampaignRow {
     /**
      * percentage : 0,01 for example
      */
-    protected float clickThroughRate;
+    protected Percentage clickThroughRate;
 
     /**
      * percentage
      */
-    protected float uniqueCTR;
+    protected Percentage uniqueCTR;
 
     
    
@@ -43,8 +49,8 @@ public  class CampaignRow {
 
 
 
-    public CampaignRow(String firstColumnData, int impressions, int uniqueCookies, int frequency, int clicks,
-            int clickingUsers, float clickThroughRate, float uniqueCTR) {
+    public CampaignRow(String firstColumnData, int impressions, int uniqueCookies, float frequency, int clicks,
+            int clickingUsers, Percentage clickThroughRate, Percentage uniqueCTR) {
     this.firstColumnData = firstColumnData;
     this.impressions = impressions;
     this.uniqueCookies = uniqueCookies;
@@ -74,11 +80,11 @@ public  class CampaignRow {
         this.uniqueCookies = uniqueCookies;
     }
 
-    public int getFrequency() {
+    public float getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(int frequency) {
+    public void setFrequency(float frequency) {
         this.frequency = frequency;
     }
 
@@ -98,19 +104,19 @@ public  class CampaignRow {
         this.clickingUsers = clickingUsers;
     }
 
-    public float getClickThroughRate() {
+    public Percentage getClickThroughRate() {
         return clickThroughRate;
     }
 
-    public void setClickThroughRate(float clickThroughRate) {
+    public void setClickThroughRate(Percentage clickThroughRate) {
         this.clickThroughRate = clickThroughRate;
     }
 
-    public float getUniqueCTR() {
+    public Percentage getUniqueCTR() {
         return uniqueCTR;
     }
 
-    public void setUniqueCTR(float uniqueCTR) {
+    public void setUniqueCTR(Percentage uniqueCTR) {
         this.uniqueCTR = uniqueCTR;
     }
 
@@ -138,5 +144,28 @@ public  class CampaignRow {
             res += uniqueCTR;
             
             return res;
+    }
+    
+    public List<String> toList() {
+        List<String> l = new ArrayList<String>();
+        l.add(firstColumnData);
+        l.add(String.valueOf(impressions));
+        l.add(String.valueOf(uniqueCookies));
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        
+        
+        l.add(String.valueOf(df.format(frequency)));
+        l.add(String.valueOf(clicks));
+        l.add(String.valueOf(clickingUsers));
+        l.add(clickThroughRate.toString());
+        l.add(uniqueCTR.toString());
+        return l;
+    }
+    
+    public boolean isEmpty(){
+        return  impressions == 0 && uniqueCookies == 0 && frequency == 0 && clicks == 0 && clickingUsers == 0
+                && clickThroughRate.getValue() == 0 && uniqueCTR.getValue() == 0;
     }
 }

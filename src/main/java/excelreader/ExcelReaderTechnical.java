@@ -20,6 +20,7 @@ public class ExcelReaderTechnical extends ExcelReader{
         readStartDate();
         readEndDate();
         super.readCampaignRows();
+        excelSheet.setColumsLabels(super.getColumsLabels());
         
     }
 

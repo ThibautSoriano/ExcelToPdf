@@ -18,6 +18,7 @@ public class ExcelReaderRankings extends ExcelReader {
         super.readStartDate();
         super.readEndDate();
         super.readCampaignRows();
+        excelSheet.setColumsLabels(super.getColumsLabels());
 
     }
 

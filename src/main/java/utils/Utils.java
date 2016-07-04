@@ -21,4 +21,12 @@ public class Utils {
 		return false;
 	}
 
+	public static int countTrueInTab(boolean [] tab){
+	    int a = 0;
+	    for (boolean b : tab) {
+                if (b)
+                    a++;
+            }
+	    return a;
+	}
 }

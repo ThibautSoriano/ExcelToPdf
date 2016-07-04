@@ -76,9 +76,15 @@ public class DocumentStructureTechnical extends DocumentStructure{
     }
 
     @Override
-    public int getColumsLabelsRow() {
+    public int getLabelsRow() {
         
         return 5;
+    }
+
+    @Override
+    public int getLabelsCol() {
+        
+        return 0;
     }
 
    

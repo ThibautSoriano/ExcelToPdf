@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
+import main.java.utils.Percentage;
 
 
 public abstract class ExcelReader {
@@ -88,18 +89,18 @@ public abstract class ExcelReader {
     public List<String> getColumsLabels() {
         List<String> labels = new ArrayList<String>();
         
-        HSSFRow row = sheet.getRow(documentStructure.getColumsLabelsRow());
+        HSSFRow row = sheet.getRow(documentStructure.getLabelsRow());
         
-//        while (true) {
-//            row.get
-//            
-//            if (row ==  null)
-//            {
-//                excelSheet.setAll(cr);
-//                break;
-//            }
-//        }
-        return null;
+        int index = documentStructure.getLabelsCol();
+        while (true) {
+            Cell next = row.getCell(index);
+            if (next ==  null)
+                break;
+            labels.add(next.getStringCellValue());
+            index++;
+            
+        }
+        return labels;
     }
     
     public void readCampaignRows() {
@@ -125,10 +126,10 @@ public abstract class ExcelReader {
                         .getCell(documentStructure.getUniquesCookiesCol())
                         .getNumericCellValue();
             }
-            int frequency = 0;
+            float frequency = 0;
             if (row.getCell(documentStructure.getFrequencyCol())
                     .getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                frequency = (int) row.getCell(documentStructure.getFrequencyCol())
+                frequency = (float) row.getCell(documentStructure.getFrequencyCol())
                         .getNumericCellValue();
             }
             int clicks = 0;
@@ -144,23 +145,27 @@ public abstract class ExcelReader {
                         .getCell(documentStructure.getClickingUsersCol())
                         .getNumericCellValue();
             }
-            float clickThroughRate = 0;
+            
+            Percentage clickThroughRatePercentage = new Percentage();
             if (row.getCell(documentStructure.getClickThroughRateCol())
                     .getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                clickThroughRate = (float) row
+                float clickThroughRate = (float) row
                         .getCell(documentStructure.getClickThroughRateCol())
                         .getNumericCellValue();
+                clickThroughRatePercentage.setValue(clickThroughRate);
             }
-            float uniqueCTR = 0;
+            
+            Percentage uniqueCTRPercentage = new Percentage();
             if (row.getCell(documentStructure.getUniqueCtrCol())
                     .getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                uniqueCTR = (float) row.getCell(documentStructure.getUniqueCtrCol())
+                float uniqueCTR = (float) row.getCell(documentStructure.getUniqueCtrCol())
                         .getNumericCellValue();
+                uniqueCTRPercentage.setValue(uniqueCTR);
             }
 
             CampaignRow cr = new CampaignRow(firstColumnData, impressions,
                     uniqueCookies, frequency, clicks, clickingUsers,
-                    clickThroughRate, uniqueCTR);
+                    clickThroughRatePercentage, uniqueCTRPercentage);
 
             
             HSSFRow nextRow = sheet.getRow(index+1);
