@@ -60,7 +60,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		        try {
 		            document = new Document(PageSize.A4);
 		            writer = PdfWriter.getInstance(document, outputStream);
-		            writer.setPageEvent(new PdfPage());
+		            writer.setPageEvent(new HeaderFooter());
 		            
 		            document.setMargins(85, 85, 85, 113);
 		            

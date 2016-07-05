@@ -1,17 +1,20 @@
 package main.java.exceltopdf;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -29,8 +32,11 @@ public class ExcelToPdf {
 
     public static final String DEST = "meurguez.pdf";
     public static final String LOGO = "./src/main/resources/logo.png";
+    public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
 
     private ExcelSheet excelSheet;
+    
+    
 
     public static void main(String args[])
             throws IOException, DocumentException {
@@ -63,17 +69,12 @@ public class ExcelToPdf {
         
 
         Document document = new Document();
-        // step 2
         
         FileOutputStream outputStream = new FileOutputStream(dest);
-                // step 3
-        
-        
+
         PdfWriter writer = PdfWriter.getInstance(document, outputStream);
         
-        
         document.open();
-        writer.setPageEvent(new PdfPage());
         
 
         document.add(new Paragraph(excelSheet.getCampaignName()));
@@ -90,24 +91,34 @@ public class ExcelToPdf {
         TabCreator tc = new TabCreator(excelSheet);
         //document.add(tc.createTabCampaign(colsToPrint,true));
 
-        document.add(new Paragraph("alksen ljskj ns;jnge;jsjns\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsnbshs\n\n\n\n"));
-        createInsertPage(document, writer);
-        
+//        HeaderFooter insertPageSettings = new HeaderFooter();
+//        createInsertPage();
+//        
         
         document.close();
     }
 
    
 
-    public void createInsertPage(Document document,PdfWriter writer){
-        document.newPage();
+    public void createInsertPage(HeaderFooter structure, String content) throws DocumentException, FileNotFoundException{
+    	Document document = new Document();      
+        FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
         
-        writer.setPageEvent(new PdfPage());
+        writer.setPageEvent(structure);
         
-        
+        document.open();
         
        try {
-        document.add(new Paragraph("zkeflksnez lznel eneln lz"));
+    	   
+    	   PdfContentByte cb = writer.getDirectContent();
+    	   cb.saveState();
+    	   cb.beginText();
+    	   cb.moveText(700, 30);
+    	   cb.showText("Zheng");
+    	   cb.endText();
+    	   cb.restoreState();
+        document.add(new Paragraph("Készítette" + content));
     } catch (DocumentException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
