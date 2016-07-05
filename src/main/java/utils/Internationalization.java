@@ -18,7 +18,7 @@ public class Internationalization {
     public static JSONObject map;
     
     static {
-        loadLanguage(Language.FR);        
+        loadLanguage(Language.EN);        
     }
     
 

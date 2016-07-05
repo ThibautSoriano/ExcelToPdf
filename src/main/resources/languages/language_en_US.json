@@ -7,5 +7,7 @@
 "Please put an Excel file as input (.xls)" :  "Please put an Excel file as input (.xls)",
 "Bad input file" : "Bad input file",
 "JFileChooser Popup" : "JFileChooser Popup",
-"Go !" : "Go !"
+"Go !" : "Go !",
+"Next" : "Next",
+"Previous" : "Previous" 
 }

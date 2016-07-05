@@ -34,6 +34,10 @@ import main.java.utils.Utils;
 
 public class MainWindow {
 
+        public final static int  WINDOW_HEIGHT = 500;
+        public final static int WINDOW_WIDTH = 800;
+    
+    
 	private JFrame frmConverter;
 	private JTextField txtExcel;
 	private JTextField txtLogo;
@@ -147,7 +151,7 @@ public class MainWindow {
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				openFileChooser(FileType.EXCEL);
+				openFileChooser(FileType.EXCEL,txtExcel);
 			}
 		});
 		btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -172,7 +176,7 @@ public class MainWindow {
 		btnLogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				openFileChooser(FileType.LOGO);
+				openFileChooser(FileType.LOGO,txtLogo);
 			}
 		});
 	}
@@ -181,7 +185,7 @@ public class MainWindow {
 	
 	
 	
-	public void openFileChooser(final FileType fileType) {
+	public  static  void openFileChooser(final FileType fileType,JTextField field) {
         final JFrame frame = new JFrame(Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
         
@@ -203,12 +207,11 @@ public class MainWindow {
               String command = actionEvent.getActionCommand();
               if (command.equals(JFileChooser.APPROVE_SELECTION)) {
                 File selectedFile = theFileChooser.getSelectedFile();
-                if (fileType == FileType.EXCEL) {
-                	txtExcel.setText(selectedFile.getAbsolutePath());
-                }
-                else if (fileType == FileType.LOGO) {
-                	txtLogo.setText(selectedFile.getAbsolutePath());
-                }
+                	
+                field.setText(selectedFile.getAbsolutePath());
+               
+                	
+                
                 
                 frame.dispose();
               }
