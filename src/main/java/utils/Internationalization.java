@@ -18,12 +18,7 @@ public class Internationalization {
     public static JSONObject map;
     
     static {
-
-   
-        loadLanguage(Language.HU);
-        
-            
-            
+        loadLanguage(Language.FR);        
     }
     
 
@@ -55,6 +50,12 @@ public class Internationalization {
            
             e.printStackTrace();
         }
+    }
+    
+    public static String getKey(String key) {
+        if ( map.get(key) != null) 
+            return (String) map.get(key);
+        return "???";
     }
     
 }

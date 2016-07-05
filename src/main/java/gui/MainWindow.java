@@ -76,7 +76,7 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmConverter = new JFrame();
-		frmConverter.setTitle("Converter");
+		frmConverter.setTitle(Internationalization.getKey("Converter"));
 		frmConverter.getContentPane().setBackground(Color.WHITE);
 		frmConverter.setBackground(Color.WHITE);
 		frmConverter.setBounds(200, 100, 450, 300);
@@ -84,18 +84,18 @@ public class MainWindow {
 		frmConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmConverter.getContentPane().setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Excel to pdf converter");
+		JLabel lblTitle = new JLabel(Internationalization.getKey("Excel to pdf converter"));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
 		lblTitle.setBounds(244, 11, 314, 34);
 		frmConverter.getContentPane().add(lblTitle);
 		
-		JLabel lblChooseExcel = new JLabel("Choose an excel file");
+		JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		lblChooseExcel.setBounds(10, 98, 165, 22);
 		frmConverter.getContentPane().add(lblChooseExcel);
 		
-		JLabel lblLogo = new JLabel("Specify your logo (if you want)");
+		JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
 		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		lblLogo.setBounds(10, 168, 226, 22);
 		frmConverter.getContentPane().add(lblLogo);
@@ -112,7 +112,7 @@ public class MainWindow {
 		txtLogo.setBounds(246, 171, 378, 20);
 		frmConverter.getContentPane().add(txtLogo);
 		
-		JButton btnExcel = new JButton("Browse");
+		JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -134,14 +134,14 @@ public class MainWindow {
 		});
 		frmConverter.getContentPane().add(btnLogo);
 		
-		JButton btnGo = new JButton("Go !");
+		JButton btnGo = new JButton(Internationalization.getKey("Go !"));
 		btnGo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ExcelToPdf excelToPdf = new ExcelToPdf();
 	               try {
 	            	   if (!Utils.isXlsExension(txtExcel.getText())) {
-	            		   JOptionPane.showMessageDialog(null, "Please put an Excel file as input (.xls)", "Bad input file", JOptionPane.ERROR_MESSAGE);
+	            		   JOptionPane.showMessageDialog(null, Internationalization.getKey("Please put an Excel file as input (.xls)"), Internationalization.getKey("Bad input file"), JOptionPane.ERROR_MESSAGE);
 	            	   }
 	            	   else {
 	            		   excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
@@ -161,7 +161,7 @@ public class MainWindow {
 	
 	
 	public void openFileChooser(final FileType fileType) {
-        final JFrame frame = new JFrame("JFileChooser Popup");
+        final JFrame frame = new JFrame(Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
         
         JFileChooser fileChooser = new JFileChooser(".");

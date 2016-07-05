@@ -1,7 +1,7 @@
 package main.java.utils;
 
 public enum Language {
-    EN("en","US"),HU("hu","HU");
+    EN("en","US"),HU("hu","HU"),FR("fr","FR");
     
     private String language, country;
     
