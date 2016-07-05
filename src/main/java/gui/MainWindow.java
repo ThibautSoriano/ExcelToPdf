@@ -168,6 +168,7 @@ public class MainWindow {
 		mnSettings.add(mnLanguage);
 		
 		JRadioButtonMenuItem rdbtnmntmEnglish = new JRadioButtonMenuItem("English");
+		rdbtnmntmEnglish.setSelected(true);
 		mnLanguage.add(rdbtnmntmEnglish);
 		btnLogo.addMouseListener(new MouseAdapter() {
 			@Override
