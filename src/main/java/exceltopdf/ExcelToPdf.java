@@ -38,7 +38,7 @@ public class ExcelToPdf {
 //         ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
 //         DEST, LOGO);
         new ExcelToPdf().createPdf(
-                "./src/main/resources/Pannontej_Medve_nyar_July%2cTechnical%2c2016.06.27-2016.07.10_1467289337.xls",
+                "zhengqinRankings.xls",
                 DEST, LOGO);
 
     }
@@ -72,9 +72,6 @@ public class ExcelToPdf {
         document.add(new Paragraph(excelSheet.getCampaignName()));
         document.add(new Paragraph(
                 excelSheet.getStartDate() + " to " + excelSheet.getEndDate()));
-        Image logo = Image.getInstance(String.format(LOGO, (Object) null));
-
-        document.add(logo);
         // List<CampaignRow> campaignRows = excelSheet.getCampaignRows();
         //
         // document.add(new Paragraph().add(createFirstTable()));
