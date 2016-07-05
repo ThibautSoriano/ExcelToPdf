@@ -17,6 +17,7 @@ import com.itextpdf.text.DocumentException;
 
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.utils.FileType;
+import main.java.utils.Internationalization;
 import main.java.utils.Utils;
 
 import java.awt.BorderLayout;
@@ -81,14 +82,15 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmConverter = new JFrame();
-		frmConverter.setTitle("Converter");
+		frmConverter.setTitle(Internationalization.getKey("Converter"));
+		frmConverter.getContentPane().setBackground(Color.WHITE);
 		frmConverter.setBackground(Color.WHITE);
 		frmConverter.setBounds(200, 100, 450, 300);
 		frmConverter.setSize(800, 500);
 		frmConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmConverter.getContentPane().setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Excel to pdf converter");
+		JLabel lblTitle = new JLabel(Internationalization.getKey("Excel to pdf converter"));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
 		lblTitle.setBounds(244, 11, 314, 34);
@@ -99,7 +101,7 @@ public class MainWindow {
 		frmConverter.getContentPane().add(panelMainWindow);
 		panelMainWindow.setLayout(null);
 		
-		JLabel lblChooseExcel = new JLabel("Choose an excel file");
+		JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
 		lblChooseExcel.setBounds(10, 35, 144, 22);
 		panelMainWindow.add(lblChooseExcel);
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -110,7 +112,7 @@ public class MainWindow {
 		txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtExcel.setColumns(10);
 		
-		JLabel lblLogo = new JLabel("Specify your logo (if you want)");
+		JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
 		lblLogo.setBounds(10, 104, 226, 22);
 		panelMainWindow.add(lblLogo);
 		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -121,7 +123,7 @@ public class MainWindow {
 		txtLogo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtLogo.setColumns(10);
 		
-		JButton btnLogo = new JButton("Browse");
+		JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
 		btnLogo.setBounds(654, 104, 89, 23);
 		panelMainWindow.add(btnLogo);
 		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -134,7 +136,7 @@ public class MainWindow {
 			public void mouseClicked(MouseEvent e) {
 				//ExcelToPdf excelToPdf = new ExcelToPdf();
 	               if (!Utils.isXlsExension(txtExcel.getText())) {
-					   JOptionPane.showMessageDialog(null, "Please put an Excel file as input (.xls)", "Bad input file", JOptionPane.ERROR_MESSAGE);
+	            	   JOptionPane.showMessageDialog(null, Internationalization.getKey("Please put an Excel file as input (.xls)"), Internationalization.getKey("Bad input file"), JOptionPane.ERROR_MESSAGE);
 				   }
 				   else {
 					   //excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
@@ -146,10 +148,10 @@ public class MainWindow {
 			}
 		});
 		btnGo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		
-		JButton btnExcel = new JButton("Browse");
+
+		JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
 		btnExcel.setBounds(654, 35, 89, 23);
-		panelMainWindow.add(btnExcel);
+		panelMainWindow.add(btnExcel);		
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -201,7 +203,7 @@ public class MainWindow {
 	
 	
 	public void openFileChooser(final FileType fileType) {
-        final JFrame frame = new JFrame("JFileChooser Popup");
+        final JFrame frame = new JFrame(Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
         
         JFileChooser fileChooser = new JFileChooser(".");
