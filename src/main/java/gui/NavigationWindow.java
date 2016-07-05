@@ -1,7 +1,6 @@
 package main.java.gui;
 
 import java.awt.EventQueue;
-import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,22 +20,6 @@ public class NavigationWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					/* Linked List Declaration */
-			         LinkedList<String> linkedlist = new LinkedList<String>();
-
-			         /*add(String Element) is used for adding 
-			          * the elements to the linked list*/
-			         linkedlist.add("Item1");
-			         linkedlist.add("Item5");
-			         linkedlist.add("Item3");
-			         linkedlist.add("Item6");
-			         linkedlist.add("Item2");
-			         System.out.println("Linked List Content: " +linkedlist);
-			         
-			         linkedlist.addFirst("First Item");
-			         linkedlist.addLast("Last Item");
-			         System.out.println("LinkedList Content after addition: " +linkedlist);
-
 					NavigationWindow window = new NavigationWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
