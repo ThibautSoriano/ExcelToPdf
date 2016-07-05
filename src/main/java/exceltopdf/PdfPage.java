@@ -18,7 +18,7 @@ public class PdfPage extends PdfPageEventHelper {
     public void onStartPage(PdfWriter writer, Document document) {
         ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("www.gemius.hu"), 80, 800, 0);
         try {
-            Image img = Image.getInstance("C:\\Users\\user\\Documents\\Polytech\\SI4\\Hongrie\\ExcelToPdf\\src\\main\\resources\\logo.png");
+            Image img = Image.getInstance(".\\src\\main\\resources\\logo.png");
             img.scaleToFit(150, 150);  
             img.setAbsolutePosition(420, 773);
             img.setAlignment(Element.ALIGN_CENTER);

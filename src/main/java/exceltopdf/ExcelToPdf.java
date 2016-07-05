@@ -37,26 +37,17 @@ public class ExcelToPdf {
 //         new
 //         ExcelToPdf().createPdf("./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
 //         DEST, LOGO);
-        new ExcelToPdf().createPdf(
-                "zhengqinRankings.xls",
+        ExcelToPdf  etdpf =new ExcelToPdf();
+        etdpf.createPdf(
+                "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
                 DEST, LOGO);
 
     }
 
     public void createPdf(String src, String dest, String image)
             throws IOException, DocumentException {
-
-        Document document = new Document();
-        // step 2
-        PdfWriter.getInstance(document, new FileOutputStream(dest));
-        // step 3
         
         
-       
-        
-        
-        document.open();
-
         ExcelReader excelReader = null;
 
         if (src.contains("Rankings"))
@@ -68,6 +59,22 @@ public class ExcelToPdf {
             return;
         }
         excelSheet = excelReader.readExcelSheet(src);
+        
+        
+
+        Document document = new Document();
+        // step 2
+        
+        FileOutputStream outputStream = new FileOutputStream(dest);
+                // step 3
+        
+        
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        
+        
+        document.open();
+        writer.setPageEvent(new PdfPage());
+        
 
         document.add(new Paragraph(excelSheet.getCampaignName()));
         document.add(new Paragraph(
@@ -81,9 +88,10 @@ public class ExcelToPdf {
         };
         
         TabCreator tc = new TabCreator(excelSheet);
-        document.add(tc.createTabCampaign(colsToPrint,true));
+        //document.add(tc.createTabCampaign(colsToPrint,true));
 
-    
+        document.add(new Paragraph("alksen ljskj ns;jnge;jsjns\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsnbshs\n\n\n\n"));
+        createInsertPage(document, writer);
         
         
         document.close();
@@ -91,7 +99,22 @@ public class ExcelToPdf {
 
    
 
-    
+    public void createInsertPage(Document document,PdfWriter writer){
+        document.newPage();
+        
+        writer.setPageEvent(new PdfPage());
+        
+        
+        
+       try {
+        document.add(new Paragraph("zkeflksnez lznel eneln lz"));
+    } catch (DocumentException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+        
+        
+    }
     
     
     
