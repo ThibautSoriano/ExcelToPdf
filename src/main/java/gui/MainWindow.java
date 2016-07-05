@@ -1,44 +1,36 @@
 package main.java.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.itextpdf.text.DocumentException;
-
-import main.java.exceltopdf.ExcelToPdf;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Utils;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
 
 public class MainWindow {
 
@@ -83,8 +75,6 @@ public class MainWindow {
 	private void initialize() {
 		frmConverter = new JFrame();
 		frmConverter.setTitle(Internationalization.getKey("Converter"));
-		frmConverter.getContentPane().setBackground(Color.WHITE);
-		frmConverter.setBackground(Color.WHITE);
 		frmConverter.setBounds(200, 100, 450, 300);
 		frmConverter.setSize(800, 500);
 		frmConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,7 +83,7 @@ public class MainWindow {
 		JLabel lblTitle = new JLabel(Internationalization.getKey("Excel to pdf converter"));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
-		lblTitle.setBounds(244, 11, 314, 34);
+		lblTitle.setBounds(138, 11, 457, 34);
 		frmConverter.getContentPane().add(lblTitle);
 		
 		panelMainWindow = new JPanel();
@@ -102,29 +92,29 @@ public class MainWindow {
 		panelMainWindow.setLayout(null);
 		
 		JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
-		lblChooseExcel.setBounds(10, 35, 144, 22);
+		lblChooseExcel.setBounds(10, 35, 187, 22);
 		panelMainWindow.add(lblChooseExcel);
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtExcel = new JTextField();
-		txtExcel.setBounds(251, 38, 380, 20);
+		txtExcel.setBounds(259, 38, 335, 20);
 		panelMainWindow.add(txtExcel);
 		txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtExcel.setColumns(10);
 		
 		JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
-		lblLogo.setBounds(10, 104, 226, 22);
+		lblLogo.setBounds(10, 104, 239, 22);
 		panelMainWindow.add(lblLogo);
 		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtLogo = new JTextField();
-		txtLogo.setBounds(251, 107, 378, 20);
+		txtLogo.setBounds(259, 107, 335, 20);
 		panelMainWindow.add(txtLogo);
 		txtLogo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtLogo.setColumns(10);
 		
 		JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
-		btnLogo.setBounds(654, 104, 89, 23);
+		btnLogo.setBounds(624, 104, 119, 23);
 		panelMainWindow.add(btnLogo);
 		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
@@ -140,9 +130,11 @@ public class MainWindow {
 				   }
 				   else {
 					   //excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
-					   	PdfStructureSettingsWindow window = new PdfStructureSettingsWindow();
+					   	PdfStructureSettingsWindow settingsWindow = new PdfStructureSettingsWindow();
+					   	NavigationWindow navigationWindow = new NavigationWindow();
 						frmConverter.getContentPane().remove(panelMainWindow);
-						frmConverter.getContentPane().add(window.getPanelDefineStructure());
+						frmConverter.getContentPane().add(settingsWindow.getPanelDefineStructure());
+						frmConverter.getContentPane().add(navigationWindow.getPanelNavigation());
 						frmConverter.repaint();
 				   }
 			}
@@ -150,7 +142,7 @@ public class MainWindow {
 		btnGo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-		btnExcel.setBounds(654, 35, 89, 23);
+		btnExcel.setBounds(624, 35, 119, 23);
 		panelMainWindow.add(btnExcel);		
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -159,19 +151,6 @@ public class MainWindow {
 			}
 		});
 		btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		
-		JPanel panelNavigation = new JPanel();
-		panelNavigation.setLayout(null);
-		panelNavigation.setBounds(10, 321, 716, 109);
-		frmConverter.getContentPane().add(panelNavigation);
-		
-		JButton button = new JButton("Next");
-		button.setBounds(606, 43, 100, 23);
-		panelNavigation.add(button);
-		
-		JButton button_1 = new JButton("Previous");
-		button_1.setBounds(32, 43, 100, 23);
-		panelNavigation.add(button_1);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmConverter.setJMenuBar(menuBar);
