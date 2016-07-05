@@ -54,7 +54,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
       btnExcel.addMouseListener(new MouseAdapter() {
               @Override
               public void mouseClicked(MouseEvent e) {
-                      MainWindow.openFileChooser(FileType.EXCEL,txtExcel);
+                      MainWindowZhengqin.openFileChooser(FileType.EXCEL,txtExcel);
               }
       });
       btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -80,7 +80,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
         btnLogo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                    MainWindow.openFileChooser(FileType.LOGO,txtLogo);
+                    MainWindowZhengqin.openFileChooser(FileType.LOGO,txtLogo);
             }
     });
         

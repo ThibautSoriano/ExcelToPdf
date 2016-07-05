@@ -34,7 +34,7 @@ public class NavigationPanel extends SettingsChoicePanel{
         
         
         
-        add(Box.createRigidArea(new Dimension(MainWindow.WINDOW_WIDTH-300,0)));
+        add(Box.createRigidArea(new Dimension(MainWindowZhengqin.WINDOW_WIDTH-300,0)));
         
         
         
