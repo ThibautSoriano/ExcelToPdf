@@ -186,7 +186,7 @@ public class MainWindowZhengqin {
 	
 	
 	
-	public  static  void openFileChooser(final FileType fileType,JTextField field) {
+	public  static  void openFileChooser(final FileType fileType,final JTextField field) {
         final JFrame frame = new JFrame(Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
         

@@ -22,6 +22,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import main.java.utils.Internationalization;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainWindow extends JFrame implements ActionListener{
     
@@ -137,9 +139,23 @@ public class MainWindow extends JFrame implements ActionListener{
         mnSettings.add(mnLanguage);
         
         JRadioButtonMenuItem rdbtnmntmEnglish = new JRadioButtonMenuItem("English");
+        rdbtnmntmEnglish.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		// TODO
+        	}
+        });
         mnLanguage.add(rdbtnmntmEnglish);
         
         rdbtnmntmEnglish.setSelected(true);
+        
+        JRadioButtonMenuItem rdbtnmntmFranais = new JRadioButtonMenuItem("Fran\u00E7ais");
+        rdbtnmntmFranais.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		// TODO
+        	}
+        });
+        mnLanguage.add(rdbtnmntmFranais);
     }
-    
 }
