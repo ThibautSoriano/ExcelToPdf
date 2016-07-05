@@ -17,6 +17,7 @@ import com.itextpdf.text.DocumentException;
 
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.utils.FileType;
+import main.java.utils.Internationalization;
 import main.java.utils.Utils;
 
 import java.awt.BorderLayout;
@@ -122,7 +123,7 @@ public class MainWindow {
 		btnExcel.setBounds(664, 98, 89, 23);
 		frmConverter.getContentPane().add(btnExcel);
 		
-		JButton btnLogo = new JButton("Browse");
+		JButton btnLogo = new JButton((String) Internationalization.map.get("Browse"));
 		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		btnLogo.setBounds(664, 168, 89, 23);
 		btnLogo.addMouseListener(new MouseAdapter() {
