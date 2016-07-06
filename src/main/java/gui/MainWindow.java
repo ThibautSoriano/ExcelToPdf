@@ -51,7 +51,7 @@ public class MainWindow extends JFrame implements ActionListener{
         panels = new LinkedList<SettingsChoicePanel>();
         panels.add(new MainWindowPanel());
         panels.add(new GeneralSettingsPanel());
-        
+        panels.add(new TitleSettingsPanel());
         
         
 

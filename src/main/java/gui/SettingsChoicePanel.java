@@ -23,7 +23,7 @@ public abstract class SettingsChoicePanel extends JPanel{
         setBounds(0, 20, PANEL_WIDTH, PANEL_HEIGHT);
         
         title = new JLabel();
-        title.setBounds(0, 0, PANEL_WIDTH, 20);
+        title.setBounds(0, 0, PANEL_WIDTH, 30);
         title.setText(titleText);
         title.setHorizontalAlignment(SwingConstants.CENTER);
        
