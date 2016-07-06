@@ -45,6 +45,6 @@ public abstract class SettingsChoicePanel extends JPanel{
         setVisible(false);
     }
     
-    
+    public abstract SettingsChoicePanel  getNewInstance();
 
 }

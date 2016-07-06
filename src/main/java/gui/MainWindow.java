@@ -34,7 +34,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class MainWindow extends JFrame implements ActionListener{
+public class MainWindow extends JFrame implements INavigation{
     
     private List<SettingsChoicePanel> panels;
     private int currentPanel = 0;
@@ -46,27 +46,18 @@ public class MainWindow extends JFrame implements ActionListener{
     
     public MainWindow() {
         
-        
+        setResizable(false);
         
         setBounds(200,100,WINDOW_WIDTH,WINDOW_HEIGHT);
         
-        panels = new LinkedList<SettingsChoicePanel>();
-        panels.add(new MainWindowPanel());
-        panels.add(new GeneralSettingsPanel());
-        panels.add(new TitleSettingsPanel());
-        
-        
-
-        
         getContentPane().setLayout(null);
         
+        createPanels(0);
         
-        
-
-        np = new NavigationPanel(this);
-
+        np = new NavigationPanel(panels.size(),1);
+        np.addNavigationListener(this);
         getContentPane().add(np);
-        getContentPane().add(panels.get(0));
+        
         
         addMenu();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -132,14 +123,7 @@ public class MainWindow extends JFrame implements ActionListener{
     
    
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (Internationalization.getKey("Previous").equals(e.getActionCommand()))
-                showPreviousPanel();
-        else
-            showNextPanel();
-        
-    }
+   
 
    
     private void addMenu() {
@@ -176,6 +160,17 @@ public class MainWindow extends JFrame implements ActionListener{
         	    
         	    System.out.println("Junior ce fils de pute");
         	    Internationalization.loadLanguage(Language.FR);
+        	   
+        	    getContentPane().remove(panels.get(currentPanel));
+        	    createPanels(currentPanel);
+        	    
+        	    getContentPane().remove(np);
+        	    np = np.getNewInstance();
+        	    getContentPane().add(np);
+        	    
+        	    
+        	    repaint();
+        	    
         	   
         	}
         });
@@ -222,5 +217,35 @@ public class MainWindow extends JFrame implements ActionListener{
 
           frame.pack();
           frame.setVisible(true);
+    }
+
+    @Override
+    public void next() {
+        showNextPanel();
+        
+        
+    }
+
+    @Override
+    public void previous() {
+       showPreviousPanel();
+        
+    }
+
+    @Override
+    public void validation() {
+        // TODO mettre du dias
+        
+    }
+    
+    private void createPanels(int panelToShow) {
+        panels = new LinkedList<SettingsChoicePanel>();
+        panels.add(new MainWindowPanel());
+        panels.add(new GeneralSettingsPanel());
+        panels.add(new TitleSettingsPanel());
+        panels.add(new InsertPageSettingsPanel());
+        
+        
+        getContentPane().add(panels.get(panelToShow));
     }
 }

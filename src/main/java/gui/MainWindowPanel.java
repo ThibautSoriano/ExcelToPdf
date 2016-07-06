@@ -25,17 +25,24 @@ public class MainWindowPanel extends SettingsChoicePanel{
     private JTextField txtExcel;
     private JTextField txtLogo;
     
+    
+  
+    public JTextField getTxtExcel() {
+        return txtExcel;
+    }
+
+
+
+    public void setTxtExcel(JTextField txtExcel) {
+        this.txtExcel = txtExcel;
+    }
+
+
     public MainWindowPanel() {
         
         super(Internationalization.getKey("Excel to pdf converter"));
         
-       
-        
-        
-       
-        
-        
-      
+
         JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
         lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
         lblChooseExcel.setBounds(30, 119, 389, 22);
@@ -109,6 +116,14 @@ public class MainWindowPanel extends SettingsChoicePanel{
     public boolean isEveryThingOk(Message message) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+
+
+    @Override
+    public SettingsChoicePanel getNewInstance() {
+        
+        return new MainWindowPanel();
     }
 
 }

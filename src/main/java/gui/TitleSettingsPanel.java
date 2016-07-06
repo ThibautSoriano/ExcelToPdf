@@ -29,8 +29,41 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
     
     private JTextField txtLogo;
     private JTextField txtBottomLeftText;
+    private JCheckBox checkBox;
+    private JCheckBox checkBox_1;
+    private JCheckBox checkBox_2;
+    private JCheckBox checkBox_3;
+    private JTextArea txtrBelowTitle;
     
     
+    public JTextField getTxtLogo() {
+        return txtLogo;
+    }
+
+    public JTextField getTxtBottomLeftText() {
+        return txtBottomLeftText;
+    }
+
+    public JCheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    public JCheckBox getCheckBox_1() {
+        return checkBox_1;
+    }
+
+    public JCheckBox getCheckBox_2() {
+        return checkBox_2;
+    }
+
+    public JCheckBox getCheckBox_3() {
+        return checkBox_3;
+    }
+
+    public JTextArea getTxtrBelowTitle() {
+        return txtrBelowTitle;
+    }
+
     public TitleSettingsPanel() {
         
 
@@ -38,12 +71,12 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
 
         
         
-        JCheckBox checkBox = new JCheckBox("Separator line above footer");
+        checkBox = new JCheckBox("Separator line above footer");
         checkBox.setSelected(true);
         checkBox.setBounds(284, 143, 189, 23);
         add(checkBox);
         
-        JCheckBox checkBox_1 = new JCheckBox("Separator line below header");
+         checkBox_1 = new JCheckBox("Separator line below header");
         checkBox_1.setSelected(true);
         checkBox_1.setBounds(284, 71, 189, 23);
         add(checkBox_1);
@@ -56,11 +89,11 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         separator_1.setBounds(93, 111, 397, 2);
         add(separator_1);
         
-        JCheckBox checkBox_2 = new JCheckBox("Header");
+         checkBox_2 = new JCheckBox("Header");
         checkBox_2.setBounds(93, 71, 189, 23);
         add(checkBox_2);
         
-        JCheckBox checkBox_3 = new JCheckBox("Footer");
+         checkBox_3 = new JCheckBox("Footer");
         checkBox_3.setBounds(93, 143, 189, 23);
         add(checkBox_3);
         
@@ -83,7 +116,7 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         add(scrollPane);
         
         
-        JTextArea txtrBelowTitle = new JTextArea();
+         txtrBelowTitle = new JTextArea();
         scrollPane.setViewportView(txtrBelowTitle);
 
         txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
@@ -100,5 +133,12 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         // TODO Auto-generated method stub
         return false;
     }
+
+    @Override
+    public SettingsChoicePanel getNewInstance() {
+        return new TitleSettingsPanel();
+    }
+    
+    
 
 }

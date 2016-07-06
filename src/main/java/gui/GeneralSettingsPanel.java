@@ -24,43 +24,86 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     
     private JTextField txtLogo;
     private JTextField txtBottomLeftText;
+    private JRadioButton rdbtnBottomCenter;
+    private JRadioButton rdbtnBottomRight;
+    private ButtonGroup pagesNumGroup;
+    private JCheckBox chckbxFooterLine;
+    private JCheckBox chckbxHeaderLine;
+    private JTextField txtWebsite;
+    private JCheckBox chckbxHeader;
+    private JCheckBox chckbxFooter;
     
     
+    
+    public JTextField getTxtLogo() {
+        return txtLogo;
+    }
+
+    public JTextField getTxtBottomLeftText() {
+        return txtBottomLeftText;
+    }
+
+    public JRadioButton getRdbtnBottomCenter() {
+        return rdbtnBottomCenter;
+    }
+
+    public JRadioButton getRdbtnBottomRight() {
+        return rdbtnBottomRight;
+    }
+
+    public ButtonGroup getPagesNumGroup() {
+        return pagesNumGroup;
+    }
+
+    public JCheckBox getChckbxFooterLine() {
+        return chckbxFooterLine;
+    }
+
+    public JCheckBox getChckbxHeaderLine() {
+        return chckbxHeaderLine;
+    }
+
+    public JTextField getTxtWebsite() {
+        return txtWebsite;
+    }
+
+    public JCheckBox getChckbxHeader() {
+        return chckbxHeader;
+    }
+
+    public JCheckBox getChckbxFooter() {
+        return chckbxFooter;
+    }
+
     public GeneralSettingsPanel() {
         
 
         super("General settings");
         
-        
-        
-        
-        
-        
-       
-        
+ 
         JLabel lblPageNumerotation = new JLabel("Page numerotation");
         lblPageNumerotation.setBounds(93, 75, 115, 19);
         add(lblPageNumerotation);
         
-        JRadioButton rdbtnBottomCenter = new JRadioButton("Bottom center");
+         rdbtnBottomCenter = new JRadioButton("Bottom center");
         rdbtnBottomCenter.setBounds(223, 73, 109, 23);
         add(rdbtnBottomCenter);
         rdbtnBottomCenter.setSelected(true);
         
-        JRadioButton rdbtnBottomRight = new JRadioButton("Bottom right");
+         rdbtnBottomRight = new JRadioButton("Bottom right");
         rdbtnBottomRight.setBounds(385, 68, 109, 23);
         add(rdbtnBottomRight);
         
-        ButtonGroup pagesNumGroup = new ButtonGroup();
+         pagesNumGroup = new ButtonGroup();
         pagesNumGroup.add(rdbtnBottomRight);
         pagesNumGroup.add(rdbtnBottomCenter);
         
-        JCheckBox chckbxFooterLine = new JCheckBox("Separator line above footer");
+         chckbxFooterLine = new JCheckBox("Separator line above footer");
         chckbxFooterLine.setSelected(true);
         chckbxFooterLine.setBounds(284, 269, 189, 23);
         add(chckbxFooterLine);
         
-        JCheckBox chckbxHeaderLine = new JCheckBox("Separator line below header");
+         chckbxHeaderLine = new JCheckBox("Separator line below header");
         chckbxHeaderLine.setSelected(true);
         chckbxHeaderLine.setBounds(284, 119, 189, 23);
         add(chckbxHeaderLine);
@@ -81,18 +124,18 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         lblYourCompanyWebsite.setBounds(93, 165, 159, 19);
         add(lblYourCompanyWebsite);
         
-        JTextField txtWebsite = new JTextField();
+         txtWebsite = new JTextField();
         txtWebsite.setText("www.gemius.hu");
         txtWebsite.setColumns(10);
         txtWebsite.setBounds(284, 164, 177, 20);
         add(txtWebsite);
         
-        JCheckBox chckbxHeader = new JCheckBox("Header");
+         chckbxHeader = new JCheckBox("Header");
         chckbxHeader.setSelected(true);
         chckbxHeader.setBounds(93, 119, 189, 23);
         add(chckbxHeader);
         
-        JCheckBox chckbxFooter = new JCheckBox("Footer");
+        chckbxFooter = new JCheckBox("Footer");
         chckbxFooter.setSelected(true);
         chckbxFooter.setBounds(93, 269, 189, 23);
         add(chckbxFooter);
@@ -139,6 +182,12 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     public boolean isEveryThingOk(Message message) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public SettingsChoicePanel getNewInstance() {
+       
+        return new GeneralSettingsPanel();
     }
 
 }
