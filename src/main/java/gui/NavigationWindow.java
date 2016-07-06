@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class NavigationWindow {
 
@@ -12,6 +14,8 @@ public class NavigationWindow {
 	private JPanel panelNavigation;
 	private JButton btnNext;
 	private JButton btnPrevious;
+	private JScrollPane scrollPane;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -58,6 +62,15 @@ public class NavigationWindow {
 		btnPrevious = new JButton("Previous");
 		btnPrevious.setBounds(32, 43, 100, 23);
 		panelNavigation.add(btnPrevious);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(41, 59, 285, 128);
+		frame.getContentPane().add(scrollPane);
+		
+		textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		scrollPane.setViewportView(textArea);
 	}
 
 	public JPanel getPanelNavigation() {
@@ -71,5 +84,4 @@ public class NavigationWindow {
 	public JButton getBtnPrevious() {
 		return btnPrevious;
 	}
-
 }
