@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
@@ -26,10 +27,14 @@ public class MainWindowPanel extends SettingsChoicePanel{
     
     public MainWindowPanel() {
         
-        setBounds(10, 69, 753, 219);
+        super(Internationalization.getKey("Excel to pdf converter"));
+        
+       
         
         
-        setLayout(null);
+       
+        
+        
       
         JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
         lblChooseExcel.setBounds(10, 35, 187, 22);

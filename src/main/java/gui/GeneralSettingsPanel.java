@@ -17,8 +17,10 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     public GeneralSettingsPanel() {
         
 
-        setBounds(110, 100, 560, 142);
-        setLayout(null);
+        super("General settings");
+        
+        
+        
         
         JLabel lblPageNumerotation = new JLabel("Page numerotation");
         lblPageNumerotation.setBounds(27, 34, 115, 19);

@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,11 +34,12 @@ public class Internationalization {
     public static void loadLanguage(Language lang){
         JSONParser parser = new JSONParser();
         
-        
+        System.out.println('a');
         InputStreamReader z = null;
         try {
             z = new InputStreamReader(new FileInputStream("src/main/resources/languages/language"+lang.getExtension()+".json"),"ISO-8859-2");
             map = (JSONObject) parser.parse(z);
+//            JOptionPane.showMessageDialog(null, "Language changed","Language changed to"+lang.getExtension(), JOptionPane.INFORMATION_MESSAGE);
         } catch (UnsupportedEncodingException e) {
             
             e.printStackTrace();

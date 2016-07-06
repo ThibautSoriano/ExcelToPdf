@@ -84,14 +84,8 @@ public class MainWindowZhengqin {
 		frmConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmConverter.getContentPane().setLayout(null);
 		
-		JLabel lblTitle = new JLabel(Internationalization.getKey("Excel to pdf converter"));
-		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
-		lblTitle.setBounds(138, 11, 457, 34);
-		frmConverter.getContentPane().add(lblTitle);
-		
 		panelMainWindow = new JPanel();
-		panelMainWindow.setBounds(10, 69, 753, 219);
+		panelMainWindow.setBounds(0, 0, 753, 219);
 		frmConverter.getContentPane().add(panelMainWindow);
 		panelMainWindow.setLayout(null);
 		

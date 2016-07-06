@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
-
+import javax.swing.JPanel;
 
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
-public class NavigationPanel extends SettingsChoicePanel{
+public class NavigationPanel extends JPanel{
 
     
     private static final long serialVersionUID = -3387723564731103730L;
@@ -20,6 +20,8 @@ public class NavigationPanel extends SettingsChoicePanel{
     
     
     public NavigationPanel(ActionListener al) {
+        
+        
         
         setLayout(null);
         setBounds(41, 317, 716, 109);
@@ -49,11 +51,7 @@ public class NavigationPanel extends SettingsChoicePanel{
         
     }
     
-    @Override
-    public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    
 
   public void hidePreviousButton(){
       btnPrevious.setVisible(false);

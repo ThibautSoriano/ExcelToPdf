@@ -22,6 +22,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import main.java.utils.Internationalization;
+import main.java.utils.Language;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -43,11 +45,7 @@ public class MainWindow extends JFrame implements ActionListener{
         getContentPane().setLayout(null);
         
         
-        JLabel lblTitle = new JLabel(Internationalization.getKey("Excel to pdf converter"));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 33));
-        lblTitle.setBounds(138, 11, 457, 34);
-        getContentPane().add(lblTitle);
+        
 
         np = new NavigationPanel(this);
 
@@ -142,7 +140,7 @@ public class MainWindow extends JFrame implements ActionListener{
         rdbtnmntmEnglish.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		// TODO
+        		Internationalization.loadLanguage(Language.EN);
         	}
         });
         mnLanguage.add(rdbtnmntmEnglish);
@@ -152,8 +150,11 @@ public class MainWindow extends JFrame implements ActionListener{
         JRadioButtonMenuItem rdbtnmntmFranais = new JRadioButtonMenuItem("Fran\u00E7ais");
         rdbtnmntmFranais.addMouseListener(new MouseAdapter() {
         	@Override
-        	public void mouseClicked(MouseEvent e) {
-        		// TODO
+        	public void mousePressed(MouseEvent e) {
+        	    
+        	    System.out.println("Junior ce fils de pute");
+        	    Internationalization.loadLanguage(Language.FR);
+        	   
         	}
         });
         mnLanguage.add(rdbtnmntmFranais);
