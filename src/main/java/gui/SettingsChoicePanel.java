@@ -13,21 +13,22 @@ public abstract class SettingsChoicePanel extends JPanel{
     
     protected JLabel title;
     
-    public static final int PANEL_WIDTH = 600;
-    public static final int PANEL_HEIGHT = 400;
+    public static final int PANEL_WIDTH = 584;
+    public static final int PANEL_HEIGHT = 380;
     
     
     protected SettingsChoicePanel(String titleText){
         
         setLayout(null);
-        setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        setBounds(0, 20, PANEL_WIDTH, PANEL_HEIGHT);
         
         title = new JLabel();
-        title.setBounds(52, 30, 461, 50);
+        title.setBounds(0, 0, PANEL_WIDTH, 20);
         title.setText(titleText);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
        
         title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setFont(new Font("Tahoma", Font.BOLD, 33));
+        title.setFont(new Font("Tahoma", Font.BOLD, 25));
         
         add(title);
         

@@ -40,7 +40,14 @@ public class MainWindow extends JFrame implements ActionListener{
     private int currentPanel = 0;
     NavigationPanel np;
     
+    private static final int WINDOW_HEIGHT = 500;
+    
+    private static final int WINDOW_WIDTH = 600;
+    
     public MainWindow() {
+        
+        setBounds(200,100,WINDOW_WIDTH,WINDOW_HEIGHT);
+        
         panels = new LinkedList<SettingsChoicePanel>();
         panels.add(new MainWindowPanel());
         panels.add(new GeneralSettingsPanel());
@@ -48,7 +55,7 @@ public class MainWindow extends JFrame implements ActionListener{
         
         
 
-        setSize(MainWindowZhengqin.WINDOW_WIDTH, MainWindowZhengqin.WINDOW_HEIGHT);
+        
         getContentPane().setLayout(null);
         
         

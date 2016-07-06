@@ -18,17 +18,20 @@ public class NavigationPanel extends JPanel{
     private JButton btnNext;
     private JButton btnPrevious;
     
+    public static final int NAVIGATION_HEIGHT = 62;
+    
+    public static final int NAVIGATION_WIDTH = 584;
     
     public NavigationPanel(ActionListener al) {
         
         
         
         setLayout(null);
-        setBounds(41, 317, 716, 109);
+        setBounds(0, SettingsChoicePanel.PANEL_HEIGHT, NAVIGATION_WIDTH, NAVIGATION_HEIGHT);
         
         
         btnNext = new JButton(Internationalization.getKey("Next"));
-        btnNext.setBounds(606, 43, 100, 23);
+        btnNext.setBounds(NAVIGATION_WIDTH - 120, 15, 100,30);
         btnNext.addActionListener(al);
         
         
@@ -41,7 +44,7 @@ public class NavigationPanel extends JPanel{
         
         
         btnPrevious = new JButton(Internationalization.getKey("Previous"));
-        btnPrevious.setBounds(32, 43, 100, 23);
+        btnPrevious.setBounds(20, 15, 100,30);
         btnPrevious.addActionListener(al);
         
         add(btnPrevious);

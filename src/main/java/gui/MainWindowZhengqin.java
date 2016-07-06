@@ -79,45 +79,47 @@ public class MainWindowZhengqin {
 	private void initialize() {
 		frmConverter = new JFrame();
 		frmConverter.setTitle(Internationalization.getKey("Converter"));
-		frmConverter.setBounds(200, 100, 450, 300);
-		frmConverter.setSize(800, 500);
+		frmConverter.setBounds(200, 100, 600, 500);
+		
 		frmConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmConverter.getContentPane().setLayout(null);
 		
 		panelMainWindow = new JPanel();
-		panelMainWindow.setBounds(0, 0, 753, 219);
+		panelMainWindow.setBounds(0, 0, 600, 441);
 		frmConverter.getContentPane().add(panelMainWindow);
 		panelMainWindow.setLayout(null);
 		
 		JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
-		lblChooseExcel.setBounds(10, 35, 187, 22);
+		lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblChooseExcel.setBounds(30, 119, 389, 22);
 		panelMainWindow.add(lblChooseExcel);
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtExcel = new JTextField();
-		txtExcel.setBounds(259, 38, 335, 20);
+		txtExcel.setBounds(30, 168, 389, 20);
 		panelMainWindow.add(txtExcel);
 		txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtExcel.setColumns(10);
 		
 		JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
-		lblLogo.setBounds(10, 104, 239, 22);
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBounds(30, 236, 389, 22);
 		panelMainWindow.add(lblLogo);
 		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtLogo = new JTextField();
-		txtLogo.setBounds(259, 107, 335, 20);
+		txtLogo.setBounds(30, 284, 389, 20);
 		panelMainWindow.add(txtLogo);
 		txtLogo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtLogo.setColumns(10);
 		
 		JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
-		btnLogo.setBounds(624, 104, 119, 23);
+		btnLogo.setBounds(444, 165, 119, 23);
 		panelMainWindow.add(btnLogo);
 		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		JButton btnGo = new JButton("Go !");
-		btnGo.setBounds(340, 174, 89, 23);
+		btnGo.setBounds(235, 353, 89, 23);
 		panelMainWindow.add(btnGo);
 		btnGo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -140,7 +142,7 @@ public class MainWindowZhengqin {
 		btnGo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-		btnExcel.setBounds(624, 35, 119, 23);
+		btnExcel.setBounds(444, 281, 119, 23);
 		panelMainWindow.add(btnExcel);		
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
