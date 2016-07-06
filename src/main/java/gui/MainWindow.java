@@ -2,6 +2,7 @@ package main.java.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,13 +19,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class MainWindow extends JFrame implements ActionListener{
     
@@ -157,5 +164,47 @@ public class MainWindow extends JFrame implements ActionListener{
         	}
         });
         mnLanguage.add(rdbtnmntmFranais);
+    }
+    
+    public  static  void openFileChooser(final FileType fileType,final JTextField field) {
+        final JFrame frame = new JFrame(Internationalization.getKey("JFileChooser Popup"));
+        Container contentPane = frame.getContentPane();
+        
+        JFileChooser fileChooser = new JFileChooser(".");
+        fileChooser.setControlButtonsAreShown(true);
+        contentPane.add(fileChooser, BorderLayout.CENTER);
+        
+        
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        
+        FileFilter filter = new FileNameExtensionFilter(fileType.getDescription(), fileType.getAcceptedExtensions());
+        fileChooser.setFileFilter(filter);
+        
+        
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+              JFileChooser theFileChooser = (JFileChooser) actionEvent.getSource();
+              String command = actionEvent.getActionCommand();
+              if (command.equals(JFileChooser.APPROVE_SELECTION)) {
+                File selectedFile = theFileChooser.getSelectedFile();
+                	
+                field.setText(selectedFile.getAbsolutePath());
+               
+                	
+                
+                
+                frame.dispose();
+              }
+              else if (command.equals(JFileChooser.CANCEL_SELECTION)) {
+            	  frame.dispose();
+              }
+            }
+          };
+          
+          fileChooser.addActionListener(actionListener);
+
+          frame.pack();
+          frame.setVisible(true);
     }
 }
