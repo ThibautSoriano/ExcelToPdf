@@ -46,6 +46,8 @@ public class MainWindow extends JFrame implements ActionListener{
     
     public MainWindow() {
         
+        
+        
         setBounds(200,100,WINDOW_WIDTH,WINDOW_HEIGHT);
         
         panels = new LinkedList<SettingsChoicePanel>();
@@ -73,6 +75,7 @@ public class MainWindow extends JFrame implements ActionListener{
     
     public static void main(String[] args) {
         
+       
         
                     try {
                             // set for file chooser look
@@ -104,6 +107,7 @@ public class MainWindow extends JFrame implements ActionListener{
             np.showPreviousButton();
         
         repaint();
+        setVisible(true);
     }
     
 
@@ -122,7 +126,11 @@ public class MainWindow extends JFrame implements ActionListener{
             np.showPreviousButton();
         
         repaint();
+        setVisible(true);
     }
+   
+    
+   
 
     @Override
     public void actionPerformed(ActionEvent e) {
