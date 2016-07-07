@@ -28,6 +28,7 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 public class ExcelToPdf {
 
     public static final String DEST = "meurguez.pdf";
+    public static final String SRC = "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls";
     public static final String LOGO = "./src/main/resources/logo.png";
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";

@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,13 +28,22 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.itextpdf.text.DocumentException;
+
+import main.java.exceltopdf.ExcelToPdf;
+import main.java.exceltopdf.HeaderFooter;
+import main.java.exceltopdf.pdfsections.InsertPage;
+import main.java.exceltopdf.pdfsections.Section;
+import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Language;
+import main.java.utils.Utils;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 
 public class MainWindow extends JFrame implements INavigation{
     
@@ -227,8 +237,35 @@ public class MainWindow extends JFrame implements INavigation{
     }
 
     @Override
-    public void validation() {
-        // TODO mettre du dias
+    public void validation()  {
+        
+        ExcelToPdf etpd = new ExcelToPdf();
+        List<Section> sections = new ArrayList<Section>();
+        
+        TitlePage tp = new TitlePage();
+        tp.setStructure(new HeaderFooter());
+        
+        TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
+        
+        tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
+        sections.add(tp);
+        
+        
+        
+//        InsertPage ip = new InsertPage();
+//        HeaderFooter hf = new HeaderFooter(header, separatorInHeader, footer, separatorInFooter, pagesCount);
+//        hf.setLineInFooter("dias");
+//        ip.setStructure();
+//        
+//        ip.set
+//        sections.add(ip);
+        try {
+            etpd.createPdf(ExcelToPdf.SRC,"meruguez.pdf", sections);
+        } catch (IOException | DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         
     }
     
@@ -239,6 +276,7 @@ public class MainWindow extends JFrame implements INavigation{
         panels.add(new GeneralSettingsPanel());
         panels.add(new TitleSettingsPanel());
         panels.add(new InsertPageSettingsPanel());
+        panels.add(new ColumnsSettingsPanel());
         
         
         getContentPane().add(panels.get(panelToShow));
