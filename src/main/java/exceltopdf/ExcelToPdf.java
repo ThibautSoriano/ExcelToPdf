@@ -1,6 +1,5 @@
 package main.java.exceltopdf;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +31,9 @@ public class ExcelToPdf {
     public static final String LOGO = "./src/main/resources/logo.png";
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
+    public static final String[] FILES = {TEMP_TITLE_PAGE, TEMP_INSERT_PAGE};
 	private static final int TITLE_PAGE = 0;
+	private static final int INSERT_PAGE = 0;
 
     private ExcelSheet excelSheet;
     
@@ -76,6 +77,13 @@ public class ExcelToPdf {
         createTitlePage(titlePage);
         
         
+        InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
+        
+        createInsertPage(insertPage);
+        
+        
+        
+        PdfConcat.concat(FILES, dest);
         
 //        Document document = new Document();
 //        
@@ -111,7 +119,7 @@ public class ExcelToPdf {
 
    
 
-    public void createInsertPage(InsertPage insertPage) throws DocumentException, FileNotFoundException{
+    public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
 		Document document = new Document();      
 		FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -119,15 +127,32 @@ public class ExcelToPdf {
 		writer.setPageEvent(insertPage.getStructure());
 		
 		document.open();
-
+		
+		// custom text area
+		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 		PdfContentByte cb = writer.getDirectContent();
+		String customArea = insertPage.getCustomTextArea();
+		Paragraph custom = new Paragraph(customArea);
+		custom.setAlignment(Element.ALIGN_CENTER);
+		
+	    Chunk toMeasureCustom = new Chunk(customArea);
+		
+		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(700, 30);
-		cb.showText("Zheng");
+		cb.moveText(xPositionCustom, 260);
+		cb.setFontAndSize(bf, 12);
+		cb.showText(customArea);
 		cb.endText();
 		cb.restoreState();
-        document.add(new Paragraph(insertPage.getCustomTextArea()));
+//
+//		cb.saveState();
+//		cb.beginText();
+//		cb.moveText(200, 510.236f);
+//		cb.showText("Zheng");
+//		cb.endText();
+//		cb.restoreState();
+//        document.add(new Paragraph(insertPage.getCustomTextArea()));
 
     }
     
@@ -167,8 +192,6 @@ public class ExcelToPdf {
 		
 	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 	    Chunk toMeasureDates = new Chunk(datesString);
-//	    Font font = new Font();
-//		toMeasureDates.setFont(font);
 		
 		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
 		cb.saveState();
@@ -184,7 +207,6 @@ public class ExcelToPdf {
 		Paragraph custom = new Paragraph(customArea);
 		custom.setAlignment(Element.ALIGN_CENTER);
 		
-//	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 	    Chunk toMeasureCustom = new Chunk(customArea);
 		
 		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
