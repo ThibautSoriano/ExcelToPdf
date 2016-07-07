@@ -31,9 +31,9 @@ public class ExcelToPdf {
     public static final String LOGO = "./src/main/resources/logo.png";
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
-    public static final String[] FILES = {TEMP_TITLE_PAGE, TEMP_INSERT_PAGE};
+    public static final String[] FILES = {TEMP_TITLE_PAGE};
 	private static final int TITLE_PAGE = 0;
-	private static final int INSERT_PAGE = 0;
+	private static final int INSERT_PAGE = 1;
 
     private ExcelSheet excelSheet;
     
@@ -77,9 +77,9 @@ public class ExcelToPdf {
         createTitlePage(titlePage);
         
         
-        InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
-        
-        createInsertPage(insertPage);
+//        InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
+//        
+//        createInsertPage(insertPage);
         
         
         
@@ -157,7 +157,7 @@ public class ExcelToPdf {
     }
     
     public void createTitlePage(TitlePage titlePage) throws DocumentException, IOException {
-		Document document = new Document();      
+		Document document = new Document(); 
 		FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 		
@@ -218,8 +218,20 @@ public class ExcelToPdf {
 		cb.endText();
 		cb.restoreState();
 		
+//		writer.
+		
+		cb.closePathEoFillStroke();
 		
 		document.close();
+		
+		writer.flush();
+		writer.close();
+		outputStream.flush();
+		outputStream.close();
+		
+		writer = null;
+		outputStream = null;
+		System.gc();
     }
     
     
