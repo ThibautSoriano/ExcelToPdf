@@ -18,7 +18,7 @@ import org.json.simple.parser.ParseException;
 public class Internationalization {
     
     public static JSONObject map;
-    public static boolean init = false;
+//    public static boolean init = false;
     
     static {
         loadLanguage(Language.EN);        
@@ -35,14 +35,14 @@ public class Internationalization {
     public static void loadLanguage(Language lang){
         JSONParser parser = new JSONParser();
         
-        System.out.println('a');
+       
         InputStreamReader z = null;
         try {
-            z = new InputStreamReader(new FileInputStream("src/main/resources/languages/language"+lang.getExtension()+".json"),"ISO-8859-2");
+            z = new InputStreamReader(new FileInputStream("src/main/resources/languages/language"+lang.getExtension()+".json"),lang.getEncoding());
             map = (JSONObject) parser.parse(z);
-            if (init)
-                JOptionPane.showMessageDialog(null, "Language changed","Language changed to"+lang.getExtension(), JOptionPane.INFORMATION_MESSAGE);
-            init = true;
+//            if (init)
+//                JOptionPane.showMessageDialog(null, "Language changed","Language changed to"+lang.getExtension(), JOptionPane.INFORMATION_MESSAGE);
+//            init = true;
         
         } catch (UnsupportedEncodingException e) {
             

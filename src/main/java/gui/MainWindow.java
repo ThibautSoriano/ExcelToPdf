@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -84,38 +85,24 @@ public class MainWindow extends JFrame implements INavigation{
     
     
     public void showNextPanel(){
-        
-        if (currentPanel == panels.size()-1)
-            return;
-        
+
         getContentPane().remove(panels.get(currentPanel));
         currentPanel++;
         getContentPane().add(panels.get(currentPanel));
         
-        if (currentPanel==0)
-            np.hidePreviousButton();
-        else
-            np.showPreviousButton();
-        
+
         repaint();
         setVisible(true);
     }
     
 
     public void showPreviousPanel(){
-        
-        if (currentPanel == 0)
-            return;
-        
+
         getContentPane().remove(panels.get(currentPanel));
         currentPanel--;
         getContentPane().add(panels.get(currentPanel));
         
-        if (currentPanel==0)
-            np.hidePreviousButton();
-        else
-            np.showPreviousButton();
-        
+       
         repaint();
         setVisible(true);
     }
@@ -142,39 +129,42 @@ public class MainWindow extends JFrame implements INavigation{
         JMenu mnLanguage = new JMenu("Language");
         mnSettings.add(mnLanguage);
         
-        JRadioButtonMenuItem rdbtnmntmEnglish = new JRadioButtonMenuItem("English");
-        rdbtnmntmEnglish.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mouseClicked(MouseEvent e) {
-        		Internationalization.loadLanguage(Language.EN);
-        	}
-        });
-        mnLanguage.add(rdbtnmntmEnglish);
         
-        rdbtnmntmEnglish.setSelected(true);
+        ButtonGroup g = new ButtonGroup();
         
-        JRadioButtonMenuItem rdbtnmntmFranais = new JRadioButtonMenuItem("Fran\u00E7ais");
-        rdbtnmntmFranais.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mousePressed(MouseEvent e) {
-        	    
-        	    System.out.println("Junior ce fils de pute");
-        	    Internationalization.loadLanguage(Language.FR);
-        	   
-        	    getContentPane().remove(panels.get(currentPanel));
-        	    createPanels(currentPanel);
-        	    
-        	    getContentPane().remove(np);
-        	    np = np.getNewInstance();
-        	    getContentPane().add(np);
-        	    
-        	    
-        	    repaint();
-        	    
-        	   
-        	}
-        });
-        mnLanguage.add(rdbtnmntmFranais);
+        for (Language lang : Language.values()) {
+            
+            JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(lang.getName());
+            rdbtnmntm.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                        Internationalization.loadLanguage(lang);
+                        
+                        getContentPane().remove(panels.get(currentPanel));
+                        createPanels(currentPanel);
+                        
+                        getContentPane().remove(np);
+                        np = np.getNewInstance();
+                        getContentPane().add(np);
+                        
+                        rdbtnmntm.setSelected(true);
+                        repaint();
+                        setVisible(true);
+                }
+            });
+            
+            if (lang == Language.EN)
+                rdbtnmntm.setSelected(true);
+            
+            g.add(rdbtnmntm);
+            mnLanguage.add(rdbtnmntm);
+        }
+        
+        
+        
+        
+        
+        
     }
     
     public  static  void openFileChooser(final FileType fileType,final JTextField field) {
@@ -221,6 +211,8 @@ public class MainWindow extends JFrame implements INavigation{
 
     @Override
     public void next() {
+        if (currentPanel == panels.size()-1)
+            return;
         showNextPanel();
         
         
@@ -228,6 +220,8 @@ public class MainWindow extends JFrame implements INavigation{
 
     @Override
     public void previous() {
+        if (currentPanel == 0)
+            return;
        showPreviousPanel();
         
     }
@@ -239,6 +233,7 @@ public class MainWindow extends JFrame implements INavigation{
     }
     
     private void createPanels(int panelToShow) {
+       
         panels = new LinkedList<SettingsChoicePanel>();
         panels.add(new MainWindowPanel());
         panels.add(new GeneralSettingsPanel());

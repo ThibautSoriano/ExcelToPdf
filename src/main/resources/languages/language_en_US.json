@@ -10,5 +10,22 @@
 "Go !" : "Go !",
 "Next" : "Next",
 "Previous" : "Previous" ,
-"Validate" : "Validate"
+"Validate" : "Validate",
+"Page numerotation" : "Page numerotation",
+"Bottom center" : "Bottom center",
+"Bottom right" : "Bottom right",
+"Separator line above footer" : "Separator line above footer",
+"Separator line below header" : "Separator line below header",
+"Your company website" : "Your company website",
+"Header" : "Header",
+"Footer" : "Footer",
+"Your company logo" : "Your company logo",
+"Bottom left text" : "Bottom left text",
+"General settings" : "General settings",
+"Title page settings" : "Title page settings",
+"Text below title" : "Text below title",
+"Insert Page Settings" : "Insert Page Settings",
+"Custom text area" : "Custom text area",
+"Excel files" : "Excel files",
+"Images" : "Images"
 }

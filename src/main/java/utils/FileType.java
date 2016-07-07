@@ -5,30 +5,38 @@ import java.util.List;
 
 public enum FileType {
 
-    EXCEL("Excel files","xls"),LOGO("Images","png");
+    EXCEL("xls"),LOGO("png");
     
-    private String description;
+   
     private String [] acceptedExtensions = null;
     
     public String [] getAcceptedExtensions() {
         return acceptedExtensions;
     }
 
-    private FileType(String description,String... strings ) {
-        this.description = description + " (";
-        
-        acceptedExtensions =strings;
-        for (int i = 0; i< strings.length-1;i++) {
-            this.description += "*."+strings[i] +"," ;
+    private FileType(String... strings ) {
+        acceptedExtensions =strings;        
+    }
+
+    public String getExtensions() {
+        String res = "(";
+        for (int i = 0; i< acceptedExtensions.length-1;i++) {
+            res += "*."+acceptedExtensions[i] +"," ;
         }
-        this.description += "*."+strings[strings.length-1] +")" ;
+        res += "*."+acceptedExtensions[acceptedExtensions.length-1] +")" ;
        
+        return res;
     }
 
     public String getDescription() {
-        return description;
+        
+        String res = "";
+        if (this == FileType.EXCEL)
+            res = Internationalization.getKey("Excel files");
+        else
+            res =  Internationalization.getKey("Images");
+        
+        return res+=" "+getExtensions();
     }
-
-    
     
 }

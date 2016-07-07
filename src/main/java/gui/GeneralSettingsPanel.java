@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import main.java.utils.FileType;
+import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
 public class GeneralSettingsPanel extends SettingsChoicePanel{
@@ -78,34 +79,34 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     public GeneralSettingsPanel() {
         
 
-        super("General settings");
+        super(Internationalization.getKey("General settings"));
         
  
-        JLabel lblPageNumerotation = new JLabel("Page numerotation");
-        lblPageNumerotation.setBounds(93, 75, 115, 19);
+        JLabel lblPageNumerotation = new JLabel(Internationalization.getKey("Page numerotation"));
+        lblPageNumerotation.setBounds(93, 77, 140, 19);
         add(lblPageNumerotation);
         
-         rdbtnBottomCenter = new JRadioButton("Bottom center");
-        rdbtnBottomCenter.setBounds(223, 73, 109, 23);
+         rdbtnBottomCenter = new JRadioButton(Internationalization.getKey("Bottom center"));
+        rdbtnBottomCenter.setBounds(243, 75, 109, 23);
         add(rdbtnBottomCenter);
         rdbtnBottomCenter.setSelected(true);
         
-         rdbtnBottomRight = new JRadioButton("Bottom right");
-        rdbtnBottomRight.setBounds(385, 68, 109, 23);
+         rdbtnBottomRight = new JRadioButton(Internationalization.getKey("Bottom right"));
+        rdbtnBottomRight.setBounds(385, 75, 109, 23);
         add(rdbtnBottomRight);
         
          pagesNumGroup = new ButtonGroup();
         pagesNumGroup.add(rdbtnBottomRight);
         pagesNumGroup.add(rdbtnBottomCenter);
         
-         chckbxFooterLine = new JCheckBox("Separator line above footer");
+         chckbxFooterLine = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxFooterLine.setSelected(true);
-        chckbxFooterLine.setBounds(284, 269, 189, 23);
+        chckbxFooterLine.setBounds(284, 269, 250, 23);
         add(chckbxFooterLine);
         
-         chckbxHeaderLine = new JCheckBox("Separator line below header");
+         chckbxHeaderLine = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxHeaderLine.setSelected(true);
-        chckbxHeaderLine.setBounds(284, 119, 189, 23);
+        chckbxHeaderLine.setBounds(284, 119, 250, 23);
         add(chckbxHeaderLine);
         
         JSeparator separator = new JSeparator();
@@ -120,7 +121,7 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         separator_2.setBounds(93, 257, 397, 2);
         add(separator_2);
         
-        JLabel lblYourCompanyWebsite = new JLabel("Your company website");
+        JLabel lblYourCompanyWebsite = new JLabel(Internationalization.getKey("Your company website"));
         lblYourCompanyWebsite.setBounds(93, 165, 159, 19);
         add(lblYourCompanyWebsite);
         
@@ -130,12 +131,12 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         txtWebsite.setBounds(284, 164, 177, 20);
         add(txtWebsite);
         
-         chckbxHeader = new JCheckBox("Header");
+         chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
         chckbxHeader.setSelected(true);
         chckbxHeader.setBounds(93, 119, 189, 23);
         add(chckbxHeader);
         
-        chckbxFooter = new JCheckBox("Footer");
+        chckbxFooter = new JCheckBox(Internationalization.getKey("Footer"));
         chckbxFooter.setSelected(true);
         chckbxFooter.setBounds(93, 269, 189, 23);
         add(chckbxFooter);
@@ -160,11 +161,11 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         txtLogo.setBounds(284, 210, 177, 20);
         add(txtLogo);
         
-        JLabel lblYourCompanyLogo = new JLabel("Your company logo");
+        JLabel lblYourCompanyLogo = new JLabel(Internationalization.getKey("Your company logo"));
         lblYourCompanyLogo.setBounds(93, 209, 168, 22);
         add(lblYourCompanyLogo);
         
-        JLabel lblBottomLeftText = new JLabel("Bottom left text");
+        JLabel lblBottomLeftText = new JLabel(Internationalization.getKey("Bottom left text"));
         lblBottomLeftText.setBounds(93, 318, 159, 19);
         add(lblBottomLeftText);
         

@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
+import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
 public class InsertPageSettingsPanel extends SettingsChoicePanel{
@@ -61,16 +62,16 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel{
 
 
     protected InsertPageSettingsPanel() {
-        super("Insert Page Settings");
+        super(Internationalization.getKey("Insert Page Settings"));
         
-         chckbxSeparatorLineAbove = new JCheckBox("Separator line above footer");
+         chckbxSeparatorLineAbove = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxSeparatorLineAbove.setSelected(true);
-        chckbxSeparatorLineAbove.setBounds(284, 143, 189, 23);
+        chckbxSeparatorLineAbove.setBounds(284, 143, 250, 23);
         add(chckbxSeparatorLineAbove);
 
-         chckbxSeparatorLineBelow = new JCheckBox("Separator line below header");
+         chckbxSeparatorLineBelow = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxSeparatorLineBelow.setSelected(true);
-        chckbxSeparatorLineBelow.setBounds(284, 71, 189, 23);
+        chckbxSeparatorLineBelow.setBounds(284, 71, 250, 23);
         add(chckbxSeparatorLineBelow);
         
         JSeparator separator = new JSeparator();
@@ -81,11 +82,11 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel{
         separator_1.setBounds(93, 111, 397, 2);
         add(separator_1);
         
-         chckbxHeader = new JCheckBox("Header");
+         chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
         chckbxHeader.setBounds(93, 71, 189, 23);
         add(chckbxHeader);
         
-         chckbxFooter = new JCheckBox("Footer");
+         chckbxFooter = new JCheckBox(Internationalization.getKey("Footer"));
         chckbxFooter.setBounds(93, 143, 189, 23);
         add(chckbxFooter);
         
@@ -93,7 +94,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel{
         separator_2.setBounds(93, 189, 397, 2);
         add(separator_2);
         
-        JLabel lblCustomTextArea = new JLabel("Custom text area");
+        JLabel lblCustomTextArea = new JLabel(Internationalization.getKey("Custom text area"));
         lblCustomTextArea.setBounds(93, 210, 159, 19);
         add(lblCustomTextArea);
         

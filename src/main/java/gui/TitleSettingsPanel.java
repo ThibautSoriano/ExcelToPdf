@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EmptyBorder;
 
 import main.java.utils.FileType;
+import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
 public class TitleSettingsPanel extends SettingsChoicePanel{
@@ -67,18 +68,18 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
     public TitleSettingsPanel() {
         
 
-        super("Title page settings");
+        super(Internationalization.getKey("Title page settings"));
 
         
         
-        checkBox = new JCheckBox("Separator line above footer");
+        checkBox = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         checkBox.setSelected(true);
-        checkBox.setBounds(284, 143, 189, 23);
+        checkBox.setBounds(284, 143, 250, 23);
         add(checkBox);
         
-         checkBox_1 = new JCheckBox("Separator line below header");
+         checkBox_1 = new JCheckBox(Internationalization.getKey("Separator line below header"));
         checkBox_1.setSelected(true);
-        checkBox_1.setBounds(284, 71, 189, 23);
+        checkBox_1.setBounds(284, 71, 250, 23);
         add(checkBox_1);
         
         JSeparator separator = new JSeparator();
@@ -89,15 +90,15 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         separator_1.setBounds(93, 111, 397, 2);
         add(separator_1);
         
-         checkBox_2 = new JCheckBox("Header");
+         checkBox_2 = new JCheckBox(Internationalization.getKey("Header"));
         checkBox_2.setBounds(93, 71, 189, 23);
         add(checkBox_2);
         
-         checkBox_3 = new JCheckBox("Footer");
+         checkBox_3 = new JCheckBox(Internationalization.getKey("Footer"));
         checkBox_3.setBounds(93, 143, 189, 23);
         add(checkBox_3);
         
-        JLabel lblTextBelowTitle = new JLabel("Text below title");
+        JLabel lblTextBelowTitle = new JLabel(Internationalization.getKey("Text below title"));
         lblTextBelowTitle.setBounds(93, 210, 159, 19);
         add(lblTextBelowTitle);
         

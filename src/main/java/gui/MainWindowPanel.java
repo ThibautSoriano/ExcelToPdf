@@ -63,7 +63,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
         
         
         JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-      btnExcel.setBounds(624, 35, 119, 23);
+      btnExcel.setBounds(444, 165, 119, 23);
      add(btnExcel);          
       btnExcel.addMouseListener(new MouseAdapter() {
               @Override
@@ -87,7 +87,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
         txtLogo.setColumns(10);
         
         JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
-        btnLogo.setBounds(444, 165, 119, 23);
+        btnLogo.setBounds(444, 282, 119, 23);
         add(btnLogo);
         btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         
