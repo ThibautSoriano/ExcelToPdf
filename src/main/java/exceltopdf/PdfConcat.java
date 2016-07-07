@@ -1,5 +1,6 @@
 package main.java.exceltopdf;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 import com.itextpdf.text.Document;
@@ -30,6 +31,15 @@ public class PdfConcat {
 	        {
 	            System.out.println(i);
 	        }
+		
+		// delete tmp files
+		for (int i = 0; i < filesToConcat.length; i++) {
+			File file = new File(filesToConcat[i]);
+			if (!file.delete()) {
+			    System.err.println("Impossible to delete temporary file");
+			}
+		}
+		
 	}
 
 }
