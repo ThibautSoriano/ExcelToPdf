@@ -1,6 +1,7 @@
 package main.java.exceltopdf;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class ExcelToPdf {
     public static final String LOGO = "./src/main/resources/logo.png";
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
-    public static final String[] FILES = {TEMP_TITLE_PAGE, TEMP_INSERT_PAGE};
+    public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
+    public static final String[] FILES = {TEMP_TITLE_PAGE, TEMP_INSERT_PAGE, TEMP_CONTENT_PAGE};
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
 
@@ -84,7 +86,8 @@ public class ExcelToPdf {
         
         createInsertPage(insertPage);
         
-        
+        //ContentPage contentPage = (ContentPage) sections.get(CONTENT_PAGE);
+        createContentPage();
         
         PdfConcat.concat(FILES, dest);
         
@@ -122,7 +125,36 @@ public class ExcelToPdf {
 
    
 
-    public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
+    private void createContentPage() throws DocumentException, IOException {
+    	Document document = new Document();      
+		FileOutputStream outputStream = new FileOutputStream(TEMP_CONTENT_PAGE);
+		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+		
+		
+		document.open();
+    	boolean [] colsToPrint = {
+                true,true,true,true,true,true,true,false
+        };
+        
+        ExcelReaderRankings excelReader = new ExcelReaderRankings();
+        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
+        TabCreator tc = new TabCreator(excelSheet);
+        document.add(tc.createTabCampaign(colsToPrint,true));
+        
+        document.close();
+        
+        writer.flush();
+        writer.close();
+        outputStream.flush();
+        outputStream.close();
+        
+        writer = null;
+        outputStream = null;
+        System.gc();
+		
+	}
+
+	public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
 		Document document = new Document();      
 		FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
