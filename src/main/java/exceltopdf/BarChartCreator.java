@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 
@@ -67,9 +69,8 @@ import main.java.excelreader.entities.ExcelSheet;
 		            writer.setPageEvent(hf);
 		            
 		            document.setMargins(85, 85, 85, 113);
-		            
+		            System.out.println(new SimpleDateFormat("HH:mm:ss:ms").format(Calendar.getInstance().getTime()));
 		            document.open();
-		            
 		            JFreeChart chart = getChart();
 		            int width = 600;
 		            int height = (nbElements * 80) + 50;
@@ -79,10 +80,6 @@ import main.java.excelreader.entities.ExcelSheet;
 					File outputfile = new File("PUTE YU KAIWEN OMGGGGG.png");
 					ImageIO.write(bufferedImage, "png", outputfile);
 					
-
-//		            com.keypoint.PngEncoder p = new com.keypoint.PngEncoder();
-//		            p.setImage(bufferedImage);
-//		            p.setDpi(3000, 3000);
 		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
 		            image.scalePercent(70);
 		            image.setAlignment(Image.MIDDLE);

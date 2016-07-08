@@ -1,6 +1,8 @@
 package main.java.utils;
 public class Utils {
 	
+	public static int TMP = 0;
+	
 	public static String changeExtension(String nameXls) {
 		String namePdf = nameXls.substring(0, nameXls.length()-3);
 		namePdf += "pdf";
@@ -28,5 +30,10 @@ public class Utils {
                     a++;
             }
 	    return a;
+	}
+	
+	public static int getNewTmpFileName() {
+		TMP++;
+		return TMP;
 	}
 }

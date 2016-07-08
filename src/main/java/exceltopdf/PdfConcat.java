@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -11,17 +12,17 @@ import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfConcat {
 	
-	public static void concat(String[] filesToConcat, String dest) {
+	public static void concat(List<String> filesToConcat, String dest) {
 		
 		try {
-			String[] files = filesToConcat;
+			List<String> files = filesToConcat;
 	          Document PDFCombineUsingJava = new Document();
 	          PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream(dest));
 	          PDFCombineUsingJava.open();
 	          PdfReader ReadInputPDF = null;
 	          int number_of_pages;
-	          for (int i = 0; i < files.length; i++) {
-	                  ReadInputPDF = new PdfReader(files[i]);
+	          for (int i = 0; i < files.size(); i++) {
+	                  ReadInputPDF = new PdfReader(files.get(i));
 	                  number_of_pages = ReadInputPDF.getNumberOfPages();
 	                  for (int page = 0; page < number_of_pages; ) {
 	                          copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
@@ -41,8 +42,8 @@ public class PdfConcat {
 	        }
 		
 		// delete tmp files
-		for (int i = 0; i < filesToConcat.length; i++) {
-			File f = new File(filesToConcat[i]);
+		for (int i = 0; i < filesToConcat.size(); i++) {
+			File f = new File(filesToConcat.get(i));
 			String fileName = f.getName();
 			System.out.println("trying to delete " + f.getAbsolutePath());
 //			if (!file.delete()) {

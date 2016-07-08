@@ -1,7 +1,6 @@
 package main.java.exceltopdf;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +21,11 @@ import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
 import main.java.excelreader.ExcelReaderTechnical;
 import main.java.excelreader.entities.ExcelSheet;
+import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.TitlePage;
+import main.java.utils.Utils;
 
 public class ExcelToPdf {
 
@@ -34,51 +35,60 @@ public class ExcelToPdf {
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
-    public static final String[] FILES = {TEMP_TITLE_PAGE, TEMP_INSERT_PAGE, TEMP_CONTENT_PAGE};
+    public static List<String> FILES = new ArrayList<>();
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
 
-    private ExcelSheet excelSheet;
-    
+    private ExcelSheet excelSheetRankings;
+    private ExcelSheet excelSheetTechnical;
     
 
     public static void main(String args[]) throws IOException, DocumentException {
-        ExcelToPdf etdpf = new ExcelToPdf();
-        List<Section> sections = new ArrayList<>();
-        
-        TitlePage title = new TitlePage();
-        title.setStructure(new HeaderFooter(false, false, false, false, 1));
-        sections.add(title);
-        
-        etdpf.createPdf(
-                "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
-                DEST, sections);
+//        ExcelToPdf etdpf = new ExcelToPdf();
+//        List<Section> sections = new ArrayList<>();
+//        
+//        TitlePage title = new TitlePage();
+//        title.setStructure(new HeaderFooter(false, false, false, false, 1));
+//        sections.add(title);
+//        
+//        etdpf.createPdf(
+//                "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
+//                DEST, sections);
         
 
         
     }
 
-    public void createPdf(String src, String dest, List<Section> sections)
+    public void createPdf(List<String> src, String dest, List<Section> sections)
             throws IOException, DocumentException {
         
         
         ExcelReader excelReader = null;
-
-        if (src.contains("Rankings"))
-            excelReader = new ExcelReaderRankings();
-        else if (src.contains("Technical"))
-            excelReader = new ExcelReaderTechnical();
-        else {
-            System.err.println("xls not recognized");
-            return;
+        
+        for (int i = 0; i < src.size(); i++) {
+        	File f = new File(src.get(i));
+        	
+        	if (f.getName().contains("Rankings")) {
+                excelReader = new ExcelReaderRankings();
+            }
+            else if (f.getName().contains("Technical")) {
+                excelReader = new ExcelReaderTechnical();
+            }
+            else {
+                System.err.println("xls not recognized");
+                return;
+            }
+        	
+        	excelSheetRankings = excelReader.readExcelSheet(src.get(i));
         }
-        excelSheet = excelReader.readExcelSheet(src);
+        
+        
         
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
         
-        titlePage.setCampaignName(excelSheet.getCampaignName());
-        titlePage.setStartDate(excelSheet.getStartDate());
-        titlePage.setEndDate(excelSheet.getEndDate());
+        titlePage.setCampaignName(excelSheetRankings.getCampaignName());
+        titlePage.setStartDate(excelSheetRankings.getStartDate());
+        titlePage.setEndDate(excelSheetRankings.getEndDate());
         createTitlePage(titlePage);
         
         
@@ -86,60 +96,34 @@ public class ExcelToPdf {
         
         createInsertPage(insertPage);
         
-        //ContentPage contentPage = (ContentPage) sections.get(CONTENT_PAGE);
-        createContentPage();
+        for (int i = 2; i < sections.size(); i++) {
+        	ContentPage contentPage = (ContentPage) sections.get(i);
+        	contentPage.setExcelSheet(excelSheetRankings);
+            createContentPage(contentPage);
+        }
+        
         
         PdfConcat.concat(FILES, dest);
-        
-//        Document document = new Document();
-//        
-//        FileOutputStream outputStream = new FileOutputStream(dest);
-//
-//        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-        
-//        document.open();
-        
-
-//        document.add(new Paragraph(excelSheet.getCampaignName()));
-//        document.add(new Paragraph(
-//                excelSheet.getStartDate() + " to " + excelSheet.getEndDate()));
-        // List<CampaignRow> campaignRows = excelSheet.getCampaignRows();
-        //
-        // document.add(new Paragraph().add(createFirstTable()));
-
-//        boolean [] colsToPrint = {
-//                true,true,true,true,true,true,true,false
-//        };
-//        
-//        TabCreator tc = new TabCreator(excelSheet);
-        //document.add(tc.createTabCampaign(colsToPrint,true));
-
-//        HeaderFooter insertPageSettings = new HeaderFooter();
-//        createInsertPage();
-//        
-        
-//        document.close();
-        
-        // TODO : CONCAT !!!!!!!!!! + delete temporary files
     }
 
    
 
-    private void createContentPage() throws DocumentException, IOException {
+    private void createContentPage(ContentPage contentPage) throws DocumentException, IOException {
     	Document document = new Document();      
-		FileOutputStream outputStream = new FileOutputStream(TEMP_CONTENT_PAGE);
+		FileOutputStream outputStream = new FileOutputStream(TEMP_CONTENT_PAGE + Utils.getNewTmpFileName());
+		FILES.add(TEMP_CONTENT_PAGE + Utils.getNewTmpFileName());
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 		
 		
 		document.open();
     	boolean [] colsToPrint = {
-                true,true,true,true,true,true,true,false
+    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
+                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
+                contentPage.isUniqueCTR()
         };
         
-        ExcelReaderRankings excelReader = new ExcelReaderRankings();
-        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
-        TabCreator tc = new TabCreator(excelSheet);
-        document.add(tc.createTabCampaign(excelSheet.getCampaignRows(),excelSheet.getColumsLabels(),excelSheet.getAll(),colsToPrint,true));
+        TabCreator tc = new TabCreator(contentPage.getExcelSheet());
+        document.add(tc.createTabCampaign(contentPage.getExcelSheet().getCampaignRows(),contentPage.getExcelSheet().getColumsLabels(),contentPage.getExcelSheet().getAll(),colsToPrint,true));
         
         document.close();
         
@@ -157,6 +141,7 @@ public class ExcelToPdf {
 	public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
 		Document document = new Document();      
 		FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
+		FILES.add(TEMP_INSERT_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 		
 		writer.setPageEvent(insertPage.getStructure());
@@ -194,20 +179,12 @@ public class ExcelToPdf {
                 writer = null;
                 outputStream = null;
                 System.gc();
-//
-//		cb.saveState();
-//		cb.beginText();
-//		cb.moveText(200, 510.236f);
-//		cb.showText("Zheng");
-//		cb.endText();
-//		cb.restoreState();
-//        document.add(new Paragraph(insertPage.getCustomTextArea()));
-
     }
     
     public void createTitlePage(TitlePage titlePage) throws DocumentException, IOException {
 		Document document = new Document(); 
 		FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
+		FILES.add(TEMP_TITLE_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 		
 		writer.setPageEvent(titlePage.getStructure());
