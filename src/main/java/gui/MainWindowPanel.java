@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -23,13 +25,27 @@ import main.java.utils.Utils;
 public class MainWindowPanel extends SettingsChoicePanel{
 
     
+    private List<JTextField> fields;
+    
     private JTextField txtExcel;
-    private JTextField txtLogo;
+    private JTextField txtExcel2;
     
     
   
+    public List<JTextField> getFields() {
+        return fields;
+    }
+
+
+
     public JTextField getTxtExcel() {
         return txtExcel;
+    }
+
+
+
+    public JTextField getTxtExcel2() {
+        return txtExcel2;
     }
 
 
@@ -43,6 +59,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
         
         super(Internationalization.getKey("Excel to pdf converter"));
         
+        fields = new ArrayList<JTextField>();
 
         JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
         lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -56,7 +73,7 @@ public class MainWindowPanel extends SettingsChoicePanel{
         txtExcel.setColumns(10);
         
         add(txtExcel);
-        
+        fields.add(txtExcel);
        
         
         
@@ -74,28 +91,30 @@ public class MainWindowPanel extends SettingsChoicePanel{
      
       
       
-        JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
-        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblLogo.setBounds(30, 236, 389, 22);
+        JLabel lblExcel2 = new JLabel(Internationalization.getKey("Choose an excel file"));
+        lblExcel2.setHorizontalAlignment(SwingConstants.CENTER);
+        lblExcel2.setBounds(30, 236, 389, 22);
         
-        lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        add(lblLogo);
-        
-        
-        txtLogo = new JTextField();
-        txtLogo.setBounds(30, 284, 389, 20);
-        add(txtLogo);
-        txtLogo.setColumns(10);
-        
-        JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
-        btnLogo.setBounds(444, 282, 119, 23);
-        add(btnLogo);
+        lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        add(lblExcel2);
         
         
-        btnLogo.addMouseListener(new MouseAdapter() {
+        txtExcel2 = new JTextField();
+        txtExcel2.setBounds(30, 284, 389, 20);
+        add(txtExcel2);
+        fields.add(txtExcel2);
+        
+        txtExcel2.setColumns(10);
+        
+        JButton btnExcel2 = new JButton(Internationalization.getKey("Browse"));
+        btnExcel2.setBounds(444, 282, 119, 23);
+        add(btnExcel2);
+        
+        
+        btnExcel2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                    MainWindowZhengqin.openFileChooser(FileType.LOGO,txtLogo);
+                    MainWindowZhengqin.openFileChooser(FileType.EXCEL,txtExcel2);
             }
     });
         

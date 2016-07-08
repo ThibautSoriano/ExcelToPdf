@@ -133,7 +133,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                 if (isSelected) {
                     g.setColor(new Color(104,138,200,50));
                     g.fillRect(rects[tabIndex].x, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height);
-                    System.out.println(g.getColor());
+                    
                 }
                 
                 super.paintFocusIndicator(g, tabPlacement, rects, tabIndex, iconRect, textRect, isSelected);

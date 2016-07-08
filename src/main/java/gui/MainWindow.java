@@ -30,6 +30,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.itextpdf.text.DocumentException;
 
+import main.java.excelreader.ExcelReader;
+import main.java.excelreader.ExcelReaderRankings;
+import main.java.excelreader.ExcelReaderTechnical;
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.exceltopdf.HeaderFooter;
 import main.java.exceltopdf.pdfsections.ContentPage;
@@ -224,6 +227,10 @@ public class MainWindow extends JFrame implements INavigation {
         TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
         InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(3);
         ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
+        
+        
+        int positionPageCount = gsp.getRdbtnBottomCenter().isSelected() ? HeaderFooter.PAGE_COUNT_MIDDLE : HeaderFooter.PAGE_COUNT_RIGHT; 
+        
 
         // Infos for the title page
         TitlePage tp = new TitlePage();
@@ -232,23 +239,31 @@ public class MainWindow extends JFrame implements INavigation {
                 tsp.getChckbxHeader().isSelected(),
                 tsp.getChckbxSeparatorLineBelowHeader().isSelected(),
                 tsp.getChckbxFooter().isSelected(),
-                tsp.getChckbxSeparatorLineAboveFooter().isSelected(), false);
+                tsp.getChckbxSeparatorLineAboveFooter().isSelected(), positionPageCount);
 
         hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
+        hfTitle.setLineInHeader(gsp.getTxtWebsite().getText());
+        hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
         tp.setStructure(hfTitle);
         tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
         sections.add(tp);
 
+        
+            
+       
+        
         // Infos for the insert page
         InsertPage ip = new InsertPage();
 
         HeaderFooter hfInsert = new HeaderFooter(
-                gsp.getChckbxHeader().isSelected(),
-                gsp.getChckbxFooterLine().isSelected(),
-                gsp.getChckbxFooter().isSelected(),
-                gsp.getChckbxHeaderLine().isSelected(), false);
+                isp.getChckbxHeader().isSelected(),
+                isp.getChckbxSeparatorLineBelow().isSelected(),
+                isp.getChckbxFooter().isSelected(),
+                isp.getChckbxSeparatorLineAbove().isSelected(),positionPageCount );
 
+        hfInsert.setLineInHeader(gsp.getTxtWebsite().getText());
         hfInsert.setLineInFooter(gsp.getTxtBottomLeftText().getText());
+        hfInsert.setLogoInHeader(gsp.getTxtLogo().getText());
 
         ip.setCustomTextArea(isp.getTxtrCreatedBy().getText());
         ip.setStructure(hfInsert);
@@ -256,29 +271,66 @@ public class MainWindow extends JFrame implements INavigation {
         sections.add(ip);
 
         // Columns choice settings
-        ContentPage cpRankings = new ContentPage(
-                csp.getChckbxImpressionsRankings().isSelected(),
-                csp.getChckbxUniqueCookiesRankings().isSelected(),
-                csp.getChckbxFrequencyTechnical().isSelected(),
-                csp.getChckbxClicksRankings().isSelected(),
-                csp.getChckbxClickingUsersRankings().isSelected(),
-                csp.getChckbxClickThroughRateRankings().isSelected(),
-                csp.getChckbxUniqueCTRTechnical().isSelected());
-        ContentPage cpTechnical = new ContentPage(
-                csp.getChckbxImpressionsTechnical().isSelected(),
-                csp.getChckbxUniqueCookiesTechnical().isSelected(),
-                csp.getChckbxFrequencyTechnical().isSelected(),
-                csp.getChckbxClicksTechnical().isSelected(),
-                csp.getChckbxClickingUsersTechnical().isSelected(),
-                csp.getChckbxClickThroughRateTechnical().isSelected(),
-                csp.getChckbxUniqueCTRTechnical().isSelected());
+        List<String> excelPaths = new ArrayList<String>();
+        List<JTextField> fields = mwp.getFields();
         
+        int i = 0;
+        for (JTextField jTextField : fields) {
+            
+            if (++i == 2)
+                break;
+            
+            String src = jTextField.getText();
+            if (!src.isEmpty()) {
+                ContentPage contentPage = null;
+                ExcelReader excelReader = null;
+                
+                if (src.contains("Rankings")) {
+                    excelReader = new ExcelReaderRankings();
+                    contentPage = new ContentPage(
+                            csp.getChckbxImpressionsRankings().isSelected(),
+                            csp.getChckbxUniqueCookiesRankings().isSelected(),
+                            csp.getChckbxFrequencyTechnical().isSelected(),
+                            csp.getChckbxClicksRankings().isSelected(),
+                            csp.getChckbxClickingUsersRankings().isSelected(),
+                            csp.getChckbxClickThroughRateRankings().isSelected(),
+                            csp.getChckbxUniqueCTRTechnical().isSelected());
+                }
+                else if (src.contains("Technical")) {
+                    excelReader = new ExcelReaderTechnical();
+                     contentPage = new ContentPage(
+                            csp.getChckbxImpressionsTechnical().isSelected(),
+                            csp.getChckbxUniqueCookiesTechnical().isSelected(),
+                            csp.getChckbxFrequencyTechnical().isSelected(),
+                            csp.getChckbxClicksTechnical().isSelected(),
+                            csp.getChckbxClickingUsersTechnical().isSelected(),
+                            csp.getChckbxClickThroughRateTechnical().isSelected(),
+                            csp.getChckbxUniqueCTRTechnical().isSelected());
+                    
+                }
+                else {
+                    System.err.println("xls not recognized");
+                    return;
+                }
+                
+                excelPaths.add(src);
+
+                HeaderFooter hfContent = new HeaderFooter(
+                        gsp.getChckbxHeader().isSelected(),
+                        gsp.getChckbxFooterLine().isSelected(),
+                        gsp.getChckbxFooter().isSelected(),
+                        gsp.getChckbxHeaderLine().isSelected(),positionPageCount);
+                hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
+                hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
+                hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
+                contentPage.setStructure(hfContent);
+                sections.add(contentPage);
+            }
+        }
         
-        sections.add(cpRankings);
-        sections.add(cpTechnical);
 
         try {
-            etpd.createPdf(mwp.getTxtExcel().getText(), "meruguez.pdf",
+            etpd.createPdf(excelPaths, "meruguez.pdf",
                     sections);
         } catch (IOException | DocumentException e) {
             // TODO Auto-generated catch block

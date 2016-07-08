@@ -35,7 +35,7 @@ public class ExcelToPdf {
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
-    public static List<String> FILES = new ArrayList<>();
+    public  List<String> FILES = new ArrayList<>();
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
 
@@ -109,11 +109,13 @@ public class ExcelToPdf {
    
 
     private void createContentPage(ContentPage contentPage) throws DocumentException, IOException {
-    	Document document = new Document();      
-		FileOutputStream outputStream = new FileOutputStream(TEMP_CONTENT_PAGE + Utils.getNewTmpFileName());
-		FILES.add(TEMP_CONTENT_PAGE + Utils.getNewTmpFileName());
+    	Document document = new Document();
+    	document.setMargins(85, 85, 85, 113);
+    	String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
+		FileOutputStream outputStream = new FileOutputStream(fileName);
+		FILES.add(fileName);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		
+		writer.setPageEvent(contentPage.getStructure());
 		
 		document.open();
     	boolean [] colsToPrint = {
@@ -139,7 +141,8 @@ public class ExcelToPdf {
 	}
 
 	public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
-		Document document = new Document();      
+		Document document = new Document();
+		document.setMargins(85, 85, 85, 113);
 		FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
 		FILES.add(TEMP_INSERT_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -182,7 +185,8 @@ public class ExcelToPdf {
     }
     
     public void createTitlePage(TitlePage titlePage) throws DocumentException, IOException {
-		Document document = new Document(); 
+		Document document = new Document();
+		document.setMargins(85, 85, 85, 113);
 		FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
 		FILES.add(TEMP_TITLE_PAGE);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -243,8 +247,6 @@ public class ExcelToPdf {
 		cb.showText(customArea);
 		cb.endText();
 		cb.restoreState();
-		
-//		writer.
 		
 		cb.closePathEoFillStroke();
 		
