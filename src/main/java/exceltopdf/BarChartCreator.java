@@ -7,7 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.imageio.ImageIO;
+
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -70,6 +74,15 @@ import main.java.excelreader.entities.ExcelSheet;
 		            int width = 400;
 		            int height = (nbElements * 75) + 50;
 		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+
+		            
+					File outputfile = new File("PUTE YU KAIWEN OMGGGGG.png");
+					ImageIO.write(bufferedImage, "png", outputfile);
+					
+
+//		            com.keypoint.PngEncoder p = new com.keypoint.PngEncoder();
+//		            p.setImage(bufferedImage);
+//		            p.setDpi(3000, 3000);
 		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
 		            document.add(image);
 		            

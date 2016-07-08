@@ -78,7 +78,7 @@ public class HeaderFooter extends PdfPageEventHelper {
 	        	// draws a line below the header
 	        	PdfContentByte cb = writer.getDirectContent();
 
-				cb.setLineWidth(2.0f);
+				cb.setLineWidth(1.0f);
 				float x = 72f;
 				float y = PageSize.A4.getHeight() - 72;
 				cb.moveTo(x,         y);
@@ -102,7 +102,7 @@ public class HeaderFooter extends PdfPageEventHelper {
             if (separatorInFooter) {
         		PdfContentByte cb = writer.getDirectContent();
 
-        		cb.setLineWidth(2.0f);
+        		cb.setLineWidth(1.0f);
         		float x = 72f;
         		float y = 72f;
         		cb.moveTo(x,         y);
