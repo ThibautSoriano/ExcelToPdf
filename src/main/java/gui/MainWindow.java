@@ -242,23 +242,33 @@ public class MainWindow extends JFrame implements INavigation{
         ExcelToPdf etpd = new ExcelToPdf();
         List<Section> sections = new ArrayList<Section>();
         
+        
+        GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(1);
+        
+        
+        
         TitlePage tp = new TitlePage();
-        tp.setStructure(new HeaderFooter());
+        
         
         TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
-        
+        HeaderFooter hfTitle = new HeaderFooter(tsp.getChckbxHeader().isSelected(),tsp.getChckbxSeparatorLineBelowHeader().isSelected(),
+                tsp.getChckbxFooter().isSelected(),tsp.getChckbxSeparatorLineAboveFooter().isSelected(),false);
+        hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
+        tp.setStructure(hfTitle);
         tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
         sections.add(tp);
         
         
         
-//        InsertPage ip = new InsertPage();
-//        HeaderFooter hf = new HeaderFooter(header, separatorInHeader, footer, separatorInFooter, pagesCount);
-//        hf.setLineInFooter("dias");
-//        ip.setStructure();
-//        
-//        ip.set
-//        sections.add(ip);
+        InsertPage ip = new InsertPage();
+        InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(3);
+        HeaderFooter hfInsert = new HeaderFooter(false, false, false, false, false);
+        hfInsert.setLineInFooter("dias");
+        ip.setCustomTextArea(isp.getTxtrCreatedBy().getText());
+        ip.setStructure(hfInsert);
+        
+        
+        sections.add(ip);
         try {
             etpd.createPdf(ExcelToPdf.SRC,"meruguez.pdf", sections);
         } catch (IOException | DocumentException e) {

@@ -15,11 +15,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class HeaderFooter extends PdfPageEventHelper {
 	
-	private String lineInHeader;
+	private String lineInHeader= "";
 	
-	private String logoInHeader;
+	private String logoInHeader ="";
 	
-	private String lineInFooter;
+	private String lineInFooter ="";
 	
 	private boolean header;
 	
@@ -61,7 +61,7 @@ public class HeaderFooter extends PdfPageEventHelper {
 	        try {
 	        	Image img = null;
 	        	if (logoInHeader.equals("")) {
-	        		img = Image.getInstance("./src/main/resources/logo.png");
+	        		img = Image.getInstance("src/main/resources/GemiusLogo.png");
 	        	}
 	        	else {
 	        		img = Image.getInstance(logoInHeader);
@@ -92,7 +92,7 @@ public class HeaderFooter extends PdfPageEventHelper {
     	
     	if (footer) {
     		if (!lineInFooter.equals("")) {
-        		ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("your company name here"), 110, 30, 0);
+        		ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(lineInFooter), 110, 30, 0);
     		}
     		
     		if (pagesCount) {

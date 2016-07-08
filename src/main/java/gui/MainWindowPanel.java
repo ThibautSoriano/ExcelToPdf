@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import main.java.gui.windowbuilder.MainWindowZhengqin;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Message;

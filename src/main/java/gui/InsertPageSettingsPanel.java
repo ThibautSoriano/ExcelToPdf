@@ -9,51 +9,30 @@ import javax.swing.JTextArea;
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public class InsertPageSettingsPanel extends SettingsChoicePanel{
 
-    
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private JCheckBox chckbxSeparatorLineAbove;
     private JCheckBox chckbxSeparatorLineBelow;
     private JCheckBox chckbxHeader;
     private JCheckBox chckbxFooter;
     private JTextArea txtrCreatedBy;
-    
-    
-    
-    
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-
 
     public JCheckBox getChckbxSeparatorLineAbove() {
         return chckbxSeparatorLineAbove;
     }
 
-
-
     public JCheckBox getChckbxSeparatorLineBelow() {
         return chckbxSeparatorLineBelow;
     }
-
-
 
     public JCheckBox getChckbxHeader() {
         return chckbxHeader;
     }
 
-
-
     public JCheckBox getChckbxFooter() {
         return chckbxFooter;
     }
-
-
 
     public JTextArea getTxtrCreatedBy() {
         return txtrCreatedBy;

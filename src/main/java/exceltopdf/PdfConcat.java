@@ -24,12 +24,13 @@ public class PdfConcat {
 	                  for (int page = 0; page < number_of_pages; ) {
 	                          copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
 	                        }
+	                  ReadInputPDF.close();
 	                  
 	                  
 	          }
 	          PDFCombineUsingJava.close();
 	          copy.close();
-	          ReadInputPDF.close();
+	          
 	          
 	        }
 	        catch (Exception i)

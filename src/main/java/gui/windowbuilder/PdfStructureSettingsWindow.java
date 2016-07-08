@@ -1,4 +1,4 @@
-package main.java.gui;
+package main.java.gui.windowbuilder;
 
 import java.awt.EventQueue;
 
@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import main.java.gui.MainWindow;
 import main.java.utils.FileType;
 
 import java.awt.Font;
