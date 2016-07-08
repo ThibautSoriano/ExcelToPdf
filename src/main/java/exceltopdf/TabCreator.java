@@ -32,7 +32,8 @@ public class TabCreator {
             return new PdfPTable(1);
         }
         
-        PdfPTable table = new PdfPTable(Utils.countTrueInTab(colsToPrint));
+      //one column is added because the first one has a width of 2 columns
+        PdfPTable table = new PdfPTable(Utils.countTrueInTab(colsToPrint)+1);
         table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         table.setWidthPercentage(100);
 
@@ -50,6 +51,9 @@ public class TabCreator {
 
                 cell.setBackgroundColor(new BaseColor(7, 167, 227));
                 cell.addElement(para);
+                
+                if (j==0)
+                    cell.setColspan(2);
 
                 table.addCell(cell);
 
@@ -77,6 +81,10 @@ public class TabCreator {
                         cell.setPaddingBottom(10);
                         cell.setPaddingTop(0);
 
+                        
+                        if (j==0)
+                            cell.setColspan(2);
+                        
                         table.addCell(cell);
                     }
                 }
@@ -99,10 +107,17 @@ public class TabCreator {
                 cell.setPaddingBottom(10);
                 cell.setPaddingTop(0);
                 cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                
+                if (j==0)
+                    cell.setColspan(2);
+                
                 table.addCell(cell);
             }
         }
 
         return table;
     }
+    
+    
+    
 }

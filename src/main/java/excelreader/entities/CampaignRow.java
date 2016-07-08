@@ -148,17 +148,17 @@ public  class CampaignRow {
     
     public List<String> toList() {
         List<String> l = new ArrayList<String>();
-        l.add(firstColumnData);
-        l.add(String.valueOf(impressions));
-        l.add(String.valueOf(uniqueCookies));
+        l.add(splitFirstColumnData());
+        l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
+        l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
         
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
         
         
         l.add(String.valueOf(df.format(frequency)));
-        l.add(String.valueOf(clicks));
-        l.add(String.valueOf(clickingUsers));
+        l.add(getSpacesBetweenThousands(String.valueOf(clicks)));
+        l.add(getSpacesBetweenThousands(String.valueOf(clickingUsers)));
         l.add(clickThroughRate.toString());
         l.add(uniqueCTR.toString());
         return l;
@@ -168,4 +168,19 @@ public  class CampaignRow {
         return  impressions == 0 && uniqueCookies == 0 && frequency == 0 && clicks == 0 && clickingUsers == 0
                 && clickThroughRate.getValue() == 0 && uniqueCTR.getValue() == 0;
     }
+    
+    private String getSpacesBetweenThousands(String numberInString){
+        
+        
+        StringBuilder sb = new StringBuilder(numberInString);
+        for (int i = sb.length() - 3; i > 0; i -= 3)
+            sb.insert(i, ' ');
+       return sb.toString();
+       
+    }
+    
+    private String splitFirstColumnData() {
+        return firstColumnData.replace("/","/\n");
+    }
+    
 }
