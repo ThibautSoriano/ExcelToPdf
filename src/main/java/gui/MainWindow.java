@@ -142,9 +142,9 @@ public class MainWindow extends JFrame implements INavigation{
         
         ButtonGroup g = new ButtonGroup();
         
-        for (Language lang : Language.values()) {
+        for (final Language lang : Language.values()) {
             
-            JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(lang.getName());
+            final JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(lang.getName());
             rdbtnmntm.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
