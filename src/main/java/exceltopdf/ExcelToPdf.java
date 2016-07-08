@@ -139,7 +139,7 @@ public class ExcelToPdf {
         ExcelReaderRankings excelReader = new ExcelReaderRankings();
         ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
         TabCreator tc = new TabCreator(excelSheet);
-        document.add(tc.createTabCampaign(colsToPrint,true));
+        document.add(tc.createTabCampaign(excelSheet.getCampaignRows(),excelSheet.getColumsLabels(),excelSheet.getAll(),colsToPrint,true));
         
         document.close();
         

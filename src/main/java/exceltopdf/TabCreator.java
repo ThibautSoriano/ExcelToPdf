@@ -50,6 +50,7 @@ public class TabCreator {
                 cell.setPaddingBottom(15);
 
                 cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.addElement(para);
                 
                 if (j==0)

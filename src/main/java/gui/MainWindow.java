@@ -32,6 +32,7 @@ import com.itextpdf.text.DocumentException;
 
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.exceltopdf.HeaderFooter;
+import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.TitlePage;
@@ -269,6 +270,10 @@ public class MainWindow extends JFrame implements INavigation{
         
         
         sections.add(ip);
+        
+
+        
+        
         try {
             etpd.createPdf(ExcelToPdf.SRC,"meruguez.pdf", sections);
         } catch (IOException | DocumentException e) {
