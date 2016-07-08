@@ -47,7 +47,7 @@ public class ExcelToPdf {
         List<Section> sections = new ArrayList<>();
         
         TitlePage title = new TitlePage();
-        title.setStructure(new HeaderFooter(false, false, false, false, false));
+        title.setStructure(new HeaderFooter(false, false, false, false, 1));
         sections.add(title);
         
         etdpf.createPdf(

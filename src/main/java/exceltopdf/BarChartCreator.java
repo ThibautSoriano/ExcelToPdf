@@ -10,8 +10,6 @@ import java.io.OutputStream;
 import javax.imageio.ImageIO;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -64,15 +62,17 @@ import main.java.excelreader.entities.ExcelSheet;
 		        try {
 		            document = new Document(PageSize.A4);
 		            writer = PdfWriter.getInstance(document, outputStream);
-		            writer.setPageEvent(new HeaderFooter());
+		            HeaderFooter hf = new HeaderFooter(true, true, true, true, 1);
+		            hf.setLineInHeader("dias");
+		            writer.setPageEvent(hf);
 		            
 		            document.setMargins(85, 85, 85, 113);
 		            
 		            document.open();
 		            
 		            JFreeChart chart = getChart();
-		            int width = 400;
-		            int height = (nbElements * 75) + 50;
+		            int width = 600;
+		            int height = (nbElements * 80) + 50;
 		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
 
 		            
@@ -84,6 +84,8 @@ import main.java.excelreader.entities.ExcelSheet;
 //		            p.setImage(bufferedImage);
 //		            p.setDpi(3000, 3000);
 		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+		            image.scalePercent(70);
+		            image.setAlignment(Image.MIDDLE);
 		            document.add(image);
 		            
 		            document.add(new Paragraph("\n\n\n"));
