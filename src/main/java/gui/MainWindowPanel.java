@@ -49,11 +49,10 @@ public class MainWindowPanel extends SettingsChoicePanel{
         lblChooseExcel.setBounds(30, 119, 389, 22);
         add(lblChooseExcel);
        
-        lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 18));
         
         txtExcel = new JTextField();
         txtExcel.setBounds(30, 168, 389, 20);
-        txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
         txtExcel.setColumns(10);
         
         add(txtExcel);
@@ -72,25 +71,25 @@ public class MainWindowPanel extends SettingsChoicePanel{
                       MainWindowZhengqin.openFileChooser(FileType.EXCEL,txtExcel);
               }
       });
-      btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+     
       
       
         JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
         lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
         lblLogo.setBounds(30, 236, 389, 22);
+        
+        lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 18));
         add(lblLogo);
-        lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        
         
         txtLogo = new JTextField();
         txtLogo.setBounds(30, 284, 389, 20);
         add(txtLogo);
-        txtLogo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
         txtLogo.setColumns(10);
         
         JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
         btnLogo.setBounds(444, 282, 119, 23);
         add(btnLogo);
-        btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         
         
         btnLogo.addMouseListener(new MouseAdapter() {

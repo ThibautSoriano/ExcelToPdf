@@ -1,7 +1,9 @@
 package main.java.exceltopdf;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -71,6 +73,19 @@ public class PdfConcat {
 		    if (!success)
 		      throw new IllegalArgumentException("Delete: deletion failed");
 		  }
+		
+		
+		
+		if (Desktop.isDesktopSupported()) {
+		    try {
+		        File myFile = new File(dest);
+		        Desktop.getDesktop().open(myFile);
+		    } catch (IOException ex) {
+		        // no application registered for PDFs
+		    }
+		}
+		
+		
 		}
 		
 	

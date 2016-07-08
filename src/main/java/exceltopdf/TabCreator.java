@@ -16,14 +16,14 @@ import main.java.utils.Utils;
 
 public class TabCreator {
 
-    private ExcelSheet excelSheet;
+    
 
     public TabCreator(ExcelSheet excelSheet) {
         super();
-        this.excelSheet = excelSheet;
+        
     }
 
-    public PdfPTable createTabCampaign(boolean[] colsToPrint,
+    public PdfPTable createTabCampaign(List<CampaignRow> campaignRows, List<String> headers,CampaignRow all,boolean[] colsToPrint,
             boolean hideEmptyLines) {
 
         if (colsToPrint.length < CampaignRow.MAX_COLUMNS) {
@@ -31,25 +31,30 @@ public class TabCreator {
                     + CampaignRow.MAX_COLUMNS + " at least.");
             return new PdfPTable(1);
         }
-        List<CampaignRow> campaignRows = excelSheet.getCampaignRows();
-        PdfPTable table = new PdfPTable(Utils.countTrueInTab(colsToPrint));
+        
+      //one column is added because the first one has a width of 2 columns
+        PdfPTable table = new PdfPTable(Utils.countTrueInTab(colsToPrint)+1);
         table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         table.setWidthPercentage(100);
 
         // For the headers
-        List<String> labels = excelSheet.getColumsLabels();
+        
         for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
             if (colsToPrint[j]) {
 
                 Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-                Paragraph para = new Paragraph(labels.get(j), font);
+                Paragraph para = new Paragraph(headers.get(j), font);
                 para.setAlignment(Element.ALIGN_CENTER);
 
                 PdfPCell cell = new PdfPCell();
                 cell.setPaddingBottom(15);
 
                 cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.addElement(para);
+                
+                if (j==0)
+                    cell.setColspan(2);
 
                 table.addCell(cell);
 
@@ -77,6 +82,10 @@ public class TabCreator {
                         cell.setPaddingBottom(10);
                         cell.setPaddingTop(0);
 
+                        
+                        if (j==0)
+                            cell.setColspan(2);
+                        
                         table.addCell(cell);
                     }
                 }
@@ -85,12 +94,12 @@ public class TabCreator {
 
         // For the last line (containing the sums usually)
 
-        List<String> all = excelSheet.getAll().toList();
+        List<String> a = all.toList();
         for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
             if (colsToPrint[j]) {
 
                 Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-                Paragraph p = new Paragraph(all.get(j), font);
+                Paragraph p = new Paragraph(a.get(j), font);
                 if (j != 0)
                     p.setAlignment(Element.ALIGN_CENTER);
 
@@ -99,10 +108,17 @@ public class TabCreator {
                 cell.setPaddingBottom(10);
                 cell.setPaddingTop(0);
                 cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                
+                if (j==0)
+                    cell.setColspan(2);
+                
                 table.addCell(cell);
             }
         }
 
         return table;
     }
+    
+    
+    
 }
