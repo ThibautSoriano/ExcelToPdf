@@ -16,7 +16,7 @@ public class PdfConcat {
 	          Document PDFCombineUsingJava = new Document();
 	          PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream(dest));
 	          PDFCombineUsingJava.open();
-	          PdfReader ReadInputPDF;
+	          PdfReader ReadInputPDF = null;
 	          int number_of_pages;
 	          for (int i = 0; i < files.length; i++) {
 	                  ReadInputPDF = new PdfReader(files[i]);
@@ -24,8 +24,13 @@ public class PdfConcat {
 	                  for (int page = 0; page < number_of_pages; ) {
 	                          copy.addPage(copy.getImportedPage(ReadInputPDF, ++page));
 	                        }
+	                  
+	                  
 	          }
 	          PDFCombineUsingJava.close();
+	          copy.close();
+	          ReadInputPDF.close();
+	          
 	        }
 	        catch (Exception i)
 	        {

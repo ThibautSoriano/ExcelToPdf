@@ -2,13 +2,13 @@ package main.java.exceltopdf.pdfsections;
 
 public class TitlePage extends Section {
 	
-	private String campaignName;
+	private String campaignName ="";
 	
-	private String startDate;
+	private String startDate = "";
 	
-	private String endDate;
+	private String endDate= "";
 	
-	private String belowTitle = "online kampány elemzése";
+	private String belowTitle = "online kampï¿½ny elemzï¿½se";
 	
 	public String getCampaignName() {
 		return campaignName;
