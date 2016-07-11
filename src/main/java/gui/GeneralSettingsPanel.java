@@ -150,7 +150,7 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
                         MainWindow.openFileChooser(FileType.LOGO, txtLogo);
                 }
         });
-        btnBrowse.setIcon(new ImageIcon(".\\src\\main\\resources\\Browse.png"));
+        btnBrowse.setIcon(new ImageIcon(getClass().getResource("/Browse.png")));
         btnBrowse.setBounds(471, 207, 25, 25);
         btnBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
         

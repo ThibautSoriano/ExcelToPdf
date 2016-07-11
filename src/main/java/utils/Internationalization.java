@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
@@ -18,11 +19,10 @@ import org.json.simple.parser.ParseException;
 public class Internationalization {
     
     public static JSONObject map;
-//    public static boolean init = false;
     
-//    static {
-//        loadLanguage(Language.EN);        
-//    }
+    static {
+        loadLanguage(Language.EN);        
+    }
     
 
     public static void main(String []args)
@@ -35,14 +35,17 @@ public class Internationalization {
     public static void loadLanguage(Language lang){
         JSONParser parser = new JSONParser();
         
-       
-        InputStreamReader z = null;
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        InputStream is = classLoader.getClass().getResourceAsStream("/languages/language"+lang.getExtension()+".json");
+        
+        InputStreamReader isr;
+        
+        
+
         try {
-            z = new InputStreamReader(new FileInputStream("src/main/resources/languages/language"+lang.getExtension()+".json"),lang.getEncoding());
-            map = (JSONObject) parser.parse(z);
-//            if (init)
-//                JOptionPane.showMessageDialog(null, "Language changed","Language changed to"+lang.getExtension(), JOptionPane.INFORMATION_MESSAGE);
-//            init = true;
+            isr = new InputStreamReader(is,lang.getEncoding());
+            map = (JSONObject) parser.parse(isr);
+
         
         } catch (UnsupportedEncodingException e) {
             

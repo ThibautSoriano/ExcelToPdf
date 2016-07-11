@@ -86,7 +86,7 @@ public class HeaderFooter extends PdfPageEventHelper {
 	        try {
 	        	Image img = null;
 	        	if (logoInHeader.equals("")) {
-	        		img = Image.getInstance("src/main/resources/GemiusLogo.png");
+	        		img = Image.getInstance(getClass().getResource("/GemiusLogo.png"));
 	        	}
 	        	else {
 	        		img = Image.getInstance(logoInHeader);
