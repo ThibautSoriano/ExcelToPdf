@@ -20,9 +20,9 @@ public class Internationalization {
     public static JSONObject map;
 //    public static boolean init = false;
     
-    static {
-        loadLanguage(Language.EN);        
-    }
+//    static {
+//        loadLanguage(Language.EN);        
+//    }
     
 
     public static void main(String []args)

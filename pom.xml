@@ -3,6 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ExcelToPdf</groupId>
 	<artifactId>ExcelToPdf</artifactId>
+		<packaging>jar</packaging>
+
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
@@ -63,6 +65,13 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+		<resource>
+		<directory>src/main/resources</directory>
+		</resource>
+		</resources>
+		
+	
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -77,9 +86,56 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<configuration>
-					<mainClass>main.java.gui.MainWindow</mainClass>
+					<mainClass>main.java.gui.Junior</mainClass>
 				</configuration>
 			</plugin>
+			
+			
+  
+    <plugin>
+  <artifactId>maven-assembly-plugin</artifactId>
+  <configuration>
+    <archive>
+      <manifest>
+        
+		<mainClass>main.java.gui.Junior</mainClass>
+		
+      </manifest>
+    </archive>
+    <descriptorRefs>
+      <descriptorRef>jar-with-dependencies</descriptorRef>
+    </descriptorRefs>
+  </configuration>
+  <executions>
+    <execution>
+      <id>make-assembly</id> <!-- this is used for inheritance merges -->
+      <phase>package</phase> <!-- bind to the packaging phase -->
+      <goals>
+        <goal>single</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+
+
+
+
+<plugin>
+      <!-- Build an executable JAR -->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>2.4</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+            <mainClass>main.java.gui.Junior</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+	  
 		</plugins>
 	</build>
 </project>
