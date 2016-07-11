@@ -13,27 +13,33 @@ import javax.swing.JPanel;
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public class NavigationPanel extends JPanel implements ActionListener{
-
     
-    private static final long serialVersionUID = -3387723564731103730L;
     
-    private int totalNumberOfWindows;
-    private int currentWindow = 1;
+    
+    
     private JButton btnNext;
     private JButton btnPrevious;
     private JButton btnValidate;
+    private IMainFrame mainFrame;
     
-    private List<INavigation> navigationListeners;
+    
+    public JButton getBtnNext() {
+        return btnNext;
+    }
+
+
+    
     
     public static final int NAVIGATION_HEIGHT = 62;
     
     public static final int NAVIGATION_WIDTH = 584;
     
-    public NavigationPanel(int totalNumberOfWindows, int currentWindow) {
-        this.totalNumberOfWindows = totalNumberOfWindows;
-        navigationListeners = new ArrayList<INavigation>();
-        this.currentWindow = currentWindow;
+    public NavigationPanel(IMainFrame mainFrame) {
+        
+       this.mainFrame = mainFrame;
+        
         
         setLayout(null);
         setBounds(0, SettingsChoicePanel.PANEL_HEIGHT+10, NAVIGATION_WIDTH, NAVIGATION_HEIGHT);
@@ -66,20 +72,12 @@ public class NavigationPanel extends JPanel implements ActionListener{
         
         add(btnPrevious);
     
-        if (currentWindow==1)
-            hidePreviousButton();
-        else if (currentWindow == totalNumberOfWindows){
-            btnNext.setVisible(false);
-        }
-            
+       
         this.setVisible(true);
         
     }
     
-    public void addNavigationListener(INavigation in){
-        navigationListeners.add(in);
-    }
-    
+ 
     
 
   public void hidePreviousButton(){
@@ -91,53 +89,39 @@ public class NavigationPanel extends JPanel implements ActionListener{
   }
 
 
-
-  @Override
-  public void actionPerformed(ActionEvent e) {
-      if (Internationalization.getKey("Previous").equals(e.getActionCommand())) {
-          currentWindow--;
-          
-          btnNext.setVisible(true);
-          btnValidate.setVisible(false);
-          
-          if (currentWindow == 1)
-              hidePreviousButton();
-          
-          for (INavigation iNavigation : navigationListeners) 
-            iNavigation.previous();
-      }
-              
-      else if (Internationalization.getKey("Next").equals(e.getActionCommand())) {
-          
-          currentWindow++;
-          btnPrevious.setVisible(true);
-          if (currentWindow == totalNumberOfWindows) {
-              btnNext.setVisible(false);
-              btnValidate.setVisible(true);
-          }
-              
-          
-          for (INavigation iNavigation : navigationListeners) 
-              iNavigation.next();
-      
-      }
-      else
-          for (INavigation iNavigation : navigationListeners) 
-              iNavigation.validation();
-      
-  }
+ public void showNextButton() {
+     btnNext.setVisible(true);
+     btnValidate.setVisible(false);
+ }
+  
+ 
+ public void showValidateButton() {
+     btnValidate.setVisible(true);
+     btnNext.setVisible(false);
+ }
   
   
   public NavigationPanel getNewInstance() {
-      NavigationPanel np = new NavigationPanel(totalNumberOfWindows,currentWindow);
-      for (INavigation iNavigation : navigationListeners) {
-        np.addNavigationListener(iNavigation);
-    }
-      
+      NavigationPanel np = new NavigationPanel(mainFrame);
       return np;
-              
   }
     
+  
+  
+  @Override
+  public void actionPerformed(ActionEvent e) {
+      if (Internationalization.getKey("Previous").equals(e.getActionCommand())) {
+          mainFrame.previousPanel();    
+      }        
+      else if (Internationalization.getKey("Next").equals(e.getActionCommand())) {
+          
+         mainFrame.nextPanel();
+      }
+      else
+          mainFrame.validation();
+       
+  }
+  
   
   
 }

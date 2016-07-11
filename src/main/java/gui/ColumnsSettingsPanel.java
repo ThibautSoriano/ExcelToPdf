@@ -240,7 +240,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     @Override
     public boolean isEveryThingOk(Message message) {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

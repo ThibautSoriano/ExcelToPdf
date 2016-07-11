@@ -6,9 +6,9 @@ public class Message {
     
     private List<String> messages;
 
-    public Message(List<String> messages) {
+    public Message() {
         super();
-        this.messages = messages;
+        
     }
 
     public List<String> getMessages() {

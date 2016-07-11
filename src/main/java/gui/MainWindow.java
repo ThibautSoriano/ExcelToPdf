@@ -42,6 +42,7 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Language;
+import main.java.utils.Message;
 import main.java.utils.Utils;
 
 import java.awt.event.MouseAdapter;
@@ -49,7 +50,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class MainWindow extends JFrame implements INavigation {
+public class MainWindow extends JFrame implements IMainFrame {
 
     private List<SettingsChoicePanel> panels;
     private int currentPanel = 0;
@@ -69,8 +70,9 @@ public class MainWindow extends JFrame implements INavigation {
 
         createPanels(0);
 
-        np = new NavigationPanel(panels.size(), 1);
-        np.addNavigationListener(this);
+        np = new NavigationPanel(this);
+        np.hidePreviousButton();
+        
         getContentPane().add(np);
 
         addMenu();
@@ -144,6 +146,12 @@ public class MainWindow extends JFrame implements INavigation {
 
                     getContentPane().remove(np);
                     np = np.getNewInstance();
+                    
+                    if (currentPanel == 0)
+                        np.hidePreviousButton();
+                    else if (currentPanel == panels.size() -1)
+                        np.showValidateButton();
+                    
                     getContentPane().add(np);
 
                     rdbtnmntm.setSelected(true);
@@ -200,23 +208,8 @@ public class MainWindow extends JFrame implements INavigation {
         frame.setVisible(true);
     }
 
-    @Override
-    public void next() {
-        if (currentPanel == panels.size() - 1)
-            return;
-        showNextPanel();
 
-    }
-
-    @Override
-    public void previous() {
-        if (currentPanel == 0)
-            return;
-        showPreviousPanel();
-
-    }
-
-    @Override
+     @Override
     public void validation() {
 
         ExcelToPdf etpd = new ExcelToPdf();
@@ -350,4 +343,45 @@ public class MainWindow extends JFrame implements INavigation {
 
         getContentPane().add(panels.get(panelToShow));
     }
+
+    @Override
+    public void nextPanel() {
+        Message m = new Message(); 
+        if (panels.get(currentPanel).isEveryThingOk(m)) {
+            
+            np.showPreviousButton();
+            showNextPanel();
+            if (currentPanel == panels.size()-1) {
+                np.showValidateButton();
+
+            }
+            
+        }
+        else 
+            System.out.println(m.getMessages());
+        
+    }
+    
+    @Override
+    public void previousPanel() {
+        
+        np.showNextButton();
+        
+        if (currentPanel>0) {
+            showPreviousPanel();
+            np.showPreviousButton();
+        }
+        
+        if (currentPanel == 0)
+            np.hidePreviousButton();
+        
+        
+            
+        
+        
+        
+    }
+    
+
+    
 }

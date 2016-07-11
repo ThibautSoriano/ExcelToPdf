@@ -25,12 +25,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Utils;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MainWindowZhengqin {
 
@@ -96,6 +100,32 @@ public class MainWindowZhengqin {
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtExcel = new JTextField();
+		txtExcel.getDocument().addDocumentListener(new DocumentListener() {
+                    
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        System.out.println("fils de yu");
+                        
+                    }
+                    
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        System.out.println("fils de merg");
+                        
+                    }
+                    
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        System.out.println("fils de clop");
+                        
+                    }
+                });
+		txtExcel.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        System.out.println("junior");
+		    }
+		});
 		txtExcel.setBounds(30, 168, 389, 20);
 		panelMainWindow.add(txtExcel);
 		txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -203,6 +233,7 @@ public class MainWindowZhengqin {
               JFileChooser theFileChooser = (JFileChooser) actionEvent.getSource();
               String command = actionEvent.getActionCommand();
               if (command.equals(JFileChooser.APPROVE_SELECTION)) {
+                  
                 File selectedFile = theFileChooser.getSelectedFile();
                 	
                 field.setText(selectedFile.getAbsolutePath());
