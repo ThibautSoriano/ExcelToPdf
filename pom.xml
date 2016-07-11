@@ -98,7 +98,7 @@
     <archive>
       <manifest>
         
-		<mainClass>main.java.gui.Junior</mainClass>
+		<mainClass>main.java.gui.MainWindow</mainClass>
 		
       </manifest>
     </archive>
@@ -130,7 +130,7 @@
           <manifest>
             <addClasspath>true</addClasspath>
             <classpathPrefix>lib/</classpathPrefix>
-            <mainClass>main.java.gui.Junior</mainClass>
+            <mainClass>main.java.gui.MainWindow</mainClass>
           </manifest>
         </archive>
       </configuration>
