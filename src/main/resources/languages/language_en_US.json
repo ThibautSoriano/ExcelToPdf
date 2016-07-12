@@ -11,7 +11,7 @@
 "Next" : "Next",
 "Previous" : "Previous" ,
 "Validate" : "Validate",
-"Page numerotation" : "Page numerotation",
+"Page numerotation" : "Pagination position",
 "Bottom center" : "Bottom center",
 "Bottom right" : "Bottom right",
 "Separator line above footer" : "Separator line above footer",
@@ -30,5 +30,14 @@
 "Images" : "Images",
 "No file submitted" : "No file submitted",
 "Wrong format" : "Wrong format",
-"None of the given files exist" : "None of the given files exist"
+"Insert page" : "Insert page",
+"On" : "On",
+"Off" : "Off",
+"Columns Settings" : "Columns Settings",
+"Only one file submitted." : "Only one file submitted.",
+"None of the given files exist" : "None of the given files exist",
+"does not exist." : "does not exist.",
+"Continue anyway?" : "Continue anyway?",
+"Warning" : "Warning",
+"ERROR" : "ERROR"
 }

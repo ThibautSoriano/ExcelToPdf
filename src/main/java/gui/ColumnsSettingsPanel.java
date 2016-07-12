@@ -20,6 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
 public class ColumnsSettingsPanel extends SettingsChoicePanel {
@@ -133,7 +134,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     }
 
     public ColumnsSettingsPanel() {
-        super("Columns Settings");
+        super(Internationalization.getKey("Columns Settings"));
         
         groupRankings = new ArrayList<JCheckBox>();
         groupTechnical = new ArrayList<JCheckBox>();
