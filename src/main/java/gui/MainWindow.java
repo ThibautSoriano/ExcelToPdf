@@ -349,8 +349,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             }
             
         }
-        else 
-            System.out.println(m.getMessages());
+        //else 
+            //System.out.println(m.getMessages());
         
     }
     

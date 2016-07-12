@@ -132,8 +132,28 @@ public class MainWindowPanel extends SettingsChoicePanel {
                 
                 JOptionPane.showMessageDialog(null, Internationalization.getKey("None of the given files exist"), "ERROR",JOptionPane.ERROR_MESSAGE);
             }
+            else if (!f.exists()){
+                if (f.getName().isEmpty()) {
+                    if (JOptionPane.showConfirmDialog(null, "Only one file submitted. Continue anyway?", "Warning", JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                        ok = true;
+                }
+                else {
+                if (JOptionPane.showConfirmDialog(null, "\""+f+"\" does not exist. Continue anyway?", "Warning", JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                    ok = true;
+                }
+            }
+            else if (!f2.exists()) {
+                if (f2.getName().isEmpty()) {
+                    if (JOptionPane.showConfirmDialog(null, "Only one file submitted. Continue anyway?", "Warning", JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                        ok = true;
+                }
+                else
+                {
+                if (JOptionPane.showConfirmDialog(null, "\""+f2+"\" does not exist. Continue anyway?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+                    ok = true;
+                }
+            }
             else {
-                
                 ok = true;
             }
 
