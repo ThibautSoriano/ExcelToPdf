@@ -81,18 +81,14 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
 
         super(Internationalization.getKey("General settings"));
         
- 
-        JLabel lblPageNumerotation = new JLabel(Internationalization.getKey("Page numerotation"));
-        lblPageNumerotation.setBounds(93, 77, 140, 19);
-        add(lblPageNumerotation);
         
          rdbtnBottomCenter = new JRadioButton(Internationalization.getKey("Bottom center"));
-        rdbtnBottomCenter.setBounds(243, 75, 109, 23);
+         rdbtnBottomCenter.setBounds(223, 321, 109, 23);
         add(rdbtnBottomCenter);
         rdbtnBottomCenter.setSelected(true);
         
          rdbtnBottomRight = new JRadioButton(Internationalization.getKey("Bottom right"));
-        rdbtnBottomRight.setBounds(385, 75, 109, 23);
+         rdbtnBottomRight.setBounds(364, 321, 109, 23);
         add(rdbtnBottomRight);
         
          pagesNumGroup = new ButtonGroup();
@@ -101,16 +97,16 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         
          chckbxFooterLine = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxFooterLine.setSelected(true);
-        chckbxFooterLine.setBounds(284, 269, 250, 23);
+        chckbxFooterLine.setBounds(284, 229, 189, 23);
         add(chckbxFooterLine);
         
          chckbxHeaderLine = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxHeaderLine.setSelected(true);
-        chckbxHeaderLine.setBounds(284, 119, 250, 23);
+        chckbxHeaderLine.setBounds(284, 70, 189, 23);
         add(chckbxHeaderLine);
         
         JSeparator separator = new JSeparator();
-        separator.setBounds(93, 105, 397, 2);
+        separator.setBounds(93, 57, 397, 2);
         add(separator);
         
         JSeparator separator_1 = new JSeparator();
@@ -118,27 +114,27 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         add(separator_1);
         
         JSeparator separator_2 = new JSeparator();
-        separator_2.setBounds(93, 257, 397, 2);
+        separator_2.setBounds(93, 208, 397, 2);
         add(separator_2);
         
         JLabel lblYourCompanyWebsite = new JLabel(Internationalization.getKey("Your company website"));
-        lblYourCompanyWebsite.setBounds(93, 165, 159, 19);
+        lblYourCompanyWebsite.setBounds(93, 116, 159, 19);
         add(lblYourCompanyWebsite);
         
          txtWebsite = new JTextField();
         txtWebsite.setText("www.gemius.hu");
         txtWebsite.setColumns(10);
-        txtWebsite.setBounds(284, 164, 177, 20);
+        txtWebsite.setBounds(284, 115, 177, 20);
         add(txtWebsite);
         
          chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
         chckbxHeader.setSelected(true);
-        chckbxHeader.setBounds(93, 119, 189, 23);
+        chckbxHeader.setBounds(93, 70, 189, 23);
         add(chckbxHeader);
         
         chckbxFooter = new JCheckBox(Internationalization.getKey("Footer"));
         chckbxFooter.setSelected(true);
-        chckbxFooter.setBounds(93, 269, 189, 23);
+        chckbxFooter.setBounds(93, 229, 189, 23);
         add(chckbxFooter);
         
         JButton btnBrowse = new JButton("");
@@ -151,32 +147,38 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
                 }
         });
         btnBrowse.setIcon(new ImageIcon(getClass().getResource("/Browse.png")));
-        btnBrowse.setBounds(471, 207, 25, 25);
+        btnBrowse.setBounds(471, 158, 25, 25);
         btnBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
         
         add(btnBrowse);
         
         txtLogo = new JTextField();
         txtLogo.setColumns(10);
-        txtLogo.setBounds(284, 210, 177, 20);
+        txtLogo.setBounds(284, 161, 177, 20);
         add(txtLogo);
         
         JLabel lblYourCompanyLogo = new JLabel(Internationalization.getKey("Your company logo"));
-        lblYourCompanyLogo.setBounds(93, 209, 168, 22);
+        lblYourCompanyLogo.setBounds(93, 160, 168, 22);
         add(lblYourCompanyLogo);
         
         JLabel lblBottomLeftText = new JLabel(Internationalization.getKey("Bottom left text"));
-        lblBottomLeftText.setBounds(93, 318, 159, 19);
+        lblBottomLeftText.setBounds(93, 278, 159, 19);
         add(lblBottomLeftText);
         
         txtBottomLeftText = new JTextField();
         txtBottomLeftText.setColumns(10);
-        txtBottomLeftText.setBounds(284, 317, 177, 20);
+        txtBottomLeftText.setBounds(284, 277, 177, 20);
         add(txtBottomLeftText);
         
         JSeparator separator_3 = new JSeparator();
-        separator_3.setBounds(93, 351, 397, 2);
+        separator_3.setBounds(93, 360, 397, 2);
         add(separator_3);
+        
+        
+        JLabel lblPageNumerotation = new JLabel(Internationalization.getKey("Page numerotation"));
+        lblPageNumerotation.setBounds(93, 323, 115, 19);
+        add(lblPageNumerotation);
+        
     }
     
     @Override

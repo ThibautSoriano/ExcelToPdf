@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class MeurguesWindow {
 
@@ -58,6 +60,10 @@ public class MeurguesWindow {
         panelRankings.setLayout(null);
         
         JCheckBox chckbxImpressionsRankings = new JCheckBox("Impressions");
+        chckbxImpressionsRankings.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+            }
+        });
         chckbxImpressionsRankings.setBounds(93, 57, 97, 23);
         panelRankings.add(chckbxImpressionsRankings);
         

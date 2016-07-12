@@ -38,6 +38,8 @@ public class Internationalization {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream is = classLoader.getClass().getResourceAsStream("/languages/language"+lang.getExtension()+".json");
         
+        
+        
         InputStreamReader isr;
         
         
@@ -45,6 +47,7 @@ public class Internationalization {
         try {
             isr = new InputStreamReader(is,lang.getEncoding());
             map = (JSONObject) parser.parse(isr);
+            
 
         
         } catch (UnsupportedEncodingException e) {

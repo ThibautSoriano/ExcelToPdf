@@ -114,24 +114,46 @@ public class MainWindowPanel extends SettingsChoicePanel {
         boolean ok = false;
 
         String txt = txtExcel.getText();
+        String txt2 = txtExcel2.getText();
 
-        if (txt.isEmpty()) {
+        if (txt.isEmpty() && txt2.isEmpty()) {
 
-            JOptionPane.showMessageDialog(null, "Aucun fichier renseigné", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, Internationalization.getKey("No file submitted"), Internationalization.getKey("ERROR"),JOptionPane.ERROR_MESSAGE);
         }
 
-        else if (!txt.contains(".xls")) {
-            JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+        else if (!txt.contains(".xls") && !txt2.contains(".xls")) {
+            JOptionPane.showMessageDialog(null, Internationalization.getKey("Wrong format"), Internationalization.getKey("ERROR"),JOptionPane.ERROR_MESSAGE);
         } else {
 
             File f = new File(txt);
+            File f2 = new File(txt2);
 
-            if (!f.exists()) {
+            if (!f.exists() && !f2.exists()) {
                 
-                JOptionPane.showMessageDialog(null, "fichier inexistant", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, Internationalization.getKey("None of the given files exist"), Internationalization.getKey("ERROR"),JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!f.exists()){
+                if (f.getName().isEmpty()) {
+                    if (JOptionPane.showConfirmDialog(null, Internationalization.getKey("Only one file submitted.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                        ok = true;
+                }
+                else {
+                if (JOptionPane.showConfirmDialog(null, "\""+f+"\" "+Internationalization.getKey("does not exist.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                    ok = true;
+                }
+            }
+            else if (!f2.exists()) {
+                if (f2.getName().isEmpty()) {
+                    if (JOptionPane.showConfirmDialog(null, Internationalization.getKey("Only one file submitted.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
+                        ok = true;
+                }
+                else
+                {
+                if (JOptionPane.showConfirmDialog(null,"\""+f+"\" "+Internationalization.getKey("does not exist.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
+                    ok = true;
+                }
             }
             else {
-                
                 ok = true;
             }
 
