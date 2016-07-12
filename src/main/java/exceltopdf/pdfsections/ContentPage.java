@@ -1,9 +1,12 @@
 package main.java.exceltopdf.pdfsections;
 
+import main.java.excelreader.ExcelReader;
 import main.java.excelreader.entities.ExcelSheet;
 
 public class ContentPage extends Section {	
 	private ExcelSheet excelSheet;
+	
+	private ExcelReader excelReader;
 	
 	private boolean impressions;
 	
@@ -93,5 +96,13 @@ public class ContentPage extends Section {
 
 	public void setUniqueCTR(boolean uniqueCTR) {
 		this.uniqueCTR = uniqueCTR;
+	}
+
+	public ExcelReader getExcelReader() {
+		return excelReader;
+	}
+
+	public void setExcelReader(ExcelReader excelReader) {
+		this.excelReader = excelReader;
 	}
 }

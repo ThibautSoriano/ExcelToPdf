@@ -74,7 +74,7 @@ public class PdfConcat {
 		    if (!success)
 		      throw new IllegalArgumentException("Delete: deletion failed");
 		  }
-		
+		ExcelToPdf.CURRENT_PAGE_NUMBER = 0;
 		
 		
 		if (Desktop.isDesktopSupported()) {

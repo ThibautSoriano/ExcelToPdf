@@ -17,7 +17,9 @@ import main.java.utils.Percentage;
 
 public abstract class ExcelReader {
 
-    protected ExcelSheet excelSheet;
+	protected ExcelSheet excelSheet;
+    
+	protected String type = "";
 
     protected HSSFSheet sheet;
     
@@ -32,9 +34,6 @@ public abstract class ExcelReader {
      * @return the ExcelSheet with fields filled in
      */
     public ExcelSheet readExcelSheet(String filePath) {
-
-        // String filename = "meurguez.xls";
-
         
         FileInputStream fis = null;
         try {
@@ -182,5 +181,13 @@ public abstract class ExcelReader {
             }
         }
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
     
 }

@@ -1,16 +1,11 @@
 package main.java.excelreader;
 
-
-
 import org.apache.poi.hssf.usermodel.HSSFRow;
 
 
 import main.java.excelreader.entities.ExcelSheet;
 
-
 public class ExcelReaderRankings extends ExcelReader {
-    
-
     
     @Override
     public void fillExcelSheet() {
@@ -23,7 +18,8 @@ public class ExcelReaderRankings extends ExcelReader {
     }
 
     public ExcelReaderRankings() {
-        excelSheet = new ExcelSheet();
+       excelSheet = new ExcelSheet();
+       type = "Rankings";
        documentStructure = new DocumentStructureRankings();
     }
     
@@ -35,17 +31,4 @@ public class ExcelReaderRankings extends ExcelReader {
                 row.getCell(((DocumentStructureRankings) documentStructure).getCampaignNameCol())
                         .getStringCellValue());
     }
-
-   
-
-    
-
-    public static void main(String args[]) {
-        // ExcelReader zhengqin = new ExcelReader();
-        // ExcelSheet junior = zhengqin.read();
-        // System.out.println(junior);
-    }
-
-    
-
 }

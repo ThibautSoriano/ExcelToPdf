@@ -1,7 +1,6 @@
 package main.java.exceltopdf;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +20,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import main.java.excelreader.ExcelReader;
-import main.java.excelreader.ExcelReaderRankings;
-import main.java.excelreader.ExcelReaderTechnical;
 import main.java.excelreader.entities.ExcelSheet;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
@@ -42,51 +38,32 @@ public class ExcelToPdf {
     public  List<String> FILES = new ArrayList<>();
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
+	public static int CURRENT_PAGE_NUMBER = 0;
 
     private ExcelSheet excelSheetRankings;
-    private ExcelSheet excelSheetTechnical;
-    
-
-    public static void main(String args[]) throws IOException, DocumentException {
-//        ExcelToPdf etdpf = new ExcelToPdf();
-//        List<Section> sections = new ArrayList<>();
-//        
-//        TitlePage title = new TitlePage();
-//        title.setStructure(new HeaderFooter(false, false, false, false, 1));
-//        sections.add(title);
-//        
-//        etdpf.createPdf(
-//                "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls",
-//                DEST, sections);
-        
-
-        
-    }
+    private List<ContentPage> content = new ArrayList<>();
 
     public void createPdf(List<String> src, String dest, List<Section> sections)
             throws IOException, DocumentException {
         
         
-        ExcelReader excelReader = null;
         
-        for (int i = 0; i < src.size(); i++) {
-        	File f = new File(src.get(i));
+        for (int i = 2; i < sections.size(); i++) {
+        	ContentPage contentPage = (ContentPage) sections.get(i);
         	
-        	if (f.getName().contains("Rankings")) {
-                excelReader = new ExcelReaderRankings();
-            }
-            else if (f.getName().contains("Technical")) {
-                excelReader = new ExcelReaderTechnical();
-            }
+        	if (contentPage.getExcelReader().getType().equals("Rankings")) {
+        		excelSheetRankings = contentPage.getExcelReader().readExcelSheet(src.get((i-2)));
+        		contentPage.setExcelSheet(excelSheetRankings);
+        		content.add(contentPage);
+        	}
+        	if (contentPage.getExcelReader().getType().equals("Technical")) {
+        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
+        		content.add(contentPage);
+        	}
             else {
                 System.err.println("xls not recognized");
-                return;
             }
-        	
-        	excelSheetRankings = excelReader.readExcelSheet(src.get(i));
         }
-        
-        
         
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
         
@@ -100,10 +77,8 @@ public class ExcelToPdf {
         
         createInsertPage(insertPage);
         
-        for (int i = 2; i < sections.size(); i++) {
-        	ContentPage contentPage = (ContentPage) sections.get(i);
-        	contentPage.setExcelSheet(excelSheetRankings);
-            createContentPage(contentPage);
+        for (int i = 0; i < content.size(); i++) {
+            createContentPage(content.get(i));
         }
         
         
@@ -123,39 +98,21 @@ public class ExcelToPdf {
 		writer.setPageEvent(contentPage.getStructure());
 		
 		document.open();
-		
-		if (excelSheetRankings != null) {
-			document.add(new Paragraph("Rankings chart"));
-			JFreeChart chart = barChartCreator.getChart(excelSheetRankings.getCampaignRows());
-	        int width = 600;
-	        int height = (5 * 80) + 50;
-	        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+	
+		document.add(new Paragraph(contentPage.getExcelReader().getType() + " chart\n\n"));
+		JFreeChart chart = barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows());
+        int width = 600;
+        int height = (5 * 80) + 50;
+        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
 
-	        					
-	        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
-	        image.scalePercent(70);
-	        image.setAlignment(Image.MIDDLE);
-	        document.add(image);
-	        document.add(new Paragraph("\n\n\n"));
-		}
-		
-		if (excelSheetTechnical != null) {
-			document.add(new Paragraph("Technical chart"));
-			JFreeChart chart = barChartCreator.getChart(excelSheetTechnical.getCampaignRows());
-	        int width = 600;
-	        int height = (5 * 80) + 50;
-	        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-
-	        					
-	        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
-	        image.scalePercent(70);
-	        image.setAlignment(Image.MIDDLE);
-	        document.add(image);
-	        document.add(new Paragraph("\n\n\n"));
-		}
+        					
+        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+        image.scalePercent(70);
+        image.setAlignment(Image.MIDDLE);
+        document.add(image);
+        document.add(new Paragraph("\n\n\n"));
         
-        
-		
+        document.add(new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n"));
     	boolean [] colsToPrint = {
     			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
                 contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
@@ -165,8 +122,9 @@ public class ExcelToPdf {
         TabCreator tc = new TabCreator(contentPage.getExcelSheet());
         document.add(tc.createTabCampaign(contentPage.getExcelSheet().getCampaignRows(),contentPage.getExcelSheet().getColumsLabels(),contentPage.getExcelSheet().getAll(),colsToPrint,true));
         
-        document.close();
         
+        document.close();
+        CURRENT_PAGE_NUMBER += writer.getPageNumber();
         writer.flush();
         writer.close();
         outputStream.flush();
@@ -201,7 +159,7 @@ public class ExcelToPdf {
 		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionCustom, 260);
+		cb.moveText(xPositionCustom, PageSize.A4.getHeight() - 505);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(customArea);
 		cb.endText();
@@ -210,16 +168,16 @@ public class ExcelToPdf {
 		
 		cb.closePathEoFillStroke();
                 
-                document.close();
-                
-                writer.flush();
-                writer.close();
-                outputStream.flush();
-                outputStream.close();
-                
-                writer = null;
-                outputStream = null;
-                System.gc();
+        document.close();
+        
+        writer.flush();
+        writer.close();
+        outputStream.flush();
+        outputStream.close();
+        
+        writer = null;
+        outputStream = null;
+        System.gc();
     }
     
     public void createTitlePage(TitlePage titlePage) throws DocumentException, IOException {
@@ -247,7 +205,7 @@ public class ExcelToPdf {
 		float xPosition = (PageSize.A4.getWidth() - toMeasureSize.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPosition, 340);
+		cb.moveText(xPosition, PageSize.A4.getHeight() - 335);
 		cb.setFontAndSize(bfBold, 16);
 		cb.showText(titlePage.getCampaignName());
 		cb.endText();
@@ -264,7 +222,7 @@ public class ExcelToPdf {
 		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionDates, 300);
+		cb.moveText(xPositionDates, PageSize.A4.getHeight() - 365);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(datesString);
 		cb.endText();
@@ -280,7 +238,7 @@ public class ExcelToPdf {
 		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionCustom, 260);
+		cb.moveText(xPositionCustom, PageSize.A4.getHeight() - 395);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(customArea);
 		cb.endText();

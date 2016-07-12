@@ -141,7 +141,7 @@ public class HeaderFooter extends PdfPageEventHelper {
     			BaseFont bf;
     			try {
     				bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-    				String page = String.valueOf(document.getPageNumber());
+    				String page = String.valueOf(document.getPageNumber() + ExcelToPdf.CURRENT_PAGE_NUMBER);
     				Chunk toMeasurePage = new Chunk(page);
     				
     				float xPositionPage = (PageSize.A4.getWidth() / 2) - (toMeasurePage.getWidthPoint() / 2);
@@ -163,7 +163,7 @@ public class HeaderFooter extends PdfPageEventHelper {
     			BaseFont bf;
     			try {
     				bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-    				String page = String.valueOf(document.getPageNumber());
+    				String page = String.valueOf(document.getPageNumber() + ExcelToPdf.CURRENT_PAGE_NUMBER);
     				Chunk toMeasurePage = new Chunk(page);
     				
     				float xPositionPage = PageSize.A4.getWidth() - 85 - toMeasurePage.getWidthPoint();
