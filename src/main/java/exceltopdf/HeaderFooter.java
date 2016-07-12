@@ -80,7 +80,6 @@ public class HeaderFooter extends PdfPageEventHelper {
 				cb.restoreState();
 			
 				} catch (DocumentException | IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	        try {
@@ -91,8 +90,11 @@ public class HeaderFooter extends PdfPageEventHelper {
 	        	else {
 	        		img = Image.getInstance(logoInHeader);
 	        	}
-	            img.scaleToFit(150, 150);  
-	            img.setAbsolutePosition(380, 757);
+	        	
+	            img.scaleAbsoluteHeight(40);
+	            img.scaleAbsoluteWidth(100);
+	            
+	            img.setAbsolutePosition(410, 780);
 	            img.setAlignment(Element.ALIGN_CENTER);
 	            writer.getDirectContent().addImage(img);
 			} catch (DocumentException | IOException e) {
