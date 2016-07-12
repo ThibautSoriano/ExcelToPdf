@@ -114,25 +114,25 @@ public class ExcelToPdf {
 		
 		if (contentPage.getExcelReader().getType().equals("Rankings")) {
 			if (contentPage.isImpressions()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads"), writer));
 			}
 			if (contentPage.isUniqueCookies()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
 			}
 			if (contentPage.isFrequency()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
 			}
 			if (contentPage.isClicks()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks", "Ads"), writer));
 			}
 			if (contentPage.isClickingUsers()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads"), writer));
 			}
 			if (contentPage.isClickThroughRate()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads"), writer));
 			}
 			if (contentPage.isUniqueCTR()) {
-				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads"), writer));
 			}
 		}
 		
@@ -160,7 +160,7 @@ public class ExcelToPdf {
 			}
 		}
         
-        document.add(new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n"));
+		Paragraph p = new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n");
     	boolean [] colsToPrint = {
     			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
                 contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
@@ -168,8 +168,9 @@ public class ExcelToPdf {
         };
         
         TabCreator tc = new TabCreator(contentPage.getExcelSheet());
-        document.add(tc.createTabCampaign(contentPage.getExcelSheet().getCampaignRows(),contentPage.getExcelSheet().getColumsLabels(),contentPage.getExcelSheet().getAll(),colsToPrint,true));
+        p.add(tc.createTabCampaign(contentPage.getExcelSheet().getCampaignRows(),contentPage.getExcelSheet().getColumsLabels(),contentPage.getExcelSheet().getAll(),colsToPrint,true));
         
+        document.add(p);
         
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();
