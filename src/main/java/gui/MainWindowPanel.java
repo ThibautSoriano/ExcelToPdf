@@ -114,21 +114,23 @@ public class MainWindowPanel extends SettingsChoicePanel {
         boolean ok = false;
 
         String txt = txtExcel.getText();
+        String txt2 = txtExcel2.getText();
 
-        if (txt.isEmpty()) {
+        if (txt.isEmpty() && txt2.isEmpty()) {
 
-            JOptionPane.showMessageDialog(null, "Aucun fichier renseigné", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, Internationalization.getKey("No file submitted"), "ERROR",JOptionPane.ERROR_MESSAGE);
         }
 
-        else if (!txt.contains(".xls")) {
-            JOptionPane.showMessageDialog(null, "Mauvais format de fichier", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+        else if (!txt.contains(".xls") && !txt2.contains(".xls")) {
+            JOptionPane.showMessageDialog(null, Internationalization.getKey("Wrong format"), "ERROR",JOptionPane.ERROR_MESSAGE);
         } else {
 
             File f = new File(txt);
+            File f2 = new File(txt2);
 
-            if (!f.exists()) {
+            if (!f.exists() && !f2.exists()) {
                 
-                JOptionPane.showMessageDialog(null, "fichier inexistant", "FULL ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, Internationalization.getKey("None of the given files exist"), "ERROR",JOptionPane.ERROR_MESSAGE);
             }
             else {
                 

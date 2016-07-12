@@ -27,5 +27,8 @@
 "Insert Page Settings" : "Insert page settings",
 "Custom text area" : "Custom text area",
 "Excel files" : "Excel files",
-"Images" : "Images"
+"Images" : "Images",
+"No file submitted" : "No file submitted",
+"Wrong format" : "Wrong format",
+"None of the given files exist" : "None of the given files exist"
 }
