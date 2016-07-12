@@ -33,9 +33,11 @@ public class TabCreator {
         }
         
       //one column is added because the first one has a width of 2 columns
-        PdfPTable table = new PdfPTable(Utils.countTrueInTab(colsToPrint)+1);
+        int colsNumber = Utils.countTrueInTab(colsToPrint);
+        PdfPTable table = new PdfPTable(colsNumber+1);
         table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         table.setWidthPercentage(100);
+        
 
         // For the headers
         
@@ -72,19 +74,36 @@ public class TabCreator {
                     if (colsToPrint[j]) {
                         Font font = new Font(FontFamily.HELVETICA, 8,
                                 Font.UNDEFINED);
-                        Paragraph p = new Paragraph(l.get(j), font);
-                        if (j != 0)
-                            p.setAlignment(Element.ALIGN_CENTER);
-
+                        
+                        
                         PdfPCell cell = new PdfPCell();
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                        cell.addElement(p);
+                        
                         cell.setPaddingBottom(10);
                         cell.setPaddingTop(0);
 
                         
                         if (j==0)
                             cell.setColspan(2);
+                        
+                       
+                        
+                        Paragraph p = null;
+                        
+                       
+                        
+                        
+                        if (j ==0)
+                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(colsNumber)),font);
+                        else
+                            p = new Paragraph(l.get(j), font);
+                        
+                        if (j != 0)
+                            p.setAlignment(Element.ALIGN_CENTER);
+
+                        
+                        cell.addElement(p);
+                        
                         
                         table.addCell(cell);
                     }
@@ -120,5 +139,25 @@ public class TabCreator {
     }
     
     
+    private String splitFirstColumnData(String firstColumnData, int maxLength) {
+        StringBuilder res = new StringBuilder();
+        int cpt = 0;
+        for (int i = 0; i< firstColumnData.length(); i++) {
+            if (cpt> maxLength && firstColumnData.charAt(i) == '/') {
+                res.append("/\n");
+                cpt = 0;
+            }
+            else
+                res.append(firstColumnData.charAt(i));
+            cpt++;
+            
+        }
+        return res.toString();
+        
+    }
     
+    
+    public int getMaxLength(int colsNumber){
+        return (int) -6.67*colsNumber + 50;
+    }
 }

@@ -68,7 +68,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		            writer = PdfWriter.getInstance(document, outputStream);
 		            HeaderFooter hf = new HeaderFooter(true, true, true, true, 1);
 		            hf.setLineInHeader("dias");
-		            hf.setLogoInHeader("C:/Users/user/Documents/Polytech/SI4/Hongrie/ExcelToPdf/src/main/resources/fleury-michon.png");
+//		            hf.setLogoInHeader("C:/Users/user/Documents/Polytech/SI4/Hongrie/ExcelToPdf/src/main/resources/GemiusLogo.png");
 		            writer.setPageEvent(hf);
 		            ExcelReaderRankings excelReader = new ExcelReaderRankings();
 			        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
@@ -87,7 +87,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		            
 		            document.add(new Paragraph("\n\n\n"));
 		            boolean [] colsToPrint = {
-		                    true,true,true,true,true,true,true,false
+		                    true,true,true,true,true,true,false,false
 		            };
 		            
 		            
