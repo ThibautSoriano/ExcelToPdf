@@ -94,7 +94,7 @@ public class TabCreator {
                         
                         
                         if (j ==0)
-                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(colsNumber)),font);
+                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(2)),font);
                         else
                             p = new Paragraph(l.get(j), font);
                         
@@ -158,6 +158,7 @@ public class TabCreator {
     
     
     public int getMaxLength(int colsNumber){
+        
         return (int) -6.67*colsNumber + 50;
     }
 }

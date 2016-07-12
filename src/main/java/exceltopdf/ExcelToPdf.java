@@ -47,7 +47,7 @@ public class ExcelToPdf {
     private String endDate = "";
     private List<ContentPage> content = new ArrayList<>();
 
-    public void createPdf(List<String> src, String dest, List<Section> sections)
+    public void createPdf(List<String> src, String dest, List<Section> sections, boolean insertPageOn)
             throws IOException, DocumentException {
         
         
@@ -81,11 +81,12 @@ public class ExcelToPdf {
         titlePage.setEndDate(endDate);
         createTitlePage(titlePage);
         
-        
-        InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
-        
-        createInsertPage(insertPage);
-        
+        if (insertPageOn) {
+            InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
+            
+            createInsertPage(insertPage);
+        }
+                
         for (int i = 0; i < content.size(); i++) {
             createContentPage(content.get(i));
         }

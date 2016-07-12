@@ -1,5 +1,6 @@
 package main.java.gui;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -113,13 +114,21 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel{
         lblInsertPage.setBounds(93, 81, 127, 19);
         add(lblInsertPage);
         
+        
+        
         rdbtnOn = new JRadioButton(Internationalization.getKey("On"));
         rdbtnOn.setBounds(282, 79, 77, 23);
+        rdbtnOn.setSelected(true);
         add(rdbtnOn);
         
          rdbtnOff = new JRadioButton(Internationalization.getKey("Off"));
          rdbtnOff.setBounds(384, 79, 77, 23);
         add(rdbtnOff);
+        
+        
+        ButtonGroup g = new ButtonGroup();
+        g.add(rdbtnOff);
+        g.add(rdbtnOn);
         
         JSeparator separator_4 = new JSeparator();
         separator_4.setBounds(93, 57, 397, 2);

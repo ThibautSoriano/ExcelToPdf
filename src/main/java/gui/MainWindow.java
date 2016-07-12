@@ -319,7 +319,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         try {
             etpd.createPdf(excelPaths, "orbegozo.pdf",
-                    sections);
+                    sections, isp.getRdbtnOn().isSelected());
         } catch (IOException | DocumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
