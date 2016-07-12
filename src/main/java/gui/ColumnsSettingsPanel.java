@@ -300,8 +300,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     }
     
     
-    private void setListenerBoxClickable(List<JCheckBox> buttons, boolean rankings){
-        for (JCheckBox c : buttons) {
+    private void setListenerBoxClickable(List<JCheckBox> buttons, final boolean rankings){
+        for (final JCheckBox c : buttons) {
             c.addItemListener(new ItemListener() {
                 
                 @Override
