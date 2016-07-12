@@ -11,6 +11,20 @@ public  class CampaignRow {
     
     public static final int MAX_COLUMNS = 8;
     
+    public static final int IMPRESSIONS_INDEX = 0;
+    
+    public static final int UNIQUE_COOKIES_INDEX = 1;
+    
+    public static final int FREQUENCY_INDEX = 2;
+    
+    public static final int CLICKS_INDEX = 3;
+    
+    public static final int CLICKING_USERS_INDEX = 4;
+    
+    public static final int CLICK_THROUGH_RATE_INDEX = 5;
+    
+    public static final int UNIQUE_CTR_INDEX = 6;
+    
     protected String firstColumnData;
 
     protected int impressions;
@@ -39,30 +53,21 @@ public  class CampaignRow {
         return firstColumnData;
     }
 
-
-
-
     public void setFirstColumnData(String firstColumnData) {
         this.firstColumnData = firstColumnData;
     }
 
-
-
-
     public CampaignRow(String firstColumnData, int impressions, int uniqueCookies, float frequency, int clicks,
             int clickingUsers, Percentage clickThroughRate, Percentage uniqueCTR) {
-    this.firstColumnData = firstColumnData;
-    this.impressions = impressions;
-    this.uniqueCookies = uniqueCookies;
-    this.frequency = frequency;
-    this.clicks = clicks;
-    this.clickingUsers = clickingUsers;
-    this.clickThroughRate = clickThroughRate;
-    this.uniqueCTR = uniqueCTR;
-}
-    
-    
-    
+	    this.firstColumnData = firstColumnData;
+	    this.impressions = impressions;
+	    this.uniqueCookies = uniqueCookies;
+	    this.frequency = frequency;
+	    this.clicks = clicks;
+	    this.clickingUsers = clickingUsers;
+	    this.clickThroughRate = clickThroughRate;
+	    this.uniqueCTR = uniqueCTR;
+    }
     
     public int getImpressions() {
         return impressions;
@@ -183,4 +188,16 @@ public  class CampaignRow {
         return firstColumnData.replace("/","/\n");
     }
     
+    public List<Float> toListFloat() {
+        List<Float> l = new ArrayList<>();
+        l.add((float) impressions);
+        l.add((float) uniqueCookies);
+        l.add(frequency);
+        l.add((float) clicks);
+        l.add((float) clickingUsers);
+        l.add(clickThroughRate.getValue());
+        l.add(uniqueCTR.getValue());
+        
+        return l;
+    }
 }

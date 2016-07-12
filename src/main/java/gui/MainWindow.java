@@ -57,6 +57,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
         setBounds(200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
+        setTitle(Internationalization.getKey("Converter"));
 
         getContentPane().setLayout(null);
         

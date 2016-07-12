@@ -1,16 +1,11 @@
 package main.java.exceltopdf;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -19,7 +14,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -29,32 +23,16 @@ import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
  
 		public class BarChartCreator {
-			
-			private int nbElements;
 		 
-		    public JFreeChart getChart(List<CampaignRow> campaignRows) {
+		    public JFreeChart getChart(List<CampaignRow> campaignRows, int colIndex, String abscissa, String ordinate) {
 		        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//		        ExcelReaderRankings excelReader = new ExcelReaderRankings();
-//		        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
-		        // TODO : maximum?
-//		        int firstValue = excelSheet.getCampaignRows().get(0).getImpressions();
-		        if (campaignRows.size() > 1) {
-		        	
-		        }
+		        
 		        for (int i = 0; i < 5; i++) {
-		        	dataset.addValue(campaignRows.get(i).getImpressions(), campaignRows.get(i).getFirstColumnData(), "");
-		        	nbElements++;
+		        	dataset.addValue(campaignRows.get(i).toListFloat().get(colIndex), campaignRows.get(i).getFirstColumnData(), "");
 		        }
 		         
-		        JFreeChart chart = 
-		            ChartFactory.createBarChart3D("",             
-		                    "Ads",             
-		                    "Impressions",             
-		                    dataset,            
-		                    PlotOrientation.HORIZONTAL,             
+		        JFreeChart chart = ChartFactory.createBarChart3D("", ordinate, abscissa, dataset, PlotOrientation.HORIZONTAL,             
 		                    true, true, false);
-
-
 		        
 		        return chart;
 		    }
@@ -66,24 +44,24 @@ import main.java.excelreader.entities.ExcelSheet;
 		        try {
 		            document = new Document(PageSize.A4);
 		            writer = PdfWriter.getInstance(document, outputStream);
-		            HeaderFooter hf = new HeaderFooter(true, true, true, true, 1);
-		            hf.setLineInHeader("dias");
-		            hf.setLogoInHeader("C:/Users/user/Documents/Polytech/SI4/Hongrie/ExcelToPdf/src/main/resources/fleury-michon.png");
-		            writer.setPageEvent(hf);
+//		            HeaderFooter hf = new HeaderFooter(true, true, true, true, 1);
+//		            hf.setLineInHeader("dias");
+//		            hf.setLogoInHeader("C:/Users/user/Documents/Polytech/SI4/Hongrie/ExcelToPdf/src/main/resources/fleury-michon.png");
+//		            writer.setPageEvent(hf);
 		            ExcelReaderRankings excelReader = new ExcelReaderRankings();
 			        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
-		            document.setMargins(85, 85, 85, 113);
-		            document.open();
-		            JFreeChart chart = getChart(excelSheet.getCampaignRows());
-		            int width = 600;
-		            int height = (nbElements * 80) + 50;
-		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-
-		            					
-		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
-		            image.scalePercent(70);
-		            image.setAlignment(Image.MIDDLE);
-		            document.add(image);
+//		            document.setMargins(85, 85, 85, 113);
+//		            document.open();
+//		            JFreeChart chart = getChart(excelSheet.getCampaignRows());
+//		            int width = 600;
+//		            int height = (nbElements * 80) + 50;
+//		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+//
+//		            					
+//		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+//		            image.scalePercent(70);
+//		            image.setAlignment(Image.MIDDLE);
+//		            document.add(image);
 		            
 		            document.add(new Paragraph("\n\n\n"));
 		            boolean [] colsToPrint = {
@@ -102,8 +80,6 @@ import main.java.excelreader.entities.ExcelSheet;
 		            writer = null;
 		        } catch(DocumentException de) {
 		            throw de;
-		        } catch (IOException ioe) {
-		            throw ioe;
 		        } finally {
 		            //release resources
 		            if(null != document) {

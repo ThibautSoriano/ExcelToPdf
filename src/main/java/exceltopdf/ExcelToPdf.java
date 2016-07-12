@@ -9,6 +9,7 @@ import java.util.List;
 import org.jfree.chart.JFreeChart;
 
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -20,6 +21,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
@@ -50,7 +52,7 @@ public class ExcelToPdf {
         
         for (int i = 2; i < sections.size(); i++) {
         	ContentPage contentPage = (ContentPage) sections.get(i);
-        	
+        	System.out.println("je dois rentrer 2 FOIS");
         	if (contentPage.getExcelReader().getType().equals("Rankings")) {
         		excelSheetRankings = contentPage.getExcelReader().readExcelSheet(src.get((i-2)));
         		contentPage.setExcelSheet(excelSheetRankings);
@@ -61,7 +63,7 @@ public class ExcelToPdf {
         		content.add(contentPage);
         	}
             else {
-                System.err.println("xls not recognized");
+                System.err.println("c moi ou pas?xls not recognized");
             }
         }
         
@@ -89,6 +91,7 @@ public class ExcelToPdf {
 
     private void createContentPage(ContentPage contentPage) throws DocumentException, IOException {
     	BarChartCreator barChartCreator = new BarChartCreator();
+    	PieChartCreator pieChartCreator = new PieChartCreator();
     	Document document = new Document();
     	document.setMargins(85, 85, 85, 113);
     	String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
@@ -99,18 +102,55 @@ public class ExcelToPdf {
 		
 		document.open();
 	
-		document.add(new Paragraph(contentPage.getExcelReader().getType() + " chart\n\n"));
-		JFreeChart chart = barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows());
-        int width = 600;
-        int height = (5 * 80) + 50;
-        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-
-        					
-        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
-        image.scalePercent(70);
-        image.setAlignment(Image.MIDDLE);
-        document.add(image);
-        document.add(new Paragraph("\n\n\n"));
+		document.add(new Paragraph(contentPage.getExcelReader().getType() + " charts\n\n"));
+		
+		if (contentPage.getExcelReader().getType().equals("Rankings")) {
+			if (contentPage.isImpressions()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads"), writer));
+			}
+			if (contentPage.isUniqueCookies()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
+			}
+			if (contentPage.isFrequency()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
+			}
+			if (contentPage.isClicks()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks", "Ads"), writer));
+			}
+			if (contentPage.isClickingUsers()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads"), writer));
+			}
+			if (contentPage.isClickThroughRate()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads"), writer));
+			}
+			if (contentPage.isUniqueCTR()) {
+				document.add(getImagePie(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads"), writer));
+			}
+		}
+		
+		if (contentPage.getExcelReader().getType().equals("Technical")) {
+			if (contentPage.isImpressions()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county"), writer));
+			}
+			if (contentPage.isUniqueCookies()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county"), writer));
+			}
+			if (contentPage.isFrequency()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency per county"), writer));
+			}
+			if (contentPage.isClicks()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks per county"), writer));
+			}
+			if (contentPage.isClickingUsers()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county"), writer));
+			}
+			if (contentPage.isClickThroughRate()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county"), writer));
+			}
+			if (contentPage.isUniqueCTR()) {
+				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county"), writer));
+			}
+		}
         
         document.add(new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n"));
     	boolean [] colsToPrint = {
@@ -159,7 +199,7 @@ public class ExcelToPdf {
 		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionCustom, PageSize.A4.getHeight() - 505);
+		cb.moveText(xPositionCustom, 320);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(customArea);
 		cb.endText();
@@ -205,7 +245,7 @@ public class ExcelToPdf {
 		float xPosition = (PageSize.A4.getWidth() - toMeasureSize.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPosition, PageSize.A4.getHeight() - 335);
+		cb.moveText(xPosition, 490);
 		cb.setFontAndSize(bfBold, 16);
 		cb.showText(titlePage.getCampaignName());
 		cb.endText();
@@ -222,7 +262,7 @@ public class ExcelToPdf {
 		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionDates, PageSize.A4.getHeight() - 365);
+		cb.moveText(xPositionDates, 460);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(datesString);
 		cb.endText();
@@ -238,7 +278,7 @@ public class ExcelToPdf {
 		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
 		cb.saveState();
 		cb.beginText();
-		cb.moveText(xPositionCustom, PageSize.A4.getHeight() - 395);
+		cb.moveText(xPositionCustom, 430);
 		cb.setFontAndSize(bf, 12);
 		cb.showText(customArea);
 		cb.endText();
@@ -258,6 +298,28 @@ public class ExcelToPdf {
 		System.gc();
     }
     
+    public Image getImagePie(JFreeChart chart, PdfWriter writer) throws BadElementException, IOException {
+    	int width = 400;
+        int height = 400;
+        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+		
+        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+        image.scalePercent(70);
+        image.setAlignment(Image.MIDDLE);
+        
+        return image;
+    }
     
+    public Image getImageBar(JFreeChart chart, PdfWriter writer) throws BadElementException, IOException {
+    	int width = 600;
+        int height = 450;
+        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+		
+        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+        image.scalePercent(70);
+        image.setAlignment(Image.MIDDLE);
+        
+        return image;
+    }
     
 }

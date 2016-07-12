@@ -1,4 +1,3 @@
-
 package main.java.exceltopdf;
 
 import java.awt.image.BufferedImage;
@@ -7,9 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.itextpdf.text.Document;
@@ -19,35 +20,25 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
+import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
+
+public class PieChartCreator {
  
-		/**
-		 * Ugly demo of how to use jFreeChart
-		 * with iText. The output will have
-		 * the stair-case effect.
-		 * 
-		 * @author Jee Vang
-		 *
-		 */
-		public class PieChartCreator {
-		 
-		    public JFreeChart getChart() {
-		        DefaultPieDataset dataset = new DefaultPieDataset();
-		        ExcelReaderRankings excelReaderRankings = new ExcelReaderRankings();
-		        ExcelSheet excelSheet = excelReaderRankings.readExcelSheet("zhengqin.xls");
-		        for (int i = 0; i < 4; i++) {
-		        	dataset.setValue(excelSheet.getCampaignRows().get(i).getFirstColumnData(), excelSheet.getCampaignRows().get(i).getImpressions());
-		        }
-		         
-		        //use the ChartFactory to create a pie chart
-		        JFreeChart chart = 
-		            ChartFactory.createPieChart3D(
-		                    "Impressions per picture", dataset, true, true, false);
+    public JFreeChart getChart(List<CampaignRow> campaignRows, int colIndex, String title) {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        
+        for (int i = 0; i < 5; i++) {
+        	dataset.setValue(campaignRows.get(i).getFirstColumnData(), campaignRows.get(i).toListFloat().get(colIndex));
+        }
+        
+        JFreeChart chart = ChartFactory.createPieChart3D(title, dataset, true, true, false);
 
-
-		        
-		        return chart;
-		    }
+        PiePlot3D plot = (PiePlot3D) chart.getPlot();
+        plot.setLabelGenerator(null);
+        
+        return chart;
+    }
 		     
 		    /**
 		     * Creates PDf file.
@@ -67,13 +58,17 @@ import main.java.excelreader.entities.ExcelSheet;
 		            //open document
 		            document.open();
 		             
-		            //add image
-		            int width = 400;
-		            int height = 300;
-		            JFreeChart chart = getChart();
-		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
-		            document.add(image);
+//		            //add image
+//		            int width = 400;
+//		            int height = 400;
+//		            JFreeChart chart = getChart();
+//		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+//
+//					
+//		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+//		            image.scalePercent(70);
+//		            image.setAlignment(Image.MIDDLE);
+//		            document.add(image);
 		             
 		            //release resources
 		            document.close();
@@ -83,8 +78,6 @@ import main.java.excelreader.entities.ExcelSheet;
 		            writer = null;
 		        } catch(DocumentException de) {
 		            throw de;
-		        } catch (IOException ioe) {
-		            throw ioe;
 		        } finally {
 		            //release resources
 		            if(null != document) {
