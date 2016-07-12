@@ -1,13 +1,13 @@
 package main.java.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Container;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,16 +15,12 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -43,13 +39,8 @@ import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Language;
 import main.java.utils.Message;
-import main.java.utils.Utils;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame implements IMainFrame {
 
     private List<SettingsChoicePanel> panels;
@@ -232,7 +223,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                 tsp.getChckbxHeader().isSelected(),
                 tsp.getChckbxSeparatorLineBelowHeader().isSelected(),
                 tsp.getChckbxFooter().isSelected(),
-                tsp.getChckbxSeparatorLineAboveFooter().isSelected(), positionPageCount);
+                tsp.getChckbxSeparatorLineAboveFooter().isSelected(), HeaderFooter.NO_PAGE_COUNT);
 
         hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfTitle.setLineInHeader(gsp.getTxtWebsite().getText());
@@ -252,7 +243,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                 isp.getChckbxHeader().isSelected(),
                 isp.getChckbxSeparatorLineBelow().isSelected(),
                 isp.getChckbxFooter().isSelected(),
-                isp.getChckbxSeparatorLineAbove().isSelected(),positionPageCount );
+                isp.getChckbxSeparatorLineAbove().isSelected(), HeaderFooter.NO_PAGE_COUNT);
 
         hfInsert.setLineInHeader(gsp.getTxtWebsite().getText());
         hfInsert.setLineInFooter(gsp.getTxtBottomLeftText().getText());
@@ -276,7 +267,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             String src = jTextField.getText();
             if (!src.isEmpty()) {
                 ContentPage contentPage = null;
-                ExcelReader excelReader = null;
+                @SuppressWarnings("unused")
+				ExcelReader excelReader = null;
                 
                 if (src.contains("Rankings")) {
                     excelReader = new ExcelReaderRankings();
@@ -323,7 +315,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         
 
         try {
-            etpd.createPdf(excelPaths, "meruguez.pdf",
+            etpd.createPdf(excelPaths, "orbegozo.pdf",
                     sections);
         } catch (IOException | DocumentException e) {
             // TODO Auto-generated catch block

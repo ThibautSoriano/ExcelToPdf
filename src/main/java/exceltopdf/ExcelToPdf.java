@@ -1,10 +1,13 @@
 package main.java.exceltopdf;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jfree.chart.JFreeChart;
 
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.text.Chunk;
@@ -12,6 +15,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -109,6 +113,7 @@ public class ExcelToPdf {
    
 
     private void createContentPage(ContentPage contentPage) throws DocumentException, IOException {
+    	BarChartCreator barChartCreator = new BarChartCreator();
     	Document document = new Document();
     	document.setMargins(85, 85, 85, 113);
     	String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
@@ -118,6 +123,39 @@ public class ExcelToPdf {
 		writer.setPageEvent(contentPage.getStructure());
 		
 		document.open();
+		
+		if (excelSheetRankings != null) {
+			document.add(new Paragraph("Rankings chart"));
+			JFreeChart chart = barChartCreator.getChart(excelSheetRankings.getCampaignRows());
+	        int width = 600;
+	        int height = (5 * 80) + 50;
+	        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+
+	        					
+	        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+	        image.scalePercent(70);
+	        image.setAlignment(Image.MIDDLE);
+	        document.add(image);
+	        document.add(new Paragraph("\n\n\n"));
+		}
+		
+		if (excelSheetTechnical != null) {
+			document.add(new Paragraph("Technical chart"));
+			JFreeChart chart = barChartCreator.getChart(excelSheetTechnical.getCampaignRows());
+	        int width = 600;
+	        int height = (5 * 80) + 50;
+	        BufferedImage bufferedImage = chart.createBufferedImage(width, height);
+
+	        					
+	        Image image = Image.getInstance(writer, bufferedImage, 1.0f);
+	        image.scalePercent(70);
+	        image.setAlignment(Image.MIDDLE);
+	        document.add(image);
+	        document.add(new Paragraph("\n\n\n"));
+		}
+        
+        
+		
     	boolean [] colsToPrint = {
     			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
                 contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),

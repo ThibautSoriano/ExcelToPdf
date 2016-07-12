@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -24,23 +25,24 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import main.java.excelreader.ExcelReaderRankings;
+import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
  
 		public class BarChartCreator {
 			
 			private int nbElements;
 		 
-		    public JFreeChart getChart() {
+		    public JFreeChart getChart(List<CampaignRow> campaignRows) {
 		        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		        ExcelReaderRankings excelReader = new ExcelReaderRankings();
-		        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
+//		        ExcelReaderRankings excelReader = new ExcelReaderRankings();
+//		        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
 		        // TODO : maximum?
-		        int firstValue = excelSheet.getCampaignRows().get(0).getImpressions();
-		        if (excelSheet.getCampaignRows().size() > 1) {
+//		        int firstValue = excelSheet.getCampaignRows().get(0).getImpressions();
+		        if (campaignRows.size() > 1) {
 		        	
 		        }
 		        for (int i = 0; i < 5; i++) {
-		        	dataset.addValue(excelSheet.getCampaignRows().get(i).getImpressions(), excelSheet.getCampaignRows().get(i).getFirstColumnData(), "");
+		        	dataset.addValue(campaignRows.get(i).getImpressions(), campaignRows.get(i).getFirstColumnData(), "");
 		        	nbElements++;
 		        }
 		         
@@ -66,20 +68,18 @@ import main.java.excelreader.entities.ExcelSheet;
 		            writer = PdfWriter.getInstance(document, outputStream);
 		            HeaderFooter hf = new HeaderFooter(true, true, true, true, 1);
 		            hf.setLineInHeader("dias");
+		            hf.setLogoInHeader("C:/Users/user/Documents/Polytech/SI4/Hongrie/ExcelToPdf/src/main/resources/fleury-michon.png");
 		            writer.setPageEvent(hf);
-		            
+		            ExcelReaderRankings excelReader = new ExcelReaderRankings();
+			        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
 		            document.setMargins(85, 85, 85, 113);
-		            System.out.println(new SimpleDateFormat("HH:mm:ss:ms").format(Calendar.getInstance().getTime()));
 		            document.open();
-		            JFreeChart chart = getChart();
+		            JFreeChart chart = getChart(excelSheet.getCampaignRows());
 		            int width = 600;
 		            int height = (nbElements * 80) + 50;
 		            BufferedImage bufferedImage = chart.createBufferedImage(width, height);
 
-		            
-					File outputfile = new File("PUTE YU KAIWEN OMGGGGG.png");
-					ImageIO.write(bufferedImage, "png", outputfile);
-					
+		            					
 		            Image image = Image.getInstance(writer, bufferedImage, 1.0f);
 		            image.scalePercent(70);
 		            image.setAlignment(Image.MIDDLE);
@@ -90,8 +90,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		                    true,true,true,true,true,true,true,false
 		            };
 		            
-		            ExcelReaderRankings excelReader = new ExcelReaderRankings();
-			        ExcelSheet excelSheet = excelReader.readExcelSheet("zhengqinRankings.xls");
+		            
 		            TabCreator tc = new TabCreator(excelSheet);
 		            document.add(tc.createTabCampaign(excelSheet.getCampaignRows(),excelSheet.getColumsLabels(),excelSheet.getAll(),colsToPrint,true));
 		            
