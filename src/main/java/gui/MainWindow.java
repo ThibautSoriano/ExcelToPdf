@@ -2,6 +2,7 @@ package main.java.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -54,11 +55,11 @@ public class MainWindow extends JFrame implements IMainFrame {
     public MainWindow() {
 
         setResizable(false);
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
         setBounds(200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         getContentPane().setLayout(null);
-
+        
         createPanels(0);
 
         np = new NavigationPanel(this);
@@ -113,6 +114,12 @@ public class MainWindow extends JFrame implements IMainFrame {
         menuBar.add(mnFile);
 
         JMenuItem mntmExit = new JMenuItem("Exit");
+        mntmExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
         mnFile.add(mntmExit);
 
         JMenu mnSettings = new JMenu("Settings");
@@ -161,7 +168,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     public static void openFileChooser(final FileType fileType,
-            final JTextField field) {
+        final JTextField field) {
         final JFrame frame = new JFrame(
                 Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
@@ -258,16 +265,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         List<String> excelPaths = new ArrayList<String>();
         List<JTextField> fields = mwp.getFields();
         
-        int i = 0;
         for (JTextField jTextField : fields) {
-            
-            if (++i == 2)
-                break;
-            
             String src = jTextField.getText();
             if (!src.isEmpty()) {
                 ContentPage contentPage = null;
-                @SuppressWarnings("unused")
 				ExcelReader excelReader = null;
                 
                 if (src.contains("Rankings")) {
@@ -309,6 +310,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                 hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
                 hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
                 contentPage.setStructure(hfContent);
+                contentPage.setExcelReader(excelReader);
                 sections.add(contentPage);
             }
         }

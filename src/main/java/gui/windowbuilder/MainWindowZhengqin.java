@@ -35,6 +35,7 @@ import main.java.utils.Internationalization;
 import main.java.utils.Utils;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
 
 public class MainWindowZhengqin {
 
@@ -82,6 +83,7 @@ public class MainWindowZhengqin {
 	 */
 	private void initialize() {
 		frmConverter = new JFrame();
+		frmConverter.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\user\\Documents\\Polytech\\SI4\\Hongrie\\ExcelToPdf\\src\\main\\resources\\icon.png"));
 		frmConverter.setTitle(Internationalization.getKey("Converter"));
 		frmConverter.setBounds(200, 100, 600, 500);
 		
@@ -189,6 +191,12 @@ public class MainWindowZhengqin {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
 		mnFile.add(mntmExit);
 		
 		JMenu mnSettings = new JMenu("Settings");
