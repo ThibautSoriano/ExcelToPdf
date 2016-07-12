@@ -66,7 +66,7 @@ public class TabCreator {
         // For all the rows
         for (int i = 0; i < campaignRows.size(); i++) {
 
-            if (!(hideEmptyLines && campaignRows.get(i).isEmpty())) {
+            if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
 
                 List<String> l = campaignRows.get(i).toList();
                 for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {

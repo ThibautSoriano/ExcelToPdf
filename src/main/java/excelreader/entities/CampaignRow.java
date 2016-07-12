@@ -200,4 +200,8 @@ public  class CampaignRow {
         
         return l;
     }
+    
+    public boolean isRelevant() {
+        return  (!"Unrecognized".equals(firstColumnData)) && !isEmpty();
+    }
 }

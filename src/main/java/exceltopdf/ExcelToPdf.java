@@ -42,7 +42,9 @@ public class ExcelToPdf {
 	private static final int INSERT_PAGE = 1;
 	public static int CURRENT_PAGE_NUMBER = 0;
 
-    private ExcelSheet excelSheetRankings;
+    private String campaignName = "";
+    private String startDate = "";
+    private String endDate = "";
     private List<ContentPage> content = new ArrayList<>();
 
     public void createPdf(List<String> src, String dest, List<Section> sections)
@@ -54,13 +56,18 @@ public class ExcelToPdf {
         	ContentPage contentPage = (ContentPage) sections.get(i);
         	System.out.println("je dois rentrer 2 FOIS");
         	if (contentPage.getExcelReader().getType().equals("Rankings")) {
-        		excelSheetRankings = contentPage.getExcelReader().readExcelSheet(src.get((i-2)));
-        		contentPage.setExcelSheet(excelSheetRankings);
+        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
         		content.add(contentPage);
+        		campaignName = contentPage.getExcelSheet().getCampaignName();
+        		startDate = contentPage.getExcelSheet().getStartDate();
+        		endDate = contentPage.getExcelSheet().getEndDate();
         	}
         	if (contentPage.getExcelReader().getType().equals("Technical")) {
         		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
         		content.add(contentPage);
+        		campaignName = contentPage.getExcelSheet().getCampaignName();
+                        startDate = contentPage.getExcelSheet().getStartDate();
+                        endDate = contentPage.getExcelSheet().getEndDate();
         	}
             else {
                 System.err.println("c moi ou pas?xls not recognized");
@@ -69,9 +76,9 @@ public class ExcelToPdf {
         
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
         
-        titlePage.setCampaignName(excelSheetRankings.getCampaignName());
-        titlePage.setStartDate(excelSheetRankings.getStartDate());
-        titlePage.setEndDate(excelSheetRankings.getEndDate());
+        titlePage.setCampaignName(campaignName);
+        titlePage.setStartDate(startDate);
+        titlePage.setEndDate(endDate);
         createTitlePage(titlePage);
         
         

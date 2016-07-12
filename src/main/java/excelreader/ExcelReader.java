@@ -20,15 +20,18 @@ public abstract class ExcelReader {
 	protected ExcelSheet excelSheet;
     
 	protected String type = "";
+	
+	
 
     protected HSSFSheet sheet;
     
     protected DocumentStructure documentStructure;
     
+
     /**
      * Fill the excelSheet attribute with data from the excel file
      */
-    public abstract void fillExcelSheet();
+    public abstract void fillExcelSheet(String filePath);
     
     /**
      * @return the ExcelSheet with fields filled in
@@ -43,7 +46,7 @@ public abstract class ExcelReader {
             // reading the first sheet (there is only one)
             sheet = workbook.getSheetAt(0);
 
-            fillExcelSheet(); 
+            fillExcelSheet(filePath); 
 
             workbook.close();
 

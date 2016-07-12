@@ -8,7 +8,7 @@ import main.java.excelreader.entities.ExcelSheet;
 public class ExcelReaderRankings extends ExcelReader {
     
     @Override
-    public void fillExcelSheet() {
+    public void fillExcelSheet(String filePath) {
         readCampaignName();
         super.readStartDate();
         super.readEndDate();
