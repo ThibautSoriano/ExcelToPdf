@@ -94,7 +94,7 @@ public class TabCreator {
                         
                         
                         if (j ==0)
-                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(2)),font);
+                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(colsNumber)),font);
                         else
                             p = new Paragraph(l.get(j), font);
                         
@@ -146,10 +146,12 @@ public class TabCreator {
             if (cpt> maxLength && firstColumnData.charAt(i) == '/') {
                 res.append("/\n");
                 cpt = 0;
+                
             }
             else
                 res.append(firstColumnData.charAt(i));
             cpt++;
+            
             
         }
         return res.toString();

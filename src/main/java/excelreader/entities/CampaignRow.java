@@ -153,7 +153,7 @@ public  class CampaignRow {
     
     public List<String> toList() {
         List<String> l = new ArrayList<String>();
-        l.add(splitFirstColumnData());
+        l.add(firstColumnData);
         l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
         l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
         
@@ -184,9 +184,7 @@ public  class CampaignRow {
        
     }
     
-    private String splitFirstColumnData() {
-        return firstColumnData.replace("/","/\n");
-    }
+    
     
     public List<Float> toListFloat() {
         List<Float> l = new ArrayList<>();
