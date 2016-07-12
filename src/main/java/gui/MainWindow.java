@@ -277,11 +277,11 @@ public class MainWindow extends JFrame implements IMainFrame {
                     contentPage = new ContentPage(
                             csp.getChckbxImpressionsRankings().isSelected(),
                             csp.getChckbxUniqueCookiesRankings().isSelected(),
-                            csp.getChckbxFrequencyTechnical().isSelected(),
+                            csp.getChckbxFrequencyRankings().isSelected(),
                             csp.getChckbxClicksRankings().isSelected(),
                             csp.getChckbxClickingUsersRankings().isSelected(),
                             csp.getChckbxClickThroughRateRankings().isSelected(),
-                            csp.getChckbxUniqueCTRTechnical().isSelected());
+                            csp.getChckbxUniqueCTRRankings().isSelected());
                 }
                 else if (src.contains("Technical")) {
                     excelReader = new ExcelReaderTechnical();
@@ -304,9 +304,9 @@ public class MainWindow extends JFrame implements IMainFrame {
 
                 HeaderFooter hfContent = new HeaderFooter(
                         gsp.getChckbxHeader().isSelected(),
-                        gsp.getChckbxFooterLine().isSelected(),
+                        gsp.getChckbxHeaderLine().isSelected(),
                         gsp.getChckbxFooter().isSelected(),
-                        gsp.getChckbxHeaderLine().isSelected(),positionPageCount);
+                        gsp.getChckbxFooterLine().isSelected(),positionPageCount);
                 hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
                 hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
                 hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
