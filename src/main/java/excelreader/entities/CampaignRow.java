@@ -3,6 +3,8 @@ package main.java.excelreader.entities;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import main.java.utils.Percentage;
@@ -202,4 +204,28 @@ public  class CampaignRow {
     public boolean isRelevant() {
         return  (!"Unrecognized".equals(firstColumnData)) && !isEmpty();
     }
+    
+    public static List<CampaignRow> sortBy(List<CampaignRow> listToSort, final int index) {
+    	Collections.sort(listToSort, new Comparator<CampaignRow>() {
+			@Override
+			public int compare(CampaignRow cr1, CampaignRow cr2) {
+				float field1 = cr1.toListFloat().get(index);
+				float field2 = cr2.toListFloat().get(index);
+				
+				if (field1 - field2 > 0) {
+					return -1;
+				}
+				else if (field1 == field2) {
+					return 0;
+				}
+				else {
+					return 1;
+				}
+				
+			}
+	    });
+    	
+    	return listToSort;
+    }
+    
 }

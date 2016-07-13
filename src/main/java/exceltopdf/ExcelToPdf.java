@@ -22,7 +22,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import main.java.excelreader.entities.CampaignRow;
-import main.java.excelreader.entities.ExcelSheet;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
@@ -30,10 +29,7 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.Utils;
 
 public class ExcelToPdf {
-
-    public static final String DEST = "meurguez.pdf";
-    public static final String SRC = "./src/main/resources/Pannontej_Medve_nyar_July,Rankings,2016.06.27-2016.07.10_1467200027.xls";
-    public static final String LOGO = "./src/main/resources/logo.png";
+	
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
@@ -54,15 +50,13 @@ public class ExcelToPdf {
         
         for (int i = 2; i < sections.size(); i++) {
         	ContentPage contentPage = (ContentPage) sections.get(i);
-        	System.out.println("je dois rentrer 2 FOIS");
         	if (contentPage.getExcelReader().getType().equals("Rankings")) {
         		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
         		content.add(contentPage);
         		campaignName = contentPage.getExcelSheet().getCampaignName();
         		startDate = contentPage.getExcelSheet().getStartDate();
         		endDate = contentPage.getExcelSheet().getEndDate();
-        	}
-        	if (contentPage.getExcelReader().getType().equals("Technical")) {
+        	} else if (contentPage.getExcelReader().getType().equals("Technical")) {
         		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
         		content.add(contentPage);
         		campaignName = contentPage.getExcelSheet().getCampaignName();
@@ -70,7 +64,7 @@ public class ExcelToPdf {
                         endDate = contentPage.getExcelSheet().getEndDate();
         	}
             else {
-                System.err.println("c moi ou pas?xls not recognized");
+                System.err.println("xls not recognized");
             }
         }
         
@@ -112,53 +106,59 @@ public class ExcelToPdf {
 	
 		document.add(new Paragraph(contentPage.getExcelReader().getType() + " charts\n\n"));
 		
+		List<CampaignRow> rows = contentPage.getExcelSheet().getCampaignRows();
+		
 		if (contentPage.getExcelReader().getType().equals("Rankings")) {
 			if (contentPage.isImpressions()) {
 				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads"), writer));
 			}
 			if (contentPage.isUniqueCookies()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
 			}
 			if (contentPage.isFrequency()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
 			}
 			if (contentPage.isClicks()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks", "Ads"), writer));
 			}
 			if (contentPage.isClickingUsers()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads"), writer));
 			}
 			if (contentPage.isClickThroughRate()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads"), writer));
 			}
 			if (contentPage.isUniqueCTR()) {
-				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads"), writer));
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads"), writer));
 			}
-		}
+		}		
 		
 		if (contentPage.getExcelReader().getType().equals("Technical")) {
 			if (contentPage.isImpressions()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(rows, CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", true), writer));
 			}
 			if (contentPage.isUniqueCookies()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", true), writer));
 			}
 			if (contentPage.isFrequency()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.FREQUENCY_INDEX, "Frequency per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true), writer));
 			}
 			if (contentPage.isClicks()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKS_INDEX, "Clicks per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks per county", true), writer));
 			}
 			if (contentPage.isClickingUsers()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county", true), writer));
 			}
 			if (contentPage.isClickThroughRate()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county", true), writer));
 			}
 			if (contentPage.isUniqueCTR()) {
-				document.add(getImagePie(pieChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county"), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true), writer));
 			}
 		}
+		
+		
+		document.newPage();
+		writer.setPageEmpty(false);
         
 		Paragraph p = new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n");
     	boolean [] colsToPrint = {

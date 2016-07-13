@@ -168,7 +168,6 @@ public class HeaderFooter extends PdfPageEventHelper {
     				
     				float xPositionPage = PageSize.A4.getWidth() - 85 - toMeasurePage.getWidthPoint();
     				PdfContentByte cb = writer.getDirectContent();
-    				System.out.println("numerotation page yu kaiwen : " + xPositionPage);
     				cb.saveState();
     				cb.beginText();
     				cb.moveText(xPositionPage, 60);
