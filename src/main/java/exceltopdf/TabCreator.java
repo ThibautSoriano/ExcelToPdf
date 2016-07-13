@@ -3,13 +3,18 @@ package main.java.exceltopdf;
 import java.awt.Color;
 import java.util.List;
 
+import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPTableEvent;
 
 import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
@@ -35,6 +40,8 @@ public class TabCreator {
     public PdfPTable createTabCampaign(List<CampaignRow> campaignRows, List<String> headers,CampaignRow all,boolean[] colsToPrint,
             boolean hideEmptyLines) {
 
+        CampaignRow.sortBy(campaignRows, getIndexFromColsToPrint(colsToPrint));
+        
         if (colsToPrint.length < CampaignRow.MAX_COLUMNS) {
             System.err.println("Wrong tab size in createTabCampaign. Must be "
                     + CampaignRow.MAX_COLUMNS + " at least.");
@@ -67,6 +74,7 @@ public class TabCreator {
                 if (j==0)
                     cell.setColspan(2);
 
+               
                 table.addCell(cell);
 
             }
@@ -147,6 +155,14 @@ public class TabCreator {
     }
     
     
+    private int getIndexFromColsToPrint(boolean[] colsToPrint) {
+        for (int i = 1; i< colsToPrint.length; i++){
+            if (colsToPrint[i])
+                return i-1;
+        }
+        return 0;
+    }
+
     private String splitFirstColumnData(String firstColumnData, int maxLength) {
         StringBuilder res = new StringBuilder();
         int cpt = 0;
@@ -171,4 +187,11 @@ public class TabCreator {
         
         return (int) -6.67*colsNumber + 50;
     }
+    
+    
+    
+    
+
+        
+   
 }
