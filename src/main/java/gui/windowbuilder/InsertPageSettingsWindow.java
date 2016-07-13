@@ -10,6 +10,8 @@ import java.awt.Window.Type;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
+import java.awt.FlowLayout;
+import java.awt.Color;
 
 public class InsertPageSettingsWindow {
 
@@ -113,5 +115,11 @@ public class InsertPageSettingsWindow {
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(93, 57, 397, 2);
 		panel.add(separator_4);
+		
+		JPanel panel_1 = new JPanel();
+		
+//		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		panel_1.setBounds(68, 133, 440, 241);
+		panel.add(panel_1);
 	}
 }
