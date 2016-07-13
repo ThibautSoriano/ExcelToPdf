@@ -15,7 +15,7 @@ public class ExcelReaderTechnical extends ExcelReader{
     @Override
     public void fillExcelSheet(String filePath) {
         
-        excelSheet.setCampaignName(new File(filePath).getName().split("%")[0]);
+        excelSheet.setCampaignName(new File(filePath).getName().split("[%,]")[0]);
         readStartDate();
         readEndDate();
         super.readCampaignRows();
