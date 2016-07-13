@@ -2,14 +2,13 @@ package main.java.gui.windowbuilder;
 
 import java.awt.EventQueue;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JCheckBox;
-import javax.swing.JTabbedPane;
 import javax.swing.JSeparator;
-import javax.swing.event.ChangeListener;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class MeurguesWindow {
 

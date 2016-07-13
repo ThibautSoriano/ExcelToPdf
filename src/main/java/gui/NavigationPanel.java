@@ -1,17 +1,12 @@
 package main.java.gui;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class NavigationPanel extends JPanel implements ActionListener{

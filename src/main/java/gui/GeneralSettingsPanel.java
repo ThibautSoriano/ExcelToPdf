@@ -1,6 +1,5 @@
 package main.java.gui;
 
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -9,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -19,10 +17,9 @@ import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public class GeneralSettingsPanel extends SettingsChoicePanel{
-
-    
-    
+	
     private JTextField txtLogo;
     private JTextField txtBottomLeftText;
     private JRadioButton rdbtnBottomCenter;

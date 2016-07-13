@@ -1,30 +1,24 @@
 package main.java.gui;
 
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import main.java.gui.windowbuilder.MainWindowZhengqin;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
-import main.java.utils.Utils;
 
+@SuppressWarnings("serial")
 public class MainWindowPanel extends SettingsChoicePanel {
 
     private List<JTextField> fields;

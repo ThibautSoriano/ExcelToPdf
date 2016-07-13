@@ -1,20 +1,14 @@
 package main.java.exceltopdf;
 
-import java.awt.Color;
 import java.util.List;
 
-import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPTableEvent;
 
 import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.ExcelSheet;
