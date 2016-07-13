@@ -1,5 +1,6 @@
 package main.java.exceltopdf;
 
+import java.awt.Color;
 import java.util.List;
 
 import com.itextpdf.text.BaseColor;
@@ -16,10 +17,18 @@ import main.java.utils.Utils;
 
 public class TabCreator {
 
+    private BaseColor headerColor;
+    private BaseColor lastLineColor;
+    private BaseColor bestRowsColor;
+    private BaseColor worstRowsColor;
     
 
     public TabCreator(ExcelSheet excelSheet) {
         super();
+        headerColor = new BaseColor(7, 167, 227);
+        lastLineColor = new BaseColor(7, 167, 227);
+        bestRowsColor = new BaseColor(255,255,255);
+        worstRowsColor = new BaseColor(190, 190, 190);
         
     }
 
@@ -51,7 +60,7 @@ public class TabCreator {
                 PdfPCell cell = new PdfPCell();
                 cell.setPaddingBottom(15);
 
-                cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                cell.setBackgroundColor(headerColor);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.addElement(para);
                 
@@ -84,23 +93,22 @@ public class TabCreator {
 
                         
                         if (j==0)
-                            cell.setColspan(2);
-                        
-                       
+                            cell.setColspan(2);                      
                         
                         Paragraph p = null;
-                        
-                       
-                        
+   
                         
                         if (j ==0)
                              p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(colsNumber)),font);
-                        else
+                        else {
                             p = new Paragraph(l.get(j), font);
-                        
-                        if (j != 0)
                             p.setAlignment(Element.ALIGN_CENTER);
+                        }
 
+                        if (i<=5)
+                            cell.setBackgroundColor(bestRowsColor);
+                        else
+                            cell.setBackgroundColor(worstRowsColor);
                         
                         cell.addElement(p);
                         
@@ -126,7 +134,7 @@ public class TabCreator {
                 cell.addElement(p);
                 cell.setPaddingBottom(10);
                 cell.setPaddingTop(0);
-                cell.setBackgroundColor(new BaseColor(7, 167, 227));
+                cell.setBackgroundColor(lastLineColor);
                 
                 if (j==0)
                     cell.setColspan(2);
