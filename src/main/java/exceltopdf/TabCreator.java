@@ -105,7 +105,7 @@ public class TabCreator {
                             p.setAlignment(Element.ALIGN_CENTER);
                         }
 
-                        if (i<=5)
+                        if (i<5)
                             cell.setBackgroundColor(bestRowsColor);
                         else
                             cell.setBackgroundColor(worstRowsColor);
