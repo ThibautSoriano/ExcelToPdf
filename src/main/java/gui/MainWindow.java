@@ -51,21 +51,22 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static final int WINDOW_HEIGHT = 500;
 
     private static final int WINDOW_WIDTH = 600;
-
+    
     public MainWindow() {
-
+        
         setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
+        setIconImage(Toolkit.getDefaultToolkit()
+                .getImage(getClass().getResource("/icon.png")));
         setBounds(200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
         setTitle(Internationalization.getKey("Converter"));
 
         getContentPane().setLayout(null);
-        
+
         createPanels(0);
 
         np = new NavigationPanel(this);
         np.hidePreviousButton();
-        
+
         getContentPane().add(np);
 
         addMenu();
@@ -83,8 +84,10 @@ public class MainWindow extends JFrame implements IMainFrame {
             e1.printStackTrace();
         }
 
+        
         new MainWindow();
-
+       
+        
     }
 
     public void showNextPanel() {
@@ -116,11 +119,11 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         JMenuItem mntmExit = new JMenuItem("Exit");
         mntmExit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				System.exit(0);
-			}
-		});
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                System.exit(0);
+            }
+        });
         mnFile.add(mntmExit);
 
         JMenu mnSettings = new JMenu("Settings");
@@ -145,12 +148,12 @@ public class MainWindow extends JFrame implements IMainFrame {
 
                     getContentPane().remove(np);
                     np = np.getNewInstance();
-                    
+
                     if (currentPanel == 0)
                         np.hidePreviousButton();
-                    else if (currentPanel == panels.size() -1)
+                    else if (currentPanel == panels.size() - 1)
                         np.showValidateButton();
-                    
+
                     getContentPane().add(np);
 
                     rdbtnmntm.setSelected(true);
@@ -169,7 +172,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     public static void openFileChooser(final FileType fileType,
-        final JTextField field) {
+            final JTextField field) {
         final JFrame frame = new JFrame(
                 Internationalization.getKey("JFileChooser Popup"));
         Container contentPane = frame.getContentPane();
@@ -207,8 +210,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         frame.setVisible(true);
     }
 
-
-     @Override
+    @Override
     public void validation() {
 
         ExcelToPdf etpd = new ExcelToPdf();
@@ -219,10 +221,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
         InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(3);
         ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
-        
-        
-        int positionPageCount = gsp.getRdbtnBottomCenter().isSelected() ? HeaderFooter.PAGE_COUNT_MIDDLE : HeaderFooter.PAGE_COUNT_RIGHT; 
-        
+
+        int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
+                ? HeaderFooter.PAGE_COUNT_MIDDLE
+                : HeaderFooter.PAGE_COUNT_RIGHT;
 
         // Infos for the title page
         TitlePage tp = new TitlePage();
@@ -231,7 +233,8 @@ public class MainWindow extends JFrame implements IMainFrame {
                 tsp.getChckbxHeader().isSelected(),
                 tsp.getChckbxSeparatorLineBelowHeader().isSelected(),
                 tsp.getChckbxFooter().isSelected(),
-                tsp.getChckbxSeparatorLineAboveFooter().isSelected(), HeaderFooter.NO_PAGE_COUNT);
+                tsp.getChckbxSeparatorLineAboveFooter().isSelected(),
+                HeaderFooter.NO_PAGE_COUNT);
 
         hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfTitle.setLineInHeader(gsp.getTxtWebsite().getText());
@@ -240,10 +243,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
         sections.add(tp);
 
-        
-            
-       
-        
         // Infos for the insert page
         InsertPage ip = new InsertPage();
 
@@ -251,7 +250,8 @@ public class MainWindow extends JFrame implements IMainFrame {
                 isp.getChckbxHeader().isSelected(),
                 isp.getChckbxSeparatorLineBelow().isSelected(),
                 isp.getChckbxFooter().isSelected(),
-                isp.getChckbxSeparatorLineAbove().isSelected(), HeaderFooter.NO_PAGE_COUNT);
+                isp.getChckbxSeparatorLineAbove().isSelected(),
+                HeaderFooter.NO_PAGE_COUNT);
 
         hfInsert.setLineInHeader(gsp.getTxtWebsite().getText());
         hfInsert.setLineInFooter(gsp.getTxtBottomLeftText().getText());
@@ -265,13 +265,13 @@ public class MainWindow extends JFrame implements IMainFrame {
         // Columns choice settings
         List<String> excelPaths = new ArrayList<String>();
         List<JTextField> fields = mwp.getFields();
-        
+
         for (JTextField jTextField : fields) {
             String src = jTextField.getText();
             if (!src.isEmpty()) {
                 ContentPage contentPage = null;
-				ExcelReader excelReader = null;
-                
+                ExcelReader excelReader = null;
+
                 if (src.contains("Rankings")) {
                     excelReader = new ExcelReaderRankings();
                     contentPage = new ContentPage(
@@ -280,33 +280,34 @@ public class MainWindow extends JFrame implements IMainFrame {
                             csp.getChckbxFrequencyRankings().isSelected(),
                             csp.getChckbxClicksRankings().isSelected(),
                             csp.getChckbxClickingUsersRankings().isSelected(),
-                            csp.getChckbxClickThroughRateRankings().isSelected(),
+                            csp.getChckbxClickThroughRateRankings()
+                                    .isSelected(),
                             csp.getChckbxUniqueCTRRankings().isSelected());
-                }
-                else if (src.contains("Technical")) {
+                } else if (src.contains("Technical")) {
                     excelReader = new ExcelReaderTechnical();
-                     contentPage = new ContentPage(
+                    contentPage = new ContentPage(
                             csp.getChckbxImpressionsTechnical().isSelected(),
                             csp.getChckbxUniqueCookiesTechnical().isSelected(),
                             csp.getChckbxFrequencyTechnical().isSelected(),
                             csp.getChckbxClicksTechnical().isSelected(),
                             csp.getChckbxClickingUsersTechnical().isSelected(),
-                            csp.getChckbxClickThroughRateTechnical().isSelected(),
+                            csp.getChckbxClickThroughRateTechnical()
+                                    .isSelected(),
                             csp.getChckbxUniqueCTRTechnical().isSelected());
-                    
-                }
-                else {
+
+                } else {
                     System.err.println("xls not recognized");
                     return;
                 }
-                
+
                 excelPaths.add(src);
 
                 HeaderFooter hfContent = new HeaderFooter(
                         gsp.getChckbxHeader().isSelected(),
                         gsp.getChckbxHeaderLine().isSelected(),
                         gsp.getChckbxFooter().isSelected(),
-                        gsp.getChckbxFooterLine().isSelected(),positionPageCount);
+                        gsp.getChckbxFooterLine().isSelected(),
+                        positionPageCount);
                 hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
                 hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
                 hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
@@ -315,11 +316,10 @@ public class MainWindow extends JFrame implements IMainFrame {
                 sections.add(contentPage);
             }
         }
-        
 
         try {
-            etpd.createPdf(excelPaths, "orbegozo.pdf",
-                    sections, isp.getRdbtnOn().isSelected());
+            etpd.createPdf(excelPaths, "orbegozo.pdf", sections,
+                    isp.getRdbtnOn().isSelected());
         } catch (IOException | DocumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -341,42 +341,35 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void nextPanel() {
-        Message m = new Message(); 
+        Message m = new Message();
         if (panels.get(currentPanel).isEveryThingOk(m)) {
-            
+
             np.showPreviousButton();
             showNextPanel();
-            if (currentPanel == panels.size()-1) {
+            if (currentPanel == panels.size() - 1) {
                 np.showValidateButton();
 
             }
-            
+
         }
-        //else 
-            //System.out.println(m.getMessages());
-        
+        // else
+        // System.out.println(m.getMessages());
+
     }
-    
+
     @Override
     public void previousPanel() {
-        
+
         np.showNextButton();
-        
-        if (currentPanel>0) {
+
+        if (currentPanel > 0) {
             showPreviousPanel();
             np.showPreviousButton();
         }
-        
+
         if (currentPanel == 0)
             np.hidePreviousButton();
-        
-        
-            
-        
-        
-        
-    }
-    
 
-    
+    }
+
 }

@@ -10,10 +10,16 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
+import main.java.gui.MainWindow;
+import main.java.gui.ProgressBarWindow;
+
 public class PdfConcat {
 	
-	public static void concat(List<String> filesToConcat, String dest) {
+	public  void concat(List<String> filesToConcat, String dest) {
 		
+	    
+	 
+
 		try {
 			List<String> files = filesToConcat;
 	          Document PDFCombineUsingJava = new Document();
@@ -29,12 +35,11 @@ public class PdfConcat {
 	                        }
 	                  ReadInputPDF.close();
 	                  
-	                  
+	                 	                  
 	          }
 	          PDFCombineUsingJava.close();
 	          copy.close();
-	          
-	          
+
 	        }
 	        catch (Exception i)
 	        {

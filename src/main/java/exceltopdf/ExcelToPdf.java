@@ -26,6 +26,7 @@ import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.TitlePage;
+import main.java.gui.ProgressBarWindow;
 import main.java.utils.Utils;
 
 public class ExcelToPdf {
@@ -86,7 +87,9 @@ public class ExcelToPdf {
         }
         
         
-        PdfConcat.concat(FILES, dest);
+        
+        PdfConcat c = new PdfConcat();
+        c.concat(FILES, dest);
     }
 
    
