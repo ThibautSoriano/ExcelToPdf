@@ -1,29 +1,39 @@
 package main.java.datasdownloading;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.JList;
+import javax.swing.JLabel;
 
 public class DownloadWindow {
 
 	private JFrame frame;
+	private JTable table;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DownloadWindow window = new DownloadWindow();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	    try {
+	            // set for file chooser look
+	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	            //
+	        } catch (Exception e1) {
+	            e1.printStackTrace();
+	        }
+	    
+	    new DownloadWindow();
 	}
 
 	/**
@@ -47,8 +57,56 @@ public class DownloadWindow {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JList list = new JList();
-		list.setBounds(98, 70, 340, 208);
-		panel.add(list);
+		
+		
+		
+
+//
+              Vector<String> columnNames = new Vector<String>();
+		    columnNames.addElement("Column One");
+		    columnNames.addElement("Column Two");
+		    columnNames.addElement("Column Three");
+//
+		    Vector<String> rowOne = new Vector<String>();
+		    rowOne.addElement("Row1-Column1");
+		    rowOne.addElement("Row1-Column2");
+		    rowOne.addElement("Row1-Column3");
+		    
+		    Vector<String> rowTwo = new Vector<String>();
+		    rowTwo.addElement("Row2-Column1");
+		    rowTwo.addElement("Row2-Column2");
+		    rowTwo.addElement("Row2-Column3");
+		    
+		    Vector<Vector> rowData = new Vector<Vector>();
+		    rowData.addElement(rowOne);
+		    rowData.addElement(rowTwo);
+
+                
+		    for (int i = 0;i<100;i++) {
+		        Vector<String> row = new Vector<String>();
+	                    row.addElement("Row2-Column1");
+	                    row.addElement("Row2-Column2");
+	                    row.addElement("Row2-Column3");
+	                    rowData.addElement(row);
+		    }
+		    
+                
+                table = new JTable(rowData,columnNames);
+
+//                table.setBounds(77, 86, 429, 256);
+//                panel.add(table);
+                
+                JScrollPane scrollPane = new JScrollPane( table );
+                scrollPane.setBounds(46, 99, 495, 259);
+                scrollPane.add(table);
+                scrollPane.setViewportView(table);
+                panel.add(scrollPane);
+                
+                JLabel lblSelectACampaign = new JLabel("Select a campaign");
+                lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
+                lblSelectACampaign.setBounds(54, 60, 221, 22);
+                panel.add(lblSelectACampaign);
+                panel.setVisible(true);
+                frame.setVisible(true);
 	}
 }
