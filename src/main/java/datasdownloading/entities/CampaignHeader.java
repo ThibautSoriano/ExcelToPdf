@@ -15,6 +15,20 @@ public class CampaignHeader {
 	private Date startDate;
 	
 	private Date endDate;
+	
+	public CampaignHeader() {
+		
+	}
+	
+	public CampaignHeader(String campaignName, String clientName, CampaignStatus campaignStatus, Date creationDate,
+			Date startDate, Date endDate) {
+		this.campaignName = campaignName;
+		this.clientName = clientName;
+		this.campaignStatus = campaignStatus;
+		this.creationDate = creationDate;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 
 	public String getCampaignName() {
 		return campaignName;
@@ -63,5 +77,4 @@ public class CampaignHeader {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
 }

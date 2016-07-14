@@ -1,16 +1,21 @@
 package main.java.datasdownloading;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import main.java.datasdownloading.entities.CampaignHeader;
+import main.java.datasdownloading.entities.CampaignStatus;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -21,7 +26,7 @@ public class XmlReader {
 
 	    try {
 
-		File fXmlFile = new File("campaigns.xml");
+		File fXmlFile = new File("session.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
@@ -32,13 +37,80 @@ public class XmlReader {
 
 		System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 				
-		NodeList nList = doc.getElementsByTagName("campaign");
+		NodeList nList = doc.getElementsByTagName("OpenSession");
+		
+		Node nNode = nList.item(0);
+		
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+			Element eElement = (Element) nNode;
+			
+			System.out.println("session = " + eElement.getElementsByTagName("sessionID").item(0).getTextContent());
+		}
 				
 		System.out.println("----------------------------");
 
-		for (int temp = 0; temp < nList.getLength(); temp++) {
+//		for (int temp = 0; temp < nList.getLength(); temp++) {
+//
+//			Node nNode = nList.item(temp);
+//					
+//			System.out.println("\nCurrent Element :" + nNode.getNodeName());
+//					
+//			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//
+//				Element eElement = (Element) nNode;
+//				
+//				System.out.println("Campaign name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
+//				System.out.println("Client name : " + eElement.getElementsByTagName("clientName").item(0).getTextContent());
+//				System.out.println("Status : " + eElement.getElementsByTagName("status").item(0).getTextContent());
+//				Date date = new Date(Integer.parseInt(eElement.getElementsByTagName("creationTS").item(0).getTextContent()));
+//				System.out.println("Creation TS : " + date);
+//				System.out.println("Start TS : " + eElement.getElementsByTagName("startTS").item(0).getTextContent());
+//				System.out.println("End TS : " + eElement.getElementsByTagName("endTS").item(0).getTextContent());
+//
+//			}
+//		}
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	  }
+	
+	public String getSessionID(String xmlDatas) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(xmlDatas);
+		String sessionID = "";
+		
+		doc.getDocumentElement().normalize();
+		NodeList nList = doc.getElementsByTagName("OpenSession");
+		
+		Node nNode = nList.item(0);
+		
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-			Node nNode = nList.item(temp);
+			Element eElement = (Element) nNode;
+			sessionID = eElement.getElementsByTagName("sessionID").item(0).getTextContent();
+			
+			System.out.println("session = " + sessionID);
+		}
+		
+		return sessionID;
+	}
+	
+	public List<CampaignHeader> getHeaderList(String xmlDatas) throws ParserConfigurationException, SAXException, IOException {
+		
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(xmlDatas);
+		List<CampaignHeader> headerList = new ArrayList<>();
+		
+		doc.getDocumentElement().normalize();
+		
+		NodeList nList = doc.getElementsByTagName("campaign");
+		
+		for (int i = 0; i < nList.getLength(); i++) {
+
+			Node nNode = nList.item(i);
 					
 			System.out.println("\nCurrent Element :" + nNode.getNodeName());
 					
@@ -46,23 +118,25 @@ public class XmlReader {
 
 				Element eElement = (Element) nNode;
 				
-				System.out.println("Campaign name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
-				System.out.println("Client name : " + eElement.getElementsByTagName("clientName").item(0).getTextContent());
-				System.out.println("Status : " + eElement.getElementsByTagName("status").item(0).getTextContent());
-				Date date = new Date(Integer.parseInt(eElement.getElementsByTagName("creationTS").item(0).getTextContent()));
-				System.out.println("Creation TS : " + date);
-				System.out.println("Start TS : " + eElement.getElementsByTagName("startTS").item(0).getTextContent());
-				System.out.println("End TS : " + eElement.getElementsByTagName("endTS").item(0).getTextContent());
+				String campaignName = eElement.getElementsByTagName("name").item(0).getTextContent();
+				String clientName = eElement.getElementsByTagName("clientName").item(0).getTextContent();
+				CampaignStatus campaignStatus = CampaignStatus.valueOf(eElement.getElementsByTagName("status").item(0).getTextContent());
+				Date creationDate = new Date(Integer.parseInt(eElement.getElementsByTagName("creationTS").item(0).getTextContent()));
+				Date startDate = new Date(Integer.parseInt(eElement.getElementsByTagName("startTS").item(0).getTextContent()));
+				Date endDate = new Date(Integer.parseInt(eElement.getElementsByTagName("endTS").item(0).getTextContent()));
+				
+				System.out.println("Campaign name : " + campaignName);
+				System.out.println("Client name : " + clientName);
+				System.out.println("Status : " + campaignStatus);
+				System.out.println("Creation TS : " + creationDate);
+				System.out.println("Start TS : " + startDate);
+				System.out.println("End TS : " + endDate);
+				
+				headerList.add(new CampaignHeader(campaignName, clientName, campaignStatus, creationDate, startDate, endDate));
 
 			}
 		}
-	    } catch (Exception e) {
-		e.printStackTrace();
-	    }
-	  }
-	
-	public List<CampaignHeader> getHeaderList(String xmlDatas) {
 		
-		return null;
+		return headerList;
 	}
 }
