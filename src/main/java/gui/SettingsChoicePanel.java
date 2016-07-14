@@ -6,9 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public abstract class SettingsChoicePanel extends JPanel{
     
     protected JLabel title;

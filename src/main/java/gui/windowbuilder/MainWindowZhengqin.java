@@ -1,12 +1,14 @@
 package main.java.gui.windowbuilder;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -33,9 +35,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Utils;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.Toolkit;
 
 public class MainWindowZhengqin {
 

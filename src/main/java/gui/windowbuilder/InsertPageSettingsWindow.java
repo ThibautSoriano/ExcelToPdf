@@ -1,17 +1,15 @@
 package main.java.gui.windowbuilder;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JCheckBox;
-import javax.swing.JSeparator;
 import java.awt.Window.Type;
+
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import java.awt.FlowLayout;
-import java.awt.Color;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 
 public class InsertPageSettingsWindow {
 

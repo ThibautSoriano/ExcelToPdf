@@ -4,31 +4,21 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public class ColumnsSettingsPanel extends SettingsChoicePanel {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -6731736790059514831L;
 
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 

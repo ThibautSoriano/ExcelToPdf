@@ -6,13 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-
-import com.itextpdf.text.xml.simpleparser.NewLineHandler;
 
 import main.java.utils.Internationalization;
 import main.java.utils.Message;
