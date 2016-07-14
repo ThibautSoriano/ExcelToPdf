@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -93,8 +94,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         table.getColumnModel().getColumn(2).setCellRenderer(renderer);
         table.getColumnModel().getColumn(3).setCellRenderer(renderer);
         
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        
+  
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(46, 99, 495, 259);
         scrollPane.add(table);
@@ -109,17 +111,38 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         
         
     }
+    
+    
+    
+
+
+    private CampaignChoicePanel(JTable table) {
+        super("Campaign selection");
+        this.table = table;
+        
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(46, 99, 495, 259);
+        scrollPane.add(table);
+        scrollPane.setViewportView(table);
+        add(scrollPane);
+
+        JLabel lblSelectACampaign = new JLabel("Select a campaign");
+        lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblSelectACampaign.setBounds(54, 60, 221, 22);
+        add(lblSelectACampaign);
+        
+    }
 
     @Override
     public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
-        return false;
+        
+        return table.getSelectedRow() > -1;
     }
 
     @Override
     public SettingsChoicePanel getNewInstance() {
-        // TODO Auto-generated method stub
-        return null;
+        return new CampaignChoicePanel(this.table);
     }
     
     public static void main(String[] args) {
