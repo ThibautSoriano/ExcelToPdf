@@ -30,8 +30,10 @@ public  class CampaignRow {
     protected String firstColumnData;
 
     protected int impressions;
+    
+    protected int reach;
 
-    protected int uniqueCookies;
+	protected int uniqueCookies;
 
     protected float frequency;
 
@@ -59,11 +61,10 @@ public  class CampaignRow {
         this.firstColumnData = firstColumnData;
     }
 
-    public CampaignRow(String firstColumnData, int impressions, int uniqueCookies, float frequency, int clicks,
+    public CampaignRow(String firstColumnData, int impressions, float frequency, int clicks,
             int clickingUsers, Percentage clickThroughRate, Percentage uniqueCTR) {
 	    this.firstColumnData = firstColumnData;
 	    this.impressions = impressions;
-	    this.uniqueCookies = uniqueCookies;
 	    this.frequency = frequency;
 	    this.clicks = clicks;
 	    this.clickingUsers = clickingUsers;
@@ -78,6 +79,14 @@ public  class CampaignRow {
     public void setImpressions(int impressions) {
         this.impressions = impressions;
     }
+    
+    public int getReach() {
+		return reach;
+	}
+
+	public void setReach(int reach) {
+		this.reach = reach;
+	}
 
     public int getUniqueCookies() {
         return uniqueCookies;

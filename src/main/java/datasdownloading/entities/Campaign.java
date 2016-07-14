@@ -10,4 +10,10 @@ public class Campaign {
 	
 	private List<CampaignRow> campaignContent;
 
+	public Campaign(CampaignHeader campaignHeader, List<CampaignRow> campaignContent) {
+		this.campaignHeader = campaignHeader;
+		this.campaignContent = campaignContent;
+	}
+	
+
 }

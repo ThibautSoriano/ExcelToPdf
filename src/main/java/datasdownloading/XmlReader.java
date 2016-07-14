@@ -21,6 +21,8 @@ import org.xml.sax.SAXException;
 import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.CampaignHeader;
 import main.java.datasdownloading.entities.CampaignStatus;
+import main.java.excelreader.entities.CampaignRow;
+import main.java.utils.Percentage;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -28,6 +30,16 @@ import org.w3c.dom.Element;
 public class XmlReader {
 	
 	private Map<String, String> placementsNames = new HashMap<>();
+	
+	private List<CampaignHeader> allHeaders = new ArrayList<>();
+	
+	public XmlReader(String xmlHeaderDatas) {
+		allHeaders = getHeaderList(xmlHeaderDatas);
+	}
+
+	public List<CampaignHeader> getAllHeaders() {
+		return allHeaders;
+	}
 
 	public static void main(String args[]) {
 
@@ -89,7 +101,7 @@ public class XmlReader {
 		}
 	}
 
-	public String getSessionID(String xmlDatas) {
+	public static String getSessionID(String xmlDatas) {
 		String sessionID = "";
 		
 		
@@ -198,13 +210,16 @@ public class XmlReader {
 	}
 	
 	public Campaign getCampaign(String campaignID, String xmlCampaignDatas, String xmlPlacementList) {
+		Campaign c;
+		List<CampaignRow> rows = new ArrayList<>();
+		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlPlacementList.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
-			NodeList nList = doc.getElementsByTagName("placement");
+			NodeList nList = doc.getElementsByTagName("statisticsRecord");
 
 			for (int i = 0; i < nList.getLength(); i++) {
 
@@ -213,13 +228,36 @@ public class XmlReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
 					Element eElement = (Element) nNode;
-					placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), eElement.getElementsByTagName("name").item(0).getTextContent());
-					System.out.println("placement ID = " + eElement.getElementsByTagName("placementID").item(0).getTextContent());
-					System.out.print("placementName = " + eElement.getElementsByTagName("name").item(0).getTextContent());
+					String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
+					
+					String placementName = placementsNames.get(placementID);
+					int impressions = Integer.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
+					int reach = Integer.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
+					float frequency = Float.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
+					int clicks = Integer.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
+					int userClicks = Integer.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
+					float clickThroughRate = Float.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
+					float uniqueCTR = Float.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
+					
+					CampaignRow currentRow = new CampaignRow(placementName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+					currentRow.setReach(reach);
+					rows.add(currentRow);
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
+		}
+		
+		c = new Campaign(getHeaderByID(campaignID), rows);
+		
+		return c;
+	}
+	
+	public CampaignHeader getHeaderByID(String headerID) {
+		for (int i = 0; i < allHeaders.size(); i++) {
+			if (allHeaders.get(i).getCampaignID().equals(headerID)) {
+				return allHeaders.get(i);
+			}
 		}
 		
 		return null;

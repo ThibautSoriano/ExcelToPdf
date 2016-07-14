@@ -166,8 +166,9 @@ public abstract class ExcelReader {
             }
 
             CampaignRow cr = new CampaignRow(firstColumnData, impressions,
-                    uniqueCookies, frequency, clicks, clickingUsers,
+                    frequency, clicks, clickingUsers,
                     clickThroughRatePercentage, uniqueCTRPercentage);
+            cr.setUniqueCookies(uniqueCookies);
 
             
             HSSFRow nextRow = sheet.getRow(index+1);
