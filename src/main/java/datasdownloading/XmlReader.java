@@ -3,6 +3,7 @@ package main.java.datasdownloading;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import main.java.datasdownloading.entities.CampaignHeader;
@@ -84,11 +86,12 @@ public class XmlReader {
 
 	public String getSessionID(String xmlDatas) {
 		String sessionID = "";
-
+		
+		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(xmlDatas);
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlDatas.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("OpenSession");
@@ -115,7 +118,7 @@ public class XmlReader {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(xmlDatas);
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlDatas.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
 
@@ -134,7 +137,7 @@ public class XmlReader {
 					String campaignName = eElement.getElementsByTagName("name").item(0).getTextContent();
 					String clientName = eElement.getElementsByTagName("clientName").item(0).getTextContent();
 					CampaignStatus campaignStatus = CampaignStatus
-							.valueOf(eElement.getElementsByTagName("status").item(0).getTextContent());
+							.valueOf(eElement.getElementsByTagName("status").item(0).getTextContent().toUpperCase());
 					Date creationDate = new Date(
 							Integer.parseInt(eElement.getElementsByTagName("creationTS").item(0).getTextContent()));
 					Date startDate = new Date(

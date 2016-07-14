@@ -76,6 +76,7 @@ public class HttpDownload {
             // Read the contents of an entity and return it as a String.
             String content = EntityUtils.toString(entity);
 
+           
             return new HttpMessage(true, "OK",content);
         }
          catch (UnknownHostException e) {
@@ -89,7 +90,7 @@ public class HttpDownload {
     
     
     /**
-     *  Tries to log in with the distant host gdeapi.gemius.com, if succes fills sessionId
+     *  Tries to log in with the distant host gdeapi.gemius.com, if success fills sessionId
      * @param loginName
      * @param password
      * @return a message containing infos about the success of the login 
@@ -101,9 +102,11 @@ public class HttpDownload {
 
         HttpMessage m = sendGet(url);
 
-        if (m.isOk()) 
+        if (m.isOk()) {
+            
             sessionId = xmlReader.getSessionID(m.getContent());
-        
+            
+        }
         return m;
     }
     
