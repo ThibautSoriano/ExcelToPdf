@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -19,6 +21,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import main.java.datasdownloading.entities.CampaignHeader;
+
 public class HttpDownload {
     
     
@@ -28,8 +32,12 @@ public class HttpDownload {
     
     private String sessionId;
     
+    private XmlReader xmlReader;
+    
     
     public HttpDownload(String userName,String password){
+        xmlReader = new XmlReader();
+        
         this.userName = userName;
         this.password = password;
     
@@ -48,6 +56,8 @@ public class HttpDownload {
     
     public static void main(String[] args) throws Exception {
         HttpDownload http = new HttpDownload();
+        
+        System.out.println(http.getCampaignHeaders());
     }
 
     
@@ -65,9 +75,7 @@ public class HttpDownload {
 
             // Read the contents of an entity and return it as a String.
             String content = EntityUtils.toString(entity);
-            
-            System.out.println(content);
-        //TODO fill session id
+
             return new HttpMessage(true, "OK",content);
         }
          catch (UnknownHostException e) {
@@ -93,25 +101,25 @@ public class HttpDownload {
 
         HttpMessage m = sendGet(url);
 
-        if (m.isOk())
-            ; 
-        
+        if (m.isOk()) 
+            sessionId = xmlReader.getSessionID(m.getContent());
         
         return m;
     }
     
     
-    public List<Float>() getCampaignHeaders(){
-        
-        
+    public List<CampaignHeader> getCampaignHeaders(){
+       
         
         String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="+sessionId;
         
         HttpMessage m = sendGet(url);
         
-        if (!m.isOk())
-            System.out.println(m.getErrorMessage());
-        return null;
+        if (m.isOk())
+            return xmlReader.getHeaderList(m.getContent());
+        else
+            return new ArrayList<CampaignHeader>();
+        
         
         
     }
