@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class CampaignHeader {
 	
+	private String campaignID;
+	
 	private String campaignName;
 	
 	private String clientName;
@@ -20,8 +22,9 @@ public class CampaignHeader {
 		
 	}
 	
-	public CampaignHeader(String campaignName, String clientName, CampaignStatus campaignStatus, Date creationDate,
+	public CampaignHeader(String campaignID, String campaignName, String clientName, CampaignStatus campaignStatus, Date creationDate,
 			Date startDate, Date endDate) {
+		this.campaignID = campaignID;
 		this.campaignName = campaignName;
 		this.clientName = clientName;
 		this.campaignStatus = campaignStatus;
@@ -76,5 +79,13 @@ public class CampaignHeader {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getCampaignID() {
+		return campaignID;
+	}
+
+	public void setCampaignID(String campaignID) {
+		this.campaignID = campaignID;
 	}
 }
