@@ -4,16 +4,24 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MainMenuWindow {
 
@@ -54,7 +62,7 @@ public class MainMenuWindow {
         
         JPanel panel = new JPanel();
         panel.setBackground(UIManager.getColor("TextArea.inactiveBackground"));
-        panel.setBounds(0, 20, 584, 454);
+        panel.setBounds(0, 0, 584, 474);
         frame.getContentPane().add(panel);
         panel.setLayout(null);
         
@@ -68,9 +76,20 @@ public class MainMenuWindow {
         panel.add(btnFromAnExcel);
         
         JButton btnByDownloadingDatas = new JButton("By downloading datas");
+        btnByDownloadingDatas.addPropertyChangeListener("font", new PropertyChangeListener() {
+            
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println("pute");
+                
+            }
+        });
+        
+//        btnByDownloadingDatas.getDo
         btnByDownloadingDatas.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
+        	    btnByDownloadingDatas.setFont(new Font("Tahoma",Font.BOLD,13));
         	}
         });
         btnByDownloadingDatas.setBounds(311, 241, 224, 51);
@@ -86,7 +105,7 @@ public class MainMenuWindow {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
        
         lblBackground.setIcon(new ImageIcon(getClass().getResource("/background2.png")));
-        lblBackground.setBounds(0, -21, 584, 463);
+        lblBackground.setBounds(0, 0, 584, 463);
         panel.add(lblBackground);
 	}
 }

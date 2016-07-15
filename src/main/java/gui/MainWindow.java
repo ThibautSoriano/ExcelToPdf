@@ -63,12 +63,10 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         getContentPane().setLayout(null);
 
-        createPanels(0);
+        showFirstPanel();
 
-        np = new NavigationPanel(this);
-        np.hidePreviousButton();
-
-        getContentPane().add(np);
+//
+        
 
         addMenu();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,8 +142,8 @@ public class MainWindow extends JFrame implements IMainFrame {
                 public void mouseReleased(MouseEvent e) {
                     Internationalization.loadLanguage(lang);
 
-                    getContentPane().remove(panels.get(currentPanel));
-                    createPanels(currentPanel);
+                    
+                    reloadPanels();
 
                     getContentPane().remove(np);
                     np = np.getNewInstance();
@@ -338,28 +336,67 @@ public class MainWindow extends JFrame implements IMainFrame {
 		
 	}
 
-	private void createPanels(int panelToShow) {
+  
+    
+    private void reloadPanels() {
+        LinkedList<SettingsChoicePanel> panels2 = new LinkedList<SettingsChoicePanel>();
+        for (SettingsChoicePanel settingsChoicePanel : panels) {
+            panels2.add(settingsChoicePanel.getNewInstance());
+        }
+        getContentPane().remove(panels.get(currentPanel));
+        panels = panels2;
+        getContentPane().add(panels.get(currentPanel));
+    }
+    
+	public void createPanelsExcel() {
 
+	    
+	    getContentPane().remove(panels.get(currentPanel));
 
-        if (panels== null || panels.isEmpty()) {
+	    
             panels = new LinkedList<SettingsChoicePanel>();
             panels.add(new ExcelChoicePanel());
             panels.add(new GeneralSettingsPanel());
             panels.add(new TitleSettingsPanel());
             panels.add(new InsertPageSettingsPanel());
             panels.add(new ColumnsSettingsPanel());
-        }
+            
+            currentPanel = 0;
+            
+            np = new NavigationPanel(this);
+
+            getContentPane().add(np);
+            
+            getContentPane().add(panels.get(0));
+            repaint();
+            revalidate();
+           
          
-        else {
-            LinkedList<SettingsChoicePanel> panels2 = new LinkedList<SettingsChoicePanel>();
-            for (SettingsChoicePanel settingsChoicePanel : panels) {
-                panels2.add(settingsChoicePanel.getNewInstance());
-            }
-            panels = panels2;
-        }
-        getContentPane().add(panels.get(panelToShow));
     }
 
+	public void createPanelsInternet() {
+	    
+	    getContentPane().remove(panels.get(currentPanel));
+	    
+	    panels = new LinkedList<SettingsChoicePanel>();
+            
+            panels.add(new CampaignChoicePanel());
+            panels.add(new ColumnsSettingsPanel());
+	    
+            currentPanel = 0;
+            
+            
+            np = new NavigationPanel(this);
+
+            getContentPane().add(np);
+            
+            getContentPane().add(panels.get(0));
+            repaint();
+            revalidate();
+           
+	}
+	
+	
     @Override
     public void nextPanel() {
         Message m = new Message();
@@ -388,9 +425,26 @@ public class MainWindow extends JFrame implements IMainFrame {
             np.showPreviousButton();
         }
 
-        if (currentPanel == 0)
-            np.hidePreviousButton();
-
+        if (currentPanel == 0) {
+            getContentPane().remove(panels.get(currentPanel));
+            getContentPane().remove(np);
+            showFirstPanel();
+            repaint();
+            revalidate();
+        }
+            
     }
 
+    
+    private void showFirstPanel() {
+        panels = new LinkedList<SettingsChoicePanel>();
+        MainMenuPanel mmp = new MainMenuPanel(this);
+        panels.add(mmp);
+ 
+        getContentPane().add(panels.get(0));
+
+        currentPanel = 0;
+    }
+    
+    
 }
