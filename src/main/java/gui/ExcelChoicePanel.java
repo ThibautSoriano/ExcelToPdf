@@ -19,7 +19,7 @@ import main.java.utils.Internationalization;
 import main.java.utils.Message;
 
 @SuppressWarnings("serial")
-public class MainWindowPanel extends SettingsChoicePanel {
+public class ExcelChoicePanel extends SettingsChoicePanel {
 
     private List<JTextField> fields;
 
@@ -42,7 +42,7 @@ public class MainWindowPanel extends SettingsChoicePanel {
         this.txtExcel = txtExcel;
     }
 
-    public MainWindowPanel() {
+    public ExcelChoicePanel() {
 
         super(Internationalization.getKey("Excel to pdf converter"));
 
@@ -158,7 +158,7 @@ public class MainWindowPanel extends SettingsChoicePanel {
     @Override
     public SettingsChoicePanel getNewInstance() {
 
-        return new MainWindowPanel();
+        return new ExcelChoicePanel();
     }
 
   

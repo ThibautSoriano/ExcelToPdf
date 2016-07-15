@@ -129,7 +129,7 @@ public class XmlReader {
 		return sessionID;
 	}
 
-	public List<CampaignHeader> getHeaderList(String xmlDatas) {
+	private List<CampaignHeader> getHeaderList(String xmlDatas) {
 		List<CampaignHeader> headerList = new ArrayList<>();
 
 		try {

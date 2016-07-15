@@ -10,6 +10,8 @@ public class ContentPage extends Section {
 	
 	private boolean impressions;
 	
+	private boolean reach;
+	
 	private boolean uniqueCookies;
 	
 	private boolean frequency;
@@ -22,11 +24,9 @@ public class ContentPage extends Section {
 	
 	private boolean uniqueCTR;
 
-	public ContentPage(boolean impressions, boolean uniqueCookies, boolean frequency, boolean clicks,
+	public ContentPage(boolean impressions, boolean frequency, boolean clicks,
 			boolean clickingUsers, boolean clickThroughRate, boolean uniqueCTR) {
-		super();
 		this.impressions = impressions;
-		this.uniqueCookies = uniqueCookies;
 		this.frequency = frequency;
 		this.clicks = clicks;
 		this.clickingUsers = clickingUsers;
@@ -104,5 +104,13 @@ public class ContentPage extends Section {
 
 	public void setExcelReader(ExcelReader excelReader) {
 		this.excelReader = excelReader;
+	}
+
+	public boolean isReach() {
+		return reach;
+	}
+
+	public void setReach(boolean reach) {
+		this.reach = reach;
 	}
 }

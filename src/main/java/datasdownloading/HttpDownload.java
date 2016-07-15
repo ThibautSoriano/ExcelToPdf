@@ -36,7 +36,7 @@ public class HttpDownload {
     
     
     public HttpDownload(String userName,String password){
-        xmlReader = new XmlReader();
+        
         
         this.userName = userName;
         this.password = password;
@@ -118,8 +118,11 @@ public class HttpDownload {
         
         HttpMessage m = sendGet(url);
         
-        if (m.isOk())
-            return xmlReader.getHeaderList(m.getContent());
+        if (m.isOk()) {
+            if (xmlReader == null)
+                xmlReader = new XmlReader(m.getContent());
+            return xmlReader.getAllHeaders();
+        }
         else
             return new ArrayList<CampaignHeader>();
         
