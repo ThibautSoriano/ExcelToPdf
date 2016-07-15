@@ -3,6 +3,7 @@ package main.java.exceltopdf;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,12 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import main.java.datasdownloading.entities.Campaign;
 import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.TitlePage;
-import main.java.gui.ProgressBarWindow;
 import main.java.utils.Utils;
 
 public class ExcelToPdf {
@@ -46,9 +47,6 @@ public class ExcelToPdf {
 
     public void createPdf(List<String> src, String dest, List<Section> sections, boolean insertPageOn)
             throws IOException, DocumentException {
-        
-        
-        
         for (int i = 2; i < sections.size(); i++) {
         	ContentPage contentPage = (ContentPage) sections.get(i);
         	if (contentPage.getExcelReader().getType().equals("Rankings")) {
@@ -83,7 +81,7 @@ public class ExcelToPdf {
         }
                 
         for (int i = 0; i < content.size(); i++) {
-            createContentPage(content.get(i));
+            createContentPage(content.get(i), false);
         }
         
         
@@ -92,9 +90,32 @@ public class ExcelToPdf {
         c.concat(FILES, dest);
     }
 
-   
+   public void createPdfDownload(Campaign campaign, String dest, List<Section> sections, boolean insertPageOn) throws DocumentException, IOException {
+	   SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+	   TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
+       
+       titlePage.setCampaignName(campaign.getCampaignHeader().getCampaignName());
+       titlePage.setStartDate(f.format(campaign.getCampaignHeader().getStartDate()));
+       titlePage.setEndDate(f.format(campaign.getCampaignHeader().getEndDate()));
+       createTitlePage(titlePage);
+       
+       if (insertPageOn) {
+           InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
+           
+           createInsertPage(insertPage);
+       }
+       
+       
+       ContentPage contentPage = (ContentPage) sections.get(2);
+       
+       createContentPage(contentPage, true);
+       
+       
+       PdfConcat c = new PdfConcat();
+       c.concat(FILES, dest);
+   }
 
-    private void createContentPage(ContentPage contentPage) throws DocumentException, IOException {
+    private void createContentPage(ContentPage contentPage, boolean download) throws DocumentException, IOException {
     	BarChartCreator barChartCreator = new BarChartCreator();
     	PieChartCreator pieChartCreator = new PieChartCreator();
     	Document document = new Document();
@@ -111,12 +132,15 @@ public class ExcelToPdf {
 		
 		List<CampaignRow> rows = contentPage.getExcelSheet().getCampaignRows();
 		
-		if (contentPage.getExcelReader().getType().equals("Rankings")) {
+		if (contentPage.getExcelReader().getType().equals("Rankings") || download) {
 			if (contentPage.isImpressions()) {
 				document.add(getImageBar(barChartCreator.getChart(contentPage.getExcelSheet().getCampaignRows(), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads"), writer));
 			}
 			if (contentPage.isUniqueCookies()) {
 				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads"), writer));
+			}
+			if (contentPage.isReach()) {
+				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX), CampaignRow.REACH_INDEX, "Reach", "Ads"), writer));
 			}
 			if (contentPage.isFrequency()) {
 				document.add(getImageBar(barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads"), writer));
@@ -164,8 +188,17 @@ public class ExcelToPdf {
 		writer.setPageEmpty(false);
         
 		Paragraph p = new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n");
+		boolean reachOrCookies = false;
+		
+		if (download) {
+			reachOrCookies = contentPage.isReach();
+		}
+		else {
+			reachOrCookies = contentPage.isUniqueCookies();
+		}
+		
     	boolean [] colsToPrint = {
-    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
+    			true, contentPage.isImpressions(), reachOrCookies, contentPage.isFrequency(),
                 contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
                 contentPage.isUniqueCTR()
         };

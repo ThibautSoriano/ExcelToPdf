@@ -26,6 +26,8 @@ public  class CampaignRow {
     public static final int CLICK_THROUGH_RATE_INDEX = 5;
     
     public static final int UNIQUE_CTR_INDEX = 6;
+
+	public static final int REACH_INDEX = 7;
     
     protected String firstColumnData;
 
@@ -33,7 +35,7 @@ public  class CampaignRow {
     
     protected int reach;
 
-	protected int uniqueCookies;
+	protected int uniqueCookies = -1;
 
     protected float frequency;
 
@@ -166,7 +168,12 @@ public  class CampaignRow {
         List<String> l = new ArrayList<String>();
         l.add(firstColumnData);
         l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
-        l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
+        if (uniqueCookies == -1) {
+        	l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
+        }
+        else {
+        	l.add(getSpacesBetweenThousands(String.valueOf(reach)));
+        }
         
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
