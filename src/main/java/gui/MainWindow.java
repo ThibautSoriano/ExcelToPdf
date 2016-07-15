@@ -329,13 +329,23 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     private void createPanels(int panelToShow) {
 
-        panels = new LinkedList<SettingsChoicePanel>();
-        panels.add(new MainWindowPanel());
-        panels.add(new GeneralSettingsPanel());
-        panels.add(new TitleSettingsPanel());
-        panels.add(new InsertPageSettingsPanel());
-        panels.add(new ColumnsSettingsPanel());
-
+        if (panels== null || panels.isEmpty()) {
+            panels = new LinkedList<SettingsChoicePanel>();
+            panels.add(new MainWindowPanel());
+            panels.add(new GeneralSettingsPanel());
+            panels.add(new TitleSettingsPanel());
+            panels.add(new InsertPageSettingsPanel());
+            panels.add(new ColumnsSettingsPanel());
+        }
+         
+        else {
+            LinkedList<SettingsChoicePanel> panels2 = new LinkedList<SettingsChoicePanel>();
+            for (SettingsChoicePanel settingsChoicePanel : panels) {
+                panels2.add(settingsChoicePanel.getNewInstance());
+            }
+            panels = panels2;
+        }
+        
         getContentPane().add(panels.get(panelToShow));
     }
 
