@@ -28,7 +28,6 @@ import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.TitlePage;
-import main.java.utils.Percentage;
 import main.java.utils.Utils;
 
 public class ExcelToPdf {
@@ -130,7 +129,6 @@ public class ExcelToPdf {
 		document.open();
 		if (download) {
 		    rows = contentPage.getCampaign().getCampaignContent();
-		    document.add(new Paragraph("Charts\n\n"));
 		}
 		else {
 		    rows = contentPage.getExcelSheet().getCampaignRows();
