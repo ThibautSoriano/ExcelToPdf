@@ -42,8 +42,8 @@ public class XmlReader {
 		return allHeaders;
 	}
 
-	public static String getSessionID(String xmlDatas) {
-		String sessionID = "";
+	public static HttpMessage getSessionID(String xmlDatas) {
+		HttpMessage m = null;
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -58,15 +58,19 @@ public class XmlReader {
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 				Element eElement = (Element) nNode;
-				sessionID = eElement.getElementsByTagName("sessionID").item(0).getTextContent();
-
-				System.out.println("session = " + sessionID);
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if ("OK".equals(status)) {
+					m = new HttpMessage(true, "", eElement.getElementsByTagName("sessionID").item(0).getTextContent());
+				}
+				else {
+					m = new HttpMessage(false, eElement.getElementsByTagName("errorDescription").item(0).getTextContent(), "");
+				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 
-		return sessionID;
+		return m;
 	}
 
 	private List<CampaignHeader> getHeaderList(String xmlDatas) {
