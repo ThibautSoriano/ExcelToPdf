@@ -42,66 +42,6 @@ public class XmlReader {
 		return allHeaders;
 	}
 
-	public static void main(String args[]) {
-
-		try {
-
-			File fXmlFile = new File("session.xml");
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
-
-			// optional, but recommended
-			// read this -
-			// http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-			doc.getDocumentElement().normalize();
-
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
-			NodeList nList = doc.getElementsByTagName("OpenSession");
-
-			Node nNode = nList.item(0);
-
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element eElement = (Element) nNode;
-
-				System.out.println("session = " + eElement.getElementsByTagName("sessionID").item(0).getTextContent());
-			}
-
-			System.out.println("----------------------------");
-
-			// for (int temp = 0; temp < nList.getLength(); temp++) {
-			//
-			// Node nNode = nList.item(temp);
-			//
-			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
-			//
-			// if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			//
-			// Element eElement = (Element) nNode;
-			//
-			// System.out.println("Campaign name : " +
-			// eElement.getElementsByTagName("name").item(0).getTextContent());
-			// System.out.println("Client name : " +
-			// eElement.getElementsByTagName("clientName").item(0).getTextContent());
-			// System.out.println("Status : " +
-			// eElement.getElementsByTagName("status").item(0).getTextContent());
-			// Date date = new
-			// Date(Integer.parseInt(eElement.getElementsByTagName("creationTS").item(0).getTextContent()));
-			// System.out.println("Creation TS : " + date);
-			// System.out.println("Start TS : " +
-			// eElement.getElementsByTagName("startTS").item(0).getTextContent());
-			// System.out.println("End TS : " +
-			// eElement.getElementsByTagName("endTS").item(0).getTextContent());
-			//
-			// }
-			// }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static String getSessionID(String xmlDatas) {
 		String sessionID = "";
 		
@@ -189,7 +129,10 @@ public class XmlReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
 					Element eElement = (Element) nNode;
-					if ("N".equals(eElement.getElementsByTagName("isFolder").item(0).getTextContent())) {
+					if ("/".equals(eElement.getElementsByTagName("placementFullPath").item(0).getTextContent())) {
+						placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), "All");
+					}
+					else if ("N".equals(eElement.getElementsByTagName("isFolder").item(0).getTextContent())) {
 						placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), eElement.getElementsByTagName("placementFullPath").item(0).getTextContent());
 					}
 				}
@@ -234,7 +177,7 @@ public class XmlReader {
 						
 						CampaignRow currentRow = new CampaignRow(placementName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
 						currentRow.setReach(reach);
-						if ("/".equals(placementName)) {
+						if ("All".equals(placementName)) {
 							all = currentRow;
 						}
 						else {
