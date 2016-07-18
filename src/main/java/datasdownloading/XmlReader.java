@@ -173,7 +173,7 @@ public class XmlReader {
 		return headerList;
 	}
 	
-	public void fillMapPlacementsNames(String xmlPlacementList) {		
+	private void fillMapPlacementsNames(String xmlPlacementList) {		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -199,7 +199,9 @@ public class XmlReader {
 		}
 	}
 	
-	public Campaign getCampaign(String campaignID, String xmlCampaignDatas) {
+	public Campaign getCampaign(String campaignID, String xmlCampaignDatas,String xmlPlacementList) {
+	    
+	    fillMapPlacementsNames(xmlPlacementList);
 		Campaign c;
 		List<CampaignRow> rows = new ArrayList<>();
 		CampaignRow all = new CampaignRow();

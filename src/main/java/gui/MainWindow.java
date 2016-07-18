@@ -421,8 +421,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         
     HttpDownload dl = new HttpDownload();
     String campaignID = ccp.getSelectedId();
-    HttpDownload.xmlReader.fillMapPlacementsNames(dl.getXmlPlacementList(campaignID));
-    Campaign c = HttpDownload.xmlReader.getCampaign(campaignID, dl.getXmlCampaignDatas(campaignID));
+   
+    Campaign c = dl.getCampaignById(campaignID);
+    
     List<String> labels = new ArrayList<>();
     labels.add("Placement path");
     labels.add("Impressions");

@@ -189,8 +189,8 @@ public  class CampaignRow {
     }
     
     public boolean isEmpty(){
-        return  impressions == 0 && uniqueCookies == 0 && frequency == 0 && clicks == 0 && clickingUsers == 0
-                && clickThroughRate.getValue() == 0 && uniqueCTR.getValue() == 0;
+        return  impressions == 0 && (uniqueCookies == 0 || uniqueCookies == -1) && frequency == 0 && clicks == 0 && clickingUsers == 0
+                && clickThroughRate.getValue() == 0 && uniqueCTR.getValue() == 0 && reach == 0;
     }
     
     private String getSpacesBetweenThousands(String numberInString){

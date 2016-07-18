@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.CampaignHeader;
 
 public class HttpDownload {
@@ -31,7 +32,7 @@ public class HttpDownload {
 
     private String sessionId;
 
-    public static XmlReader xmlReader;
+    public XmlReader xmlReader;
 
     public HttpDownload(String userName, String password) {
 
@@ -93,7 +94,7 @@ public class HttpDownload {
 
         if (m.isOk()) {
 
-            sessionId = xmlReader.getSessionID(m.getContent());
+            sessionId = XmlReader.getSessionID(m.getContent());
 
         }
         return m;
@@ -129,13 +130,33 @@ public class HttpDownload {
     }
 
     public String getXmlPlacementList(String campaignID) {
-        String url = "http://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="+sessionId+"&campaignID="+campaignID+"&showPaths=Y";
+        String url = "http://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
+                + sessionId + "&campaignID=" + campaignID + "&showPaths=Y";
 
         HttpMessage m = sendGet(url);
 
         if (m.isOk())
             return m.getContent();
         return "";
+    }
+
+    public Campaign getCampaignById(String campaignId) {
+        String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+                + sessionId;
+
+        String xmlCampaignData = getXmlCampaignDatas(campaignId);
+        
+        String xmlPlacementList = getXmlPlacementList(campaignId);
+
+        HttpMessage m = sendGet(url);
+
+        if (m.isOk() && !"".equals(xmlCampaignData) && !"".equals(xmlPlacementList)) {
+            if (xmlReader == null)
+                xmlReader = new XmlReader(m.getContent());
+            return xmlReader.getCampaign(campaignId, xmlCampaignData,xmlPlacementList);
+
+        }
+        return null;
     }
 
 }
