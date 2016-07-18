@@ -38,9 +38,12 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         add(lblSelectACampaign);
         
         
+        
+        
+        
     }
     
-    public void fillTableCampaignChoice(HttpDownload htpdl){
+    public  void fillTableCampaignChoice(HttpDownload htpdl){
         
         
         List<CampaignHeader> l = htpdl.getCampaignHeaders();

@@ -57,6 +57,18 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     private static final int WINDOW_WIDTH = 600;
 
+    private static HttpDownload session;
+    
+    
+    
+    public static HttpDownload getSession() {
+        return session;
+    }
+
+    public static void setSession(HttpDownload session) {
+        MainWindow.session = session;
+    }
+
     public boolean isDownload() {
         return download;
     }
@@ -349,11 +361,11 @@ public class MainWindow extends JFrame implements IMainFrame {
         ExcelToPdf etpd = new ExcelToPdf();
         List<Section> sections = new ArrayList<Section>();
 
-        CampaignChoicePanel ccp = (CampaignChoicePanel) panels.get(0);
-        GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(1);
-        TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
-        InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(3);
-        ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
+        CampaignChoicePanel ccp = (CampaignChoicePanel) panels.get(1);
+        GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(2);
+        TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(3);
+        InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(4);
+        ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(5);
 
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -420,11 +432,11 @@ public class MainWindow extends JFrame implements IMainFrame {
         
         sections.add(contentPage);
         
-    HttpDownload dl = new HttpDownload();
+    
     String campaignID = ccp.getSelectedId();
    
     
-    Campaign c = dl.getCampaignById(campaignID);
+    Campaign c = session.getCampaignById(campaignID);
     
     if (c == null) {
         JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
@@ -491,9 +503,12 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         getContentPane().remove(panels.get(currentPanel));
 
+        CampaignChoicePanel ccp = new CampaignChoicePanel();
+        
         panels = new LinkedList<SettingsChoicePanel>();
 
-        panels.add(new CampaignChoicePanel());
+        panels.add(new LoginPanel(ccp));
+        panels.add(ccp);
         panels.add(new GeneralSettingsPanel());
         panels.add(new TitleSettingsPanel());
         panels.add(new InsertPageSettingsPanel());
@@ -531,7 +546,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void previousPanel() {
-
         np.showNextButton();
 
         if (currentPanel > 0) {
@@ -539,7 +553,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             np.showPreviousButton();
         }
 
-        if (currentPanel == 0) {
+        else if (currentPanel == 0) {
             getContentPane().remove(panels.get(currentPanel));
             getContentPane().remove(np);
             showFirstPanel();
