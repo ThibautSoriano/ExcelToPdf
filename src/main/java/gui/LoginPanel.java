@@ -1,6 +1,7 @@
 package main.java.gui;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -65,7 +66,7 @@ public class LoginPanel extends SettingsChoicePanel{
             return true;
         } catch (Exception e) {
            
-            e.printStackTrace();
+           JOptionPane.showMessageDialog(null,  e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         
         return false;

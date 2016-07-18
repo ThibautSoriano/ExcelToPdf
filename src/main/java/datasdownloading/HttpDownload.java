@@ -1,25 +1,20 @@
 package main.java.datasdownloading;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.swing.JOptionPane;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
 import main.java.datasdownloading.entities.Campaign;
@@ -33,9 +28,18 @@ public class HttpDownload {
 
     private String sessionId;
 
-    public XmlReader xmlReader;
+    private XmlReader xmlReader;
+    
+    private HttpClient client;
 
     public HttpDownload(String userName, String password) throws Exception {
+        client =  HttpClientBuilder.create().build();
+        
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(900).build();
+        client = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build();
+        
+       
+        
 
         this.userName = userName;
         this.password = password;
@@ -43,8 +47,8 @@ public class HttpDownload {
         HttpMessage m = login(this.userName, this.password);
 
         if (!m.isOk()) {
-            showErrorMessage(m.getErrorMessage());
-            throw new Exception();
+//            showErrorMessage(m.getErrorMessage());
+            throw new LoginException(m.getErrorMessage());
         }
     }
 
@@ -59,7 +63,7 @@ public class HttpDownload {
     }
 
     private HttpMessage sendGet(String url) {
-        HttpClient client = HttpClientBuilder.create().build();
+       
         HttpGet request = new HttpGet(url);
 
         try {
@@ -71,7 +75,7 @@ public class HttpDownload {
 
             return new HttpMessage(true, "OK", content);
         } catch (UnknownHostException e) {
-            return new HttpMessage(false, "No internet", "");
+            return new HttpMessage(false, "Connection with the server failed.\nPlease check your internet connection", "");
         } catch (ClientProtocolException e) {
             return new HttpMessage(false, e.getMessage(), "");
         } catch (IOException e) {
@@ -96,8 +100,13 @@ public class HttpDownload {
 
         if (m.isOk()) {
 
-            sessionId = XmlReader.getSessionID(m.getContent());
-
+            HttpMessage m2 =XmlReader.getSessionID(m.getContent());
+            
+            if (m2.isOk()) 
+                sessionId = m2.getContent();
+            else
+                return m2;
+                        
         }
         
         return m;
