@@ -46,6 +46,7 @@ public class MainMenuPanel extends SettingsChoicePanel {
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 mainWindow.createPanelsExcel();
+                MainMenuPanel.this.mainWindow.setDownload(false);
             }
         });
         btnFromAnExcel.setBounds(44, 241, 224, 51);
@@ -55,19 +56,13 @@ public class MainMenuPanel extends SettingsChoicePanel {
         btnByDownloadingDatas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                btnByDownloadingDatas.setText("Loading...");
-
                 mainWindow.createPanelsInternet();
+                MainMenuPanel.this.mainWindow.setDownload(true);
             }
         });
 
         
-        addComponentListener(new ComponentAdapter() {
-            public void componentShown (ComponentEvent e) {
-                System.err.println("pute");
-            }
-        });      
-
+       
         btnByDownloadingDatas.setBounds(311, 241, 224, 51);
         add(btnByDownloadingDatas);
 

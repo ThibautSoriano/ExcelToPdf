@@ -3,6 +3,7 @@ package main.java.gui;
 import java.awt.Component;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -24,7 +25,9 @@ import main.java.utils.Message;
 public class CampaignChoicePanel extends SettingsChoicePanel {
 
     private JTable table;
-
+    private  List<String> campaignHeaders;
+    
+    
     public CampaignChoicePanel() {
         super("Campaign choice");
 
@@ -41,7 +44,8 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         columnNames.addElement("<html><b>End date</b></html>");
         
         
-
+        campaignHeaders = new ArrayList<String>();
+        
         Vector<Vector> rowData = new Vector<Vector>();
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         
@@ -54,6 +58,8 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             row.addElement(f.format(campaignHeader.getStartDate()));
             row.addElement(f.format(campaignHeader.getEndDate()));
             rowData.addElement(row);
+            
+            campaignHeaders.add(campaignHeader.getCampaignID());
         }
 
         DefaultTableModel model = new DefaultTableModel(rowData, columnNames);
@@ -162,6 +168,10 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         frame.setVisible(true);
         
         
+    }
+    
+    public String getSelectedId(){
+        return campaignHeaders.get(table.getSelectedRow());
     }
 
 }

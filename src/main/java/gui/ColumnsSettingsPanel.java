@@ -21,6 +21,8 @@ import main.java.utils.Message;
 public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+    
+    private boolean download;
 
     private JCheckBox chckbxImpressionsRankings;
 
@@ -50,23 +52,18 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
     private JCheckBox chckbxUniqueCookiesTechnical;
 
-    
     private List<JCheckBox> groupRankings;
-    
+
     public static final int MAX_BOX_CHECKED = 5;
-    
+
     private int cptRankingsChecked = 0;
-    
+
     private int cptTechnicalChecked = 0;
-    
-    
+
     private List<JCheckBox> groupTechnical;
-    
-    
-    
-    
-    
-    
+
+    private JCheckBox chckbxReach;
+
     public JCheckBox getChckbxImpressionsRankings() {
         return chckbxImpressionsRankings;
     }
@@ -123,12 +120,21 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         return chckbxUniqueCookiesTechnical;
     }
 
-    public ColumnsSettingsPanel() {
+    
+    
+    
+    public JCheckBox getChckbxReach() {
+        return chckbxReach;
+    }
+
+    public ColumnsSettingsPanel(boolean download) {
         super(Internationalization.getKey("Columns Settings"));
+
+        this.download = download;
         
         groupRankings = new ArrayList<JCheckBox>();
         groupTechnical = new ArrayList<JCheckBox>();
-        
+
         tabbedPane.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
             protected int calculateTabHeight(int tabPlacement, int tabIndex,
@@ -143,16 +149,18 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             }
 
             @Override
-            protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects,
-                    int tabIndex, Rectangle iconRect, Rectangle textRect,
-                    boolean isSelected) {
+            protected void paintFocusIndicator(Graphics g, int tabPlacement,
+                    Rectangle[] rects, int tabIndex, Rectangle iconRect,
+                    Rectangle textRect, boolean isSelected) {
                 if (isSelected) {
-                    g.setColor(new Color(104,138,200,50));
-                    g.fillRect(rects[tabIndex].x, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height);
-                    
+                    g.setColor(new Color(104, 138, 200, 50));
+                    g.fillRect(rects[tabIndex].x, rects[tabIndex].y,
+                            rects[tabIndex].width, rects[tabIndex].height);
+
                 }
-                
-                super.paintFocusIndicator(g, tabPlacement, rects, tabIndex, iconRect, textRect, isSelected);
+
+                super.paintFocusIndicator(g, tabPlacement, rects, tabIndex,
+                        iconRect, textRect, isSelected);
             }
 
             @Override
@@ -169,7 +177,11 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         add(tabbedPane);
 
         JPanel panelRankings = new JPanel();
-        tabbedPane.addTab("Rankings", null, panelRankings, null);
+        if (download)
+            tabbedPane.addTab("Data", null, panelRankings, null);
+        else
+            
+            tabbedPane.addTab("Rankings", null, panelRankings, null);
         panelRankings.setLayout(null);
 
         chckbxImpressionsRankings = new JCheckBox("Impressions");
@@ -177,104 +189,107 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         panelRankings.add(chckbxImpressionsRankings);
         groupRankings.add(chckbxImpressionsRankings);
 
-         chckbxClicksRankings = new JCheckBox("Clicks");
+        chckbxClicksRankings = new JCheckBox("Clicks");
         chckbxClicksRankings.setBounds(243, 57, 97, 23);
         panelRankings.add(chckbxClicksRankings);
-        groupRankings.add(chckbxClicksRankings) ;
+        groupRankings.add(chckbxClicksRankings);
 
         chckbxUniqueCTRRankings = new JCheckBox("Unique CTR");
         chckbxUniqueCTRRankings.setBounds(393, 57, 97, 23);
         panelRankings.add(chckbxUniqueCTRRankings);
-        groupRankings.add(chckbxUniqueCTRRankings) ;
+        groupRankings.add(chckbxUniqueCTRRankings);
 
-         chckbxClickingUsersRankings = new JCheckBox("Clicking users");
+        chckbxClickingUsersRankings = new JCheckBox("Clicking users");
         chckbxClickingUsersRankings.setBounds(243, 131, 97, 23);
         panelRankings.add(chckbxClickingUsersRankings);
-        groupRankings.add(chckbxClickingUsersRankings) ;
+        groupRankings.add(chckbxClickingUsersRankings);
 
-         chckbxClickThroughRateRankings = new JCheckBox(
-                "Click through rate");
+        chckbxClickThroughRateRankings = new JCheckBox("Click through rate");
         chckbxClickThroughRateRankings.setBounds(243, 199, 120, 23);
         panelRankings.add(chckbxClickThroughRateRankings);
-        groupRankings.add(chckbxClickThroughRateRankings) ;
+        groupRankings.add(chckbxClickThroughRateRankings);
 
-         chckbxFrequencyRankings = new JCheckBox("Frequency");
+        chckbxFrequencyRankings = new JCheckBox("Frequency");
         chckbxFrequencyRankings.setBounds(93, 199, 97, 23);
         panelRankings.add(chckbxFrequencyRankings);
-        groupRankings.add(chckbxFrequencyRankings) ;
+        groupRankings.add(chckbxFrequencyRankings);
 
         JSeparator separator = new JSeparator();
         separator.setBounds(93, 33, 397, 2);
         panelRankings.add(separator);
-        
 
-         chckbxUniqueCookiesRankings = new JCheckBox("Unique cookies");
-        chckbxUniqueCookiesRankings.setBounds(93, 131, 97, 23);
-        panelRankings.add(chckbxUniqueCookiesRankings);
-        groupRankings.add(chckbxUniqueCookiesRankings) ;
+        if (download) {
+            
+            chckbxReach = new JCheckBox("Reach");
+            chckbxReach.setBounds(93, 131, 97, 23);
+            panelRankings.add(chckbxReach);
+            groupRankings.add(chckbxReach);
+        }
 
-         JSeparator separator_1 = new JSeparator();
+        else {
+            chckbxUniqueCookiesRankings = new JCheckBox("Unique cookies");
+            chckbxUniqueCookiesRankings.setBounds(93, 131, 97, 23);
+            panelRankings.add(chckbxUniqueCookiesRankings);
+            groupRankings.add(chckbxUniqueCookiesRankings);
+
+        }
+        JSeparator separator_1 = new JSeparator();
         separator_1.setBounds(93, 252, 397, 2);
         panelRankings.add(separator_1);
 
-        JPanel panelTechnical = new JPanel();
-        tabbedPane.addTab("Technical", null, panelTechnical, null);
-        panelTechnical.setLayout(null);
+        if (!download) {
+            JPanel panelTechnical = new JPanel();
+            tabbedPane.addTab("Technical", null, panelTechnical, null);
+            panelTechnical.setLayout(null);
 
-         chckbxImpressionsTechnical = new JCheckBox("Impressions");
-        chckbxImpressionsTechnical.setBounds(93, 57, 97, 23);
-        panelTechnical.add(chckbxImpressionsTechnical);
-        groupTechnical.add(chckbxImpressionsTechnical);
+            chckbxImpressionsTechnical = new JCheckBox("Impressions");
+            chckbxImpressionsTechnical.setBounds(93, 57, 97, 23);
+            panelTechnical.add(chckbxImpressionsTechnical);
+            groupTechnical.add(chckbxImpressionsTechnical);
 
-         chckbxClicksTechnical = new JCheckBox("Clicks");
-        chckbxClicksTechnical.setBounds(243, 57, 97, 23);
-        panelTechnical.add(chckbxClicksTechnical);
-        groupTechnical.add(chckbxClicksTechnical);
+            chckbxClicksTechnical = new JCheckBox("Clicks");
+            chckbxClicksTechnical.setBounds(243, 57, 97, 23);
+            panelTechnical.add(chckbxClicksTechnical);
+            groupTechnical.add(chckbxClicksTechnical);
 
-         chckbxUniqueCTRTechnical = new JCheckBox("Unique CTR");
-        chckbxUniqueCTRTechnical.setBounds(393, 57, 97, 23);
-        panelTechnical.add(chckbxUniqueCTRTechnical);
-        groupTechnical.add(chckbxUniqueCTRTechnical);
+            chckbxUniqueCTRTechnical = new JCheckBox("Unique CTR");
+            chckbxUniqueCTRTechnical.setBounds(393, 57, 97, 23);
+            panelTechnical.add(chckbxUniqueCTRTechnical);
+            groupTechnical.add(chckbxUniqueCTRTechnical);
 
-         chckbxClickingUsersTechnical = new JCheckBox(
-                "Clicking users");
-        chckbxClickingUsersTechnical.setBounds(243, 131, 97, 23);
-        panelTechnical.add(chckbxClickingUsersTechnical);
-        groupTechnical.add(chckbxClickingUsersTechnical);
+            chckbxClickingUsersTechnical = new JCheckBox("Clicking users");
+            chckbxClickingUsersTechnical.setBounds(243, 131, 97, 23);
+            panelTechnical.add(chckbxClickingUsersTechnical);
+            groupTechnical.add(chckbxClickingUsersTechnical);
 
-         chckbxClickThroughRateTechnical = new JCheckBox(
-                "Click through rate");
-        chckbxClickThroughRateTechnical.setBounds(243, 199, 120, 23);
-        panelTechnical.add(chckbxClickThroughRateTechnical);
-        groupTechnical.add(chckbxClickThroughRateTechnical);
+            chckbxClickThroughRateTechnical = new JCheckBox(
+                    "Click through rate");
+            chckbxClickThroughRateTechnical.setBounds(243, 199, 120, 23);
+            panelTechnical.add(chckbxClickThroughRateTechnical);
+            groupTechnical.add(chckbxClickThroughRateTechnical);
 
-         chckbxFrequencyTechnical = new JCheckBox("Frequency");
-        chckbxFrequencyTechnical.setBounds(93, 199, 97, 23);
-        panelTechnical.add(chckbxFrequencyTechnical);
-        groupTechnical.add(chckbxFrequencyTechnical);
-        
-        
-        JSeparator separator_2 = new JSeparator();
-        separator_2.setBounds(93, 33, 397, 2);
-        panelTechnical.add(separator_2);
+            chckbxFrequencyTechnical = new JCheckBox("Frequency");
+            chckbxFrequencyTechnical.setBounds(93, 199, 97, 23);
+            panelTechnical.add(chckbxFrequencyTechnical);
+            groupTechnical.add(chckbxFrequencyTechnical);
 
-         chckbxUniqueCookiesTechnical = new JCheckBox(
-                "Unique cookies");
-        chckbxUniqueCookiesTechnical.setBounds(93, 131, 97, 23);
-        panelTechnical.add(chckbxUniqueCookiesTechnical);
-        groupTechnical.add(chckbxUniqueCookiesTechnical);
+            JSeparator separator_2 = new JSeparator();
+            separator_2.setBounds(93, 33, 397, 2);
+            panelTechnical.add(separator_2);
 
-        JSeparator separator_3 = new JSeparator();
-        separator_3.setBounds(93, 252, 397, 2);
-        panelTechnical.add(separator_3);
-        
-        
-        
-        setListenerBoxClickable(groupRankings,true);
-        setListenerBoxClickable(groupTechnical,false);
-        
-        
-        
+            chckbxUniqueCookiesTechnical = new JCheckBox("Unique cookies");
+            chckbxUniqueCookiesTechnical.setBounds(93, 131, 97, 23);
+            panelTechnical.add(chckbxUniqueCookiesTechnical);
+            groupTechnical.add(chckbxUniqueCookiesTechnical);
+
+            JSeparator separator_3 = new JSeparator();
+            separator_3.setBounds(93, 252, 397, 2);
+            panelTechnical.add(separator_3);
+        }
+
+        setListenerBoxClickable(groupRankings, true);
+        setListenerBoxClickable(groupTechnical, false);
+
     }
 
     @Override
@@ -286,14 +301,14 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     @Override
     public SettingsChoicePanel getNewInstance() {
         // TODO Auto-generated method stub
-        return new ColumnsSettingsPanel();
+        return new ColumnsSettingsPanel(download);
     }
-    
-    
-    private void setListenerBoxClickable(List<JCheckBox> buttons, final boolean rankings){
+
+    private void setListenerBoxClickable(List<JCheckBox> buttons,
+            final boolean rankings) {
         for (final JCheckBox c : buttons) {
             c.addItemListener(new ItemListener() {
-                
+
                 @Override
                 public void itemStateChanged(ItemEvent e) {
 
@@ -302,9 +317,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                             cptRankingsChecked++;
                         else
                             cptTechnicalChecked++;
-                        
-                    }
-                    else {
+
+                    } else {
                         if (rankings)
                             cptRankingsChecked--;
                         else
@@ -316,31 +330,28 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                 private void disableCheckBoxesIfNecessary() {
                     if (cptRankingsChecked >= MAX_BOX_CHECKED) {
                         for (JCheckBox c : groupRankings) {
-                            if (!c.isSelected()) 
+                            if (!c.isSelected())
                                 c.setEnabled(false);
                         }
-                    }
-                    else {
+                    } else {
                         for (JCheckBox c : groupRankings) {
-                            if (!c.isSelected()) 
-                            c.setEnabled(true);
+                            if (!c.isSelected())
+                                c.setEnabled(true);
                         }
                     }
-                    
+
                     if (cptTechnicalChecked >= MAX_BOX_CHECKED) {
                         for (JCheckBox c : groupTechnical) {
-                            if (!c.isSelected()) 
-                            c.setEnabled(false);
+                            if (!c.isSelected())
+                                c.setEnabled(false);
                         }
-                    }
-                    else {
+                    } else {
                         for (JCheckBox c : groupTechnical) {
-                            if (!c.isSelected()) 
-                            c.setEnabled(true);
+                            if (!c.isSelected())
+                                c.setEnabled(true);
                         }
                     }
-                    
-                    
+
                 }
             });
         }

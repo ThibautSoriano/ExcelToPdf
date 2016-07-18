@@ -1,10 +1,13 @@
 package main.java.exceltopdf.pdfsections;
 
+import main.java.datasdownloading.entities.Campaign;
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.entities.ExcelSheet;
 
 public class ContentPage extends Section {	
 	private ExcelSheet excelSheet;
+	
+	private Campaign campaign;
 	
 	private ExcelReader excelReader;
 	
@@ -113,4 +116,12 @@ public class ContentPage extends Section {
 	public void setReach(boolean reach) {
 		this.reach = reach;
 	}
+
+    public Campaign getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
 }

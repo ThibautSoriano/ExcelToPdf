@@ -27,14 +27,17 @@ import main.java.excelreader.entities.ExcelSheet;
 		    public JFreeChart getChart(List<CampaignRow> campaignRows, int colIndex, String abscissa, String ordinate) {
 		        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		        
-		        for (int i = 0; i < 5; i++) {
-		        	dataset.addValue(campaignRows.get(i).toListFloat().get(colIndex), campaignRows.get(i).getFirstColumnData(), "");
+		        if (campaignRows.size() > 5) {
+		            for (int i = 0; i < 5; i++) {
+                                dataset.addValue(campaignRows.get(i).toListFloat().get(colIndex), campaignRows.get(i).getFirstColumnData(), "");
+                        }
+                         
+                        JFreeChart chart = ChartFactory.createBarChart3D("", ordinate, abscissa, dataset, PlotOrientation.HORIZONTAL,             
+                                    true, true, false);
+                        return chart;
 		        }
-		         
-		        JFreeChart chart = ChartFactory.createBarChart3D("", ordinate, abscissa, dataset, PlotOrientation.HORIZONTAL,             
-		                    true, true, false);
 		        
-		        return chart;
+		        return null;
 		    }
 		    
 		    public void create(OutputStream outputStream) throws DocumentException, IOException {

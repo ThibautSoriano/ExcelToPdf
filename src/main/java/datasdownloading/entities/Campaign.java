@@ -9,6 +9,8 @@ public class Campaign {
 	private CampaignHeader campaignHeader;
 	
 	private List<CampaignRow> campaignContent;
+	
+	private List<String> columsLabels;
 
 	public Campaign(CampaignHeader campaignHeader, List<CampaignRow> campaignContent) {
 		this.campaignHeader = campaignHeader;
@@ -30,4 +32,14 @@ public class Campaign {
 	public void setCampaignContent(List<CampaignRow> campaignContent) {
 		this.campaignContent = campaignContent;
 	}
+
+    public List<String> getColumsLabels() {
+        return columsLabels;
+    }
+
+    public void setColumsLabels(List<String> columsLabels) {
+        this.columsLabels = columsLabels;
+    }
+	
+
 }
