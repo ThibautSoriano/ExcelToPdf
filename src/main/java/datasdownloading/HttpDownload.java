@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.swing.JOptionPane;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,7 +35,7 @@ public class HttpDownload {
 
     public XmlReader xmlReader;
 
-    public HttpDownload(String userName, String password) {
+    public HttpDownload(String userName, String password) throws Exception {
 
         this.userName = userName;
         this.password = password;
@@ -42,11 +43,12 @@ public class HttpDownload {
         HttpMessage m = login(this.userName, this.password);
 
         if (!m.isOk()) {
-            System.out.println(m.getErrorMessage());
+            showErrorMessage(m.getErrorMessage());
+            throw new Exception();
         }
     }
 
-    public HttpDownload() {
+    public HttpDownload() throws Exception {
         this("zburi_owner", "ad12dac");
     }
 
@@ -97,6 +99,7 @@ public class HttpDownload {
             sessionId = XmlReader.getSessionID(m.getContent());
 
         }
+        
         return m;
     }
 
@@ -116,7 +119,7 @@ public class HttpDownload {
 
     }
 
-    public String getXmlCampaignDatas(String campaignID) {
+    public HttpMessage getXmlCampaignDatas(String campaignID) {
         String url = "http://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId
                 + "&dimensionIDs=1%2C20&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="
@@ -125,38 +128,40 @@ public class HttpDownload {
         HttpMessage m = sendGet(url);
 
         if (m.isOk())
-            return m.getContent();
-        return "";
+            return new HttpMessage(true, "", m.getContent());
+        return m;
     }
 
-    public String getXmlPlacementList(String campaignID) {
+    public HttpMessage getXmlPlacementList(String campaignID) {
         String url = "http://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId + "&campaignID=" + campaignID + "&showPaths=Y";
 
         HttpMessage m = sendGet(url);
 
         if (m.isOk())
-            return m.getContent();
-        return "";
+            return new HttpMessage(true, "", m.getContent());
+        return m;
     }
 
     public Campaign getCampaignById(String campaignId) {
         String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId;
-
-        String xmlCampaignData = getXmlCampaignDatas(campaignId);
-        
-        String xmlPlacementList = getXmlPlacementList(campaignId);
-
-        HttpMessage m = sendGet(url);
-
-        if (m.isOk() && !"".equals(xmlCampaignData) && !"".equals(xmlPlacementList)) {
+      
+        HttpMessage campaignList = sendGet(url);
+        HttpMessage campaignData = getXmlCampaignDatas(campaignId);        
+        HttpMessage placementList = getXmlPlacementList(campaignId);
+      
+        if (campaignList.isOk() && campaignData.isOk() && campaignData.isOk()) {
             if (xmlReader == null)
-                xmlReader = new XmlReader(m.getContent());
-            return xmlReader.getCampaign(campaignId, xmlCampaignData,xmlPlacementList);
+                xmlReader = new XmlReader(campaignList.getContent());
+            return xmlReader.getCampaign(campaignId, campaignData.getContent(),placementList.getContent());
 
         }
         return null;
     }
 
+    
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(null, "ERROR", message, JOptionPane.ERROR_MESSAGE);
+    }
 }

@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -422,7 +423,13 @@ public class MainWindow extends JFrame implements IMainFrame {
     HttpDownload dl = new HttpDownload();
     String campaignID = ccp.getSelectedId();
    
+    
     Campaign c = dl.getCampaignById(campaignID);
+    
+    if (c == null) {
+        JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
+        return;
+    }
     
     List<String> labels = new ArrayList<>();
     labels.add("Placement path");

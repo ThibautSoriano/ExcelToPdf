@@ -32,7 +32,17 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         super("Campaign choice");
 
         
-        HttpDownload htpdl = new HttpDownload();
+        JLabel lblSelectACampaign = new JLabel("Select a campaign");
+        lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblSelectACampaign.setBounds(54, 60, 221, 22);
+        add(lblSelectACampaign);
+        
+        
+    }
+    
+    public void fillTableCampaignChoice(HttpDownload htpdl){
+        
+        
         List<CampaignHeader> l = htpdl.getCampaignHeaders();
         
         Vector<String> columnNames = new Vector<String>();
@@ -109,11 +119,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         scrollPane.setViewportView(table);
         add(scrollPane);
 
-        JLabel lblSelectACampaign = new JLabel("Select a campaign");
-        lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lblSelectACampaign.setBounds(54, 60, 221, 22);
-        add(lblSelectACampaign);
-        
+       
         
         
     }
@@ -164,7 +170,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         JFrame frame = new JFrame("a");
         frame.setSize(600,500);
         frame.getContentPane().setLayout(null);
-        frame.getContentPane().add(new CampaignChoicePanel());
+//        frame.getContentPane().add(new CampaignChoicePanel());
         frame.setVisible(true);
         
         
