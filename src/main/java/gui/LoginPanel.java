@@ -10,10 +10,9 @@ import javax.swing.SwingConstants;
 import main.java.datasdownloading.HttpDownload;
 import main.java.utils.Message;
 
+@SuppressWarnings("serial")
 public class LoginPanel extends SettingsChoicePanel{
-
     
-    private HttpDownload htpdl;
     private JTextField txtLogin;
     private JPasswordField txtPassword;
     
@@ -56,17 +55,32 @@ public class LoginPanel extends SettingsChoicePanel{
     
     
    
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean isEveryThingOk(Message message) {
+    	String login = txtLogin.getText();
+    	String password = txtPassword.getText();
+    	
+    	if ("".equals(login)) {
+    		JOptionPane.showMessageDialog(null, "No login name given", "ERROR", JOptionPane.ERROR_MESSAGE);
+    		
+    		return false;
+    	}
+    	else if ("".equals(password)) {
+    		JOptionPane.showMessageDialog(null, "No password given", "ERROR", JOptionPane.ERROR_MESSAGE);
+    		
+    		return false;
+    	}
+    	
         try {
-           
-            HttpDownload htpdl = new HttpDownload(txtLogin.getText(), txtPassword.getText());
+        	
+			HttpDownload htpdl = new HttpDownload(login, password);
             MainWindow.setSession(htpdl);
             ccp.fillTableCampaignChoice(htpdl);
             return true;
         } catch (Exception e) {
            
-           JOptionPane.showMessageDialog(null,  e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
         }
         
         return false;
