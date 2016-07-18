@@ -2,13 +2,11 @@ package main.java.gui.windowbuilder;
 
 import java.awt.EventQueue;
 
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -16,7 +14,7 @@ public class LoginWindow {
 
 	private JFrame frame;
 	private JTextField txtLogin;
-	private JTextField txtPassword;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -78,7 +76,7 @@ public class LoginWindow {
         panel.add(txtLogin);
         txtLogin.setColumns(10);
         
-        txtPassword = new JTextField();
+        txtPassword = new JPasswordField();
         txtPassword.setColumns(10);
         txtPassword.setBounds(211, 197, 173, 20);
         panel.add(txtPassword);
