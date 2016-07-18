@@ -27,6 +27,7 @@ import main.java.excelreader.entities.ExcelSheet;
 		    public JFreeChart getChart(List<CampaignRow> campaignRows, int colIndex, String abscissa, String ordinate) {
 		        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		        
+		        System.out.println("liste triée :\n" + campaignRows);
 		        if (campaignRows.size() > 5) {
 		            for (int i = 0; i < 5; i++) {
                                 dataset.addValue(campaignRows.get(i).toListFloat().get(colIndex), campaignRows.get(i).getFirstColumnData(), "");

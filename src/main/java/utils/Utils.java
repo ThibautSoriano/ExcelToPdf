@@ -36,4 +36,19 @@ public class Utils {
 		TMP++;
 		return TMP;
 	}
+
+	public static int parseInt(String textContent) {
+		if (!"NULL".equals(textContent)) {
+			return Integer.parseInt(textContent);
+		}
+		
+		return 0;
+	}
+
+	public static float parseFloat(String textContent) {
+		if (!"NULL".equals(textContent)) {
+			return Float.parseFloat(textContent);
+		}
+		return 0;
+	}
 }

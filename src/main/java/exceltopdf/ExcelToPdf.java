@@ -139,7 +139,7 @@ public class ExcelToPdf {
 		
 		if (download || contentPage.getExcelReader().getType().equals("Rankings")) {
 			if (contentPage.isImpressions()) {
-			    JFreeChart impressionsChart = barChartCreator.getChart(rows, CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
+			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
 			    if (impressionsChart != null)
 				document.add(getImageBar(impressionsChart, writer));
 			}
@@ -208,30 +208,26 @@ public class ExcelToPdf {
 		document.newPage();
 		writer.setPageEmpty(false);
         
-		
-		boolean reachOrCookies = false;
 		List<String> labels;
 		
 		if (download) {
 		    document.add(new Paragraph("Full datas table\n\n"));
-		    reachOrCookies = contentPage.isReach();
 		    labels = contentPage.getCampaign().getColumsLabels();
 		}
 		else {
 		    document.add(new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n"));
-		    reachOrCookies = contentPage.isUniqueCookies();
 		    labels = contentPage.getExcelSheet().getColumsLabels();
 		}
 		
     	boolean [] colsToPrint = {
-    			true, contentPage.isImpressions(), reachOrCookies, contentPage.isFrequency(),
+    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
                 contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
-                contentPage.isUniqueCTR()
+                contentPage.isUniqueCTR(), contentPage.isReach()
         };
         
         TabCreator tc = new TabCreator(contentPage.getExcelSheet());
         
-        document.add(tc.createTabCampaign(rows, labels, new CampaignRow("merguez", 0, 0, 0, 0, new Percentage(0), new Percentage(0)),colsToPrint,true));
+        document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
         
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();

@@ -10,11 +10,14 @@ public class Campaign {
 	
 	private List<CampaignRow> campaignContent;
 	
+	private CampaignRow all;
+	
 	private List<String> columsLabels;
 
-	public Campaign(CampaignHeader campaignHeader, List<CampaignRow> campaignContent) {
+	public Campaign(CampaignHeader campaignHeader, List<CampaignRow> campaignContent, CampaignRow all) {
 		this.campaignHeader = campaignHeader;
 		this.campaignContent = campaignContent;
+		this.all = all;
 	}
 	
 	public CampaignHeader getCampaignHeader() {
@@ -40,6 +43,14 @@ public class Campaign {
     public void setColumsLabels(List<String> columsLabels) {
         this.columsLabels = columsLabels;
     }
+
+	public CampaignRow getAll() {
+		return all;
+	}
+
+	public void setAll(CampaignRow all) {
+		this.all = all;
+	}
 	
 
 }

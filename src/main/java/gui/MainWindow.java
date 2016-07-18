@@ -421,15 +421,18 @@ public class MainWindow extends JFrame implements IMainFrame {
         
     HttpDownload dl = new HttpDownload();
     String campaignID = ccp.getSelectedId();
-    Campaign c = HttpDownload.xmlReader.getCampaign(campaignID, dl.getXmlCampaignDatas(campaignID), dl.getXmlPlacementList(campaignID));
+    HttpDownload.xmlReader.fillMapPlacementsNames(dl.getXmlPlacementList(campaignID));
+    Campaign c = HttpDownload.xmlReader.getCampaign(campaignID, dl.getXmlCampaignDatas(campaignID));
     List<String> labels = new ArrayList<>();
+    labels.add("Placement path");
     labels.add("Impressions");
-    labels.add("Reach");
+    labels.add("Unique cookies");
     labels.add("Frequency");
     labels.add("Clicks");
     labels.add("Clicking users");
     labels.add("Click Through Rate");
     labels.add("Unique CTR");
+    labels.add("Reach");
     c.setColumsLabels(labels);
     try{
         etpd.createPdfDownload(c,"orbegozo_online.pdf", sections, isp.getRdbtnOn().isSelected());

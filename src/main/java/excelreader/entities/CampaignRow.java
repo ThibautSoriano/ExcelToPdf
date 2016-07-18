@@ -11,7 +11,7 @@ import main.java.utils.Percentage;
 
 public  class CampaignRow {
     
-    public static final int MAX_COLUMNS = 8;
+    public static final int MAX_COLUMNS = 9;
     
     public static final int IMPRESSIONS_INDEX = 0;
     
@@ -46,12 +46,12 @@ public  class CampaignRow {
     /**
      * percentage : 0,01 for example
      */
-    protected Percentage clickThroughRate;
+    protected Percentage clickThroughRate = new Percentage(0);
 
     /**
      * percentage
      */
-    protected Percentage uniqueCTR;
+    protected Percentage uniqueCTR = new Percentage(0);
 
     
    
@@ -72,6 +72,9 @@ public  class CampaignRow {
 	    this.clickingUsers = clickingUsers;
 	    this.clickThroughRate = clickThroughRate;
 	    this.uniqueCTR = uniqueCTR;
+    }
+    
+    public CampaignRow() {
     }
     
     public int getImpressions() {
@@ -155,6 +158,7 @@ public  class CampaignRow {
             res += firstColumnData + "\t";
             res += impressions + "\t";
             res += uniqueCookies + "\t";
+            res += reach + "\t";
             res += frequency + "\t";
             res += clicks + "\t";
             res += clickingUsers + "\t";
@@ -168,12 +172,7 @@ public  class CampaignRow {
         List<String> l = new ArrayList<String>();
         l.add(firstColumnData);
         l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
-        if (uniqueCookies == -1) {
-        	l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
-        }
-        else {
-        	l.add(getSpacesBetweenThousands(String.valueOf(reach)));
-        }
+    	l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));
         
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
@@ -184,6 +183,8 @@ public  class CampaignRow {
         l.add(getSpacesBetweenThousands(String.valueOf(clickingUsers)));
         l.add(clickThroughRate.toString());
         l.add(uniqueCTR.toString());
+        l.add(getSpacesBetweenThousands(String.valueOf(reach)));
+        
         return l;
     }
     
@@ -213,6 +214,7 @@ public  class CampaignRow {
         l.add((float) clickingUsers);
         l.add(clickThroughRate.getValue());
         l.add(uniqueCTR.getValue());
+        l.add((float) reach);
         
         return l;
     }
