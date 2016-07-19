@@ -73,12 +73,12 @@ public class LoginPanel extends SettingsChoicePanel{
     	
         try {
         	
-			HttpDownload htpdl = new HttpDownload(login, password);
+			HttpDownload htpdl = new HttpDownload();
             MainWindow.setSession(htpdl);
             ccp.fillTableCampaignChoice(htpdl);
             return true;
         } catch (Exception e) {
-           
+           e.printStackTrace();
            JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
         }
         

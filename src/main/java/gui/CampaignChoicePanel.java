@@ -12,10 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import main.java.datasdownloading.HttpDownload;
 import main.java.datasdownloading.entities.CampaignHeader;
@@ -45,6 +49,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     public  void fillTableCampaignChoice(HttpDownload htpdl){
         
         
+        
         List<CampaignHeader> l = htpdl.getCampaignHeaders();
         
         Vector<String> columnNames = new Vector<String>();
@@ -66,7 +71,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             row.addElement(campaignHeader.getCampaignName());
             row.addElement(campaignHeader.getClientName());
            
-//            row.addElement(f.format(campaignHeader.getCreationDate()));
+            row.addElement(f.format(campaignHeader.getCreationDate()));
             row.addElement(f.format(campaignHeader.getStartDate()));
             row.addElement(f.format(campaignHeader.getEndDate()));
             rowData.addElement(row);
@@ -115,6 +120,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
   
+        table.setAutoCreateRowSorter(true);
+       
+        
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(46, 99, 495, 259);
         scrollPane.add(table);
@@ -179,7 +187,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     }
     
     public String getSelectedId(){
-        return campaignHeaders.get(table.getSelectedRow());
+        return campaignHeaders.get(table.convertRowIndexToModel(table.getSelectedRow()));
     }
 
 }
