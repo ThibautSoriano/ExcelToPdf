@@ -15,7 +15,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class ColumnsSettingsPanel extends SettingsChoicePanel {
@@ -293,14 +292,12 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     }
 
     @Override
-    public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
+    public boolean isEveryThingOk() {
         return true;
     }
 
     @Override
     public SettingsChoicePanel getNewInstance() {
-        // TODO Auto-generated method stub
         return new ColumnsSettingsPanel(download);
     }
 

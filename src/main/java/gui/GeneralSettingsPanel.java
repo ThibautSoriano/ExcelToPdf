@@ -15,7 +15,6 @@ import javax.swing.border.EmptyBorder;
 
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class GeneralSettingsPanel extends SettingsChoicePanel{
@@ -179,8 +178,7 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     }
     
     @Override
-    public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
+    public boolean isEveryThingOk() {
         return true;
     }
 

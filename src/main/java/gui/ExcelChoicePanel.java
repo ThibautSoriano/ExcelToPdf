@@ -16,7 +16,6 @@ import javax.swing.SwingConstants;
 import main.java.gui.windowbuilder.MainWindowZhengqin;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class ExcelChoicePanel extends SettingsChoicePanel {
@@ -104,7 +103,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
     }
 
     @Override
-    public boolean isEveryThingOk(Message message) {
+    public boolean isEveryThingOk() {
         boolean ok = false;
 
         String txt = txtExcel.getText();
