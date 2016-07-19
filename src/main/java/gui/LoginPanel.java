@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import main.java.datasdownloading.HttpDownload;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class LoginPanel extends SettingsChoicePanel{
@@ -57,7 +56,7 @@ public class LoginPanel extends SettingsChoicePanel{
    
     @SuppressWarnings("deprecation")
 	@Override
-    public boolean isEveryThingOk(Message message) {
+    public boolean isEveryThingOk() {
     	String login = txtLogin.getText();
     	String password = txtPassword.getText();
     	

@@ -29,7 +29,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.itextpdf.text.DocumentException;
 
 import main.java.datasdownloading.HttpDownload;
-import main.java.datasdownloading.XmlReader;
 import main.java.datasdownloading.entities.Campaign;
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
@@ -43,7 +42,6 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Language;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements IMainFrame {
@@ -528,8 +526,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void nextPanel() {
-        Message m = new Message();
-        if (panels.get(currentPanel).isEveryThingOk(m)) {
+        if (panels.get(currentPanel).isEveryThingOk()) {
 
             np.showPreviousButton();
             showNextPanel();

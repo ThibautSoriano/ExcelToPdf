@@ -12,7 +12,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class InsertPageSettingsPanel extends SettingsChoicePanel {
@@ -158,8 +157,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
     }
 
     @Override
-    public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
+    public boolean isEveryThingOk() {
         return true;
     }
 

@@ -6,8 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import main.java.utils.Message;
-
 @SuppressWarnings("serial")
 public abstract class SettingsChoicePanel extends JPanel{
     
@@ -35,7 +33,7 @@ public abstract class SettingsChoicePanel extends JPanel{
         
     }
     
-    public abstract boolean isEveryThingOk(Message message);
+    public abstract boolean isEveryThingOk();
     
     public void displayPanel(){
         setVisible(true);

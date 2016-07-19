@@ -19,7 +19,6 @@ import javax.swing.table.TableCellRenderer;
 
 import main.java.datasdownloading.HttpDownload;
 import main.java.datasdownloading.entities.CampaignHeader;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class CampaignChoicePanel extends SettingsChoicePanel {
@@ -150,7 +149,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     }
 
     @Override
-    public boolean isEveryThingOk(Message message) {
+    public boolean isEveryThingOk() {
         
         return table.getSelectedRow() > -1;
     }

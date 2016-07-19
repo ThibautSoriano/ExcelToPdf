@@ -8,7 +8,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import main.java.utils.Internationalization;
-import main.java.utils.Message;
 
 @SuppressWarnings("serial")
 public class TitleSettingsPanel extends SettingsChoicePanel{
@@ -103,7 +102,7 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         add(scrollPane);
         
         
-         txtrBelowTitle = new JTextArea();
+        txtrBelowTitle = new JTextArea();
         scrollPane.setViewportView(txtrBelowTitle);
 
         txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
@@ -116,8 +115,7 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
     }
     
     @Override
-    public boolean isEveryThingOk(Message message) {
-        // TODO Auto-generated method stub
+    public boolean isEveryThingOk() {
         return true;
     }
 
