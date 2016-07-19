@@ -25,7 +25,7 @@ public class HttpDownload {
 
     private String userName;
 
-    private String password;
+    private String password; 
 
     private String sessionId;
 

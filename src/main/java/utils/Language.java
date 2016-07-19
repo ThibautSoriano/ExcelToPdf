@@ -1,7 +1,7 @@
 package main.java.utils;
 
 public enum Language {
-    EN("en","US","English","ISO-8859-2"),HU("hu","HU","Magyar","UTF8"),FR("fr","FR","FranÃ§ais","ISO-8859-1");
+    EN("en","US","English","ISO-8859-2"),HU("hu","HU","Magyar","UTF8"),FR("fr","FR","Français","ISO-8859-1");
     
     private String language, country,name, encoding;
     

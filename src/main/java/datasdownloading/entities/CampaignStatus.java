@@ -1,7 +1,7 @@
 package main.java.datasdownloading.entities;
 
 public enum CampaignStatus {
-	CURRENT("current"), FINISHED("finished");
+	CURRENT("current"), FINISHED("finished"), WAITING("waiting");
 	
 	private String value;
 	
