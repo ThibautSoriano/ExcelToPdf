@@ -56,11 +56,7 @@ public class HttpDownload {
         this("zburi_owner", "ad12dac");
     }
 
-    public static void main(String[] args) throws Exception {
-        HttpDownload http = new HttpDownload();
-
-        System.out.println(http.getCampaignHeaders());
-    }
+   
 
     private HttpMessage sendGet(String url) {
 
@@ -116,17 +112,18 @@ public class HttpDownload {
 
     public List<CampaignHeader> getCampaignHeaders() {
 
-        String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
-                + sessionId;
-
-        HttpMessage m = sendGet(url);
-
-        if (m.isOk()) {
-            if (xmlReader == null)
+        if (xmlReader == null) {
+            String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+                    + sessionId;
+            HttpMessage m = sendGet(url);
+            if (m.isOk())
                 xmlReader = new XmlReader(m.getContent());
-            return xmlReader.getAllHeaders();
-        } else
-            return new ArrayList<CampaignHeader>();
+            else
+                new ArrayList<CampaignHeader>();
+        }
+           
+       return xmlReader.getAllHeaders();
+
 
     }
 
@@ -165,16 +162,10 @@ public class HttpDownload {
                 xmlReader = new XmlReader(campaignList.getContent());
             else
                 return null;
-        }
-
-        
+        }      
         HttpMessage campaignData = getXmlCampaignDatas(campaignId);
         HttpMessage placementList = getXmlPlacementList(campaignId);
-        
-       
-        
-        
-
+            
         if (campaignData.isOk() && placementList.isOk()) {
 
             return xmlReader.getCampaign(campaignId, campaignData.getContent(),
@@ -183,7 +174,7 @@ public class HttpDownload {
         }
         return null;
     }
-
+/*
     public Campaign getCampaignTechnicalById(String campaignId) {
 
         if (xmlReader == null) {
@@ -201,21 +192,21 @@ public class HttpDownload {
         HttpMessage campaignData = sendGet(
                 "http://gdeapi.gemius.com/GetTechStats.php?"
                 + "ignoreEmptyParams=Y&"
-                + "sessionID=g359f9568a0c81bc"
+                + "sessionID="+sessionId
                 + "&dimensionIDs=1&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&techDimension=Region&"
-                + "campaignIDs=557150106");
+                + "campaignIDs="+campaignId);
         
         HttpMessage all = sendGet( "http://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&"
-                + "sessionID=g5e878ecc5dbb34d"
+                + "sessionID="+sessionId
                 + "&dimensionIDs=1&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&"
-                + "campaignIDs=557150106"
+                + "campaignIDs="+campaignId
                 + "&techDimension=Country");
         
         
         
         HttpMessage mapIdToCounty = sendGet("http://gdeapi.gemius.com/GetRegionsList.php?ignoreEmptyParams=Y&"
                 + "sessionID="+sessionId
-                + "&countryID=44");
+                + "&countryID="+BUDAPEST_ID);
         
 
         if (campaignData.isOk() && campaignData.isOk() && mapIdToCounty.isOk()) {
@@ -225,5 +216,5 @@ public class HttpDownload {
         }
         return null;
     }
-
+*/
 }
