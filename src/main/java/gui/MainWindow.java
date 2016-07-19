@@ -436,7 +436,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     String campaignID = ccp.getSelectedId();
    
     
-    Campaign c = session.getCampaignById(campaignID);
+    Campaign c = session.getCampaignRankingsById(campaignID);
     
     if (c == null) {
         JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
