@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,6 +28,8 @@ import main.java.utils.Utils;
 public class XmlReader {
 	
 	private Map<String, String> placementsNames = new HashMap<>();
+	
+	private Map<String, String> idToCounty = new HashMap<>();
 	
 	private List<CampaignHeader> allHeaders = new ArrayList<>();
 	
@@ -206,6 +207,82 @@ public class XmlReader {
 		
 		return null;
 	}
+
+	public Campaign getCampaignTechnical(String campaignId, String xmlCampaignDatas, String xmlSummaryData, String xmlIdToCounty, int budapestId) {
+		fillMapIdToCounty(xmlIdToCounty);
+		
+		Campaign c;
+		List<CampaignRow> rows = new ArrayList<>();
+		CampaignRow all = new CampaignRow();
+		
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlCampaignDatas.getBytes("utf-8"))));
+
+			doc.getDocumentElement().normalize();
+			NodeList nList = doc.getElementsByTagName("statisticsRecord");
+
+			for (int i = 0; i < nList.getLength(); i++) {
+
+				Node nNode = nList.item(i);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
+					Element eElement = (Element) nNode;
+					String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
+					if(placementsNames.containsKey(placementID)) {
+						String placementName = placementsNames.get(placementID);
+						int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
+						int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
+						float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
+						int clicks = Utils.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
+						int userClicks = Utils.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
+						float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
+						float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
+						
+						CampaignRow currentRow = new CampaignRow(placementName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+						currentRow.setReach(reach);
+						if ("All".equals(placementName)) {
+							all = currentRow;
+						}
+						else {
+							rows.add(currentRow);
+						}
+					}
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private void fillMapIdToCounty(String xmlIdToCounty) {
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlIdToCounty.getBytes("utf-8"))));
+
+			doc.getDocumentElement().normalize();
+			NodeList nList = doc.getElementsByTagName("region");
+
+			for (int i = 0; i < nList.getLength(); i++) {
+
+				Node nNode = nList.item(i);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	
+					Element eElement = (Element) nNode;
+					
+					idToCounty.put(eElement.getElementsByTagName("regionID").item(0).getTextContent(), eElement.getElementsByTagName("name").item(0).getTextContent());
+				
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
