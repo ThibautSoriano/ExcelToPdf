@@ -21,9 +21,9 @@ public class HttpDownload {
     
     public static final int BUDAPEST_ID = 44;
 
-    private String userName;
+    private String userName; // gpapp
 
-    private String password; 
+    private String password; // Zup38fer
 
     private String sessionId;
 
@@ -34,10 +34,10 @@ public class HttpDownload {
     public HttpDownload(String userName, String password) throws Exception {
         client = HttpClientBuilder.create().build();
 
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(900).build();
-        client = HttpClientBuilder.create()
-                .setDefaultRequestConfig(requestConfig).build();
+//        RequestConfig requestConfig = RequestConfig.custom()
+//                .setConnectTimeout(900).build();
+//        client = HttpClientBuilder.create()
+//                .setDefaultRequestConfig(requestConfig).build();
 
         this.userName = userName;
         this.password = password;
@@ -114,10 +114,12 @@ public class HttpDownload {
             String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
                     + sessionId;
             HttpMessage m = sendGet(url);
+            
+            System.out.println(sessionId);
             if (m.isOk())
                 xmlReader = new XmlReader(m.getContent());
             else
-                new ArrayList<CampaignHeader>();
+                return new ArrayList<CampaignHeader>();
         }
            
        return xmlReader.getAllHeaders();
@@ -222,6 +224,17 @@ public class HttpDownload {
 //        System.out.println(/c.getCampaignContent());
         System.out.println(c.getAll());
     }
+
     
-    
+
+    public boolean isSameLogin(HttpDownload other) {
+        if (other ==null)
+            return false;
+        return other.client.equals(client) && other.password.equals(password);
+    }
+
+    public boolean isSameLogin(String login, String password) {
+        
+        return  this.userName.equals(login) && this.password.equals(password);
+    }
 }

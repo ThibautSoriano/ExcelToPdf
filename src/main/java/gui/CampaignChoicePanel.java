@@ -18,6 +18,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.UIManager;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -35,7 +37,8 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     private JCheckBox chckbxRankings;
     private JCheckBox chckbxTechnical;
     
-    
+    private HttpDownload htpdl;
+    private JScrollPane scrollPane;
     
     
     public JCheckBox getChckbxRankings() {
@@ -49,6 +52,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     public CampaignChoicePanel() {
         super("Campaign choice");
 
+        
         
         JLabel lblSelectACampaign = new JLabel("Select a campaign");
         lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -86,6 +90,57 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         add(chckbxTechnical);
         
         
+        JLabel loading = new JLabel("Loading...");
+        loading.setFont(new Font("Tahoma", Font.BOLD, 14));
+        loading.setBounds(200,150,100,30);
+        add(loading);
+        
+        
+        
+ addAncestorListener(new AncestorListener() {
+            
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                
+            }
+            
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+                
+            }
+            
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                
+                if ( !(htpdl == null) && htpdl.isSameLogin(MainWindow.getSession()))
+                    return;
+                
+                if (scrollPane!= null)
+                    remove(scrollPane);
+                loading.setVisible(true);
+                
+                //Thread In order to display the window before it is finished
+                Thread t = new Thread (new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        
+                        htpdl = MainWindow.getSession();
+                        fillTableCampaignChoice(htpdl);
+                        loading.setVisible(false);
+                        
+                        
+                    }
+                });
+                t.start();
+            }
+            
+        });
+        
+        
+         
+ 
+ 
     }
     
     private boolean checkOneBoxFilled() {
@@ -96,6 +151,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     public  void fillTableCampaignChoice(HttpDownload htpdl){
         
         
+        
+        if (table !=null)
+            scrollPane.remove(table);
         
         List<CampaignHeader> l = htpdl.getCampaignHeaders();
         
@@ -170,14 +228,20 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         table.setAutoCreateRowSorter(true);
        
         
-        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane = new JScrollPane(table);
         scrollPane.setBounds(46, 99, 495, 217);
+        
+        
+        
+        
         scrollPane.add(table);
         scrollPane.setViewportView(table);
         add(scrollPane);
 
        
-        
+        revalidate();
+        repaint();
+        scrollPane.setVisible(true);
         
     }
     
