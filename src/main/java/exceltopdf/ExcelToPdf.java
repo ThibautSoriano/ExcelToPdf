@@ -38,38 +38,33 @@ public class ExcelToPdf {
 	private static final int INSERT_PAGE = 1;
 	public static int CURRENT_PAGE_NUMBER = 0;
 
-    private String campaignName = "";
-    private String startDate = "";
-    private String endDate = "";
-    private List<ContentPage> content = new ArrayList<>();
-
-    public void createPdf(List<String> src, String dest, List<Section> sections, boolean insertPageOn)
+    public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
             throws IOException, DocumentException {
-        for (int i = 2; i < sections.size(); i++) {
-        	ContentPage contentPage = (ContentPage) sections.get(i);
-        	if (contentPage.getExcelReader().getType().equals("Rankings")) {
-        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
-        		content.add(contentPage);
-        		campaignName = contentPage.getExcelSheet().getCampaignName();
-        		startDate = contentPage.getExcelSheet().getStartDate();
-        		endDate = contentPage.getExcelSheet().getEndDate();
-        	} else if (contentPage.getExcelReader().getType().equals("Technical")) {
-        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
-        		content.add(contentPage);
-        		campaignName = contentPage.getExcelSheet().getCampaignName();
-                        startDate = contentPage.getExcelSheet().getStartDate();
-                        endDate = contentPage.getExcelSheet().getEndDate();
-        	}
-            else {
-                System.err.println("xls not recognized");
-            }
-        }
+//        for (int i = 2; i < sections.size(); i++) {
+//        	ContentPage contentPage = (ContentPage) sections.get(i);
+//        	if (contentPage.getExcelReader().getType().equals("Rankings")) {
+//        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
+//        		content.add(contentPage);
+//        		campaignName = contentPage.getExcelSheet().getCampaignName();
+//        		startDate = contentPage.getExcelSheet().getStartDate();
+//        		endDate = contentPage.getExcelSheet().getEndDate();
+//        	} else if (contentPage.getExcelReader().getType().equals("Technical")) {
+//        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
+//        		content.add(contentPage);
+//        		campaignName = contentPage.getExcelSheet().getCampaignName();
+//                        startDate = contentPage.getExcelSheet().getStartDate();
+//                        endDate = contentPage.getExcelSheet().getEndDate();
+//        	}
+//            else {
+//                System.err.println("xls not recognized");
+//            }
+//        }
         
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
-        
-        titlePage.setCampaignName(campaignName);
-        titlePage.setStartDate(startDate);
-        titlePage.setEndDate(endDate);
+//        
+//        titlePage.setCampaignName(campaignName);
+//        titlePage.setStartDate(startDate);
+//        titlePage.setEndDate(endDate);
         createTitlePage(titlePage);
         
         if (insertPageOn) {
@@ -78,8 +73,8 @@ public class ExcelToPdf {
             createInsertPage(insertPage);
         }
                 
-        for (int i = 0; i < content.size(); i++) {
-            createContentPage(content.get(i), false);
+        for (int i = 2; i < sections.size(); i++) {
+     	   createContentPage((ContentPage) sections.get(i), false);
         }
         
         
@@ -108,8 +103,7 @@ public class ExcelToPdf {
        }
        
        for (int i = 2; i < sections.size(); i++) {
-    	   ContentPage contentPage = (ContentPage) sections.get(i);
-    	   createContentPage(contentPage, true);
+    	   createContentPage((ContentPage) sections.get(i), true);
        }
        
        
@@ -130,15 +124,10 @@ public class ExcelToPdf {
 		writer.setPageEvent(contentPage.getStructure());
 		List<CampaignRow> rows = null;
 		document.open();
-		if (download) {
-		    rows = contentPage.getCampaign().getCampaignContent();
-		}
-		else {
-		    rows = contentPage.getExcelSheet().getCampaignRows();
-		    document.add(new Paragraph(contentPage.getExcelReader().getType() + " charts\n\n"));
-		}		
 		
-		if ((download && !contentPage.isTechnicalCampaign()) || contentPage.getExcelReader().getType().equals("Rankings")) {
+		rows = contentPage.getCampaign().getCampaignContent();	
+		
+		if (!contentPage.isTechnicalCampaign()) {
 			if (contentPage.isImpressions()) {
 			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
 			    if (impressionsChart != null)
@@ -181,7 +170,7 @@ public class ExcelToPdf {
 			}
 		}		
 		
-		if ((download && contentPage.isTechnicalCampaign()) || contentPage.getExcelReader().getType().equals("Technical")) {
+		if (contentPage.isTechnicalCampaign()) {
 			if (contentPage.isImpressions()) {
 				JFreeChart impressionsChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
 			    if (impressionsChart != null)
@@ -230,14 +219,7 @@ public class ExcelToPdf {
         
 		List<String> labels;
 		
-		if (download) {
-		    document.add(new Paragraph("Full datas table\n\n"));
-		    labels = contentPage.getCampaign().getColumsLabels();
-		}
-		else {
-		    document.add(new Paragraph(contentPage.getExcelReader().getType() + " full datas table\n\n"));
-		    labels = contentPage.getExcelSheet().getColumsLabels();
-		}
+		labels = contentPage.getCampaign().getColumsLabels();
 		
     	boolean [] colsToPrint = {
     			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
@@ -245,7 +227,7 @@ public class ExcelToPdf {
                 contentPage.isUniqueCTR(), contentPage.isReach()
         };
         
-        TabCreator tc = new TabCreator(contentPage.getExcelSheet());
+        TabCreator tc = new TabCreator();
         
         document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
         

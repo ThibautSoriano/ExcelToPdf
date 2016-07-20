@@ -13,6 +13,8 @@ public class Campaign {
 	private CampaignRow all;
 	
 	private List<String> columsLabels;
+	
+	private boolean isTechnicalCampaign;
 
 	public Campaign(CampaignHeader campaignHeader, List<CampaignRow> campaignContent, CampaignRow all) {
 		this.campaignHeader = campaignHeader;
@@ -20,6 +22,9 @@ public class Campaign {
 		this.all = all;
 	}
 	
+	public Campaign() {
+	}
+
 	public CampaignHeader getCampaignHeader() {
 		return campaignHeader;
 	}
@@ -50,6 +55,14 @@ public class Campaign {
 
 	public void setAll(CampaignRow all) {
 		this.all = all;
+	}
+
+	public boolean isTechnicalCampaign() {
+		return isTechnicalCampaign;
+	}
+
+	public void setTechnicalCampaign(boolean isTechnicalCampaign) {
+		this.isTechnicalCampaign = isTechnicalCampaign;
 	}
 	
 

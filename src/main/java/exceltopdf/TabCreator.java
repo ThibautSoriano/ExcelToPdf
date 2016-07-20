@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
 import main.java.excelreader.entities.CampaignRow;
-import main.java.excelreader.entities.ExcelSheet;
 import main.java.utils.Utils;
 
 public class TabCreator {
@@ -22,7 +21,7 @@ public class TabCreator {
     private BaseColor worstRowsColor;
     
 
-    public TabCreator(ExcelSheet excelSheet) {
+    public TabCreator() {
         super();
         headerColor = new BaseColor(7, 167, 227);
         lastLineColor = new BaseColor(7, 167, 227);
@@ -181,11 +180,4 @@ public class TabCreator {
         
         return (int) -6.67*colsNumber + 50;
     }
-    
-    
-    
-    
-
-        
-   
 }

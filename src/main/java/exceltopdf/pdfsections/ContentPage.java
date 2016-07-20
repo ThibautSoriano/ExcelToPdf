@@ -1,22 +1,12 @@
 package main.java.exceltopdf.pdfsections;
 
 import main.java.datasdownloading.entities.Campaign;
-import main.java.excelreader.ExcelReader;
 import main.java.excelreader.entities.ExcelSheet;
 
 public class ContentPage extends Section {	
 	private ExcelSheet excelSheet;
 	
 	private Campaign campaign;
-	
-	private ExcelReader excelReader = new ExcelReader() {
-            
-            @Override
-            public void fillExcelSheet(String filePath) {
-                // TODO Auto-generated method stub
-                
-            }
-        };
 	
 	private boolean isTechnicalCampaign;
 	
@@ -108,14 +98,6 @@ public class ContentPage extends Section {
 
 	public void setUniqueCTR(boolean uniqueCTR) {
 		this.uniqueCTR = uniqueCTR;
-	}
-
-	public ExcelReader getExcelReader() {
-		return excelReader;
-	}
-
-	public void setExcelReader(ExcelReader excelReader) {
-		this.excelReader = excelReader;
 	}
 
 	public boolean isReach() {
