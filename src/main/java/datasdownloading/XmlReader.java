@@ -292,6 +292,8 @@ public class XmlReader {
 						
 						CampaignRow currentRow = new CampaignRow("All", impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
 						currentRow.setReach(reach);
+						
+						return currentRow;
 					}
 				}
 			}

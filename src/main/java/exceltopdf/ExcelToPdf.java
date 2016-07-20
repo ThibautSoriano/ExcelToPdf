@@ -180,7 +180,7 @@ public class ExcelToPdf {
 		
 		if (!download && contentPage.getExcelReader().getType().equals("Technical")) {
 			if (contentPage.isImpressions()) {
-				document.add(getImagePie(pieChartCreator.getChart(rows, CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0), writer));
+				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0), writer));
 			}
 			if (contentPage.isUniqueCookies()) {
 				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", false, 0, 0), writer));

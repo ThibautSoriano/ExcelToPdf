@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -356,6 +357,10 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     private void validationDownload() {
+        
+     
+        
+        
         ExcelToPdf etpd = new ExcelToPdf();
         List<Section> sections = new ArrayList<Section>();
 
@@ -365,6 +370,11 @@ public class MainWindow extends JFrame implements IMainFrame {
         InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(4);
         ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(5);
 
+        
+        String campaignID = ccp.getSelectedId();
+        Campaign c1 = session.getCampaignRankingsById(campaignID);
+        Campaign c2 = session.getCampaignTechnicalById(campaignID);
+        
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
@@ -382,8 +392,16 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfTitle.setLineInHeader(gsp.getTxtWebsite().getText());
         hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
+        
         tp.setStructure(hfTitle);
         tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
+        tp.setCampaignName(c1.getCampaignHeader().getCampaignName());
+        
+        
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        
+        tp.setStartDate(f.format(c1.getCampaignHeader().getStartDate()));
+        tp.setEndDate(f.format(c1.getCampaignHeader().getEndDate()));
         sections.add(tp);
 
         // Infos for the insert page
@@ -405,6 +423,8 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         sections.add(ip);
 
+        
+        
         // Columns choice settings
 
         ContentPage contentPage = new ContentPage(
@@ -425,18 +445,34 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
         hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
+        
         contentPage.setStructure(hfContent);
-        
-        
+        contentPage.setCampaign(c1);
         sections.add(contentPage);
         
+        ContentPage contentPage2 = new ContentPage(
+                csp.getChckbxImpressionsRankings().isSelected(),
+                csp.getChckbxFrequencyRankings().isSelected(),
+                csp.getChckbxClicksRankings().isSelected(),
+                csp.getChckbxClickingUsersRankings().isSelected(),
+                csp.getChckbxClickThroughRateRankings().isSelected(),
+                csp.getChckbxUniqueCTRRankings().isSelected());
+        
+        contentPage2.setReach(csp.getChckbxReach().isSelected());
+        
+        contentPage2.setStructure(hfContent);
+        sections.add(contentPage2);
+        
+        
+        
+        
     
-    String campaignID = ccp.getSelectedId();
+    
    
     
-    Campaign c = session.getCampaignRankingsById(campaignID);
+
     
-    if (c == null) {
+    if (c1 == null || c2 == null) {
         JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -451,9 +487,12 @@ public class MainWindow extends JFrame implements IMainFrame {
     labels.add("Click Through Rate");
     labels.add("Unique CTR");
     labels.add("Reach");
-    c.setColumsLabels(labels);
+    c1.setColumsLabels(labels);
+    c2.setColumsLabels(labels);
+    
+    
     try{
-        etpd.createPdfDownload(c,"orbegozo_online.pdf", sections, isp.getRdbtnOn().isSelected());
+        etpd.createPdfDownload("orbegozo_online.pdf", sections, isp.getRdbtnOn().isSelected());
     }
     catch (DocumentException | IOException e)
     {

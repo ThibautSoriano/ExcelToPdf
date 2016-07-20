@@ -89,7 +89,7 @@ public class HttpDownload {
      */
     private HttpMessage login(String loginName, String password) {
 
-        String url = "http://gdeapi.gemius.com/OpenSession.php?ignoreEmptyParams=Y&login="
+        String url = "https://gdeapi.gemius.com/OpenSession.php?ignoreEmptyParams=Y&login="
                 + loginName + "&passwd=" + password;
 
         HttpMessage m = sendGet(url);
@@ -111,7 +111,7 @@ public class HttpDownload {
     public List<CampaignHeader> getCampaignHeaders() {
 
         if (xmlReader == null) {
-            String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
                     + sessionId;
             HttpMessage m = sendGet(url);
             if (m.isOk())
@@ -126,7 +126,7 @@ public class HttpDownload {
     }
 
     private HttpMessage getXmlCampaignDatas(String campaignID) {
-        String url = "http://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
+        String url = "https://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId
                 + "&dimensionIDs=1%2C20&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="
                 + campaignID + "&timeDivision=General";
@@ -139,7 +139,7 @@ public class HttpDownload {
     }
 
     private HttpMessage getXmlPlacementList(String campaignID) {
-        String url = "http://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
+        String url = "https://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId + "&campaignID=" + campaignID + "&showPaths=Y";
 
         HttpMessage m = sendGet(url);
@@ -152,7 +152,7 @@ public class HttpDownload {
     public Campaign getCampaignRankingsById(String campaignId) {
 
         if (xmlReader == null) {
-            String url = "http://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
                     + sessionId;
 
             HttpMessage campaignList = sendGet(url);
@@ -176,7 +176,7 @@ public class HttpDownload {
     public Campaign getCampaignTechnicalById(String campaignId) {
 
         if (xmlReader == null) {
-            String url = "http://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&sessionID="
+            String url = "https://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&sessionID="
                     + sessionId;
 
             HttpMessage campaignList = sendGet(url);
@@ -188,13 +188,13 @@ public class HttpDownload {
 
        
         HttpMessage campaignData = sendGet(
-                "http://gdeapi.gemius.com/GetTechStats.php?"
+                "https://gdeapi.gemius.com/GetTechStats.php?"
                 + "ignoreEmptyParams=Y&"
                 + "sessionID="+sessionId
                 + "&dimensionIDs=1&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&techDimension=Region&"
                 + "campaignIDs="+campaignId);
         
-        HttpMessage all = sendGet( "http://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&"
+        HttpMessage all = sendGet( "https://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&"
                 + "sessionID="+sessionId
                 + "&dimensionIDs=1&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&"
                 + "campaignIDs="+campaignId
@@ -202,7 +202,7 @@ public class HttpDownload {
         
         
         
-        HttpMessage mapIdToCounty = sendGet("http://gdeapi.gemius.com/GetRegionsList.php?ignoreEmptyParams=Y&"
+        HttpMessage mapIdToCounty = sendGet("https://gdeapi.gemius.com/GetRegionsList.php?ignoreEmptyParams=Y&"
                 + "sessionID="+sessionId
                 + "&countryID="+BUDAPEST_ID);
         
@@ -219,7 +219,8 @@ public class HttpDownload {
         HttpDownload a= new HttpDownload();
         Campaign c = a.getCampaignTechnicalById("557150106");
         
-        System.out.println(c.getCampaignContent());
+//        System.out.println(/c.getCampaignContent());
+        System.out.println(c.getAll());
     }
     
     
