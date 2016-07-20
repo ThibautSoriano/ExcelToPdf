@@ -90,13 +90,17 @@ public class ExcelToPdf {
         c.concat(FILES, dest);
     }
 
-   public void createPdfDownload(Campaign campaign, String dest, List<Section> sections, boolean insertPageOn) throws DocumentException, IOException {
-	   SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+   public void createPdfDownload(String dest, List<Section> sections, boolean insertPageOn) throws DocumentException, IOException {
+//	   SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 	   TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
+	   
+//	   if (sections.size() > 2) {
+//		titlePage.setCampaignName(((ContentPage) sections.get(2)).getCampaign().getCampaignHeader().getCampaignName());
+//		titlePage.setStartDate(f.format(campaigns.get(0).getCampaignHeader().getStartDate()));
+//		titlePage.setEndDate(f.format(campaigns.get(0).getCampaignHeader().getEndDate()));
+//	   }
        
-       titlePage.setCampaignName(campaign.getCampaignHeader().getCampaignName());
-       titlePage.setStartDate(f.format(campaign.getCampaignHeader().getStartDate()));
-       titlePage.setEndDate(f.format(campaign.getCampaignHeader().getEndDate()));
+       
        createTitlePage(titlePage);
        
        if (insertPageOn) {
@@ -105,10 +109,11 @@ public class ExcelToPdf {
            createInsertPage(insertPage);
        }
        
+       for (int i = 2; i < sections.size(); i++) {
+    	   ContentPage contentPage = (ContentPage) sections.get(i);
+    	   createContentPage(contentPage, true);
+       }
        
-       ContentPage contentPage = (ContentPage) sections.get(2);
-       contentPage.setCampaign(campaign);
-       createContentPage(contentPage, true);
        
        
        PdfConcat c = new PdfConcat();
@@ -135,7 +140,7 @@ public class ExcelToPdf {
 		    document.add(new Paragraph(contentPage.getExcelReader().getType() + " charts\n\n"));
 		}		
 		
-		if (download || contentPage.getExcelReader().getType().equals("Rankings")) {
+		if ((download && !contentPage.isTechnicalCampaign()) || contentPage.getExcelReader().getType().equals("Rankings")) {
 			if (contentPage.isImpressions()) {
 			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
 			    if (impressionsChart != null)
@@ -178,27 +183,46 @@ public class ExcelToPdf {
 			}
 		}		
 		
-		if (!download && contentPage.getExcelReader().getType().equals("Technical")) {
+		if ((download && contentPage.isTechnicalCampaign()) || contentPage.getExcelReader().getType().equals("Technical")) {
 			if (contentPage.isImpressions()) {
-				document.add(getImagePie(pieChartCreator.getChart(rows, CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0), writer));
-			}
+				JFreeChart impressionsChart = pieChartCreator.getChart(rows, CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
+			    if (impressionsChart != null)
+				document.add(getImagePie(impressionsChart, writer));
+			    }
 			if (contentPage.isUniqueCookies()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", false, 0, 0), writer));
-			}
+				JFreeChart uniqueCookiesChart = pieChartCreator.getChart(rows, CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", false, 0, 0);
+			    if (uniqueCookiesChart != null)
+				document.add(getImagePie(uniqueCookiesChart, writer));
+			    }
+			if (contentPage.isReach()) {
+				JFreeChart reachChart = pieChartCreator.getChart(rows, CampaignRow.REACH_INDEX, "Reach per county", false, 0, 0);
+			    if (reachChart != null)
+				document.add(getImagePie(reachChart, writer));
+			    }
 			if (contentPage.isFrequency()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX), writer));
+				JFreeChart frequencyChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX);
+				if (frequencyChart != null)
+					document.add(getImagePie(frequencyChart, writer));
 			}
 			if (contentPage.isClicks()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks per county", false, 0, 0), writer));
+				JFreeChart clicksChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks per county", false, 0, 0);
+				if (clicksChart != null)
+					document.add(getImagePie(clicksChart, writer));
 			}
 			if (contentPage.isClickingUsers()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county", false, 0, 0), writer));
+				JFreeChart clickingUsersChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county", false, 0, 0);
+				if (clickingUsersChart != null)
+					document.add(getImagePie(clickingUsersChart, writer));
 			}
 			if (contentPage.isClickThroughRate()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county", true, CampaignRow.CLICKS_INDEX, CampaignRow.IMPRESSIONS_INDEX), writer));
+				JFreeChart clickThroughRateChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county", true, CampaignRow.CLICKS_INDEX, CampaignRow.IMPRESSIONS_INDEX);
+				if (clickThroughRateChart != null)
+					document.add(getImagePie(clickThroughRateChart, writer));
 			}
 			if (contentPage.isUniqueCTR()) {
-				document.add(getImagePie(pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX), writer));
+				JFreeChart uniqueCTRChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX);
+				if (uniqueCTRChart != null)
+					document.add(getImagePie(uniqueCTRChart, writer));
 			}
 		}
 		

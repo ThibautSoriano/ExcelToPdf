@@ -11,6 +11,8 @@ public class ContentPage extends Section {
 	
 	private ExcelReader excelReader;
 	
+	private boolean isTechnicalCampaign;
+	
 	private boolean impressions;
 	
 	private boolean reach;
@@ -124,4 +126,12 @@ public class ContentPage extends Section {
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
     }
+
+	public boolean isTechnicalCampaign() {
+		return isTechnicalCampaign;
+	}
+
+	public void setTechnicalCampaign(boolean isTechnicalCampaign) {
+		this.isTechnicalCampaign = isTechnicalCampaign;
+	}
 }
