@@ -59,6 +59,24 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static HttpDownload session;
     
     
+    private static boolean isRankings;
+    
+    private static boolean isTechnical;
+    
+ 
+    public static boolean isRankings() {
+        return isRankings;
+    }
+
+    public static void setRankings(boolean isRankings) {
+        MainWindow.isRankings = isRankings;
+    }
+
+    public static void setTechnical(boolean isTechnical) {
+        MainWindow.isTechnical = isTechnical;
+    }
+
+    
     
     public static HttpDownload getSession() {
         return session;
@@ -424,9 +442,18 @@ public class MainWindow extends JFrame implements IMainFrame {
         sections.add(ip);
 
         
+        //it is the same for the two possible content pages
+        HeaderFooter hfContent = new HeaderFooter(
+                gsp.getChckbxHeader().isSelected(),
+                gsp.getChckbxHeaderLine().isSelected(),
+                gsp.getChckbxFooter().isSelected(),
+                gsp.getChckbxFooterLine().isSelected(), positionPageCount);
+        hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
+        hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
+        hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
         
         // Columns choice settings
-
+        if (ccp.getChckbxRankings().isSelected()) {
         ContentPage contentPage = new ContentPage(
                 csp.getChckbxImpressionsRankings().isSelected(),
                 csp.getChckbxFrequencyRankings().isSelected(),
@@ -437,20 +464,13 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         contentPage.setReach(csp.getChckbxReach().isSelected());
 
-        HeaderFooter hfContent = new HeaderFooter(
-                gsp.getChckbxHeader().isSelected(),
-                gsp.getChckbxHeaderLine().isSelected(),
-                gsp.getChckbxFooter().isSelected(),
-                gsp.getChckbxFooterLine().isSelected(), positionPageCount);
-        hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
-        hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
-        hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
-        
         contentPage.setStructure(hfContent);
         contentPage.setTechnicalCampaign(false);
         contentPage.setCampaign(c1);
         sections.add(contentPage);
+        }
         
+        if (ccp.getChckbxTechnical().isSelected()) {
         ContentPage contentPage2 = new ContentPage(
                 csp.getChckbxImpressionsRankings().isSelected(),
                 csp.getChckbxFrequencyRankings().isSelected(),
@@ -460,12 +480,13 @@ public class MainWindow extends JFrame implements IMainFrame {
                 csp.getChckbxUniqueCTRRankings().isSelected());
         
         contentPage2.setReach(csp.getChckbxReach().isSelected());
-        contentPage2.setTechnicalCampaign(true);
+       
         contentPage2.setStructure(hfContent);
+        contentPage2.setTechnicalCampaign(true);
         contentPage2.setCampaign(c2);
         sections.add(contentPage2);
         
-        
+        }
         
         
     

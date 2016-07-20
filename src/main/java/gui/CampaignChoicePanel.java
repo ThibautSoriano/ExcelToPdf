@@ -2,11 +2,14 @@ package main.java.gui;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -29,8 +32,20 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
     private JTable table;
     private  List<String> campaignHeaders;
+    private JCheckBox chckbxRankings;
+    private JCheckBox chckbxTechnical;
     
     
+    
+    
+    public JCheckBox getChckbxRankings() {
+        return chckbxRankings;
+    }
+
+    public JCheckBox getChckbxTechnical() {
+        return chckbxTechnical;
+    }
+
     public CampaignChoicePanel() {
         super("Campaign choice");
 
@@ -41,8 +56,40 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         add(lblSelectACampaign);
         
         
+         chckbxRankings = new JCheckBox("Rankings");
+        chckbxRankings.setSelected(true);
+        chckbxRankings.setBounds(178, 334, 97, 23);
+        chckbxRankings.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!checkOneBoxFilled())
+                    chckbxRankings.setSelected(true);
+            }
+
+            
+        });
+        add(chckbxRankings);
+        
+         chckbxTechnical = new JCheckBox("Technical");
+        chckbxTechnical.setSelected(true);
+        chckbxTechnical.setBounds(368, 334, 97, 23);
+        chckbxTechnical.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!checkOneBoxFilled())
+                    chckbxTechnical.setSelected(true);
+                
+            }
+        });
+        add(chckbxTechnical);
         
         
+    }
+    
+    private boolean checkOneBoxFilled() {
+        return chckbxRankings.isSelected() || chckbxTechnical.isSelected();
         
     }
     
@@ -124,7 +171,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
        
         
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(46, 99, 495, 259);
+        scrollPane.setBounds(46, 99, 495, 217);
         scrollPane.add(table);
         scrollPane.setViewportView(table);
         add(scrollPane);
@@ -158,6 +205,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
     @Override
     public boolean isEveryThingOk() {
+        
+        MainWindow.setRankings(chckbxRankings.isSelected());
+        MainWindow.setTechnical(chckbxTechnical.isSelected());
         
         return table.getSelectedRow() > -1;
     }

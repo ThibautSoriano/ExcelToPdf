@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -13,6 +19,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import main.java.utils.Internationalization;
 
@@ -62,6 +70,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     private List<JCheckBox> groupTechnical;
 
     private JCheckBox chckbxReach;
+
+    private JCheckBox chckbxReachTechnical;
 
     public JCheckBox getChckbxImpressionsRankings() {
         return chckbxImpressionsRankings;
@@ -176,11 +186,9 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         add(tabbedPane);
 
         JPanel panelRankings = new JPanel();
-        if (download)
-            tabbedPane.addTab("Data", null, panelRankings, null);
-        else
+        
             
-            tabbedPane.addTab("Rankings", null, panelRankings, null);
+        tabbedPane.addTab("Rankings", null, panelRankings, null);
         panelRankings.setLayout(null);
 
         chckbxImpressionsRankings = new JCheckBox("Impressions");
@@ -236,7 +244,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         separator_1.setBounds(93, 252, 397, 2);
         panelRankings.add(separator_1);
 
-        if (!download) {
+        
             JPanel panelTechnical = new JPanel();
             tabbedPane.addTab("Technical", null, panelTechnical, null);
             panelTechnical.setLayout(null);
@@ -276,18 +284,48 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             separator_2.setBounds(93, 33, 397, 2);
             panelTechnical.add(separator_2);
 
+            if (download) {
+                chckbxReachTechnical = new JCheckBox("Reach");
+                chckbxReachTechnical.setBounds(93, 131, 97, 23);
+                panelTechnical.add(chckbxReachTechnical);
+                groupTechnical.add(chckbxReachTechnical);
+            }
+            else {
             chckbxUniqueCookiesTechnical = new JCheckBox("Unique cookies");
             chckbxUniqueCookiesTechnical.setBounds(93, 131, 97, 23);
             panelTechnical.add(chckbxUniqueCookiesTechnical);
             groupTechnical.add(chckbxUniqueCookiesTechnical);
-
+            }
             JSeparator separator_3 = new JSeparator();
             separator_3.setBounds(93, 252, 397, 2);
             panelTechnical.add(separator_3);
-        }
+        
 
         setListenerBoxClickable(groupRankings, true);
         setListenerBoxClickable(groupTechnical, false);
+
+        addAncestorListener(new AncestorListener() {
+            
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                
+            }
+            
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+                
+            }
+            
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                if (MainWindow.isRankings())
+                    tabbedPane.setSelectedIndex(0);
+                else
+                    tabbedPane.setSelectedIndex(1);
+                
+            }
+        });
+        
 
     }
 
