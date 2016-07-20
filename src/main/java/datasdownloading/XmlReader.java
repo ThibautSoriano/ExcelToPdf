@@ -208,7 +208,7 @@ public class XmlReader {
 		return null;
 	}
 
-	public Campaign getCampaignTechnical(String campaignId, String xmlCampaignDatas, String xmlSummaryData, String xmlIdToCounty, int budapestId) {
+	public Campaign getCampaignTechnical(String campaignID, String xmlCampaignDatas, String xmlSummaryData, String xmlIdToCounty, int budapestId) {
 		fillMapIdToCounty(xmlIdToCounty);
 		
 		Campaign c;
@@ -230,9 +230,58 @@ public class XmlReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
 					Element eElement = (Element) nNode;
-					String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
-					if(placementsNames.containsKey(placementID)) {
-						String placementName = placementsNames.get(placementID);
+					String countryID = eElement.getElementsByTagName("countryID").item(0).getTextContent();
+					if ("44".equals(countryID)) {
+						String regionID = eElement.getElementsByTagName("regionID").item(0).getTextContent();
+						if (!"NULL".equals(regionID)) {
+							String regionName = idToCounty.get(regionID);
+							int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
+							int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
+							float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
+							int clicks = Utils.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
+							int userClicks = Utils.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
+							float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
+							float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
+							
+							CampaignRow currentRow = new CampaignRow(regionName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+							currentRow.setReach(reach);
+							rows.add(currentRow);
+						}
+						
+					}
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		all = getAll(xmlSummaryData);
+		
+		c = new Campaign(getHeaderByID(campaignID), rows, all);
+		
+		return c;
+	}
+	
+	private CampaignRow getAll(String xmlSummaryData) {
+		CampaignRow all = new CampaignRow();
+		
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlSummaryData.getBytes("utf-8"))));
+
+			doc.getDocumentElement().normalize();
+			NodeList nList = doc.getElementsByTagName("statisticsRecord");
+
+			for (int i = 0; i < nList.getLength(); i++) {
+
+				Node nNode = nList.item(i);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	
+					Element eElement = (Element) nNode;
+					String countryID = eElement.getElementsByTagName("countryID").item(0).getTextContent();
+					if ("44".equals(countryID)) {
 						int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
 						int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
 						float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
@@ -241,14 +290,8 @@ public class XmlReader {
 						float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
 						float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
 						
-						CampaignRow currentRow = new CampaignRow(placementName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+						CampaignRow currentRow = new CampaignRow("All", impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
 						currentRow.setReach(reach);
-						if ("All".equals(placementName)) {
-							all = currentRow;
-						}
-						else {
-							rows.add(currentRow);
-						}
 					}
 				}
 			}
@@ -256,7 +299,7 @@ public class XmlReader {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return all;
 	}
 	
 	private void fillMapIdToCounty(String xmlIdToCounty) {
