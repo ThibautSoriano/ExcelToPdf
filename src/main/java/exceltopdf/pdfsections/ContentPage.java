@@ -9,7 +9,16 @@ public class ContentPage extends Section {
 	
 	private Campaign campaign;
 	
-	private ExcelReader excelReader;
+	private ExcelReader excelReader = new ExcelReader() {
+            
+            @Override
+            public void fillExcelSheet(String filePath) {
+                // TODO Auto-generated method stub
+                
+            }
+        };
+	
+	private boolean isTechnicalCampaign;
 	
 	private boolean impressions;
 	
@@ -124,4 +133,12 @@ public class ContentPage extends Section {
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
     }
+
+	public boolean isTechnicalCampaign() {
+		return isTechnicalCampaign;
+	}
+
+	public void setTechnicalCampaign(boolean isTechnicalCampaign) {
+		this.isTechnicalCampaign = isTechnicalCampaign;
+	}
 }

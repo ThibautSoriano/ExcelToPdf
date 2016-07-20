@@ -447,6 +447,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
         
         contentPage.setStructure(hfContent);
+        contentPage.setTechnicalCampaign(false);
         contentPage.setCampaign(c1);
         sections.add(contentPage);
         
@@ -459,8 +460,9 @@ public class MainWindow extends JFrame implements IMainFrame {
                 csp.getChckbxUniqueCTRRankings().isSelected());
         
         contentPage2.setReach(csp.getChckbxReach().isSelected());
-        
+        contentPage2.setTechnicalCampaign(true);
         contentPage2.setStructure(hfContent);
+        contentPage2.setCampaign(c2);
         sections.add(contentPage2);
         
         

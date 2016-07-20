@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 public class DownloadWindow {
 
@@ -97,7 +98,7 @@ public class DownloadWindow {
 //                panel.add(table);
                 
                 JScrollPane scrollPane = new JScrollPane( table );
-                scrollPane.setBounds(46, 99, 495, 259);
+                scrollPane.setBounds(46, 99, 495, 211);
                 scrollPane.add(table);
                 scrollPane.setViewportView(table);
                 panel.add(scrollPane);
@@ -106,6 +107,16 @@ public class DownloadWindow {
                 lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
                 lblSelectACampaign.setBounds(54, 60, 221, 22);
                 panel.add(lblSelectACampaign);
+                
+                JCheckBox chckbxRankings = new JCheckBox("Rankings");
+                chckbxRankings.setSelected(true);
+                chckbxRankings.setBounds(178, 334, 97, 23);
+                panel.add(chckbxRankings);
+                
+                JCheckBox chckbxTechnical = new JCheckBox("Technical");
+                chckbxTechnical.setSelected(true);
+                chckbxTechnical.setBounds(368, 334, 97, 23);
+                panel.add(chckbxTechnical);
                 panel.setVisible(true);
                 frame.setVisible(true);
 	}
