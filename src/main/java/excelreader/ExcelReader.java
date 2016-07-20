@@ -2,6 +2,8 @@ package main.java.excelreader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +12,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 
+import main.java.datasdownloading.entities.Campaign;
 import main.java.excelreader.entities.CampaignRow;
-import main.java.excelreader.entities.ExcelSheet;
 import main.java.utils.Percentage;
 
 
 public abstract class ExcelReader {
 
-	protected ExcelSheet excelSheet;
+	protected Campaign campaign;
     
 	protected String type = "";
 	
@@ -36,7 +38,7 @@ public abstract class ExcelReader {
     /**
      * @return the ExcelSheet with fields filled in
      */
-    public ExcelSheet readExcelSheet(String filePath) {
+    public Campaign readExcelSheet(String filePath) {
         
         FileInputStream fis = null;
         try {
@@ -61,30 +63,40 @@ public abstract class ExcelReader {
                 }
             }
         }
-        return excelSheet;
+        return campaign;
     }
     
     
     public void readStartDate() {
         HSSFRow row = sheet.getRow(documentStructure.getDatesRow());
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 
         String dates = row.getCell(documentStructure.getDatesCol())
                 .getStringCellValue();
 
         String[] s = dates.split(" ");
         
-        excelSheet.setStartDate(s[0]);
+        try {
+			campaign.getCampaignHeader().setStartDate(f.parse(s[0]));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     public void readEndDate() {
         HSSFRow row = sheet.getRow(documentStructure.getDatesRow());
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 
         String dates = row.getCell(documentStructure.getDatesCol())
                 .getStringCellValue();
 
         String[] s = dates.split(" ");
 
-        excelSheet.setEndDate(s[2]);
+        try {
+			campaign.getCampaignHeader().setStartDate(f.parse(s[2]));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
     
     
@@ -175,12 +187,13 @@ public abstract class ExcelReader {
             
             if (nextRow ==  null)
             {
-                excelSheet.setAll(cr);
+                campaign.setAll(cr);
+                System.out.println("Done !");
                 break;
             }
                     
             else {
-                excelSheet.getCampaignRows().add(cr);
+                campaign.getCampaignContent().add(cr);
                 index++;
             }
         }
