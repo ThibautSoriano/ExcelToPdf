@@ -25,9 +25,14 @@ public class ExcelReaderRankings extends ExcelReader {
     public void readCampaignName() {
 
         HSSFRow row = sheet.getRow( ((DocumentStructureRankings) documentStructure).getCampaignNameRow());
-
+        
         campaign.getCampaignHeader().setCampaignName(
                 row.getCell(((DocumentStructureRankings) documentStructure).getCampaignNameCol())
                         .getStringCellValue());
+        
     }
+    
+    
+    
+    
 }

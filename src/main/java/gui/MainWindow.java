@@ -281,6 +281,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
             tp.setStructure(hfTitle);
             tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
+            
             sections.add(tp);
 
             // Infos for the insert page
@@ -303,7 +304,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             sections.add(ip);
 
             // Columns choice settings
-            List<String> excelPaths = new ArrayList<String>();
+            
             List<JTextField> fields = mwp.getFields();
 
             for (JTextField jTextField : fields) {
@@ -325,6 +326,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                                 csp.getChckbxUniqueCTRRankings().isSelected());
                         contentPage.setUniqueCookies(csp
                                 .getChckbxUniqueCookiesRankings().isSelected());
+   
                     } else if (src.contains("Technical")) {
                         excelReader = new ExcelReaderTechnical();
                         contentPage = new ContentPage(
@@ -344,8 +346,13 @@ public class MainWindow extends JFrame implements IMainFrame {
                         System.err.println("xls not recognized");
                         return;
                     }
-
-                    excelPaths.add(src);
+                    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+                    Campaign zk = excelReader.readExcelSheet(src);
+                    contentPage.setCampaign(zk);
+                    
+                    tp.setCampaignName(zk.getCampaignHeader().getCampaignName());
+                    tp.setStartDate(f.format(zk.getCampaignHeader().getStartDate()));
+                    tp.setEndDate(f.format(zk.getCampaignHeader().getEndDate()));
 
                     HeaderFooter hfContent = new HeaderFooter(
                             gsp.getChckbxHeader().isSelected(),
@@ -358,16 +365,18 @@ public class MainWindow extends JFrame implements IMainFrame {
                             gsp.getTxtBottomLeftText().getText());
                     hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
                     contentPage.setStructure(hfContent);
-                    contentPage.setExcelReader(excelReader);
                     sections.add(contentPage);
                 }
             }
 
+            
+           
+            
+            
             try {
-                etpd.createPdf(excelPaths, "orbegozo.pdf", sections,
+                etpd.createPdf("orbegozo.pdf", sections,
                         isp.getRdbtnOn().isSelected());
             } catch (IOException | DocumentException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -465,24 +474,22 @@ public class MainWindow extends JFrame implements IMainFrame {
         contentPage.setReach(csp.getChckbxReach().isSelected());
 
         contentPage.setStructure(hfContent);
-        contentPage.setTechnicalCampaign(false);
         contentPage.setCampaign(c1);
         sections.add(contentPage);
         }
         
         if (ccp.getChckbxTechnical().isSelected()) {
         ContentPage contentPage2 = new ContentPage(
-                csp.getChckbxImpressionsRankings().isSelected(),
-                csp.getChckbxFrequencyRankings().isSelected(),
-                csp.getChckbxClicksRankings().isSelected(),
-                csp.getChckbxClickingUsersRankings().isSelected(),
-                csp.getChckbxClickThroughRateRankings().isSelected(),
-                csp.getChckbxUniqueCTRRankings().isSelected());
+                csp.getChckbxImpressionsTechnical().isSelected(),
+                csp.getChckbxFrequencyTechnical().isSelected(),
+                csp.getChckbxClicksTechnical().isSelected(),
+                csp.getChckbxClickingUsersTechnical().isSelected(),
+                csp.getChckbxClickThroughRateTechnical().isSelected(),
+                csp.getChckbxUniqueCTRTechnical().isSelected());
         
-        contentPage2.setReach(csp.getChckbxReach().isSelected());
+        contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
        
         contentPage2.setStructure(hfContent);
-        contentPage2.setTechnicalCampaign(true);
         contentPage2.setCampaign(c2);
         sections.add(contentPage2);
         
@@ -519,7 +526,6 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
     catch (DocumentException | IOException e)
     {
-        // TODO Auto-generated catch block
         e.printStackTrace();
     }
 

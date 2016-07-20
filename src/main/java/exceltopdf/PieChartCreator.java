@@ -7,6 +7,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.itextpdf.text.log.SysoCounter;
+
 import main.java.excelreader.entities.CampaignRow;
 
 public class PieChartCreator {
@@ -16,8 +18,10 @@ public class PieChartCreator {
         
         int nbElements = 0;
     
-    	for (int i = 0; nbElements < 5; i++) {
+    	for (int i = 0; nbElements < 4; i++) {
+    	    
         	if (campaignRows.get(i).isRelevant()) {
+        	    System.out.println("je teste d'ajouter : " + campaignRows.get(i).getFirstColumnData());
         		dataset.setValue(campaignRows.get(i).getFirstColumnData(), campaignRows.get(i).toListFloat().get(colIndex));
         		nbElements++;
         	}

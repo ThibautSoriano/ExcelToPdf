@@ -21,4 +21,5 @@ public class ExcelReaderTechnical extends ExcelReader{
         super.readCampaignRows();
         campaign.setColumsLabels(super.getColumsLabels());
     }
+    
 }

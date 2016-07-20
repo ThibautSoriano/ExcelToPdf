@@ -74,7 +74,7 @@ public class TabCreator {
         }
 
         // For all the rows
-        for (int i = 0; i < campaignRows.size(); i++) {
+        for (int i = 0, countColor = 0; i < campaignRows.size(); i++) {
 
             if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
 
@@ -106,7 +106,7 @@ public class TabCreator {
                             p.setAlignment(Element.ALIGN_CENTER);
                         }
 
-                        if (i<5)
+                        if (countColor<5)
                             cell.setBackgroundColor(bestRowsColor);
                         else
                             cell.setBackgroundColor(worstRowsColor);
@@ -117,6 +117,7 @@ public class TabCreator {
                         table.addCell(cell);
                     }
                 }
+                countColor++;
             }
         }
 

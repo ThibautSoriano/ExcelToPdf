@@ -77,7 +77,7 @@ public abstract class ExcelReader {
         String[] s = dates.split(" ");
         
         try {
-			campaign.getCampaignHeader().setStartDate(f.parse(s[0]));
+			campaign.getCampaignHeader().setStartDate(f.parse(s[0].replaceAll("-", "/")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +93,7 @@ public abstract class ExcelReader {
         String[] s = dates.split(" ");
 
         try {
-			campaign.getCampaignHeader().setStartDate(f.parse(s[2]));
+			campaign.getCampaignHeader().setEndDate(f.parse(s[2].replaceAll("-", "/")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

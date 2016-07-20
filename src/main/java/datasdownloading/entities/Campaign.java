@@ -1,14 +1,15 @@
 package main.java.datasdownloading.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import main.java.excelreader.entities.CampaignRow;
 
 public class Campaign {
 
-	private CampaignHeader campaignHeader;
+	private CampaignHeader campaignHeader = new CampaignHeader();
 	
-	private List<CampaignRow> campaignContent;
+	private List<CampaignRow> campaignContent = new ArrayList<>();
 	
 	private CampaignRow all;
 	

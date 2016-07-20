@@ -72,6 +72,12 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     private JCheckBox chckbxReach;
 
     private JCheckBox chckbxReachTechnical;
+    
+    
+
+    public JCheckBox getChckbxReachTechnical() {
+        return chckbxReachTechnical;
+    }
 
     public JCheckBox getChckbxImpressionsRankings() {
         return chckbxImpressionsRankings;

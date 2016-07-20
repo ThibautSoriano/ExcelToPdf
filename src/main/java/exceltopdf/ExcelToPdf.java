@@ -127,7 +127,7 @@ public class ExcelToPdf {
 		
 		rows = contentPage.getCampaign().getCampaignContent();	
 		
-		if (!contentPage.isTechnicalCampaign()) {
+		if (!contentPage.getCampaign().isTechnicalCampaign()) {
 			if (contentPage.isImpressions()) {
 			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
 			    if (impressionsChart != null)
@@ -170,7 +170,7 @@ public class ExcelToPdf {
 			}
 		}		
 		
-		if (contentPage.isTechnicalCampaign()) {
+		if (contentPage.getCampaign().isTechnicalCampaign()) {
 			if (contentPage.isImpressions()) {
 				JFreeChart impressionsChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
 			    if (impressionsChart != null)
@@ -213,10 +213,10 @@ public class ExcelToPdf {
 			}
 		}
 		
+		document.add(new Paragraph("\n\n"));
+		document.add(new Paragraph("Full data table"));
+		document.add(new Paragraph("\n"));
 		
-		document.newPage();
-		writer.setPageEmpty(false);
-        
 		List<String> labels;
 		
 		labels = contentPage.getCampaign().getColumsLabels();

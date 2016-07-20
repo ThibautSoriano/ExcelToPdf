@@ -8,8 +8,6 @@ public class ContentPage extends Section {
 	
 	private Campaign campaign;
 	
-	private boolean isTechnicalCampaign;
-	
 	private boolean impressions;
 	
 	private boolean reach;
@@ -116,11 +114,4 @@ public class ContentPage extends Section {
         this.campaign = campaign;
     }
 
-	public boolean isTechnicalCampaign() {
-		return isTechnicalCampaign;
-	}
-
-	public void setTechnicalCampaign(boolean isTechnicalCampaign) {
-		this.isTechnicalCampaign = isTechnicalCampaign;
-	}
 }
