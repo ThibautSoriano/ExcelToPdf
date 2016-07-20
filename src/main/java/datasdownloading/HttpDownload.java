@@ -5,8 +5,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -174,7 +172,7 @@ public class HttpDownload {
         }
         return null;
     }
-/*
+
     public Campaign getCampaignTechnicalById(String campaignId) {
 
         if (xmlReader == null) {
@@ -216,5 +214,13 @@ public class HttpDownload {
         }
         return null;
     }
-*/
+
+    public static void main(String[] args) throws Exception{
+        HttpDownload a= new HttpDownload();
+        Campaign c = a.getCampaignTechnicalById("557150106");
+        
+        System.out.println(c.getCampaignContent());
+    }
+    
+    
 }
