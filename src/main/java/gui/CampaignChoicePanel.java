@@ -1,7 +1,11 @@
 package main.java.gui;
 
+import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
@@ -20,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -38,7 +43,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     private HttpDownload htpdl;
     private JScrollPane scrollPane;
     private JTextField txtFilter;
-    
+
     public CampaignChoicePanel() {
         super("Campaign choice");
 
@@ -98,7 +103,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         txtFilter.setColumns(10);
 
     }
-    
+
     public void fillTableCampaignChoice(HttpDownload htpdl) {
 
         if (table != null)
@@ -132,7 +137,15 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             campaignHeaders.add(campaignHeader.getCampaignID());
         }
 
-        DefaultTableModel model = new DefaultTableModel(rowData, columnNames);
+        DefaultTableModel model = new DefaultTableModel(rowData, columnNames) {
+            
+            @Override
+            public boolean isCellEditable(int row,int column){
+                return false;
+            }
+        };
+       
+        
 
         table = new JTable(model);
         table.getColumnModel().getColumn(0).setPreferredWidth(110);
@@ -172,7 +185,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         table.setAutoCreateRowSorter(true);
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(46, 99, 495, 217);
+        scrollPane.setBounds(46, 99, 495, 260);
 
         scrollPane.add(table);
         scrollPane.setViewportView(table);
@@ -207,6 +220,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             }
         });
 
+        
+        
+        
     }
 
     private CampaignChoicePanel(JTable table) {

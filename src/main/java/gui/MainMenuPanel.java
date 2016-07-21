@@ -56,8 +56,12 @@ public class MainMenuPanel extends SettingsChoicePanel {
 
         JLabel lblBackground = new JLabel("");
 
+//        lblBackground.setIcon(
+//                new ImageIcon(getClass().getResource("/background2.png")));
+        
         lblBackground.setIcon(
-                new ImageIcon(getClass().getResource("/background2.png")));
+              new ImageIcon(getClass().getResource("/blue.png")));
+        
         lblBackground.setBounds(0, -23, 600, 490);
         add(lblBackground);
 

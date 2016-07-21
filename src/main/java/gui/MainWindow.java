@@ -43,6 +43,7 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Language;
+import main.java.utils.Utils;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame implements IMainFrame {
@@ -63,6 +64,8 @@ public class MainWindow extends JFrame implements IMainFrame {
     
     private static boolean isTechnical;
     
+    private static boolean isSummary;
+    
  
     public static boolean isRankings() {
         return isRankings;
@@ -75,8 +78,10 @@ public class MainWindow extends JFrame implements IMainFrame {
     public static void setTechnical(boolean isTechnical) {
         MainWindow.isTechnical = isTechnical;
     }
-
     
+    public static void setSummary(boolean isSummary) {
+    	MainWindow.isSummary = isSummary;
+    }
     
     public static HttpDownload getSession() {
         return session;
@@ -392,21 +397,40 @@ public class MainWindow extends JFrame implements IMainFrame {
         List<Section> sections = new ArrayList<Section>();
 
         CampaignChoicePanel ccp = (CampaignChoicePanel) panels.get(1);
-        GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(2);
-        TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(3);
-        InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(4);
-        ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(5);
+        ModulesSettingsPanel msp = (ModulesSettingsPanel) panels.get(2);
+        GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(3);
+        TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(4);
+        InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(5);
+        ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(6);
 
         
         String campaignID = ccp.getSelectedId();
-        Campaign c1 = session.getCampaignRankingsById(campaignID);
-        Campaign c2 = session.getCampaignTechnicalById(campaignID);
         
-        if (c1 == null || c2 == null) {
+        Campaign c1 = null,c2 = null;
+        boolean error = false;
+        
+        if (msp.getChckbxRankings().isSelected() ) {
+             c1 = session.getCampaignRankingsById(campaignID);
+             if (c1 == null)
+                 error = true;
+        }
+        
+        if (msp.getChckbxTechnical().isSelected()) {
+            c2 = session.getCampaignTechnicalById(campaignID);
+            if (c2 == null)
+                error = true;
+        }
+        
+        if (msp.getChckbxSummary().isSelected()) {
+        	System.out.println("tas de graisse");
+        }
+        
+        if (error) {
             JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
             return;
         }
         
+        Campaign commonInfos  = (c1 == null) ? c2 : c1;
         
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -428,13 +452,13 @@ public class MainWindow extends JFrame implements IMainFrame {
         
         tp.setStructure(hfTitle);
         tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
-        tp.setCampaignName(c1.getCampaignHeader().getCampaignName());
+        tp.setCampaignName(commonInfos.getCampaignHeader().getCampaignName());
         
         
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         
-        tp.setStartDate(f.format(c1.getCampaignHeader().getStartDate()));
-        tp.setEndDate(f.format(c1.getCampaignHeader().getEndDate()));
+        tp.setStartDate(f.format(commonInfos.getCampaignHeader().getStartDate()));
+        tp.setEndDate(f.format(commonInfos.getCampaignHeader().getEndDate()));
         sections.add(tp);
 
         // Infos for the insert page
@@ -467,70 +491,65 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
         
+        
         // Columns choice settings
-        if (ccp.getChckbxRankings().isSelected()) {
-        ContentPage contentPage = new ContentPage(
-                csp.getChckbxImpressionsRankings().isSelected(),
-                csp.getChckbxFrequencyRankings().isSelected(),
-                csp.getChckbxClicksRankings().isSelected(),
-                csp.getChckbxClickingUsersRankings().isSelected(),
-                csp.getChckbxClickThroughRateRankings().isSelected(),
-                csp.getChckbxUniqueCTRRankings().isSelected());
-
-        contentPage.setReach(csp.getChckbxReach().isSelected());
-
-        contentPage.setStructure(hfContent);
-        contentPage.setCampaign(c1);
-        sections.add(contentPage);
+        
+        
+        List<String> labels = new ArrayList<>();
+        labels.add("Placement path");
+        labels.add("Impressions");
+        labels.add("Unique cookies");
+        labels.add("Frequency");
+        labels.add("Clicks");
+        labels.add("Clicking users");
+        labels.add("Click Through Rate");
+        labels.add("Unique CTR");
+        labels.add("Reach");
+        
+        
+        if (msp.getChckbxRankings().isSelected()) {
+            ContentPage contentPage = new ContentPage(
+                    csp.getChckbxImpressionsRankings().isSelected(),
+                    csp.getChckbxFrequencyRankings().isSelected(),
+                    csp.getChckbxClicksRankings().isSelected(),
+                    csp.getChckbxClickingUsersRankings().isSelected(),
+                    csp.getChckbxClickThroughRateRankings().isSelected(),
+                    csp.getChckbxUniqueCTRRankings().isSelected());
+    
+            contentPage.setReach(csp.getChckbxReach().isSelected());
+    
+            contentPage.setStructure(hfContent);
+            c1.setColumsLabels(labels);
+            contentPage.setCampaign(c1);
+            sections.add(contentPage);
         }
         
-        if (ccp.getChckbxTechnical().isSelected()) {
-        ContentPage contentPage2 = new ContentPage(
-                csp.getChckbxImpressionsTechnical().isSelected(),
-                csp.getChckbxFrequencyTechnical().isSelected(),
-                csp.getChckbxClicksTechnical().isSelected(),
-                csp.getChckbxClickingUsersTechnical().isSelected(),
-                csp.getChckbxClickThroughRateTechnical().isSelected(),
-                csp.getChckbxUniqueCTRTechnical().isSelected());
-        
-        contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
-       
-        contentPage2.setStructure(hfContent);
-        contentPage2.setCampaign(c2);
-        sections.add(contentPage2);
-        
+        if (msp.getChckbxTechnical().isSelected()) {
+            ContentPage contentPage2 = new ContentPage(
+                    csp.getChckbxImpressionsTechnical().isSelected(),
+                    csp.getChckbxFrequencyTechnical().isSelected(),
+                    csp.getChckbxClicksTechnical().isSelected(),
+                    csp.getChckbxClickingUsersTechnical().isSelected(),
+                    csp.getChckbxClickThroughRateTechnical().isSelected(),
+                    csp.getChckbxUniqueCTRTechnical().isSelected());
+            
+            contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
+           
+            contentPage2.setStructure(hfContent);
+            c2.setColumsLabels(labels);
+            contentPage2.setCampaign(c2);
+            sections.add(contentPage2);
+            
         }
         
-        
-    
-    
-   
-    
-
-    
-    
-    
-    List<String> labels = new ArrayList<>();
-    labels.add("Placement path");
-    labels.add("Impressions");
-    labels.add("Unique cookies");
-    labels.add("Frequency");
-    labels.add("Clicks");
-    labels.add("Clicking users");
-    labels.add("Click Through Rate");
-    labels.add("Unique CTR");
-    labels.add("Reach");
-    c1.setColumsLabels(labels);
-    c2.setColumsLabels(labels);
-    
-    
-    try{
-        etpd.createPdfDownload("orbegozo_online.pdf", sections, isp.getRdbtnOn().isSelected());
-    }
-    catch (DocumentException | IOException e)
-    {
-        e.printStackTrace();
-    }
+         try{
+         etpd.createPdfDownload(Utils.getPdfName(commonInfos.getCampaignHeader().getCampaignName()), sections,
+         isp.getRdbtnOn().isSelected());
+         }
+         catch (DocumentException | IOException e)
+         {
+         e.printStackTrace();
+         }
 
 
     }
@@ -578,6 +597,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         panels.add(new LoginPanel(ccp));
         panels.add(ccp);
+        panels.add(new ModulesSettingsPanel());
         panels.add(new GeneralSettingsPanel());
         panels.add(new TitleSettingsPanel());
         panels.add(new InsertPageSettingsPanel());

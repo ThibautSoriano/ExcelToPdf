@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DiasGrosFilsDePuteWindow {
 
@@ -43,6 +45,13 @@ public class DiasGrosFilsDePuteWindow {
          */
         private void initialize() {
                 frame = new JFrame();
+                frame.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		System.out.println("MERGUEZ zhengqin 2/20");
+                	}
+                });
+                
                 frame.setBounds(300, 100, 600, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.getContentPane().setLayout(null);

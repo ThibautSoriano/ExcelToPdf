@@ -127,7 +127,7 @@ public class HttpDownload {
                     + sessionId;
             HttpMessage m = sendGet(url);
             
-            System.out.println(sessionId);
+//            System.out.println(sessionId);
             if (m.isOk())
                 xmlReader = new XmlReader(m.getContent());
             else
