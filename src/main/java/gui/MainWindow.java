@@ -311,11 +311,11 @@ public class MainWindow extends JFrame implements IMainFrame {
             // Columns choice settings
             
             List<JTextField> fields = mwp.getFields();
-
+            ContentPage contentPage = null;
             for (JTextField jTextField : fields) {
                 String src = jTextField.getText();
                 if (!src.isEmpty()) {
-                    ContentPage contentPage = null;
+                    
                     ExcelReader excelReader = null;
 
                     if (src.contains("Rankings")) {
@@ -379,7 +379,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             
             
             try {
-                etpd.createPdf("orbegozo.pdf", sections,
+                etpd.createPdf(Utils.getPdfName(contentPage.getCampaign().getCampaignHeader().getCampaignName()), sections,
                         isp.getRdbtnOn().isSelected());
             } catch (IOException | DocumentException e) {
                 e.printStackTrace();
@@ -591,12 +591,12 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         getContentPane().remove(panels.get(currentPanel));
 
-        CampaignChoicePanel ccp = new CampaignChoicePanel();
+        
         
         panels = new LinkedList<SettingsChoicePanel>();
 
-        panels.add(new LoginPanel(ccp));
-        panels.add(ccp);
+        panels.add(new LoginPanel());
+        panels.add(new CampaignChoicePanel());
         panels.add(new ModulesSettingsPanel());
         panels.add(new GeneralSettingsPanel());
         panels.add(new TitleSettingsPanel());
