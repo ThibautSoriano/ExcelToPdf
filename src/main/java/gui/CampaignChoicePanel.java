@@ -1,11 +1,7 @@
 package main.java.gui;
 
-import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
@@ -38,21 +34,11 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
     private JTable table;
     private List<String> campaignHeaders;
-    private JCheckBox chckbxRankings;
-    private JCheckBox chckbxTechnical;
 
     private HttpDownload htpdl;
     private JScrollPane scrollPane;
     private JTextField txtFilter;
-
-    public JCheckBox getChckbxRankings() {
-        return chckbxRankings;
-    }
-
-    public JCheckBox getChckbxTechnical() {
-        return chckbxTechnical;
-    }
-
+    
     public CampaignChoicePanel() {
         super("Campaign choice");
 
@@ -60,34 +46,6 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
         lblSelectACampaign.setBounds(54, 60, 221, 22);
         add(lblSelectACampaign);
-
-        chckbxRankings = new JCheckBox("Rankings");
-        chckbxRankings.setSelected(true);
-        chckbxRankings.setBounds(178, 334, 97, 23);
-        chckbxRankings.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!checkOneBoxFilled())
-                    chckbxRankings.setSelected(true);
-            }
-
-        });
-        add(chckbxRankings);
-
-        chckbxTechnical = new JCheckBox("Technical");
-        chckbxTechnical.setSelected(true);
-        chckbxTechnical.setBounds(368, 334, 97, 23);
-        chckbxTechnical.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!checkOneBoxFilled())
-                    chckbxTechnical.setSelected(true);
-
-            }
-        });
-        add(chckbxTechnical);
 
         JLabel loading = new JLabel("Loading...");
         loading.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -140,12 +98,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
         txtFilter.setColumns(10);
 
     }
-
-    private boolean checkOneBoxFilled() {
-        return chckbxRankings.isSelected() || chckbxTechnical.isSelected();
-
-    }
-
+    
     public void fillTableCampaignChoice(HttpDownload htpdl) {
 
         if (table != null)
@@ -275,10 +228,6 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
     @Override
     public boolean isEveryThingOk() {
-
-        MainWindow.setRankings(chckbxRankings.isSelected());
-        MainWindow.setTechnical(chckbxTechnical.isSelected());
-
         return table.getSelectedRow() > -1;
     }
 
