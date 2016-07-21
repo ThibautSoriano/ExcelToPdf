@@ -24,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -179,7 +180,15 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             campaignHeaders.add(campaignHeader.getCampaignID());
         }
 
-        DefaultTableModel model = new DefaultTableModel(rowData, columnNames);
+        DefaultTableModel model = new DefaultTableModel(rowData, columnNames) {
+            
+            @Override
+            public boolean isCellEditable(int row,int column){
+                return false;
+            }
+        };
+       
+        
 
         table = new JTable(model);
         table.getColumnModel().getColumn(0).setPreferredWidth(110);
@@ -254,6 +263,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
             }
         });
 
+        
+        
+        
     }
 
     private CampaignChoicePanel(JTable table) {
