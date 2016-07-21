@@ -16,11 +16,17 @@ import javax.swing.UIManager;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class DownloadWindow {
 
 	private JFrame frame;
 	private JTable table;
+	private JTextField txtFilter;
 
 	/**
 	 * Launch the application.
@@ -117,6 +123,17 @@ public class DownloadWindow {
                 chckbxTechnical.setSelected(true);
                 chckbxTechnical.setBounds(368, 334, 97, 23);
                 panel.add(chckbxTechnical);
+                
+                txtFilter = new JTextField();
+                txtFilter.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent arg0) {
+                    }
+                });
+                
+                txtFilter.setBounds(310, 61, 231, 22);
+                panel.add(txtFilter);
+                txtFilter.setColumns(10);
                 panel.setVisible(true);
                 frame.setVisible(true);
 	}

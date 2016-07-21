@@ -402,6 +402,12 @@ public class MainWindow extends JFrame implements IMainFrame {
         Campaign c1 = session.getCampaignRankingsById(campaignID);
         Campaign c2 = session.getCampaignTechnicalById(campaignID);
         
+        if (c1 == null || c2 == null) {
+            JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
@@ -502,10 +508,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     
 
     
-    if (c1 == null || c2 == null) {
-        JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+    
     
     List<String> labels = new ArrayList<>();
     labels.add("Placement path");

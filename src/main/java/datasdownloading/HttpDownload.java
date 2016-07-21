@@ -58,25 +58,37 @@ public class HttpDownload {
 
     private HttpMessage sendGet(String url) {
 
-        HttpGet request = new HttpGet(url);
-
+        HttpGet request = null;
         try {
+         request = new HttpGet(url);
+        }
+        catch (IllegalArgumentException e) {
+            return new HttpMessage(false, "Only aphanumerical characters allowed", "");
+        }
+        
+        try {
+            
             HttpResponse response = client.execute(request);
             HttpEntity entity = response.getEntity();
 
             // Read the contents of an entity and return it as a String.
             String content = EntityUtils.toString(entity);
 
+            
             return new HttpMessage(true, "OK", content);
         } catch (UnknownHostException e) {
+            e.printStackTrace();
             return new HttpMessage(false,
                     "Connection with the server failed.\nPlease check your internet connection",
                     "");
         } catch (ClientProtocolException e) {
+            e.printStackTrace();
             return new HttpMessage(false, e.getMessage(), "");
         } catch (IOException e) {
+            e.printStackTrace();
             return new HttpMessage(false, e.getMessage(), "");
         }
+        
     }
 
     /**

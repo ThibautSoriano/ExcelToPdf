@@ -79,7 +79,8 @@ public class LoginPanel extends SettingsChoicePanel {
             
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+           
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR",
                     JOptionPane.ERROR_MESSAGE);
         }
