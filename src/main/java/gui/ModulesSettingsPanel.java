@@ -39,7 +39,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!checkOneBoxFilled())
-                    chckbxTechnical.setSelected(true);
+                    chckbxSummary.setSelected(true);
 
             }
         });
@@ -57,7 +57,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!checkOneBoxFilled())
-                    chckbxTechnical.setSelected(true);
+                    chckbxRankings.setSelected(true);
 
             }
         });
