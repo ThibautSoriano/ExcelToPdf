@@ -123,6 +123,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                
                     if (session != null)
                         session.close();
             }
@@ -210,6 +211,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         mntmExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
+                if (session != null)
+                    session.close();
                 System.exit(0);
             }
         });
