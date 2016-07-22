@@ -217,16 +217,19 @@ public class ExcelToPdf {
 				JFreeChart impressionsChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
 			    if (impressionsChart != null)
 				document.add(getImagePie(impressionsChart, writer));
+			    document.add(new Paragraph("\n"));
 			    }
 			if (contentPage.isUniqueCookies()) {
 				JFreeChart uniqueCookiesChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", false, 0, 0);
 			    if (uniqueCookiesChart != null)
 				document.add(getImagePie(uniqueCookiesChart, writer));
+			    document.add(new Paragraph("\n"));
 			    }
 			if (contentPage.isReach()) {
 				JFreeChart reachChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX), CampaignRow.REACH_INDEX, "Reach per county", false, 0, 0);
 			    if (reachChart != null)
 				document.add(getImagePie(reachChart, writer));
+			    document.add(new Paragraph("\n"));
 			    }
 			if (contentPage.isFrequency()) {
 			    int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
@@ -236,26 +239,31 @@ public class ExcelToPdf {
 			    JFreeChart frequencyChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, indexDenominator);
 				if (frequencyChart != null)
 					document.add(getImagePie(frequencyChart, writer));
+				document.add(new Paragraph("\n"));
 			}
 			if (contentPage.isClicks()) {
 				JFreeChart clicksChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks per county", false, 0, 0);
 				if (clicksChart != null)
 					document.add(getImagePie(clicksChart, writer));
+				document.add(new Paragraph("\n"));
 			}
 			if (contentPage.isClickingUsers()) {
 				JFreeChart clickingUsersChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county", false, 0, 0);
 				if (clickingUsersChart != null)
 					document.add(getImagePie(clickingUsersChart, writer));
+				document.add(new Paragraph("\n"));
 			}
 			if (contentPage.isClickThroughRate()) {
 				JFreeChart clickThroughRateChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county", true, CampaignRow.CLICKS_INDEX, CampaignRow.IMPRESSIONS_INDEX);
 				if (clickThroughRateChart != null)
 					document.add(getImagePie(clickThroughRateChart, writer));
+				document.add(new Paragraph("\n"));
 			}
 			if (contentPage.isUniqueCTR()) {
 				JFreeChart uniqueCTRChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX);
 				if (uniqueCTRChart != null)
 					document.add(getImagePie(uniqueCTRChart, writer));
+				document.add(new Paragraph("\n"));
 			}
 		}
 		
