@@ -20,7 +20,6 @@ public class PieChartCreator {
     	for (int i = 0; nbElements < 4; i++) {
     	    
         	if (campaignRows.get(i).isRelevant()) {
-        	    System.out.println("je teste d'ajouter : " + campaignRows.get(i).getFirstColumnData());
         		dataset.setValue(campaignRows.get(i).getFirstColumnData(), campaignRows.get(i).toListFloat().get(colIndex));
         		nbElements++;
         	}
@@ -32,7 +31,6 @@ public class PieChartCreator {
         
         if (isRate) {
                 others = getPercentage(campaignRows, currentIndex, numeratorIndex, denominatorIndex);
-                System.out.println("others vaut : " + others);
         } else {
                 for (int j = currentIndex; j < campaignRows.size(); j++) {
                         others += campaignRows.get(j).toListFloat().get(colIndex);
