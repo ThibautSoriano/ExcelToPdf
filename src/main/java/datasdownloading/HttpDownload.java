@@ -108,12 +108,12 @@ public class HttpDownload {
 
         if (m.isOk()) {
 
-            HttpMessage m2 = XmlReader.getSessionID(m.getContent());
+            try {
+                sessionId = XmlReader.getSessionID(m.getContent());
+            } catch (LoginException e) {
+                return new HttpMessage(false, e.getMessage(), "");
+            }
 
-            if (m2.isOk())
-                sessionId = m2.getContent();
-            else
-                return m2;
 
         }
 
@@ -122,20 +122,30 @@ public class HttpDownload {
 
     public List<CampaignHeader> getCampaignHeaders() {
 
-        if (xmlReader == null) {
-            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
-                    + sessionId;
-            HttpMessage m = sendGet(url);
-            
-//            System.out.println(sessionId);
-            if (m.isOk())
-                xmlReader = new XmlReader(m.getContent());
-            else
-                return new ArrayList<CampaignHeader>();
-        }
-           
-       return xmlReader.getAllHeaders();
-
+//        if (xmlReader == null) {
+//            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+//                    + sessionId;
+//            HttpMessage m = sendGet(url);
+//            
+//            if (m.isOk()) {
+//                try {
+//                    xmlReader = new XmlReader(m.getContent());
+//                } catch (LoginException e) {
+//                    login(userName, password);
+//                    return getCampaignHeaders();
+// 
+//                }
+//            }
+//            else
+//                return new ArrayList<CampaignHeader>();
+//        }
+         
+       HttpMessage m= checkXmlReader();
+       
+       if (m.isOk())
+           return xmlReader.getAllHeaders();
+       else
+           return new ArrayList<CampaignHeader>();
 
     }
 
@@ -165,23 +175,45 @@ public class HttpDownload {
 
     public Campaign getCampaignRankingsById(String campaignId) {
 
-        if (xmlReader == null) {
-            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
-                    + sessionId;
-
-            HttpMessage campaignList = sendGet(url);
-            if (campaignList.isOk())
-                xmlReader = new XmlReader(campaignList.getContent());
-            else
-                return null;
-        }      
+//        if (xmlReader == null) {
+//            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+//                    + sessionId;
+//
+//            HttpMessage campaignList = sendGet(url);
+//            if (campaignList.isOk()) {
+//                try {
+//                    xmlReader = new XmlReader(campaignList.getContent());
+//                } catch (LoginException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//            else
+//                return null;
+//        }      
+        
+        
+        HttpMessage m= checkXmlReader();
+        
+        if (!m.isOk())
+            return null;
+        
+        
+        
+        
         HttpMessage campaignData = getXmlCampaignDatas(campaignId);
         HttpMessage placementList = getXmlPlacementList(campaignId);
             
         if (campaignData.isOk() && placementList.isOk()) {
 
-            return xmlReader.getCampaign(campaignId, campaignData.getContent(),
-                    placementList.getContent());
+            try {
+                return xmlReader.getCampaign(campaignId, campaignData.getContent(),
+                        placementList.getContent());
+            } catch (LoginException e) {
+//                e.printStackTrace();
+                login(userName, password);
+                return getCampaignRankingsById(campaignId);
+            }
 
         }
         return null;
@@ -189,16 +221,10 @@ public class HttpDownload {
 
     public Campaign getCampaignTechnicalById(String campaignId) {
 
-        if (xmlReader == null) {
-            String url = "https://gdeapi.gemius.com/GetTechStats.php?ignoreEmptyParams=Y&sessionID="
-                    + sessionId;
-
-            HttpMessage campaignList = sendGet(url);
-            if (campaignList.isOk())
-                xmlReader = new XmlReader(campaignList.getContent());
-            else
-                return null;
-        }
+        HttpMessage m= checkXmlReader();
+        
+        if (!m.isOk())
+            return null;
 
        
         HttpMessage campaignData = sendGet(
@@ -222,8 +248,15 @@ public class HttpDownload {
         
 
         if (campaignData.isOk() && campaignData.isOk() && mapIdToCounty.isOk()) {
-            return xmlReader.getCampaignTechnical(campaignId, campaignData.getContent(),
-                    all.getContent(),mapIdToCounty.getContent(),BUDAPEST_ID);
+            try {
+                return xmlReader.getCampaignTechnical(campaignId, campaignData.getContent(),
+                        all.getContent(),mapIdToCounty.getContent(),BUDAPEST_ID);
+            } catch (LoginException e) {
+                // TODO Auto-generated catch block
+//                e.printStackTrace();
+                login(userName, password);
+                return getCampaignTechnicalById(campaignId);
+            }
 
         }
         return null;
@@ -256,4 +289,31 @@ public class HttpDownload {
         sendGet(url);
         
     }
+    
+    private HttpMessage checkXmlReader() {
+        if (xmlReader == null) {
+            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
+                    + sessionId;
+            HttpMessage m = sendGet(url);
+            
+            if (m.isOk()) {
+                try {
+                    xmlReader = new XmlReader(m.getContent());
+                } catch (LoginException e) {
+                    login(userName, password);
+                    try {
+                        xmlReader = new XmlReader(m.getContent());
+                    } catch (LoginException e1) {
+                        return new HttpMessage(false, e1.getMessage(), "");
+                    }
+                    
+ 
+                }
+            }
+            else
+                return new HttpMessage(false, m.getErrorMessage(), "");
+        }
+        return new HttpMessage(true, "", "");
+    }
+    
 }

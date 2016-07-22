@@ -62,7 +62,7 @@ public class XmlReader {
 					sessionID = eElement.getElementsByTagName("sessionID").item(0).getTextContent();
 				}
 				else {
-					throw new LoginException(status);
+					throw new LoginException(eElement.getElementsByTagName("errorDescription").item(0).getTextContent());
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -328,6 +328,7 @@ public class XmlReader {
 
 				Element eElement = (Element) root;
 				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				
 				if (!"OK".equals(status)) {
 					throw new LoginException(status);
 				}
