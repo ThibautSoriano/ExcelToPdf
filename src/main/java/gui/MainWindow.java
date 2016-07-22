@@ -31,14 +31,17 @@ import com.itextpdf.text.DocumentException;
 
 import main.java.datasdownloading.HttpDownload;
 import main.java.datasdownloading.entities.Campaign;
+import main.java.datasdownloading.entities.SummaryData;
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
 import main.java.excelreader.ExcelReaderTechnical;
+import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.exceltopdf.HeaderFooter;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
+import main.java.exceltopdf.pdfsections.SummaryPage;
 import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
@@ -391,7 +394,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     private void validationDownload() {
         
      
-        
+        List<SummaryData> summary = new ArrayList<>();
         
         ExcelToPdf etpd = new ExcelToPdf();
         List<Section> sections = new ArrayList<Section>();
@@ -409,20 +412,14 @@ public class MainWindow extends JFrame implements IMainFrame {
         Campaign c1 = null,c2 = null;
         boolean error = false;
         
-        if (msp.getChckbxRankings().isSelected() ) {
-             c1 = session.getCampaignRankingsById(campaignID);
-             if (c1 == null)
-                 error = true;
-        }
+         c1 = session.getCampaignRankingsById(campaignID);
+         if (c1 == null)
+             error = true;
         
         if (msp.getChckbxTechnical().isSelected()) {
             c2 = session.getCampaignTechnicalById(campaignID);
             if (c2 == null)
                 error = true;
-        }
-        
-        if (msp.getChckbxSummary().isSelected()) {
-        	System.out.println("tas de graisse");
         }
         
         if (error) {
@@ -435,6 +432,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
+        
+        
 
         // Infos for the title page
         TitlePage tp = new TitlePage();
@@ -506,6 +505,26 @@ public class MainWindow extends JFrame implements IMainFrame {
         labels.add("Unique CTR");
         labels.add("Reach");
         
+        if (msp.getChckbxSummary().isSelected()) {
+        	SimpleDateFormat hungarianF = new SimpleDateFormat("yyyy. MM. dd.");
+        	
+        	summary.add(new SummaryData("campaign name:", c1.getCampaignHeader().getCampaignName()));
+        	summary.add(new SummaryData("client name:", c1.getCampaignHeader().getClientName()));
+        	summary.add(new SummaryData("campaign start date:", hungarianF.format(c1.getCampaignHeader().getStartDate())));
+        	summary.add(new SummaryData("campaign end date:", hungarianF.format(c1.getCampaignHeader().getEndDate())));
+        	summary.add(new SummaryData("impressions:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getImpressions()))));
+        	summary.add(new SummaryData("reach:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getReach()))));
+        	summary.add(new SummaryData("frequency:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getFrequency()))));
+        	summary.add(new SummaryData("clicks:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClicks()))));
+        	summary.add(new SummaryData("clicking users:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClickingUsers()))));
+        	summary.add(new SummaryData("click through rate:", c1.getAll().getClickThroughRate().toString()));
+        	summary.add(new SummaryData("unique CTR:", c1.getAll().getUniqueCTR().toString()));
+        }
+        
+        SummaryPage summaryPage = new SummaryPage(summary, msp.getChckbxSummary().isSelected());
+        
+        summaryPage.setStructure(hfContent);
+        sections.add(summaryPage);
         
         if (msp.getChckbxRankings().isSelected()) {
             ContentPage contentPage = new ContentPage(

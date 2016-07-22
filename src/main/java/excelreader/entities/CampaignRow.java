@@ -193,7 +193,7 @@ public  class CampaignRow {
                 && clickThroughRate.getValue() == 0 && uniqueCTR.getValue() == 0 && reach == 0;
     }
     
-    private String getSpacesBetweenThousands(String numberInString){
+    public static String getSpacesBetweenThousands(String numberInString){
         
         
         StringBuilder sb = new StringBuilder(numberInString);

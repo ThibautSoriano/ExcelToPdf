@@ -1,6 +1,7 @@
 package main.java.exceltopdf;
 
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
 import main.java.exceltopdf.pdfsections.Section;
+import main.java.exceltopdf.pdfsections.SummaryPage;
 import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.Utils;
 
@@ -32,10 +34,12 @@ public class ExcelToPdf {
 	
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
+    public static final String TEMP_SUMMARY_PAGE = "tmp_summary_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
     public  List<String> FILES = new ArrayList<>();
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
+	private static final int SUMMARY_PAGE = 2;
 	public static int CURRENT_PAGE_NUMBER = 0;
 
     public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
@@ -102,7 +106,13 @@ public class ExcelToPdf {
            createInsertPage(insertPage);
        }
        
-       for (int i = 2; i < sections.size(); i++) {
+       SummaryPage summaryPage = (SummaryPage) sections.get(SUMMARY_PAGE);
+       
+       if (summaryPage.isHasToBeDisplayed()) {
+    	   createSummaryPage(summaryPage);
+       }
+       
+       for (int i = 3; i < sections.size(); i++) {
     	   createContentPage((ContentPage) sections.get(i), true);
        }
        
@@ -110,6 +120,35 @@ public class ExcelToPdf {
        
        PdfConcat c = new PdfConcat();
        c.concat(FILES, dest);
+   }
+   
+   private void createSummaryPage(SummaryPage summaryPage) throws FileNotFoundException, DocumentException {
+		Document document = new Document();
+		TabCreator tc = new TabCreator();
+		document.setMargins(85, 85, 85, 113);
+		String fileName = Utils.getNewTmpFileName() + TEMP_SUMMARY_PAGE;
+		FileOutputStream outputStream = new FileOutputStream(fileName);
+		FILES.add(fileName);
+		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+		writer.setPageEvent(summaryPage.getStructure());
+		
+		document.open();
+	   
+		document.add(new Paragraph("Summary"));
+		document.add(new Paragraph("\n\n"));
+        document.add(tc.getTabSummary(summaryPage.getSummary()));
+        
+        document.close();
+        CURRENT_PAGE_NUMBER += writer.getPageNumber();
+        writer.flush();
+        writer.close();
+        outputStream.flush();
+        outputStream.close();
+        
+        writer = null;
+        outputStream = null;
+        System.gc();
+	   
    }
 
     private void createContentPage(ContentPage contentPage, boolean download) throws DocumentException, IOException {
