@@ -11,6 +11,7 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import main.java.datasdownloading.entities.SummaryData;
 import main.java.excelreader.entities.CampaignRow;
 import main.java.utils.Utils;
 
@@ -199,9 +200,10 @@ public class TabCreator {
         for (int i = 0; i < data.size(); i++) {
             
         
-                Font font = new Font(FontFamily.HELVETICA, 8, Font.NORMAL);
+                Font font = new Font(FontFamily.HELVETICA, 12, Font.BOLD);
                 Paragraph para = new Paragraph(data.get(i).getAttribution(), font);
                 para.setAlignment(Element.ALIGN_RIGHT);
+                
 
                 PdfPCell cell = new PdfPCell();
 
@@ -211,8 +213,8 @@ public class TabCreator {
                 
                 table.addCell(cell);
                 
-                
-                Paragraph para2 = new Paragraph(data.get(i).getValue(), font);
+                Font font2 = new Font(FontFamily.HELVETICA, 12, Font.NORMAL);
+                Paragraph para2 = new Paragraph(data.get(i).getValue(), font2);
                 para.setAlignment(Element.ALIGN_LEFT);
                 
                 PdfPCell cell2 = new PdfPCell();
@@ -225,6 +227,7 @@ public class TabCreator {
                 
 
             }
+        return table;
         
     }
     

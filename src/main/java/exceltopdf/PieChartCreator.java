@@ -7,8 +7,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 
-import com.itextpdf.text.log.SysoCounter;
-
 import main.java.excelreader.entities.CampaignRow;
 
 public class PieChartCreator {
@@ -17,6 +15,7 @@ public class PieChartCreator {
         DefaultPieDataset dataset = new DefaultPieDataset();
         
         int nbElements = 0;
+        int currentIndex = 0;
     
     	for (int i = 0; nbElements < 4; i++) {
     	    
@@ -26,31 +25,21 @@ public class PieChartCreator {
         		nbElements++;
         	}
         	
-        	float others = 0;
-        	
-        	if (isRate) {
-        		others = getPercentage(campaignRows, i, numeratorIndex, denominatorIndex);
-        	} else {
-	        	for (int j = i; j < campaignRows.size(); j++) {
-	        		others += campaignRows.get(i).toListFloat().get(colIndex);
-	        	}
-        	}
-        	dataset.setValue("Others", others);
-        	
-        	
+        	currentIndex = i;
         }
-//        else {
-//        	// chart for the others
-//        	for (int i = 0; i < campaignRows.size(); i++) {
-//        		
-//        		if (nbElements < 5 && campaignRows.get(i).isRelevant()) {
-//        			nbElements++;
-//        		} else if (campaignRows.get(i).isRelevant()) {
-//	        		dataset.setValue(campaignRows.get(i).getFirstColumnData(), campaignRows.get(i).toListFloat().get(colIndex));
-//	        	}
-//	        }
-//        }
+    	
+    	float others = 0;
         
+        if (isRate) {
+                others = getPercentage(campaignRows, currentIndex, numeratorIndex, denominatorIndex);
+                System.out.println("others vaut : " + others);
+        } else {
+                for (int j = currentIndex; j < campaignRows.size(); j++) {
+                        others += campaignRows.get(j).toListFloat().get(colIndex);
+                }
+        }
+        dataset.setValue("Others", others);
+    	
         
         JFreeChart chart = ChartFactory.createPieChart3D(title, dataset, true, true, false);
 

@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -506,6 +508,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         labels.add("Reach");
         
         if (msp.getChckbxSummary().isSelected()) {
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.CEILING);
         	SimpleDateFormat hungarianF = new SimpleDateFormat("yyyy. MM. dd.");
         	
         	summary.add(new SummaryData("campaign name:", c1.getCampaignHeader().getCampaignName()));
@@ -514,7 +518,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         	summary.add(new SummaryData("campaign end date:", hungarianF.format(c1.getCampaignHeader().getEndDate())));
         	summary.add(new SummaryData("impressions:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getImpressions()))));
         	summary.add(new SummaryData("reach:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getReach()))));
-        	summary.add(new SummaryData("frequency:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getFrequency()))));
+        	summary.add(new SummaryData("frequency:", df.format(c1.getAll().getFrequency())));
         	summary.add(new SummaryData("clicks:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClicks()))));
         	summary.add(new SummaryData("clicking users:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClickingUsers()))));
         	summary.add(new SummaryData("click through rate:", c1.getAll().getClickThroughRate().toString()));
@@ -536,7 +540,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxUniqueCTRRankings().isSelected());
     
             contentPage.setReach(csp.getChckbxReach().isSelected());
-    
+            c1.setTechnicalCampaign(false);
             contentPage.setStructure(hfContent);
             c1.setColumsLabels(labels);
             contentPage.setCampaign(c1);
@@ -553,7 +557,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxUniqueCTRTechnical().isSelected());
             
             contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
-           
+            c2.setTechnicalCampaign(true);
             contentPage2.setStructure(hfContent);
             c2.setColumsLabels(labels);
             contentPage2.setCampaign(c2);

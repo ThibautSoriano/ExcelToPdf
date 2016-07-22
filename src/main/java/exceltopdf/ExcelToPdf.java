@@ -122,7 +122,7 @@ public class ExcelToPdf {
        c.concat(FILES, dest);
    }
    
-   private void createSummaryPage(SummaryPage summaryPage) throws FileNotFoundException, DocumentException {
+   private void createSummaryPage(SummaryPage summaryPage) throws DocumentException, IOException {
 		Document document = new Document();
 		TabCreator tc = new TabCreator();
 		document.setMargins(85, 85, 85, 113);
@@ -134,7 +134,10 @@ public class ExcelToPdf {
 		
 		document.open();
 	   
-		document.add(new Paragraph("Summary"));
+		Paragraph title = new Paragraph("Summary");
+		title.setAlignment(Element.ALIGN_CENTER);
+		title.getFont().setStyle(Font.BOLD);
+		document.add(title);
 		document.add(new Paragraph("\n\n"));
         document.add(tc.getTabSummary(summaryPage.getSummary()));
         
@@ -226,7 +229,11 @@ public class ExcelToPdf {
 				document.add(getImagePie(reachChart, writer));
 			    }
 			if (contentPage.isFrequency()) {
-				JFreeChart frequencyChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX);
+			    int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
+			    if (download) {
+			        indexDenominator = CampaignRow.REACH_INDEX;
+			    }
+			    JFreeChart frequencyChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, indexDenominator);
 				if (frequencyChart != null)
 					document.add(getImagePie(frequencyChart, writer));
 			}
