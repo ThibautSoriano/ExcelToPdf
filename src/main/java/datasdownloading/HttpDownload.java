@@ -249,4 +249,11 @@ public class HttpDownload {
         
         return  this.userName.equals(login) && this.password.equals(password);
     }
+
+    public void close() {
+        String url = "https://gdeapi.gemius.com/CloseSession.php?ignoreEmptyParams=Y&sessionID="+sessionId;
+        
+        sendGet(url);
+        
+    }
 }

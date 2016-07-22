@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -75,6 +77,14 @@ public class MainWindow extends JFrame implements IMainFrame {
     public static boolean isRankings() {
         return isRankings;
     }
+    
+    
+
+    public static boolean isTechnical() {
+        return isTechnical;
+    }
+
+
 
     public static void setRankings(boolean isRankings) {
         MainWindow.isRankings = isRankings;
@@ -105,7 +115,14 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     public MainWindow() {
-
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                    session.close();
+            }
+        });
+        
         setResizable(false);
         setIconImage(Toolkit.getDefaultToolkit()
                 .getImage(getClass().getResource("/icon.png")));

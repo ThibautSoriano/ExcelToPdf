@@ -56,6 +56,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                MainWindow.setRankings(chckbxRankings.isSelected());
                 if (!checkOneBoxFilled())
                     chckbxRankings.setSelected(true);
 
@@ -70,6 +71,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                MainWindow.setTechnical(chckbxTechnical.isSelected());
                 if (!checkOneBoxFilled())
                     chckbxTechnical.setSelected(true);
 

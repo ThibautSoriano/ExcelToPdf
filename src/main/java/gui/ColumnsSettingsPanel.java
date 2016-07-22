@@ -145,6 +145,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     public ColumnsSettingsPanel(boolean download) {
         super(Internationalization.getKey("Columns Settings"));
 
+        
+        
         this.download = download;
         
         groupRankings = new ArrayList<JCheckBox>();
@@ -324,15 +326,27 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             
             @Override
             public void ancestorAdded(AncestorEvent event) {
-                if (MainWindow.isRankings())
+                if (MainWindow.isRankings()) {
                     tabbedPane.setSelectedIndex(0);
-                else
+//                    tabbedPane.remove(panelRankings);
+                    
+                }
+                else {
                     tabbedPane.setSelectedIndex(1);
+                    panelRankings.setVisible(false);
+                }
+                
+                if (MainWindow.isTechnical())
+                    panelTechnical.setVisible(true);
+                else
+                    panelTechnical.setVisible(false);
+                
                 
             }
         });
         
 
+       
     }
 
     @Override
