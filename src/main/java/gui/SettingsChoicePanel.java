@@ -1,7 +1,9 @@
 package main.java.gui;
 
+import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -29,6 +31,9 @@ public abstract class SettingsChoicePanel extends JPanel{
         title.setFont(new Font("Tahoma", Font.BOLD, 25));
         
         add(title);
+        
+        
+       setBackground(new Color(0, 0,0,0));
         
         
     }

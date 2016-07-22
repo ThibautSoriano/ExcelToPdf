@@ -79,10 +79,6 @@ public class DiasGrosFilsDePuteWindow {
                 separator_1.setBounds(93, 111, 397, 2);
                 panel.add(separator_1);
                 
-                JCheckBox checkBox_2 = new JCheckBox("Header");
-                checkBox_2.setBounds(93, 71, 189, 23);
-                panel.add(checkBox_2);
-                
                 JCheckBox checkBox_3 = new JCheckBox("Footer");
                 checkBox_3.setBounds(93, 143, 189, 23);
                 panel.add(checkBox_3);
@@ -109,6 +105,10 @@ public class DiasGrosFilsDePuteWindow {
                 txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
                 txtrBelowTitle.setWrapStyleWord(true);
                 txtrBelowTitle.setLineWrap(true);
+                
+                JCheckBox checkBox_2 = new JCheckBox("Header");
+                checkBox_2.setBounds(93, 71, 189, 23);
+                panel.add(checkBox_2);
                 
                 
                 

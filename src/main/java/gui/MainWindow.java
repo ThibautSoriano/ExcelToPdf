@@ -19,8 +19,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -116,6 +118,8 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     public MainWindow() {
         
+        
+        
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -139,6 +143,19 @@ public class MainWindow extends JFrame implements IMainFrame {
         addMenu();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        
+        
+        
+        
+//        JLabel lblBackground = new JLabel("");
+//        lblBackground.setIcon(
+//              new ImageIcon(getClass().getResource("/blue.png")));
+//        
+//        lblBackground.setBounds(0, -23, 600, 490);
+//        
+//        add(lblBackground);
+        
+        
     }
 
     public static void main(String[] args) {
@@ -161,6 +178,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         currentPanel++;
         getContentPane().add(panels.get(currentPanel));
 
+        
+        
+        
+        
         repaint();
         setVisible(true);
     }
@@ -171,6 +192,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         currentPanel--;
         getContentPane().add(panels.get(currentPanel));
 
+        
+        
+        
         repaint();
         setVisible(true);
     }
@@ -671,6 +695,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         // else
         // System.out.println(m.getMessages());
 
+        
+        
+        
     }
 
     @Override
@@ -689,6 +716,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             repaint();
             revalidate();
         }
+        
+        
 
     }
 
@@ -701,5 +730,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         currentPanel = 0;
     }
+    
+    
 
 }
