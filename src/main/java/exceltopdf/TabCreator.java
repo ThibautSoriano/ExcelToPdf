@@ -7,6 +7,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
@@ -181,4 +182,53 @@ public class TabCreator {
         
         return (int) -6.67*colsNumber + 50;
     }
+    
+    
+    
+    
+    
+    public PdfPTable getTabSummary(List<SummaryData> data) {
+        
+        PdfPTable table = new PdfPTable(2);
+        table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+        table.setWidthPercentage(100);
+        
+
+        
+        
+        for (int i = 0; i < data.size(); i++) {
+            
+        
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.NORMAL);
+                Paragraph para = new Paragraph(data.get(i).getAttribution(), font);
+                para.setAlignment(Element.ALIGN_RIGHT);
+
+                PdfPCell cell = new PdfPCell();
+
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.addElement(para);
+                cell.setBorder(Rectangle.NO_BORDER);
+                
+                table.addCell(cell);
+                
+                
+                Paragraph para2 = new Paragraph(data.get(i).getValue(), font);
+                para.setAlignment(Element.ALIGN_LEFT);
+                
+                PdfPCell cell2 = new PdfPCell();
+                cell2.setBorder(Rectangle.NO_BORDER);
+                cell2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell2.addElement(para2);
+                
+                table.addCell(cell2);
+                
+                
+
+            }
+        
+    }
+    
+    
+    
+    
 }
