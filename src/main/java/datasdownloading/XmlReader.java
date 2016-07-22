@@ -33,7 +33,7 @@ public class XmlReader {
 	
 	private List<CampaignHeader> allHeaders = new ArrayList<>();
 	
-	public XmlReader(String xmlHeaderDatas) {
+	public XmlReader(String xmlHeaderDatas) throws LoginException {
 		allHeaders = getHeaderList(xmlHeaderDatas);
 	}
 
@@ -41,8 +41,8 @@ public class XmlReader {
 		return allHeaders;
 	}
 
-	public static HttpMessage getSessionID(String xmlDatas) {
-		HttpMessage m = null;
+	public static String getSessionID(String xmlDatas) throws LoginException {
+		String sessionID = "";
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -59,20 +59,20 @@ public class XmlReader {
 				Element eElement = (Element) nNode;
 				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
 				if ("OK".equals(status)) {
-					m = new HttpMessage(true, "", eElement.getElementsByTagName("sessionID").item(0).getTextContent());
+					sessionID = eElement.getElementsByTagName("sessionID").item(0).getTextContent();
 				}
 				else {
-					m = new HttpMessage(false, eElement.getElementsByTagName("errorDescription").item(0).getTextContent(), "");
+					throw new LoginException(status);
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 
-		return m;
+		return sessionID;
 	}
 
-	private List<CampaignHeader> getHeaderList(String xmlDatas) {
+	private List<CampaignHeader> getHeaderList(String xmlDatas) throws LoginException {
 		List<CampaignHeader> headerList = new ArrayList<>();
 
 		try {
@@ -81,6 +81,18 @@ public class XmlReader {
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlDatas.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
 
 			NodeList nList = doc.getElementsByTagName("campaign");
 
@@ -116,13 +128,26 @@ public class XmlReader {
 		return headerList;
 	}
 	
-	private void fillMapPlacementsNames(String xmlPlacementList) {		
+	private void fillMapPlacementsNames(String xmlPlacementList) throws LoginException {		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlPlacementList.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+						
 			NodeList nList = doc.getElementsByTagName("placement");
 
 			for (int i = 0; i < nList.getLength(); i++) {
@@ -145,7 +170,7 @@ public class XmlReader {
 		}
 	}
 	
-	public Campaign getCampaign(String campaignID, String xmlCampaignDatas,String xmlPlacementList) {
+	public Campaign getCampaign(String campaignID, String xmlCampaignDatas,String xmlPlacementList) throws LoginException {
 	    
 	    fillMapPlacementsNames(xmlPlacementList);
 		Campaign c;
@@ -158,6 +183,18 @@ public class XmlReader {
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlCampaignDatas.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+						
 			NodeList nList = doc.getElementsByTagName("statisticsRecord");
 
 			for (int i = 0; i < nList.getLength(); i++) {
@@ -208,7 +245,7 @@ public class XmlReader {
 		return null;
 	}
 
-	public Campaign getCampaignTechnical(String campaignID, String xmlCampaignDatas, String xmlSummaryData, String xmlIdToCounty, int budapestId) {
+	public Campaign getCampaignTechnical(String campaignID, String xmlCampaignDatas, String xmlSummaryData, String xmlIdToCounty, int budapestId) throws LoginException {
 		fillMapIdToCounty(xmlIdToCounty);
 		
 		Campaign c;
@@ -221,6 +258,18 @@ public class XmlReader {
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlCampaignDatas.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+			
 			NodeList nList = doc.getElementsByTagName("statisticsRecord");
 
 			for (int i = 0; i < nList.getLength(); i++) {
@@ -262,7 +311,7 @@ public class XmlReader {
 		return c;
 	}
 	
-	private CampaignRow getAll(String xmlSummaryData) {
+	private CampaignRow getAll(String xmlSummaryData) throws LoginException {
 		CampaignRow all = new CampaignRow();
 		
 		try {
@@ -271,6 +320,19 @@ public class XmlReader {
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlSummaryData.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+						
 			NodeList nList = doc.getElementsByTagName("statisticsRecord");
 
 			for (int i = 0; i < nList.getLength(); i++) {
@@ -304,13 +366,26 @@ public class XmlReader {
 		return all;
 	}
 	
-	private void fillMapIdToCounty(String xmlIdToCounty) {
+	private void fillMapIdToCounty(String xmlIdToCounty) throws LoginException {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlIdToCounty.getBytes("utf-8"))));
 
 			doc.getDocumentElement().normalize();
+			
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+						
 			NodeList nList = doc.getElementsByTagName("region");
 
 			for (int i = 0; i < nList.getLength(); i++) {
