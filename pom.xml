@@ -94,7 +94,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<configuration>
-					<mainClass>main.java.gui.Junior</mainClass>
+					<mainClass>main.java.gui.MainWindow</mainClass>
 				</configuration>
 			</plugin>
 			

@@ -1,6 +1,7 @@
 package main.java.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -195,8 +198,9 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
         JPanel panelRankings = new JPanel();
         
-            
-        tabbedPane.addTab("Rankings", null, panelRankings, null);
+//        if (MainWindow.isRankings())
+//            tabbedPane.addTab("Rankings", null, panelRankings, null);
+        
         panelRankings.setLayout(null);
 
         chckbxImpressionsRankings = new JCheckBox("Impressions");
@@ -254,7 +258,10 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
         
             JPanel panelTechnical = new JPanel();
-            tabbedPane.addTab("Technical", null, panelTechnical, null);
+            
+//            if (MainWindow.isTechnical())
+//                tabbedPane.addTab("Technical", null, panelTechnical, null);
+            
             panelTechnical.setLayout(null);
 
             chckbxImpressionsTechnical = new JCheckBox("Impressions");
@@ -326,20 +333,40 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                
+                
+                
+                if (!MainWindow.isRankings() && !MainWindow.isTechnical())
+                {
+                    JLabel l = new JLabel("Nothing to choose for the selected modules");
+                    l.setBounds(0,170,SettingsChoicePanel.PANEL_WIDTH,60);
+                    l.setFont(new Font("Tahoma",Font.BOLD,16));
+                    l.setHorizontalAlignment(SwingConstants.CENTER);
+                    add(l);
+                    return;
+                }
+                
+                
+                
+                
                 if (MainWindow.isRankings()) {
+                    tabbedPane.addTab("Rankings", null, panelRankings, null);
                     tabbedPane.setSelectedIndex(0);
-//                    tabbedPane.remove(panelRankings);
+                    
                     
                 }
                 else {
-                    tabbedPane.setSelectedIndex(1);
-                    panelRankings.setVisible(false);
+                    
+                    tabbedPane.remove(panelRankings);
                 }
                 
-                if (MainWindow.isTechnical())
-                    panelTechnical.setVisible(true);
+                if (MainWindow.isTechnical()) {
+                    tabbedPane.addTab("Technical", null, panelTechnical, null);
+                    
+                    tabbedPane.setSelectedIndex(0);
+                }
                 else
-                    panelTechnical.setVisible(false);
+                    tabbedPane.remove(panelTechnical);
                 
                 
             }
