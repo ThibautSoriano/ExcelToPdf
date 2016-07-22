@@ -15,12 +15,12 @@ public class LoginPanel extends SettingsChoicePanel {
     private JTextField txtLogin;
     private JPasswordField txtPassword;
 
-    private CampaignChoicePanel ccp;
+    
 
-    public LoginPanel(CampaignChoicePanel ccp) {
+    public LoginPanel() {
         super("Login");
 
-        this.ccp = ccp;
+        
 
         JSeparator separator = new JSeparator();
         separator.setBounds(93, 57, 397, 2);
