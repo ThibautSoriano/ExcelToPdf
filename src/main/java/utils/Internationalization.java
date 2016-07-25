@@ -12,7 +12,8 @@ import org.json.simple.parser.ParseException;
 
 public class Internationalization {
     
-    public static JSONObject map;
+    private static JSONObject map;
+    private static Language currentLanguage = Language.EN;
     
     static {
         loadLanguage(Language.EN);        
@@ -24,6 +25,10 @@ public class Internationalization {
         System.out.println(Internationalization.map.get("Browse"));
     }
     
+    
+    public static Language getCurrentLanguage(){
+        return currentLanguage;
+    }
     
     
     public static void loadLanguage(Language lang){
@@ -41,7 +46,7 @@ public class Internationalization {
         try {
             isr = new InputStreamReader(is,lang.getEncoding());
             map = (JSONObject) parser.parse(isr);
-            
+            currentLanguage = lang;
 
         
         } catch (UnsupportedEncodingException e) {
