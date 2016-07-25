@@ -39,5 +39,8 @@
 "does not exist." : "n'existe pas.",
 "Continue anyway?" : "Continuer quand même?",
 "Warning" : "Attention",
-"ERROR" : "ERREUR"
+"ERROR" : "ERREUR",
+"From an excel file on your computer" : "Depuis un fichier Excel local",
+"From the Gemius Server" : "Depuis le serveur Gemius",
+"Select how to import your files" : "Choisir comment importer vos fichiers"
 }

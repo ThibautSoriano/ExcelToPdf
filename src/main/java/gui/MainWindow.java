@@ -68,26 +68,20 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static final int WINDOW_WIDTH = 600;
 
     private static HttpDownload session;
-    
-    
+
     private static boolean isRankings;
-    
+
     private static boolean isTechnical;
-    
+
     private static boolean isSummary;
-    
- 
+
     public static boolean isRankings() {
         return isRankings;
     }
-    
-    
 
     public static boolean isTechnical() {
         return isTechnical;
     }
-
-
 
     public static void setRankings(boolean isRankings) {
         MainWindow.isRankings = isRankings;
@@ -96,11 +90,11 @@ public class MainWindow extends JFrame implements IMainFrame {
     public static void setTechnical(boolean isTechnical) {
         MainWindow.isTechnical = isTechnical;
     }
-    
+
     public static void setSummary(boolean isSummary) {
-    	MainWindow.isSummary = isSummary;
+        MainWindow.isSummary = isSummary;
     }
-    
+
     public static HttpDownload getSession() {
         return session;
     }
@@ -118,18 +112,16 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     public MainWindow() {
-        
-        
-        
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                
-                    if (session != null)
-                        session.close();
+
+                if (session != null)
+                    session.close();
             }
         });
-        
+
         setResizable(false);
         setIconImage(Toolkit.getDefaultToolkit()
                 .getImage(getClass().getResource("/icon.png")));
@@ -145,19 +137,15 @@ public class MainWindow extends JFrame implements IMainFrame {
         addMenu();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
-        
-        
-        
-//        JLabel lblBackground = new JLabel("");
-//        lblBackground.setIcon(
-//              new ImageIcon(getClass().getResource("/blue.png")));
-//        
-//        lblBackground.setBounds(0, -23, 600, 490);
-//        
-//        add(lblBackground);
-        
-        
+
+        // JLabel lblBackground = new JLabel("");
+        // lblBackground.setIcon(
+        // new ImageIcon(getClass().getResource("/blue.png")));
+        //
+        // lblBackground.setBounds(0, -23, 600, 490);
+        //
+        // add(lblBackground);
+
     }
 
     public static void main(String[] args) {
@@ -180,10 +168,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         currentPanel++;
         getContentPane().add(panels.get(currentPanel));
 
-        
-        
-        
-        
         repaint();
         setVisible(true);
     }
@@ -194,9 +178,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         currentPanel--;
         getContentPane().add(panels.get(currentPanel));
 
-        
-        
-        
         repaint();
         setVisible(true);
     }
@@ -238,16 +219,16 @@ public class MainWindow extends JFrame implements IMainFrame {
 
                     reloadPanels();
 
-                    getContentPane().remove(np);
-                    np = np.getNewInstance();
+                    if (np != null) {
+                        getContentPane().remove(np);
+                        np = np.getNewInstance();
 
-                    if (currentPanel == 0)
-                        np.hidePreviousButton();
-                    else if (currentPanel == panels.size() - 1)
-                        np.showValidateButton();
+                        if (currentPanel == panels.size() - 1)
+                            np.showValidateButton();
 
-                    getContentPane().add(np);
-
+                        getContentPane().add(np);
+                    }
+                    
                     rdbtnmntm.setSelected(true);
                     repaint();
                     setVisible(true);
@@ -304,19 +285,17 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void validation() {
-        
-        
+
         Language pdfLang = Language.EN;
-        
-        //FIXME TODO ZHENGQIN  creer une InternationalizationPDF + combobox pour choix langage pdf + utiliser l'objet creer pour
-        //remplir champs
-        
+
+        // FIXME TODO ZHENGQIN creer une InternationalizationPDF + combobox pour
+        // choix langage pdf + utiliser l'objet creer pour
+        // remplir champs
 
         if (download) {
             validationDownload();
         } else {
-            
-            
+
             List<Section> sections = new ArrayList<Section>();
 
             ExcelChoicePanel ecp = (ExcelChoicePanel) panels.get(0);
@@ -325,10 +304,11 @@ public class MainWindow extends JFrame implements IMainFrame {
             InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels
                     .get(3);
             ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
-            
-            
-            InternationalizationPDF ipdf = new InternationalizationPDF(ecp.getSelectedLanguage());
-            ExcelToPdf etpd = new ExcelToPdf(ecp.getSelectedLanguage().getEncoding());
+
+            InternationalizationPDF ipdf = new InternationalizationPDF(
+                    ecp.getSelectedLanguage());
+            ExcelToPdf etpd = new ExcelToPdf(
+                    ecp.getSelectedLanguage().getEncoding());
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -349,7 +329,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
             tp.setStructure(hfTitle);
             tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
-            
+
             sections.add(tp);
 
             // Infos for the insert page
@@ -366,19 +346,20 @@ public class MainWindow extends JFrame implements IMainFrame {
             hfInsert.setLineInFooter(gsp.getTxtBottomLeftText().getText());
             hfInsert.setLogoInHeader(gsp.getTxtLogo().getText());
 
-            ip.setCustomTextArea(Utils.splitLongTextToFitPage(isp.getTxtrCreatedBy().getText()));
+            ip.setCustomTextArea(Utils
+                    .splitLongTextToFitPage(isp.getTxtrCreatedBy().getText()));
             ip.setStructure(hfInsert);
 
             sections.add(ip);
 
             // Columns choice settings
-            
+
             List<JTextField> fields = ecp.getFields();
             ContentPage contentPage = null;
             for (JTextField jTextField : fields) {
                 String src = jTextField.getText();
                 if (!src.isEmpty()) {
-                    
+
                     ExcelReader excelReader = null;
 
                     if (src.contains("Rankings")) {
@@ -394,7 +375,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                                 csp.getChckbxUniqueCTRRankings().isSelected());
                         contentPage.setUniqueCookies(csp
                                 .getChckbxUniqueCookiesRankings().isSelected());
-   
+
                     } else if (src.contains("Technical")) {
                         excelReader = new ExcelReaderTechnical();
                         contentPage = new ContentPage(
@@ -417,10 +398,12 @@ public class MainWindow extends JFrame implements IMainFrame {
                     SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
                     Campaign zk = excelReader.readExcelSheet(src);
                     contentPage.setCampaign(zk);
-                    
-                    tp.setCampaignName(zk.getCampaignHeader().getCampaignName());
-                    tp.setDate(ipdf.getDateFromTo(zk.getCampaignHeader().getStartDate(), zk.getCampaignHeader().getEndDate()));
-                    
+
+                    tp.setCampaignName(
+                            zk.getCampaignHeader().getCampaignName());
+                    tp.setDate(ipdf.getDateFromTo(
+                            zk.getCampaignHeader().getStartDate(),
+                            zk.getCampaignHeader().getEndDate()));
 
                     HeaderFooter hfContent = new HeaderFooter(
                             gsp.getChckbxHeader().isSelected(),
@@ -437,13 +420,11 @@ public class MainWindow extends JFrame implements IMainFrame {
                 }
             }
 
-            
-           
-            
-            
             try {
-                etpd.createPdf(Utils.getPdfName(contentPage.getCampaign().getCampaignHeader().getCampaignName()), sections,
-                        isp.getRdbtnOn().isSelected());
+                etpd.createPdf(
+                        Utils.getPdfName(contentPage.getCampaign()
+                                .getCampaignHeader().getCampaignName()),
+                        sections, isp.getRdbtnOn().isSelected());
             } catch (IOException | DocumentException e) {
                 e.printStackTrace();
             }
@@ -452,11 +433,9 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     private void validationDownload() {
-        
-     
+
         List<SummaryData> summary = new ArrayList<>();
-        
-        
+
         List<Section> sections = new ArrayList<Section>();
 
         CampaignChoicePanel ccp = (CampaignChoicePanel) panels.get(1);
@@ -466,38 +445,38 @@ public class MainWindow extends JFrame implements IMainFrame {
         InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(5);
         ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(6);
 
-        
-        InternationalizationPDF ipdf = new InternationalizationPDF(msp.getSelectedLanguage());
-        ExcelToPdf etpd = new ExcelToPdf(msp.getSelectedLanguage().getEncoding());
-        
-        
+        InternationalizationPDF ipdf = new InternationalizationPDF(
+                msp.getSelectedLanguage());
+        ExcelToPdf etpd = new ExcelToPdf(
+                msp.getSelectedLanguage().getEncoding());
+
         String campaignID = ccp.getSelectedId();
-        
-        Campaign c1 = null,c2 = null;
+
+        Campaign c1 = null, c2 = null;
         boolean error = false;
-        
-         c1 = session.getCampaignRankingsById(campaignID);
-         if (c1 == null)
-             error = true;
-        
+
+        c1 = session.getCampaignRankingsById(campaignID);
+        if (c1 == null)
+            error = true;
+
         if (msp.getChckbxTechnical().isSelected()) {
             c2 = session.getCampaignTechnicalById(campaignID);
             if (c2 == null)
                 error = true;
         }
-        
+
         if (error) {
-            JOptionPane.showMessageDialog(null,"The connection with the server failed","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                    "The connection with the server failed", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        Campaign commonInfos  = (c1 == null) ? c2 : c1;
-        
+
+        Campaign commonInfos = (c1 == null) ? c2 : c1;
+
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
-        
-        
 
         // Infos for the title page
         TitlePage tp = new TitlePage();
@@ -512,17 +491,18 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfTitle.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfTitle.setLineInHeader(gsp.getTxtWebsite().getText());
         hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
-        
+
         tp.setStructure(hfTitle);
-        tp.setBelowTitle(Utils.splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
-        System.out.println(Utils.splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
+        tp.setBelowTitle(Utils
+                .splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
+        System.out.println(Utils
+                .splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
         tp.setCampaignName(commonInfos.getCampaignHeader().getCampaignName());
-        
-        
-        
-        
-        tp.setDate(ipdf.getDateFromTo(commonInfos.getCampaignHeader().getStartDate(), commonInfos.getCampaignHeader().getEndDate()));
-       
+
+        tp.setDate(ipdf.getDateFromTo(
+                commonInfos.getCampaignHeader().getStartDate(),
+                commonInfos.getCampaignHeader().getEndDate()));
+
         sections.add(tp);
 
         // Infos for the insert page
@@ -544,8 +524,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         sections.add(ip);
 
-        
-        //it is the same for the two possible content pages
+        // it is the same for the two possible content pages
         HeaderFooter hfContent = new HeaderFooter(
                 gsp.getChckbxHeader().isSelected(),
                 gsp.getChckbxHeaderLine().isSelected(),
@@ -554,11 +533,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfContent.setLineInHeader(gsp.getTxtWebsite().getText());
         hfContent.setLineInFooter(gsp.getTxtBottomLeftText().getText());
         hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
-        
-        
+
         // Columns choice settings
-        
-        
+
         List<String> labels = new ArrayList<>();
         labels.add("Placement path");
         labels.add("Impressions");
@@ -569,30 +546,46 @@ public class MainWindow extends JFrame implements IMainFrame {
         labels.add("Click Through Rate");
         labels.add("Unique CTR");
         labels.add("Reach");
-        
+
         if (msp.getChckbxSummary().isSelected()) {
-                DecimalFormat df = new DecimalFormat("#.##");
-                df.setRoundingMode(RoundingMode.CEILING);
-        	SimpleDateFormat hungarianF = new SimpleDateFormat("yyyy. MM. dd.");
-        	
-        	summary.add(new SummaryData("campaign name:", c1.getCampaignHeader().getCampaignName()));
-        	summary.add(new SummaryData("client name:", c1.getCampaignHeader().getClientName()));
-        	summary.add(new SummaryData("campaign start date:", hungarianF.format(c1.getCampaignHeader().getStartDate())));
-        	summary.add(new SummaryData("campaign end date:", hungarianF.format(c1.getCampaignHeader().getEndDate())));
-        	summary.add(new SummaryData("impressions:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getImpressions()))));
-        	summary.add(new SummaryData("reach:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getReach()))));
-        	summary.add(new SummaryData("frequency:", df.format(c1.getAll().getFrequency())));
-        	summary.add(new SummaryData("clicks:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClicks()))));
-        	summary.add(new SummaryData("clicking users:", CampaignRow.getSpacesBetweenThousands(String.valueOf(c1.getAll().getClickingUsers()))));
-        	summary.add(new SummaryData("click through rate:", c1.getAll().getClickThroughRate().toString()));
-        	summary.add(new SummaryData("unique CTR:", c1.getAll().getUniqueCTR().toString()));
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.CEILING);
+            SimpleDateFormat hungarianF = new SimpleDateFormat("yyyy. MM. dd.");
+
+            summary.add(new SummaryData("campaign name:",
+                    c1.getCampaignHeader().getCampaignName()));
+            summary.add(new SummaryData("client name:",
+                    c1.getCampaignHeader().getClientName()));
+            summary.add(new SummaryData("campaign start date:",
+                    hungarianF.format(c1.getCampaignHeader().getStartDate())));
+            summary.add(new SummaryData("campaign end date:",
+                    hungarianF.format(c1.getCampaignHeader().getEndDate())));
+            summary.add(new SummaryData("impressions:",
+                    CampaignRow.getSpacesBetweenThousands(
+                            String.valueOf(c1.getAll().getImpressions()))));
+            summary.add(new SummaryData("reach:",
+                    CampaignRow.getSpacesBetweenThousands(
+                            String.valueOf(c1.getAll().getReach()))));
+            summary.add(new SummaryData("frequency:",
+                    df.format(c1.getAll().getFrequency())));
+            summary.add(new SummaryData("clicks:",
+                    CampaignRow.getSpacesBetweenThousands(
+                            String.valueOf(c1.getAll().getClicks()))));
+            summary.add(new SummaryData("clicking users:",
+                    CampaignRow.getSpacesBetweenThousands(
+                            String.valueOf(c1.getAll().getClickingUsers()))));
+            summary.add(new SummaryData("click through rate:",
+                    c1.getAll().getClickThroughRate().toString()));
+            summary.add(new SummaryData("unique CTR:",
+                    c1.getAll().getUniqueCTR().toString()));
         }
-        
-        SummaryPage summaryPage = new SummaryPage(summary, msp.getChckbxSummary().isSelected());
-        
+
+        SummaryPage summaryPage = new SummaryPage(summary,
+                msp.getChckbxSummary().isSelected());
+
         summaryPage.setStructure(hfContent);
         sections.add(summaryPage);
-        
+
         if (msp.getChckbxRankings().isSelected()) {
             ContentPage contentPage = new ContentPage(
                     csp.getChckbxImpressionsRankings().isSelected(),
@@ -601,7 +594,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxClickingUsersRankings().isSelected(),
                     csp.getChckbxClickThroughRateRankings().isSelected(),
                     csp.getChckbxUniqueCTRRankings().isSelected());
-    
+
             contentPage.setReach(csp.getChckbxReach().isSelected());
             c1.setTechnicalCampaign(false);
             contentPage.setStructure(hfContent);
@@ -609,7 +602,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage.setCampaign(c1);
             sections.add(contentPage);
         }
-        
+
         if (msp.getChckbxTechnical().isSelected()) {
             ContentPage contentPage2 = new ContentPage(
                     csp.getChckbxImpressionsTechnical().isSelected(),
@@ -618,29 +611,35 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxClickingUsersTechnical().isSelected(),
                     csp.getChckbxClickThroughRateTechnical().isSelected(),
                     csp.getChckbxUniqueCTRTechnical().isSelected());
-            
+
             contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
             c2.setTechnicalCampaign(true);
             contentPage2.setStructure(hfContent);
             c2.setColumsLabels(labels);
             contentPage2.setCampaign(c2);
             sections.add(contentPage2);
-            
-        }
-        
-         try{
-         etpd.createPdfDownload(Utils.getPdfName(commonInfos.getCampaignHeader().getCampaignName()), sections,
-         isp.getRdbtnOn().isSelected());
-         }
-         catch (DocumentException | IOException e)
-         {
-         e.printStackTrace();
-         }
 
+        }
+
+        try {
+            etpd.createPdfDownload(
+                    Utils.getPdfName(
+                            commonInfos.getCampaignHeader().getCampaignName()),
+                    sections, isp.getRdbtnOn().isSelected());
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void reloadPanels() {
+        
+        if (panels.size()==0) {
+            getContentPane().remove(panels.get(0));
+            showFirstPanel();
+            return;
+        }
+            
         LinkedList<SettingsChoicePanel> panels2 = new LinkedList<SettingsChoicePanel>();
         for (SettingsChoicePanel settingsChoicePanel : panels) {
             panels2.add(settingsChoicePanel.getNewInstance());
@@ -677,8 +676,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         getContentPane().remove(panels.get(currentPanel));
 
-        
-        
         panels = new LinkedList<SettingsChoicePanel>();
 
         panels.add(new LoginPanel());
@@ -716,9 +713,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         // else
         // System.out.println(m.getMessages());
 
-        
-        
-        
     }
 
     @Override
@@ -737,8 +731,6 @@ public class MainWindow extends JFrame implements IMainFrame {
             repaint();
             revalidate();
         }
-        
-        
 
     }
 
@@ -751,7 +743,5 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         currentPanel = 0;
     }
-    
-    
 
 }

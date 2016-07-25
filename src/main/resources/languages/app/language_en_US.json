@@ -39,5 +39,8 @@
 "does not exist." : "does not exist.",
 "Continue anyway?" : "Continue anyway?",
 "Warning" : "Warning",
-"ERROR" : "ERROR"
+"ERROR" : "ERROR",
+"From an excel file on your computer" : "From an excel file on your computer",
+"From the Gemius Server" : "From the Gemius Server",
+"Select how to import your files" : "Select how to import your files"
 }

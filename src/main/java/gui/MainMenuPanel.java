@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import main.java.utils.Internationalization;
+
 @SuppressWarnings("serial")
 public class MainMenuPanel extends SettingsChoicePanel {
 
@@ -23,7 +25,7 @@ public class MainMenuPanel extends SettingsChoicePanel {
         setBounds(0, 0, 600, 490);
 
         JButton btnFromAnExcel = new JButton(
-                "From an excel file on your computer");
+                Internationalization.getKey("From an excel file on your computer"));
         btnFromAnExcel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
@@ -34,7 +36,7 @@ public class MainMenuPanel extends SettingsChoicePanel {
         btnFromAnExcel.setBounds(44, 241, 224, 51);
         add(btnFromAnExcel);
 
-        JButton btnByDownloadingDatas = new JButton("By downloading datas");
+        JButton btnByDownloadingDatas = new JButton(Internationalization.getKey("From the Gemius Server"));
         btnByDownloadingDatas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -48,7 +50,7 @@ public class MainMenuPanel extends SettingsChoicePanel {
         btnByDownloadingDatas.setBounds(311, 241, 224, 51);
         add(btnByDownloadingDatas);
 
-        JLabel lblChooseMode = new JLabel("Select how to import your files");
+        JLabel lblChooseMode = new JLabel(Internationalization.getKey("Select how to import your files"));
         lblChooseMode.setForeground(Color.BLACK);
         lblChooseMode.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblChooseMode.setBounds(44, 130, 308, 67);
