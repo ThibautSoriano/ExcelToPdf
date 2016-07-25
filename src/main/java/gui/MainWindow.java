@@ -315,7 +315,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         if (download) {
             validationDownload();
         } else {
-            ExcelToPdf etpd = new ExcelToPdf();
+            
+            
             List<Section> sections = new ArrayList<Section>();
 
             ExcelChoicePanel ecp = (ExcelChoicePanel) panels.get(0);
@@ -327,7 +328,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             
             
             InternationalizationPDF ipdf = new InternationalizationPDF(ecp.getSelectedLanguage());
-            
+            ExcelToPdf etpd = new ExcelToPdf(ecp.getSelectedLanguage().getEncoding());
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -455,7 +456,7 @@ public class MainWindow extends JFrame implements IMainFrame {
      
         List<SummaryData> summary = new ArrayList<>();
         
-        ExcelToPdf etpd = new ExcelToPdf();
+        
         List<Section> sections = new ArrayList<Section>();
 
         CampaignChoicePanel ccp = (CampaignChoicePanel) panels.get(1);
@@ -467,6 +468,8 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         
         InternationalizationPDF ipdf = new InternationalizationPDF(msp.getSelectedLanguage());
+        ExcelToPdf etpd = new ExcelToPdf(msp.getSelectedLanguage().getEncoding());
+        
         
         String campaignID = ccp.getSelectedId();
         
