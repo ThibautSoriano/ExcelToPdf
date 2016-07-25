@@ -318,7 +318,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             ExcelToPdf etpd = new ExcelToPdf();
             List<Section> sections = new ArrayList<Section>();
 
-            ExcelChoicePanel mwp = (ExcelChoicePanel) panels.get(0);
+            ExcelChoicePanel ecp = (ExcelChoicePanel) panels.get(0);
             GeneralSettingsPanel gsp = (GeneralSettingsPanel) panels.get(1);
             TitleSettingsPanel tsp = (TitleSettingsPanel) panels.get(2);
             InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels
@@ -326,7 +326,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
             
             
-            InternationalizationPDF ipdf = new InternationalizationPDF(msp.getSelectedLanguage());
+            InternationalizationPDF ipdf = new InternationalizationPDF(ecp.getSelectedLanguage());
             
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
@@ -372,7 +372,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
             // Columns choice settings
             
-            List<JTextField> fields = mwp.getFields();
+            List<JTextField> fields = ecp.getFields();
             ContentPage contentPage = null;
             for (JTextField jTextField : fields) {
                 String src = jTextField.getText();

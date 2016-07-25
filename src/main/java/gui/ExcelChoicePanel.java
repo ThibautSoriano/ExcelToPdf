@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,6 +17,7 @@ import javax.swing.SwingConstants;
 import main.java.gui.windowbuilder.MainWindowZhengqin;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
+import main.java.utils.Language;
 
 @SuppressWarnings("serial")
 public class ExcelChoicePanel extends SettingsChoicePanel {
@@ -24,6 +26,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
 
     private JTextField txtExcel;
     private JTextField txtExcel2;
+    private JComboBox<Language> comboBox;
 
     public List<JTextField> getFields() {
         return fields;
@@ -50,13 +53,13 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         JLabel lblChooseExcel = new JLabel(
                 Internationalization.getKey("Choose an excel file"));
         lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblChooseExcel.setBounds(30, 119, 389, 22);
+        lblChooseExcel.setBounds(30, 70, 389, 22);
         add(lblChooseExcel);
 
-        lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         txtExcel = new JTextField();
-        txtExcel.setBounds(30, 168, 389, 20);
+        txtExcel.setBounds(30, 118, 389, 20);
         txtExcel.setColumns(10);
 
         
@@ -65,7 +68,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         fields.add(txtExcel);
 
         JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-        btnExcel.setBounds(444, 165, 119, 23);
+        btnExcel.setBounds(444, 118, 119, 23);
         add(btnExcel);
         btnExcel.addMouseListener(new MouseAdapter() {
             @Override
@@ -77,20 +80,20 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         JLabel lblExcel2 = new JLabel(
                 Internationalization.getKey("Choose an excel file"));
         lblExcel2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblExcel2.setBounds(30, 236, 389, 22);
+        lblExcel2.setBounds(30, 180, 389, 22);
 
-        lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         add(lblExcel2);
 
         txtExcel2 = new JTextField();
-        txtExcel2.setBounds(30, 284, 389, 20);
+        txtExcel2.setBounds(30, 220, 389, 20);
         add(txtExcel2);
         fields.add(txtExcel2);
 
         txtExcel2.setColumns(10);
 
         JButton btnExcel2 = new JButton(Internationalization.getKey("Browse"));
-        btnExcel2.setBounds(444, 282, 119, 23);
+        btnExcel2.setBounds(444, 220, 119, 23);
         add(btnExcel2);
 
         btnExcel2.addMouseListener(new MouseAdapter() {
@@ -99,6 +102,21 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
                 MainWindowZhengqin.openFileChooser(FileType.EXCEL, txtExcel2);
             }
         });
+        
+        comboBox = new JComboBox<>();
+		comboBox.setBounds(390, 295, 177, 23);
+        add(comboBox);
+        
+        
+        for (Language lang : Language.values()) {
+            comboBox.addItem(lang);
+        }
+                
+        JLabel lblChoosePdfOutput = new JLabel("Choose pdf output language");
+        lblChoosePdfOutput.setBounds(27, 295, 360, 23);
+        lblChoosePdfOutput.setHorizontalAlignment(SwingConstants.CENTER);
+        lblChoosePdfOutput.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        add(lblChoosePdfOutput);
 
     }
 
@@ -161,7 +179,9 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
     }
 
   
-
+    public Language getSelectedLanguage() {
+	    return (Language) comboBox.getSelectedItem();
+	}
         
 
     

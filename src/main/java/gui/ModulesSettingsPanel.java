@@ -18,7 +18,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 	
 	private JCheckBox chckbxTechnical;
 
-    private JComboBox comboBox;
+    private JComboBox<Language> comboBox;
 	
 	public JCheckBox getChckbxSummary() {
 		return chckbxSummary;
@@ -90,7 +90,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		add(separator_3);
 		
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<>();
 		comboBox.setBounds(313, 295, 177, 23);
                 add(comboBox);
                 

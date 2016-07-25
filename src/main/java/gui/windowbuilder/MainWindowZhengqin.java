@@ -35,6 +35,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.Utils;
+import javax.swing.JComboBox;
 
 public class MainWindowZhengqin {
 
@@ -96,7 +97,7 @@ public class MainWindowZhengqin {
 		
 		JLabel lblChooseExcel = new JLabel(Internationalization.getKey("Choose an excel file"));
 		lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblChooseExcel.setBounds(30, 119, 389, 22);
+		lblChooseExcel.setBounds(27, 64, 389, 22);
 		panelMainWindow.add(lblChooseExcel);
 		lblChooseExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
@@ -127,53 +128,30 @@ public class MainWindowZhengqin {
 		        System.out.println("junior");
 		    }
 		});
-		txtExcel.setBounds(30, 168, 389, 20);
+		txtExcel.setBounds(27, 113, 389, 20);
 		panelMainWindow.add(txtExcel);
 		txtExcel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtExcel.setColumns(10);
 		
 		JLabel lblLogo = new JLabel(Internationalization.getKey("Specify your logo (optional)"));
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBounds(30, 236, 389, 22);
+		lblLogo.setBounds(27, 163, 389, 22);
 		panelMainWindow.add(lblLogo);
 		lblLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtLogo = new JTextField();
-		txtLogo.setBounds(30, 284, 389, 20);
+		txtLogo.setBounds(27, 211, 389, 20);
 		panelMainWindow.add(txtLogo);
 		txtLogo.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		txtLogo.setColumns(10);
 		
 		JButton btnLogo = new JButton(Internationalization.getKey("Browse"));
-		btnLogo.setBounds(444, 165, 119, 23);
+		btnLogo.setBounds(441, 110, 119, 23);
 		panelMainWindow.add(btnLogo);
 		btnLogo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		
-		JButton btnGo = new JButton("Go !");
-		btnGo.setBounds(235, 353, 89, 23);
-		panelMainWindow.add(btnGo);
-		btnGo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//ExcelToPdf excelToPdf = new ExcelToPdf();
-	               if (!Utils.isXlsExension(txtExcel.getText())) {
-	            	   JOptionPane.showMessageDialog(null, Internationalization.getKey("Please put an Excel file as input (.xls)"), Internationalization.getKey("Bad input file"), JOptionPane.ERROR_MESSAGE);
-				   }
-				   else {
-					   //excelToPdf.createPdf(txtExcel.getText(), Utils.changeExtension(txtExcel.getText()), txtLogo.getText());
-					   	PdfStructureSettingsWindow settingsWindow = new PdfStructureSettingsWindow();
-					   	NavigationWindow navigationWindow = new NavigationWindow();
-						frmConverter.getContentPane().remove(panelMainWindow);
-						frmConverter.getContentPane().add(settingsWindow.getPanelDefineStructure());
-						frmConverter.getContentPane().add(navigationWindow.getPanelNavigation());
-						frmConverter.repaint();
-				   }
-			}
-		});
-		btnGo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 		JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-		btnExcel.setBounds(444, 281, 119, 23);
+		btnExcel.setBounds(441, 208, 119, 23);
 		panelMainWindow.add(btnExcel);		
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -182,6 +160,14 @@ public class MainWindowZhengqin {
 			}
 		});
 		btnExcel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		
+		JLabel lblChooseOutput = new JLabel("Choose pdf output language");
+		lblChooseOutput.setBounds(27, 291, 199, 23);
+		panelMainWindow.add(lblChooseOutput);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(247, 291, 177, 23);
+		panelMainWindow.add(comboBox);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmConverter.setJMenuBar(menuBar);

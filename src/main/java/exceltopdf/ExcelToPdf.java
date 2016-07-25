@@ -382,7 +382,7 @@ public class ExcelToPdf {
 		cb.restoreState();
 		
 		// dates
-		String datesString = titlePage.getStartDate() + " - " + titlePage.getEndDate();
+		String datesString = titlePage.getDate();
 		Paragraph dates = new Paragraph(datesString);
 		dates.setAlignment(Element.ALIGN_CENTER);
 		
