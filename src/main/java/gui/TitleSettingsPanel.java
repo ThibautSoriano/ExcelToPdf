@@ -1,13 +1,20 @@
 package main.java.gui;
 
+import javax.swing.InputVerifier;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.DefaultStyledDocument;
+
+import com.itextpdf.text.pdf.TextField;
 
 import main.java.utils.Internationalization;
+
+import main.java.utils.*;
 
 @SuppressWarnings("serial")
 public class TitleSettingsPanel extends SettingsChoicePanel{
@@ -106,6 +113,12 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         scrollPane.setViewportView(txtrBelowTitle);
 
         txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
+        
+        
+        
+        txtrBelowTitle.setDocument(new JTextFieldLimit(50));
+        
+        
         txtrBelowTitle.setWrapStyleWord(true);
         txtrBelowTitle.setLineWrap(true);
 

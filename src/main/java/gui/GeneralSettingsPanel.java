@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
+import main.java.utils.JTextFieldLimit;
 
 @SuppressWarnings("serial")
 public class GeneralSettingsPanel extends SettingsChoicePanel{
@@ -120,6 +121,7 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
          txtWebsite = new JTextField();
         txtWebsite.setText("www.gemius.hu");
         txtWebsite.setColumns(10);
+        txtWebsite.setDocument(new JTextFieldLimit(30));
         txtWebsite.setBounds(284, 115, 177, 20);
         add(txtWebsite);
         
@@ -159,11 +161,13 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         
         JLabel lblBottomLeftText = new JLabel(Internationalization.getKey("Bottom left text"));
         lblBottomLeftText.setBounds(93, 278, 159, 19);
+        
         add(lblBottomLeftText);
         
         txtBottomLeftText = new JTextField();
         txtBottomLeftText.setColumns(10);
         txtBottomLeftText.setBounds(284, 277, 177, 20);
+        txtBottomLeftText.setDocument(new JTextFieldLimit(25));
         add(txtBottomLeftText);
         
         JSeparator separator_3 = new JSeparator();

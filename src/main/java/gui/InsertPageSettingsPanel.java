@@ -12,6 +12,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
 import main.java.utils.Internationalization;
+import main.java.utils.JTextFieldLimit;
 
 @SuppressWarnings("serial")
 public class InsertPageSettingsPanel extends SettingsChoicePanel {
@@ -97,6 +98,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
         lblCustomTextArea = new JLabel(
                 Internationalization.getKey("Custom text area"));
         lblCustomTextArea.setBounds(93, 280, 127, 19);
+        
         add(lblCustomTextArea);
 
         separator_3 = new JSeparator();
@@ -108,6 +110,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
         txtrCreatedBy.setText("k\u00E9sz\u00EDtette :");
         txtrCreatedBy.setLineWrap(true);
         txtrCreatedBy.setBounds(239, 280, 241, 69);
+        txtrCreatedBy.setDocument(new JTextFieldLimit(50));
         add(txtrCreatedBy);
 
         scrollPane = new JScrollPane();
