@@ -33,7 +33,7 @@ public abstract class SettingsChoicePanel extends JPanel{
         add(title);
         
         
-       setBackground(new Color(0, 0,0,0));
+//       setBackground(new Color(0, 0,0,0));
         
         
     }

@@ -105,4 +105,27 @@ public class Utils {
 	    return name;
 	        
 	}
+	
+	
+	
+	public static String splitLongTextToFitPage(String txt) {
+	    int maxLength = 40;
+	        StringBuilder res = new StringBuilder();
+	        int cpt = 0;
+	        for (int i = 0; i< txt.length(); i++) {
+	            if (cpt> maxLength && txt.charAt(i) == ' ') {
+	                res.append("\n");
+	                cpt = 0;
+	                
+	            }
+	            else
+	                res.append(txt.charAt(i));
+	            cpt++;
+	            
+	            
+	        }
+	        return res.toString();
+	        
+	    }
+	
 }

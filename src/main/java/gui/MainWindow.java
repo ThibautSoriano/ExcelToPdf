@@ -303,6 +303,13 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void validation() {
+        
+        
+        Language pdfLang = Language.EN;
+        
+        //FIXME TODO ZHENGQIN  creer une InternationalizationPDF + combobox pour choix langage pdf + utiliser l'objet creer pour
+        //remplir champs
+        
 
         if (download) {
             validationDownload();
@@ -353,7 +360,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             hfInsert.setLineInFooter(gsp.getTxtBottomLeftText().getText());
             hfInsert.setLogoInHeader(gsp.getTxtLogo().getText());
 
-            ip.setCustomTextArea(isp.getTxtrCreatedBy().getText());
+            ip.setCustomTextArea(Utils.splitLongTextToFitPage(isp.getTxtrCreatedBy().getText()));
             ip.setStructure(hfInsert);
 
             sections.add(ip);
@@ -497,11 +504,12 @@ public class MainWindow extends JFrame implements IMainFrame {
         hfTitle.setLogoInHeader(gsp.getTxtLogo().getText());
         
         tp.setStructure(hfTitle);
-        tp.setBelowTitle(tsp.getTxtrBelowTitle().getText());
+        tp.setBelowTitle(Utils.splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
+        System.out.println(Utils.splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
         tp.setCampaignName(commonInfos.getCampaignHeader().getCampaignName());
         
         
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy. MM. dd.");
         
         tp.setStartDate(f.format(commonInfos.getCampaignHeader().getStartDate()));
         tp.setEndDate(f.format(commonInfos.getCampaignHeader().getEndDate()));

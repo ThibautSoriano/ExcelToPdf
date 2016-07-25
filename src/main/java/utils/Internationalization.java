@@ -30,7 +30,7 @@ public class Internationalization {
         JSONParser parser = new JSONParser();
         
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStream is = classLoader.getClass().getResourceAsStream("/languages/language"+lang.getExtension()+".json");
+        InputStream is = classLoader.getClass().getResourceAsStream("/languages/app/language"+lang.getExtension()+".json");
         
         
         
