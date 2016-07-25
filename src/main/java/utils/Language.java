@@ -1,7 +1,7 @@
 package main.java.utils;
 
 public enum Language {
-    EN("en","US","English","ISO-8859-2", "MM/dd/yyyy"),HU("hu","HU","Magyar","UTF8", "yyyy. MM. dd."),FR("fr","FR","Français","ISO-8859-1", "dd/MM/yyyy");
+    EN("en","US","English","UTF8", "MM/dd/yyyy"),HU("hu","HU","Magyar","ISO-8859-2", "yyyy. MM. dd."),FR("fr","FR","Français","ISO-8859-1", "dd/MM/yyyy");
     
     private String language, country,name, encoding, dateFormat;
     

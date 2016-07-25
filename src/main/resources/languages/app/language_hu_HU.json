@@ -1,4 +1,4 @@
-{{
+{
 "Browse" : "Parcourir",
 "Converter" : "Convertisseur",
 "Excel to pdf converter" : "Convertisseur Excel vers Pdf",
@@ -8,9 +8,9 @@
 "Bad input file" : "Mauvais fichier d'entr√©e",
 "JFileChooser Popup" : "JFileChooser Popup",
 "Go !" : "Go !",
-"Next" : "k√∂vetkez≈ë",
-"Previous" : "el≈ëz≈ë",
-"Validate" : "√©rv√©nyes√≠t",
+"Next" : "kˆvetkezı",
+"Previous" : "elızı",
+"Validate" : "ÈrvÈnyesÌt",
 "Page numerotation" : "Num√©rotation des pages",
 "Bottom center" : "Centr√©, en bas",
 "Bottom right" : "En bas √† droite",
@@ -28,4 +28,4 @@
 "Custom text area" : "Zone de texte libre",
 "Excel files" : "Fichiers excel",
 "Images" : "Images"
-}}
+}
