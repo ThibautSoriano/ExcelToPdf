@@ -5,12 +5,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -204,32 +198,32 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         panelRankings.setLayout(null);
 
         chckbxImpressionsRankings = new JCheckBox("Impressions");
-        chckbxImpressionsRankings.setBounds(93, 57, 97, 23);
+        chckbxImpressionsRankings.setBounds(93, 57, 150, 23);
         panelRankings.add(chckbxImpressionsRankings);
         groupRankings.add(chckbxImpressionsRankings);
 
         chckbxClicksRankings = new JCheckBox("Clicks");
-        chckbxClicksRankings.setBounds(243, 57, 97, 23);
+        chckbxClicksRankings.setBounds(243, 57, 150, 23);
         panelRankings.add(chckbxClicksRankings);
         groupRankings.add(chckbxClicksRankings);
 
         chckbxUniqueCTRRankings = new JCheckBox("Unique CTR");
-        chckbxUniqueCTRRankings.setBounds(393, 57, 97, 23);
+        chckbxUniqueCTRRankings.setBounds(393, 57, 150, 23);
         panelRankings.add(chckbxUniqueCTRRankings);
         groupRankings.add(chckbxUniqueCTRRankings);
 
         chckbxClickingUsersRankings = new JCheckBox("Clicking users");
-        chckbxClickingUsersRankings.setBounds(243, 131, 97, 23);
+        chckbxClickingUsersRankings.setBounds(243, 131, 150, 23);
         panelRankings.add(chckbxClickingUsersRankings);
         groupRankings.add(chckbxClickingUsersRankings);
 
         chckbxClickThroughRateRankings = new JCheckBox("Click through rate");
-        chckbxClickThroughRateRankings.setBounds(243, 199, 120, 23);
+        chckbxClickThroughRateRankings.setBounds(243, 199, 150, 23);
         panelRankings.add(chckbxClickThroughRateRankings);
         groupRankings.add(chckbxClickThroughRateRankings);
 
         chckbxFrequencyRankings = new JCheckBox("Frequency");
-        chckbxFrequencyRankings.setBounds(93, 199, 97, 23);
+        chckbxFrequencyRankings.setBounds(93, 199, 150, 23);
         panelRankings.add(chckbxFrequencyRankings);
         groupRankings.add(chckbxFrequencyRankings);
 
@@ -240,14 +234,14 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         if (download) {
             
             chckbxReach = new JCheckBox("Reach");
-            chckbxReach.setBounds(93, 131, 97, 23);
+            chckbxReach.setBounds(93, 131, 150, 23);
             panelRankings.add(chckbxReach);
             groupRankings.add(chckbxReach);
         }
 
         else {
             chckbxUniqueCookiesRankings = new JCheckBox("Unique cookies");
-            chckbxUniqueCookiesRankings.setBounds(93, 131, 97, 23);
+            chckbxUniqueCookiesRankings.setBounds(93, 131, 150, 23);
             panelRankings.add(chckbxUniqueCookiesRankings);
             groupRankings.add(chckbxUniqueCookiesRankings);
 
@@ -265,33 +259,33 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             panelTechnical.setLayout(null);
 
             chckbxImpressionsTechnical = new JCheckBox("Impressions");
-            chckbxImpressionsTechnical.setBounds(93, 57, 97, 23);
+            chckbxImpressionsTechnical.setBounds(93, 57, 150, 23);
             panelTechnical.add(chckbxImpressionsTechnical);
             groupTechnical.add(chckbxImpressionsTechnical);
 
             chckbxClicksTechnical = new JCheckBox("Clicks");
-            chckbxClicksTechnical.setBounds(243, 57, 97, 23);
+            chckbxClicksTechnical.setBounds(243, 57, 150, 23);
             panelTechnical.add(chckbxClicksTechnical);
             groupTechnical.add(chckbxClicksTechnical);
 
             chckbxUniqueCTRTechnical = new JCheckBox("Unique CTR");
-            chckbxUniqueCTRTechnical.setBounds(393, 57, 97, 23);
+            chckbxUniqueCTRTechnical.setBounds(393, 57, 150, 23);
             panelTechnical.add(chckbxUniqueCTRTechnical);
             groupTechnical.add(chckbxUniqueCTRTechnical);
 
             chckbxClickingUsersTechnical = new JCheckBox("Clicking users");
-            chckbxClickingUsersTechnical.setBounds(243, 131, 97, 23);
+            chckbxClickingUsersTechnical.setBounds(243, 131, 150, 23);
             panelTechnical.add(chckbxClickingUsersTechnical);
             groupTechnical.add(chckbxClickingUsersTechnical);
 
             chckbxClickThroughRateTechnical = new JCheckBox(
                     "Click through rate");
-            chckbxClickThroughRateTechnical.setBounds(243, 199, 120, 23);
+            chckbxClickThroughRateTechnical.setBounds(243, 199, 150, 23);
             panelTechnical.add(chckbxClickThroughRateTechnical);
             groupTechnical.add(chckbxClickThroughRateTechnical);
 
             chckbxFrequencyTechnical = new JCheckBox("Frequency");
-            chckbxFrequencyTechnical.setBounds(93, 199, 97, 23);
+            chckbxFrequencyTechnical.setBounds(93, 199, 150, 23);
             panelTechnical.add(chckbxFrequencyTechnical);
             groupTechnical.add(chckbxFrequencyTechnical);
 
@@ -301,13 +295,13 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
             if (download) {
                 chckbxReachTechnical = new JCheckBox("Reach");
-                chckbxReachTechnical.setBounds(93, 131, 97, 23);
+                chckbxReachTechnical.setBounds(93, 131, 150, 23);
                 panelTechnical.add(chckbxReachTechnical);
                 groupTechnical.add(chckbxReachTechnical);
             }
             else {
             chckbxUniqueCookiesTechnical = new JCheckBox("Unique cookies");
-            chckbxUniqueCookiesTechnical.setBounds(93, 131, 97, 23);
+            chckbxUniqueCookiesTechnical.setBounds(93, 131, 150, 23);
             panelTechnical.add(chckbxUniqueCookiesTechnical);
             groupTechnical.add(chckbxUniqueCookiesTechnical);
             }

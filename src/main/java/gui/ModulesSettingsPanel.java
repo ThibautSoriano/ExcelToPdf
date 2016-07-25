@@ -39,7 +39,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
         
 		chckbxSummary = new JCheckBox("Summary");
 		chckbxSummary.setSelected(true);
-		chckbxSummary.setBounds(93, 93, 189, 23);
+		chckbxSummary.setBounds(93, 93, 200, 23);
 		chckbxSummary.addActionListener(new ActionListener() {
 
             @Override
@@ -57,7 +57,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		
 		chckbxRankings = new JCheckBox("Rankings");
 		chckbxRankings.setSelected(true);
-		chckbxRankings.setBounds(93, 182, 189, 23);
+		chckbxRankings.setBounds(93, 182, 200, 23);
 		chckbxRankings.addActionListener(new ActionListener() {
 
             @Override
@@ -72,7 +72,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		
 		chckbxTechnical = new JCheckBox("Technical");
 		chckbxTechnical.setSelected(true);
-		chckbxTechnical.setBounds(313, 182, 189, 23);
+		chckbxTechnical.setBounds(313, 182, 200, 23);
 		chckbxTechnical.addActionListener(new ActionListener() {
 
             @Override
@@ -114,7 +114,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 	public boolean isEveryThingOk() {
 		MainWindow.setRankings(chckbxRankings.isSelected());
         MainWindow.setTechnical(chckbxTechnical.isSelected());
-        MainWindow.setSummary(chckbxSummary.isSelected());
         
 		return true;
 	}

@@ -1,5 +1,6 @@
 package main.java.gui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -66,13 +67,13 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
         chckbxSeparatorLineAbove = new JCheckBox(
                 Internationalization.getKey("Separator line above footer"));
         chckbxSeparatorLineAbove.setSelected(true);
-        chckbxSeparatorLineAbove.setBounds(284, 211, 189, 23);
+        chckbxSeparatorLineAbove.setBounds(284, 211, 220, 23);
         add(chckbxSeparatorLineAbove);
 
         chckbxSeparatorLineBelow = new JCheckBox(
                 Internationalization.getKey("Separator line below header"));
         chckbxSeparatorLineBelow.setSelected(true);
-        chckbxSeparatorLineBelow.setBounds(284, 139, 189, 23);
+        chckbxSeparatorLineBelow.setBounds(284, 139, 220, 23);
         add(chckbxSeparatorLineBelow);
 
         JSeparator separator = new JSeparator();
@@ -110,6 +111,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
         txtrCreatedBy.setText("k\u00E9sz\u00EDtette :");
         txtrCreatedBy.setLineWrap(true);
         txtrCreatedBy.setBounds(239, 280, 241, 69);
+        txtrCreatedBy.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrCreatedBy.setDocument(new JTextFieldLimit(50));
         add(txtrCreatedBy);
 
