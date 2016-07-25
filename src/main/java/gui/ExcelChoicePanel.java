@@ -127,6 +127,9 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         String txt = txtExcel.getText();
         String txt2 = txtExcel2.getText();
 
+        File f = null,f2 = null;
+        
+        
         if (txt.isEmpty() && txt2.isEmpty()) {
 
             JOptionPane.showMessageDialog(null, Internationalization.getKey("No file submitted"), Internationalization.getKey("ERROR"),JOptionPane.ERROR_MESSAGE);
@@ -136,8 +139,8 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
             JOptionPane.showMessageDialog(null, Internationalization.getKey("Wrong format"), Internationalization.getKey("ERROR"),JOptionPane.ERROR_MESSAGE);
         } else {
 
-            File f = new File(txt);
-            File f2 = new File(txt2);
+             f = new File(txt);
+            f2 = new File(txt2);
 
             if (!f.exists() && !f2.exists()) {
                 
@@ -149,8 +152,9 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
                         ok = true;
                 }
                 else {
-                if (JOptionPane.showConfirmDialog(null, "\""+f+"\" "+Internationalization.getKey("does not exist.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION)== JOptionPane.OK_OPTION)
-                    ok = true;
+                JOptionPane.showMessageDialog(null, "\""+f+"\" "+Internationalization.getKey("does not exist."), Internationalization.getKey("Warning"), JOptionPane.ERROR_MESSAGE);
+                txtExcel.setText("");   
+                ok = false;
                 }
             }
             else if (!f2.exists()) {
@@ -160,8 +164,9 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
                 }
                 else
                 {
-                if (JOptionPane.showConfirmDialog(null,"\""+f+"\" "+Internationalization.getKey("does not exist.")+Internationalization.getKey("Continue anyway?"), Internationalization.getKey("Warning"), JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)
-                    ok = true;
+                    JOptionPane.showMessageDialog(null, "\""+f2+"\" "+Internationalization.getKey("does not exist."), Internationalization.getKey("Warning"), JOptionPane.ERROR_MESSAGE);
+                    txtExcel2.setText("");
+                    ok = false;
                 }
             }
             else {
@@ -169,6 +174,20 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
             }
 
         }
+        
+        MainWindow.setRankings(false);
+        MainWindow.setTechnical(false);
+        
+        if (ok) { 
+            
+            if (f.getName().contains("Rankings") || f2.getName().contains("Rankings"))
+                MainWindow.setRankings(true);
+            
+            if (f.getName().contains("Technical") || f2.getName().contains("Technical"))
+                MainWindow.setTechnical(true);
+        }
+        
+        
         return ok;
     }
 

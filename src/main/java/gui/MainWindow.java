@@ -418,7 +418,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     contentPage.setCampaign(zk);
                     
                     tp.setCampaignName(zk.getCampaignHeader().getCampaignName());
-                    tp.setDate(ipdf.getDateFromTo(zk.getCampaignHeader().getStartDate(), zk.getCampaignHeader().getStartDate()));
+                    tp.setDate(ipdf.getDateFromTo(zk.getCampaignHeader().getStartDate(), zk.getCampaignHeader().getEndDate()));
                     
 
                     HeaderFooter hfContent = new HeaderFooter(
