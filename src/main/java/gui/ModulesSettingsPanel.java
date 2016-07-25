@@ -4,7 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JSeparator;
+
+import main.java.utils.Language;
 
 @SuppressWarnings("serial")
 public class ModulesSettingsPanel extends SettingsChoicePanel{
@@ -13,6 +17,8 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 	private JCheckBox chckbxRankings;
 	
 	private JCheckBox chckbxTechnical;
+
+    private JComboBox comboBox;
 	
 	public JCheckBox getChckbxSummary() {
 		return chckbxSummary;
@@ -33,7 +39,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
         
 		chckbxSummary = new JCheckBox("Summary");
 		chckbxSummary.setSelected(true);
-		chckbxSummary.setBounds(196, 94, 189, 23);
+		chckbxSummary.setBounds(93, 93, 189, 23);
 		chckbxSummary.addActionListener(new ActionListener() {
 
             @Override
@@ -51,7 +57,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		
 		chckbxRankings = new JCheckBox("Rankings");
 		chckbxRankings.setSelected(true);
-		chckbxRankings.setBounds(196, 159, 189, 23);
+		chckbxRankings.setBounds(93, 182, 189, 23);
 		chckbxRankings.addActionListener(new ActionListener() {
 
             @Override
@@ -66,7 +72,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		
 		chckbxTechnical = new JCheckBox("Technical");
 		chckbxTechnical.setSelected(true);
-		chckbxTechnical.setBounds(196, 221, 189, 23);
+		chckbxTechnical.setBounds(313, 182, 189, 23);
 		chckbxTechnical.addActionListener(new ActionListener() {
 
             @Override
@@ -82,6 +88,25 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(93, 360, 397, 2);
 		add(separator_3);
+		
+		
+		comboBox = new JComboBox();
+		comboBox.setBounds(313, 295, 177, 23);
+                add(comboBox);
+                
+                
+                for (Language lang : Language.values()) {
+                    comboBox.addItem(lang);
+                }
+                
+                JLabel lblChoosePdfOutput = new JLabel("Choose pdf output language");
+                lblChoosePdfOutput.setBounds(93, 295, 199, 23);
+                add(lblChoosePdfOutput);
+		
+                JSeparator separator_4 = new JSeparator();
+                separator_4.setBounds(93, 250, 397, 2);
+                add(separator_4);
+		
     }
 
 
@@ -104,4 +129,10 @@ public class ModulesSettingsPanel extends SettingsChoicePanel{
         return chckbxRankings.isSelected() || chckbxTechnical.isSelected() || chckbxSummary.isSelected();
 
     }
+	
+	
+	
+	public Language getSelectedLanguage() {
+	    return (Language) comboBox.getSelectedItem();
+	}
 }

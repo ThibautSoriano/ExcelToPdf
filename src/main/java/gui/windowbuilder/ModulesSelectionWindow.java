@@ -19,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import main.java.gui.MainWindow;
 import main.java.utils.FileType;
+import main.java.utils.Language;
+
 import javax.swing.JComboBox;
 
 public class ModulesSelectionWindow {
@@ -72,7 +74,7 @@ public class ModulesSelectionWindow {
 		
 		JCheckBox chckbxSummary = new JCheckBox("Summary");
 		chckbxSummary.setSelected(true);
-		chckbxSummary.setBounds(251, 94, 189, 23);
+		chckbxSummary.setBounds(93, 93, 189, 23);
 		panelDefineStructure.add(chckbxSummary);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -81,12 +83,12 @@ public class ModulesSelectionWindow {
 		
 		JCheckBox chckbxRankings = new JCheckBox("Rankings");
 		chckbxRankings.setSelected(true);
-		chckbxRankings.setBounds(251, 161, 189, 23);
+		chckbxRankings.setBounds(93, 182, 189, 23);
 		panelDefineStructure.add(chckbxRankings);
 		
 		JCheckBox chckbxTechnical = new JCheckBox("Technical");
 		chckbxTechnical.setSelected(true);
-		chckbxTechnical.setBounds(251, 226, 189, 23);
+		chckbxTechnical.setBounds(313, 182, 189, 23);
 		panelDefineStructure.add(chckbxTechnical);
 		
 		JSeparator separator_3 = new JSeparator();
@@ -94,11 +96,16 @@ public class ModulesSelectionWindow {
 		panelDefineStructure.add(separator_3);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(220, 295, 177, 23);
+		comboBox.setBounds(313, 295, 177, 23);
 		panelDefineStructure.add(comboBox);
 		
+		for (Language lang : Language.values()) {
+                    comboBox.addItem(lang);
+                }
+		
+		
 		JLabel lblChoosePdfOutput = new JLabel("Choose pdf output language");
-		lblChoosePdfOutput.setBounds(220, 257, 177, 24);
+		lblChoosePdfOutput.setBounds(93, 295, 199, 23);
 		panelDefineStructure.add(lblChoosePdfOutput);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

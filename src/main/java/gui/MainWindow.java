@@ -51,6 +51,7 @@ import main.java.exceltopdf.pdfsections.SummaryPage;
 import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.FileType;
 import main.java.utils.Internationalization;
+import main.java.utils.InternationalizationPDF;
 import main.java.utils.Language;
 import main.java.utils.Utils;
 
@@ -323,6 +324,10 @@ public class MainWindow extends JFrame implements IMainFrame {
             InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels
                     .get(3);
             ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(4);
+            
+            
+            InternationalizationPDF ipdf = new InternationalizationPDF(msp.getSelectedLanguage());
+            
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -413,8 +418,8 @@ public class MainWindow extends JFrame implements IMainFrame {
                     contentPage.setCampaign(zk);
                     
                     tp.setCampaignName(zk.getCampaignHeader().getCampaignName());
-                    tp.setStartDate(f.format(zk.getCampaignHeader().getStartDate()));
-                    tp.setEndDate(f.format(zk.getCampaignHeader().getEndDate()));
+                    tp.setDate(ipdf.getDateFromTo(zk.getCampaignHeader().getStartDate(), zk.getCampaignHeader().getStartDate()));
+                    
 
                     HeaderFooter hfContent = new HeaderFooter(
                             gsp.getChckbxHeader().isSelected(),
@@ -460,6 +465,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         InsertPageSettingsPanel isp = (InsertPageSettingsPanel) panels.get(5);
         ColumnsSettingsPanel csp = (ColumnsSettingsPanel) panels.get(6);
 
+        
+        InternationalizationPDF ipdf = new InternationalizationPDF(msp.getSelectedLanguage());
         
         String campaignID = ccp.getSelectedId();
         
@@ -509,10 +516,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         tp.setCampaignName(commonInfos.getCampaignHeader().getCampaignName());
         
         
-        SimpleDateFormat f = new SimpleDateFormat("yyyy. MM. dd.");
         
-        tp.setStartDate(f.format(commonInfos.getCampaignHeader().getStartDate()));
-        tp.setEndDate(f.format(commonInfos.getCampaignHeader().getEndDate()));
+        
+        tp.setDate(ipdf.getDateFromTo(commonInfos.getCampaignHeader().getStartDate(), commonInfos.getCampaignHeader().getEndDate()));
+       
         sections.add(tp);
 
         // Infos for the insert page

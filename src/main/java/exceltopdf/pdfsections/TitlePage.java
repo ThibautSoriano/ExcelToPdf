@@ -4,9 +4,11 @@ public class TitlePage extends Section {
 	
 	private String campaignName ="";
 	
-	private String startDate = "";
+//	private String startDate = "";
+//	
+//	private String endDate= "";
 	
-	private String endDate= "";
+	private String date ="";
 	
 	private String belowTitle = "online kamp�ny elemz�se";
 	
@@ -18,23 +20,17 @@ public class TitlePage extends Section {
 		this.campaignName = campaignName;
 	}
 
-	public String getStartDate() {
-		return startDate;
-	}
+	
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+	public String getDate() {
+        return date;
+    }
 
-	public String getEndDate() {
-		return endDate;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
-	public String getBelowTitle() {
+    public String getBelowTitle() {
 		return belowTitle;
 	}
 

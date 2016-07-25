@@ -30,5 +30,9 @@ public enum Language {
         return encoding;
     }
 
+    @Override
+    public String toString(){
+        return name+" "+"("+language+" "+country+")";
+    }
     
 }
