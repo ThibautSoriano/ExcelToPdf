@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import main.java.gui.MainWindow;
 import main.java.utils.FileType;
+import javax.swing.JComboBox;
 
 public class ModulesSelectionWindow {
 
@@ -91,6 +92,14 @@ public class ModulesSelectionWindow {
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(93, 360, 397, 2);
 		panelDefineStructure.add(separator_3);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(220, 295, 177, 23);
+		panelDefineStructure.add(comboBox);
+		
+		JLabel lblChoosePdfOutput = new JLabel("Choose pdf output language");
+		lblChoosePdfOutput.setBounds(220, 257, 177, 24);
+		panelDefineStructure.add(lblChoosePdfOutput);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
