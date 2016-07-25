@@ -1,5 +1,6 @@
 package main.java.exceltopdf;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,11 +17,14 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 
 import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
@@ -126,14 +130,14 @@ public class ExcelToPdf {
 		Document document = new Document();
 		TabCreator tc = new TabCreator();
 		document.setMargins(85, 85, 85, 113);
-		String fileName = Utils.getNewTmpFileName() + TEMP_SUMMARY_PAGE;
+		String fileName = TEMP_SUMMARY_PAGE;
 		FileOutputStream outputStream = new FileOutputStream(fileName);
 		FILES.add(fileName);
 		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 		writer.setPageEvent(summaryPage.getStructure());
 		
 		document.open();
-	   
+        
 		Paragraph title = new Paragraph("Summary");
 		title.setAlignment(Element.ALIGN_CENTER);
 		title.getFont().setStyle(Font.BOLD);
@@ -260,7 +264,11 @@ public class ExcelToPdf {
 				document.add(new Paragraph("\n"));
 			}
 			if (contentPage.isUniqueCTR()) {
-				JFreeChart uniqueCTRChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, CampaignRow.UNIQUE_COOKIES_INDEX);
+				int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
+			    if (download) {
+			        indexDenominator = CampaignRow.REACH_INDEX;
+			    }
+				JFreeChart uniqueCTRChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, indexDenominator);
 				if (uniqueCTRChart != null)
 					document.add(getImagePie(uniqueCTRChart, writer));
 				document.add(new Paragraph("\n"));
@@ -374,7 +382,7 @@ public class ExcelToPdf {
 		cb.restoreState();
 		
 		// dates
-		String datesString = "From " + titlePage.getStartDate() + " to " + titlePage.getEndDate();
+		String datesString = titlePage.getStartDate() + " - " + titlePage.getEndDate();
 		Paragraph dates = new Paragraph(datesString);
 		dates.setAlignment(Element.ALIGN_CENTER);
 		
