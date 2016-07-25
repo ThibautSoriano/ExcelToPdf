@@ -1,8 +1,6 @@
 package main.java.exceltopdf;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,14 +15,11 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 
 import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
@@ -318,7 +313,7 @@ public class ExcelToPdf {
 		document.open();
 		
 		// custom text area
-		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, "ISO-8859-2", BaseFont.EMBEDDED);
 		PdfContentByte cb = writer.getDirectContent();
 		String customArea = insertPage.getCustomTextArea();
 		Paragraph custom = new Paragraph(customArea);
@@ -365,7 +360,7 @@ public class ExcelToPdf {
 		campaignName.setAlignment(Element.ALIGN_CENTER);
 		
 		PdfContentByte cb = writer.getDirectContent();
-	    BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+	    BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
 	    Chunk toMeasureSize = new Chunk(titlePage.getCampaignName());
 	    Font fontTitle = new Font();
 	    fontTitle.setStyle(Font.BOLD);
@@ -386,7 +381,7 @@ public class ExcelToPdf {
 		Paragraph dates = new Paragraph(datesString);
 		dates.setAlignment(Element.ALIGN_CENTER);
 		
-	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
 	    Chunk toMeasureDates = new Chunk(datesString);
 		
 		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
