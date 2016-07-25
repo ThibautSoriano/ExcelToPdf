@@ -40,8 +40,14 @@ public class ExcelToPdf {
 	private static final int INSERT_PAGE = 1;
 	private static final int SUMMARY_PAGE = 2;
 	public static int CURRENT_PAGE_NUMBER = 0;
+	
+	private String encoding = "";
 
-    public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
+    public ExcelToPdf(String encoding) {
+		this.encoding = encoding;
+	}
+
+	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
             throws IOException, DocumentException {
 //        for (int i = 2; i < sections.size(); i++) {
 //        	ContentPage contentPage = (ContentPage) sections.get(i);
@@ -313,7 +319,7 @@ public class ExcelToPdf {
 		document.open();
 		
 		// custom text area
-		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, "ISO-8859-2", BaseFont.EMBEDDED);
+		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding, BaseFont.EMBEDDED);
 		PdfContentByte cb = writer.getDirectContent();
 		String customArea = insertPage.getCustomTextArea();
 		Paragraph custom = new Paragraph(customArea);
@@ -360,7 +366,7 @@ public class ExcelToPdf {
 		campaignName.setAlignment(Element.ALIGN_CENTER);
 		
 		PdfContentByte cb = writer.getDirectContent();
-	    BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
+	    BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, encoding, BaseFont.EMBEDDED);
 	    Chunk toMeasureSize = new Chunk(titlePage.getCampaignName());
 	    Font fontTitle = new Font();
 	    fontTitle.setStyle(Font.BOLD);
@@ -381,7 +387,7 @@ public class ExcelToPdf {
 		Paragraph dates = new Paragraph(datesString);
 		dates.setAlignment(Element.ALIGN_CENTER);
 		
-	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding, BaseFont.EMBEDDED);
 	    Chunk toMeasureDates = new Chunk(datesString);
 		
 		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
