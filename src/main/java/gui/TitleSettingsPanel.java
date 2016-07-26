@@ -1,5 +1,7 @@
 package main.java.gui;
 
+import java.awt.Font;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -107,7 +109,7 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
         
         
-        
+        txtrBelowTitle.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrBelowTitle.setDocument(new JTextFieldLimit(50));
         
         
