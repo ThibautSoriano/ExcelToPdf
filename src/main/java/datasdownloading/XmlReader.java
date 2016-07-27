@@ -314,6 +314,7 @@ public class XmlReader {
 		if (!"".equals(xmlPeriodMonth)) {
 			c.setMonthlyData(getPeriod(xmlPeriodMonth, ranking));
 		}
+		c.setCampaignHeader(getHeaderByID(campaignID));
 		
 		
 		return c;
