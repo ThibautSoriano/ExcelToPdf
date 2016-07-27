@@ -63,9 +63,9 @@ public class MainWindow extends JFrame implements IMainFrame {
     private NavigationPanel np;
     private boolean download;
 
-    private static final int WINDOW_HEIGHT = 500;
+    public static final int WINDOW_HEIGHT = 500;
 
-    private static final int WINDOW_WIDTH = 600;
+    public static final int WINDOW_WIDTH = 600;
 
     private static HttpDownload session;
 
@@ -452,19 +452,26 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         String campaignID = ccp.getSelectedId();
 
-        Campaign c1 = null, c2 = null;
+        Campaign c1 = null, c2 = null, c3 =null;
         boolean error = false;
 
-        c1 = session.getCampaignRankingsById(campaignID);
-        if (c1 == null)
-            error = true;
-
+        if (msp.detectRankings()) {
+            c1 = session.getCampaignRankingsById(campaignID,msp.getChckbxRankings().isSelected(),msp.getChckbxMonthlyRankings().isSelected(),msp.getChckbxWeeklyRankings().isSelected());
+            if (c1 == null)
+                error = true;
+        }
         if (msp.getChckbxTechnical().isSelected()) {
             c2 = session.getCampaignTechnicalById(campaignID);
             if (c2 == null)
                 error = true;
         }
 
+        if (msp.detectCreative()) {
+            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
+            if (c3 == null)
+                error = true;
+        }
+        
         if (error) {
             JOptionPane.showMessageDialog(null,
                     "The connection with the server failed", "ERROR",

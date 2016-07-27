@@ -173,25 +173,7 @@ public class HttpDownload {
         return m;
     }
 
-    public Campaign getCampaignRankingsById(String campaignId) {
-
-//        if (xmlReader == null) {
-//            String url = "https://gdeapi.gemius.com/GetCampaignsList.php?ignoreEmptyParams=Y&sessionID="
-//                    + sessionId;
-//
-//            HttpMessage campaignList = sendGet(url);
-//            if (campaignList.isOk()) {
-//                try {
-//                    xmlReader = new XmlReader(campaignList.getContent());
-//                } catch (LoginException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
-//            else
-//                return null;
-//        }      
-        
+    public Campaign getCampaignRankingsById(String campaignId,boolean general, boolean monthly, boolean weekly) {
         
         HttpMessage m= checkXmlReader();
         
@@ -212,7 +194,7 @@ public class HttpDownload {
             } catch (LoginException e) {
 //                e.printStackTrace();
                 login(userName, password);
-                return getCampaignRankingsById(campaignId);
+                return getCampaignRankingsById(campaignId,general,  monthly,  weekly);
             }
 
         }
@@ -262,6 +244,17 @@ public class HttpDownload {
         return null;
     }
 
+    
+    
+    public Campaign getCampaignCreativeById(String campaignID,boolean general, boolean monthly, boolean weekly) {
+        
+        return null;
+    }
+    
+    
+    
+    
+    
     public static void main(String[] args) throws Exception{
         HttpDownload a= new HttpDownload();
         Campaign c = a.getCampaignTechnicalById("557150106");
@@ -315,5 +308,7 @@ public class HttpDownload {
         }
         return new HttpMessage(true, "", "");
     }
+
+   
     
 }
