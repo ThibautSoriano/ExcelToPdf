@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 import main.java.datasdownloading.entities.SummaryData;
 import main.java.excelreader.entities.CampaignRow;
+import main.java.excelreader.entities.CampaignRowPeriod;
 import main.java.utils.Utils;
 
 public class TabCreator {
@@ -127,6 +128,124 @@ public class TabCreator {
 
         List<String> a = all.toList();
         for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
+            if (colsToPrint[j]) {
+
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+                Paragraph p = new Paragraph(a.get(j), font);
+                if (j != 0)
+                    p.setAlignment(Element.ALIGN_CENTER);
+
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(p);
+                cell.setPaddingBottom(10);
+                cell.setPaddingTop(0);
+                cell.setBackgroundColor(lastLineColor);
+                
+                if (j==0)
+                    cell.setColspan(2);
+                
+                table.addCell(cell);
+            }
+        }
+
+        return table;
+    }
+    
+    public PdfPTable createTabPeriod(List<CampaignRowPeriod> campaignRows, List<String> headers,CampaignRow all,boolean[] colsToPrint,
+            boolean hideEmptyLines) {
+
+//        CampaignRowPeriod.sortBy(campaignRows, getIndexFromColsToPrint(colsToPrint));
+        
+        if (colsToPrint.length < CampaignRowPeriod.MAX_COLUMNS_PERIOD) {
+            System.err.println("Wrong tab size in createTabPeriod. Must be "
+                    + CampaignRowPeriod.MAX_COLUMNS_PERIOD + " at least.");
+            return new PdfPTable(1);
+        }
+        
+      //one column is added because the first one has a width of 2 columns
+        int colsNumber = Utils.countTrueInTab(colsToPrint);
+        PdfPTable table = new PdfPTable(colsNumber+1);
+        table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+        table.setWidthPercentage(100);
+        
+
+        // For the headers
+        
+        for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+            if (colsToPrint[j]) {
+
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+                Paragraph para = new Paragraph(headers.get(j), font);
+                para.setAlignment(Element.ALIGN_CENTER);
+
+                PdfPCell cell = new PdfPCell();
+                cell.setPaddingBottom(15);
+
+                cell.setBackgroundColor(headerColor);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.addElement(para);
+                
+                if (j==0)
+                    cell.setColspan(2);
+
+               
+                table.addCell(cell);
+
+            }
+        }
+
+        // For all the rows
+        for (int i = 0, countColor = 0; i < campaignRows.size(); i++) {
+
+            if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
+
+                List<String> l = campaignRows.get(i).toList();
+                for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+                    if (colsToPrint[j]) {
+                        Font font = new Font(FontFamily.HELVETICA, 8,
+                                Font.UNDEFINED);
+                        
+                        
+                        PdfPCell cell = new PdfPCell();
+                        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                        
+                        cell.setPaddingBottom(10);
+                        cell.setPaddingTop(0);
+
+                        
+                        if (j==0)
+                            cell.setColspan(2);                      
+                        
+                        Paragraph p = null;
+   
+                        
+                        if (j ==0)
+                             p = new Paragraph(splitFirstColumnData(l.get(0),getMaxLength(colsNumber)),font);
+                        else {
+                            p = new Paragraph(l.get(j), font);
+                            p.setAlignment(Element.ALIGN_CENTER);
+                        }
+
+                        if (countColor<5)
+                            cell.setBackgroundColor(bestRowsColor);
+                        else
+                            cell.setBackgroundColor(worstRowsColor);
+                        
+                        cell.addElement(p);
+                        
+                        
+                        table.addCell(cell);
+                    }
+                }
+                countColor++;
+            }
+        }
+
+        // For the last line (containing the sums usually)
+
+        List<String> a = all.toList();
+        for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
             if (colsToPrint[j]) {
 
                 Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);

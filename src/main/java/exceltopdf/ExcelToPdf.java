@@ -294,6 +294,22 @@ public class ExcelToPdf {
         
         document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
         
+        boolean [] colsPeriod = {
+    			true, true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
+                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
+                contentPage.isUniqueCTR(), contentPage.isReach()
+        };
+        
+        if (contentPage.isWeekly()) {
+        	document.add(new Paragraph("\nWeekly statistics"));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true));
+        }
+        
+        if (contentPage.isMonthly()) {
+        	document.add(new Paragraph("\nMonthly statistics"));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true));
+        }
+        
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();
         writer.flush();

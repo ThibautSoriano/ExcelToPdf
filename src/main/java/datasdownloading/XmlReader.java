@@ -484,7 +484,6 @@ public class XmlReader {
 	
 	public PeriodData getPeriod(String xmlPeriodData) throws LoginException {
 	    
-		PeriodData p = new PeriodData();
 		CampaignRowPeriod all = new CampaignRowPeriod();
 		List<CampaignRowPeriod> rows = new ArrayList<>();
 		
@@ -543,8 +542,7 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		p.setContent(rows);
-		p.setAll(all);		
+		PeriodData p = new PeriodData(rows, all);
 		
 		return p;
 	}

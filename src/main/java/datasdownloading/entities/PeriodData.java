@@ -10,11 +10,20 @@ public class PeriodData {
 	private List<CampaignRowPeriod> content = new ArrayList<>();
 	
 	private CampaignRowPeriod all;
-
-	public PeriodData() {
-	}
-
+	
+	private List<String> columsLabels = new ArrayList<>();
+	
 	public PeriodData(List<CampaignRowPeriod> content, CampaignRowPeriod all) {
+		columsLabels.add("Time period");
+		columsLabels.add("Placement path");		
+		columsLabels.add("Impressions");
+		columsLabels.add("Unique cookies");
+		columsLabels.add("Frequency");
+		columsLabels.add("Clicks");
+		columsLabels.add("Clicking users");
+		columsLabels.add("Click Through Rate");
+		columsLabels.add("Unique CTR");
+		columsLabels.add("Reach");
 		this.content = content;
 		this.all = all;
 	}
@@ -33,6 +42,14 @@ public class PeriodData {
 
 	public void setAll(CampaignRowPeriod all) {
 		this.all = all;
+	}
+
+	public List<String> getColumsLabels() {
+		return columsLabels;
+	}
+
+	public void setColumsLabels(List<String> columsLabels) {
+		this.columsLabels = columsLabels;
 	}
 
 }
