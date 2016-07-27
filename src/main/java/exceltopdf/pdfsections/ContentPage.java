@@ -27,6 +27,8 @@ public class ContentPage extends Section {
 	private boolean weekly;
 	
 	private boolean monthly;
+	
+	private boolean general;
 
 	public ContentPage(boolean impressions, boolean frequency, boolean clicks,
 			boolean clickingUsers, boolean clickThroughRate, boolean uniqueCTR) {
@@ -132,6 +134,14 @@ public class ContentPage extends Section {
 
 	public void setMonthly(boolean monthly) {
 		this.monthly = monthly;
+	}
+
+	public boolean isGeneral() {
+		return general;
+	}
+
+	public void setGeneral(boolean general) {
+		this.general = general;
 	}
 
 }

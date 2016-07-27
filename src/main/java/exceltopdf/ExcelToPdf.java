@@ -277,22 +277,26 @@ public class ExcelToPdf {
 		}
 		
 		document.add(new Paragraph("\n\n"));
-		document.add(new Paragraph("Full data table"));
-		document.add(new Paragraph("\n"));
 		
-		List<String> labels;
 		
-		labels = contentPage.getCampaign().getColumsLabels();
+		TabCreator tc = new TabCreator();
 		
-    	boolean [] colsToPrint = {
-    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
-                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
-                contentPage.isUniqueCTR(), contentPage.isReach()
-        };
+		if (contentPage.isGeneral()) {
+			document.add(new Paragraph("Full data table"));
+			document.add(new Paragraph("\n"));
+			List<String> labels;
+			
+			labels = contentPage.getCampaign().getColumsLabels();
+			
+	    	boolean [] colsToPrint = {
+	    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
+	                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
+	                contentPage.isUniqueCTR(), contentPage.isReach()
+	        };
+			
+			document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
+		}
         
-        TabCreator tc = new TabCreator();
-        
-        document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
         
         boolean [] colsPeriod = {
     			true, true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
