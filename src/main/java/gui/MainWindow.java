@@ -451,9 +451,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         }
 
         if (msp.detectCreative()) {
-            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
-            if (c3 == null)
-                error = true;
+//            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
+//            if (c3 == null)
+//                error = true;
+            //TODO MERG
         }
         
         if (error) {
