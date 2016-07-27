@@ -53,7 +53,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         JLabel lblChooseExcel = new JLabel(
                 Internationalization.getKey("Choose an excel file"));
         lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblChooseExcel.setBounds(30, 70, 389, 22);
+        lblChooseExcel.setBounds(30, 70, 400, 22);
         add(lblChooseExcel);
 
         lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -68,7 +68,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         fields.add(txtExcel);
 
         JButton btnExcel = new JButton(Internationalization.getKey("Browse"));
-        btnExcel.setBounds(444, 118, 119, 23);
+        btnExcel.setBounds(444, 118, 130, 23);
         add(btnExcel);
         btnExcel.addMouseListener(new MouseAdapter() {
             @Override
@@ -80,7 +80,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         JLabel lblExcel2 = new JLabel(
                 Internationalization.getKey("Choose an excel file"));
         lblExcel2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblExcel2.setBounds(30, 180, 389, 22);
+        lblExcel2.setBounds(30, 180, 400, 22);
 
         lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         add(lblExcel2);
@@ -93,7 +93,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         txtExcel2.setColumns(10);
 
         JButton btnExcel2 = new JButton(Internationalization.getKey("Browse"));
-        btnExcel2.setBounds(444, 220, 119, 23);
+        btnExcel2.setBounds(444, 220, 130, 23);
         add(btnExcel2);
 
         btnExcel2.addMouseListener(new MouseAdapter() {
@@ -113,7 +113,7 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
         }
                 
         JLabel lblChoosePdfOutput = new JLabel("Choose pdf output language");
-        lblChoosePdfOutput.setBounds(27, 295, 360, 23);
+        lblChoosePdfOutput.setBounds(27, 295, 400, 23);
         lblChoosePdfOutput.setHorizontalAlignment(SwingConstants.CENTER);
         lblChoosePdfOutput.setFont(new Font("Tahoma", Font.PLAIN, 16));
         add(lblChoosePdfOutput);

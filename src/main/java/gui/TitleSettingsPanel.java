@@ -1,20 +1,16 @@
 package main.java.gui;
 
-import javax.swing.InputVerifier;
+import java.awt.Font;
+
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.text.DefaultStyledDocument;
-
-import com.itextpdf.text.pdf.TextField;
 
 import main.java.utils.Internationalization;
-
-import main.java.utils.*;
+import main.java.utils.JTextFieldLimit;
 
 @SuppressWarnings("serial")
 public class TitleSettingsPanel extends SettingsChoicePanel{
@@ -51,8 +47,6 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         return txtBottomLeftText;
     }
 
-    
-
     public JTextArea getTxtrBelowTitle() {
         return txtrBelowTitle;
     }
@@ -66,12 +60,12 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         
         chckbxSeparatorLineAboveFooter = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxSeparatorLineAboveFooter.setSelected(true);
-        chckbxSeparatorLineAboveFooter.setBounds(284, 143, 250, 23);
+        chckbxSeparatorLineAboveFooter.setBounds(284, 143, 300, 23);
         add(chckbxSeparatorLineAboveFooter);
         
         chckbxSeparatorLineBelowHeader = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxSeparatorLineBelowHeader.setSelected(true);
-        chckbxSeparatorLineBelowHeader.setBounds(284, 71, 250, 23);
+        chckbxSeparatorLineBelowHeader.setBounds(284, 71, 300, 23);
         add(chckbxSeparatorLineBelowHeader);
         
         JSeparator separator = new JSeparator();
@@ -83,11 +77,11 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         add(separator_1);
         
         chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
-        chckbxHeader.setBounds(93, 71, 189, 23);
+        chckbxHeader.setBounds(93, 71, 200, 23);
         add(chckbxHeader);
         
         chckbxFooter = new JCheckBox(Internationalization.getKey("Footer"));
-        chckbxFooter.setBounds(93, 143, 189, 23);
+        chckbxFooter.setBounds(93, 143, 200, 23);
         add(chckbxFooter);
         
         JLabel lblTextBelowTitle = new JLabel(Internationalization.getKey("Text below title"));
@@ -115,7 +109,7 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
         
         
-        
+        txtrBelowTitle.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrBelowTitle.setDocument(new JTextFieldLimit(50));
         
         

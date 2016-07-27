@@ -19,10 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -73,8 +71,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     private static boolean isTechnical;
 
-    private static boolean isSummary;
-
     public static boolean isRankings() {
         return isRankings;
     }
@@ -89,10 +85,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     public static void setTechnical(boolean isTechnical) {
         MainWindow.isTechnical = isTechnical;
-    }
-
-    public static void setSummary(boolean isSummary) {
-        MainWindow.isSummary = isSummary;
     }
 
     public static HttpDownload getSession() {
@@ -285,13 +277,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void validation() {
-
-        Language pdfLang = Language.EN;
-
-        // FIXME TODO ZHENGQIN creer une InternationalizationPDF + combobox pour
-        // choix langage pdf + utiliser l'objet creer pour
-        // remplir champs
-
         if (download) {
             validationDownload();
         } else {
@@ -395,7 +380,6 @@ public class MainWindow extends JFrame implements IMainFrame {
                         System.err.println("xls not recognized");
                         return;
                     }
-                    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
                     Campaign zk = excelReader.readExcelSheet(src);
                     contentPage.setCampaign(zk);
 

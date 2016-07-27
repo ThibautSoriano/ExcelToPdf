@@ -1,11 +1,7 @@
 package main.java.gui;
 
-import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
@@ -13,18 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -49,12 +41,12 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
         JLabel lblSelectACampaign = new JLabel("Select a campaign");
         lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lblSelectACampaign.setBounds(54, 60, 221, 22);
+        lblSelectACampaign.setBounds(54, 60, 300, 22);
         add(lblSelectACampaign);
 
         JLabel loading = new JLabel("Loading...");
         loading.setFont(new Font("Tahoma", Font.BOLD, 14));
-        loading.setBounds(200, 150, 100, 30);
+        loading.setBounds(200, 150, 200, 30);
         add(loading);
 
         addAncestorListener(new AncestorListener() {
@@ -121,7 +113,8 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
         campaignHeaders = new ArrayList<String>();
 
-        Vector<Vector> rowData = new Vector<Vector>();
+        @SuppressWarnings("rawtypes")
+		Vector<Vector> rowData = new Vector<Vector>();
         SimpleDateFormat f = new SimpleDateFormat("yyyy.MM.dd");
 
         for (CampaignHeader campaignHeader : l) {
@@ -237,7 +230,7 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
         JLabel lblSelectACampaign = new JLabel("Select a campaign");
         lblSelectACampaign.setFont(new Font("Tahoma", Font.BOLD, 14));
-        lblSelectACampaign.setBounds(54, 60, 221, 22);
+        lblSelectACampaign.setBounds(54, 60, 300, 22);
         add(lblSelectACampaign);
 
     }
@@ -250,24 +243,6 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
     @Override
     public SettingsChoicePanel getNewInstance() {
         return new CampaignChoicePanel(this.table);
-    }
-
-    public static void main(String[] args) {
-
-        try {
-            // set for file chooser look
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            //
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-
-        JFrame frame = new JFrame("a");
-        frame.setSize(600, 500);
-        frame.getContentPane().setLayout(null);
-        // frame.getContentPane().add(new CampaignChoicePanel());
-        frame.setVisible(true);
-
     }
 
     public String getSelectedId() {

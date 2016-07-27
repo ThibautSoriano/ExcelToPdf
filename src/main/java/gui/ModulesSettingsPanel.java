@@ -68,11 +68,12 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
     public ModulesSettingsPanel() {
         super("Choose modules");
 
-       
+  
         chckbxSummary = new JCheckBox("Summary");
         chckbxSummary.setSelected(true);
         chckbxSummary.setBounds(152, 79, 181, 23);
         chckbxSummary.addActionListener(new ActionListener() {
+
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +82,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             }
         });
+
         add(chckbxSummary);
 
         JSeparator separator_1 = new JSeparator();
@@ -92,6 +94,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
         chckbxRankings.setBounds(93, 165, 141, 23);
         chckbxRankings.addActionListener(new ActionListener() {
 
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainWindow.setRankings(detectRankings());
@@ -101,12 +104,14 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             }
         });
+
         add(chckbxRankings);
 
         chckbxTechnical = new JCheckBox("Technical");
         chckbxTechnical.setSelected(true);
         chckbxTechnical.setBounds(335, 79, 189, 23);
         chckbxTechnical.addActionListener(new ActionListener() {
+
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -234,7 +239,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
     public boolean isEveryThingOk() {
         MainWindow.setRankings(chckbxRankings.isSelected());
         MainWindow.setTechnical(chckbxTechnical.isSelected());
-        MainWindow.setSummary(chckbxSummary.isSelected());
 
         return true;
     }

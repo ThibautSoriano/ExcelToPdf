@@ -79,25 +79,25 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         super(Internationalization.getKey("General settings"));
         
         
-         rdbtnBottomCenter = new JRadioButton(Internationalization.getKey("Bottom center"));
-         rdbtnBottomCenter.setBounds(223, 321, 109, 23);
+        rdbtnBottomCenter = new JRadioButton(Internationalization.getKey("Bottom center"));
+        rdbtnBottomCenter.setBounds(223, 321, 109, 23);
         add(rdbtnBottomCenter);
         rdbtnBottomCenter.setSelected(true);
         
-         rdbtnBottomRight = new JRadioButton(Internationalization.getKey("Bottom right"));
-         rdbtnBottomRight.setBounds(364, 321, 109, 23);
+        rdbtnBottomRight = new JRadioButton(Internationalization.getKey("Bottom right"));
+        rdbtnBottomRight.setBounds(364, 321, 109, 23);
         add(rdbtnBottomRight);
         
-         pagesNumGroup = new ButtonGroup();
+        pagesNumGroup = new ButtonGroup();
         pagesNumGroup.add(rdbtnBottomRight);
         pagesNumGroup.add(rdbtnBottomCenter);
         
-         chckbxFooterLine = new JCheckBox(Internationalization.getKey("Separator line above footer"));
+        chckbxFooterLine = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxFooterLine.setSelected(true);
         chckbxFooterLine.setBounds(284, 229, 189, 23);
         add(chckbxFooterLine);
         
-         chckbxHeaderLine = new JCheckBox(Internationalization.getKey("Separator line below header"));
+        chckbxHeaderLine = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxHeaderLine.setSelected(true);
         chckbxHeaderLine.setBounds(284, 70, 189, 23);
         add(chckbxHeaderLine);
@@ -118,14 +118,14 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         lblYourCompanyWebsite.setBounds(93, 116, 159, 19);
         add(lblYourCompanyWebsite);
         
-         txtWebsite = new JTextField();
+        txtWebsite = new JTextField();
         txtWebsite.setText("www.gemius.hu");
         txtWebsite.setColumns(10);
         txtWebsite.setDocument(new JTextFieldLimit(30));
         txtWebsite.setBounds(284, 115, 177, 20);
         add(txtWebsite);
         
-         chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
+        chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
         chckbxHeader.setSelected(true);
         chckbxHeader.setBounds(93, 70, 189, 23);
         add(chckbxHeader);
