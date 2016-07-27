@@ -176,7 +176,7 @@ public class HttpDownload {
             monthlyDataStr = monthlyData.getContent();
         }
         if (weekly) {
-            weeklyData = getXmlCampaignDatas(campaignId, "Weekly");
+            weeklyData = getXmlCampaignDatas(campaignId, "Week");
             if (!weeklyData.isOk())
                 return null;
             weeklyDataStr = weeklyData.getContent();
