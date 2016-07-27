@@ -127,19 +127,33 @@ public class HttpDownload {
 
     }
 
-    private HttpMessage getXmlCampaignDatas(String campaignID,
-            String timeDivision) {
+    
+    private HttpMessage getCampaignData(String campaignID,String timeDivision,String dimensionID){
         String url = "https://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
                 + sessionId
-                + "&dimensionIDs=1%2C20&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="
-                + campaignID + "&timeDivision=" + timeDivision;
+                + "&dimensionIDs="+dimensionID+
+                "&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="+ campaignID + 
+                "&timeDivision=" + timeDivision;
 
         HttpMessage m = sendGet(url);
-
         if (m.isOk())
             return new HttpMessage(true, "", m.getContent());
         return m;
     }
+    
+    private HttpMessage getXmlRankingsDatas(String campaignID,
+            String timeDivision) {
+        
+        return getCampaignData(campaignID, timeDivision, "1%2C20");
+    }
+    
+    
+    private HttpMessage getXmlCreativeData(String campaignID,
+            String timeDivision) {
+        return getCampaignData(campaignID, timeDivision, "1%2C40");
+    }
+    
+    
 
     private HttpMessage getXmlPlacementList(String campaignID) {
         String url = "https://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
@@ -152,6 +166,23 @@ public class HttpDownload {
         return m;
     }
 
+    
+
+    private HttpMessage getXmlCreativesList(String campaignID) {
+        String url = "https://gdeapi.gemius.com/GetCreativesList.php?ignoreEmptyParams=Y&"
+                + "sessionID="+sessionId
+                +"&campaignIDs="+campaignID;
+        
+        HttpMessage m = sendGet(url);
+
+        if (m.isOk())
+            return new HttpMessage(true, "", m.getContent());
+        return m;
+    }
+
+    
+    
+    
     public Campaign getCampaignRankingsById(String campaignId, boolean general,
             boolean monthly, boolean weekly) {
 
@@ -161,22 +192,22 @@ public class HttpDownload {
             return null;
 
         HttpMessage generalData, monthlyData, weeklyData;
-        String generalDataStr="",monthlyDataStr="",weeklyDataStr="";
+        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "";
 
         if (general) {
-            generalData = getXmlCampaignDatas(campaignId, "General");
+            generalData = getXmlRankingsDatas(campaignId, "General");
             if (!generalData.isOk())
                 return null;
             generalDataStr = generalData.getContent();
         }
         if (monthly) {
-            monthlyData = getXmlCampaignDatas(campaignId, "Month");
+            monthlyData = getXmlRankingsDatas(campaignId, "Month");
             if (!monthlyData.isOk())
                 return null;
             monthlyDataStr = monthlyData.getContent();
         }
         if (weekly) {
-            weeklyData = getXmlCampaignDatas(campaignId, "Week");
+            weeklyData = getXmlRankingsDatas(campaignId, "Week");
             if (!weeklyData.isOk())
                 return null;
             weeklyDataStr = weeklyData.getContent();
@@ -189,7 +220,8 @@ public class HttpDownload {
 
         try {
             return xmlReader.getCampaign(campaignId, generalDataStr,
-                    placementList.getContent(),"",weeklyDataStr,monthlyDataStr,true);
+                    placementList.getContent(), "", weeklyDataStr,
+                    monthlyDataStr, true);
         } catch (LoginException e) {
             // e.printStackTrace();
             login(userName, password);
@@ -198,8 +230,6 @@ public class HttpDownload {
         }
 
     }
-
-    
 
     public Campaign getCampaignTechnicalById(String campaignId) {
 
@@ -233,7 +263,7 @@ public class HttpDownload {
                         campaignData.getContent(), all.getContent(),
                         mapIdToCounty.getContent(), BUDAPEST_ID);
             } catch (LoginException e) {
-                // TODO Auto-generated catch block
+
                 // e.printStackTrace();
                 login(userName, password);
                 return getCampaignTechnicalById(campaignId);
@@ -246,7 +276,48 @@ public class HttpDownload {
     public Campaign getCampaignCreativeById(String campaignID, boolean general,
             boolean monthly, boolean weekly) {
 
-        return null;
+        HttpMessage m = checkXmlReader();
+
+        if (!m.isOk())
+            return null;
+
+        HttpMessage generalData, monthlyData, weeklyData;
+        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "";
+
+        if (general) {
+            generalData = getXmlCreativeData(campaignID, "General");
+            if (!generalData.isOk())
+                return null;
+            generalDataStr = generalData.getContent();
+        }
+        if (monthly) {
+            monthlyData = getXmlCreativeData(campaignID, "Month");
+            if (!monthlyData.isOk())
+                return null;
+            monthlyDataStr = monthlyData.getContent();
+        }
+        if (weekly) {
+            weeklyData = getXmlCreativeData(campaignID, "Week");
+            if (!weeklyData.isOk())
+                return null;
+            weeklyDataStr = weeklyData.getContent();
+        }
+
+        HttpMessage creativesList = getXmlCreativesList(campaignID);
+
+        if (!creativesList.isOk())
+            return null;
+
+        try {
+            return xmlReader.getCampaign(campaignID, generalDataStr,
+                    "",creativesList.getContent() , weeklyDataStr,
+                    monthlyDataStr, false);
+        } catch (LoginException e) {
+            // e.printStackTrace();
+            login(userName, password);
+            return getCampaignRankingsById(campaignID, general, monthly,
+                    weekly);
+        }
     }
 
     public static void main(String[] args) throws Exception {

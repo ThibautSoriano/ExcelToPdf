@@ -1,6 +1,7 @@
 package main.java.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -63,14 +64,37 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     private int cptRankingsChecked = 0;
 
     private int cptTechnicalChecked = 0;
+    
+    private int cptCreativeChecked = 0;
 
     private List<JCheckBox> groupTechnical;
 
     private JCheckBox chckbxReach;
 
     private JCheckBox chckbxReachTechnical;
+
+
+
+
+    private JCheckBox chckbxImpressionsCreative;
+
     
     
+    private List<JCheckBox> groupCreative;
+
+    private JCheckBox chckbxUniqueCTRCreative;
+
+    private JCheckBox chckbxClickingUsersCreative;
+
+    private JCheckBox chckbxClickThroughRateCreative;
+
+    private JCheckBox chckbxFrequencyCreative;
+
+    private JCheckBox chckbxClicksCreative;
+
+    private JCheckBox chckbxReachCreative;
+
+    private JCheckBox chckbxUniqueCookiesCreative;
 
     public JCheckBox getChckbxReachTechnical() {
         return chckbxReachTechnical;
@@ -135,6 +159,38 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     
     
     
+    public JCheckBox getChckbxImpressionsCreative() {
+        return chckbxImpressionsCreative;
+    }
+
+    public JCheckBox getChckbxUniqueCTRCreative() {
+        return chckbxUniqueCTRCreative;
+    }
+
+    public JCheckBox getChckbxClickingUsersCreative() {
+        return chckbxClickingUsersCreative;
+    }
+
+    public JCheckBox getChckbxClickThroughRateCreative() {
+        return chckbxClickThroughRateCreative;
+    }
+
+    public JCheckBox getChckbxFrequencyCreative() {
+        return chckbxFrequencyCreative;
+    }
+
+    public JCheckBox getChckbxClicksCreative() {
+        return chckbxClicksCreative;
+    }
+
+    public JCheckBox getChckbxReachCreative() {
+        return chckbxReachCreative;
+    }
+
+    public JCheckBox getChckbxUniqueCookiesCreative() {
+        return chckbxUniqueCookiesCreative;
+    }
+
     public JCheckBox getChckbxReach() {
         return chckbxReach;
     }
@@ -148,6 +204,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         
         groupRankings = new ArrayList<JCheckBox>();
         groupTechnical = new ArrayList<JCheckBox>();
+        groupCreative = new ArrayList<JCheckBox>();
 
         tabbedPane.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
@@ -159,7 +216,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             @Override
             protected int calculateTabWidth(int tabPlacement, int tabIndex,
                     FontMetrics metrics) {
-                return SettingsChoicePanel.PANEL_WIDTH / 2 - 3;
+                return SettingsChoicePanel.PANEL_WIDTH / 3 - 3;
             }
 
             @Override
@@ -308,13 +365,75 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             JSeparator separator_3 = new JSeparator();
             separator_3.setBounds(93, 252, 397, 2);
             panelTechnical.add(separator_3);
+            
+            
+            
+            //Creative columns choice
+             JPanel panelCreative = new JPanel();
+            
+//          
+          panelCreative.setLayout(null);
+
+          chckbxImpressionsCreative = new JCheckBox("Impressions");
+          chckbxImpressionsCreative.setBounds(93, 57, 150, 23);
+          panelCreative.add(chckbxImpressionsCreative);
+          groupCreative.add(chckbxImpressionsCreative);
+
+          chckbxClicksCreative = new JCheckBox("Clicks");
+          chckbxClicksCreative.setBounds(243, 57, 150, 23);
+          panelCreative.add(chckbxClicksCreative);
+          groupCreative.add(chckbxClicksCreative);
+
+          chckbxUniqueCTRCreative = new JCheckBox("Unique CTR");
+          chckbxUniqueCTRCreative.setBounds(393, 57, 150, 23);
+          panelCreative.add(chckbxUniqueCTRCreative);
+          groupCreative.add(chckbxUniqueCTRCreative);
+
+          chckbxClickingUsersCreative = new JCheckBox("Clicking users");
+          chckbxClickingUsersCreative.setBounds(243, 131, 150, 23);
+          panelCreative.add(chckbxClickingUsersCreative);
+          groupCreative.add(chckbxClickingUsersCreative);
+
+          chckbxClickThroughRateCreative = new JCheckBox(
+                  "Click through rate");
+          chckbxClickThroughRateCreative.setBounds(243, 199, 150, 23);
+          panelCreative.add(chckbxClickThroughRateCreative);
+          groupCreative.add(chckbxClickThroughRateCreative);
+
+          chckbxFrequencyCreative = new JCheckBox("Frequency");
+          chckbxFrequencyCreative.setBounds(93, 199, 150, 23);
+          panelCreative.add(chckbxFrequencyCreative);
+          groupCreative.add(chckbxFrequencyCreative);
+
+          JSeparator separator_4 = new JSeparator();
+          separator_4.setBounds(93, 33, 397, 2);
+          panelCreative.add(separator_4);
+
+          if (download) {
+              chckbxReachCreative = new JCheckBox("Reach");
+              chckbxReachCreative.setBounds(93, 131, 150, 23);
+              panelCreative.add(chckbxReachCreative);
+              groupCreative.add(chckbxReachCreative);
+          }
+          else {
+          chckbxUniqueCookiesCreative = new JCheckBox("Unique cookies");
+          chckbxUniqueCookiesCreative.setBounds(93, 131, 150, 23);
+          panelCreative.add(chckbxUniqueCookiesCreative);
+          groupCreative.add(chckbxUniqueCookiesCreative);
+          }
+          JSeparator separator_5 = new JSeparator();
+          separator_5.setBounds(93, 252, 397, 2);
+          panelCreative.add(separator_5);
         
 
-        setListenerBoxClickable(groupRankings, true);
-        setListenerBoxClickable(groupTechnical, false);
-
+        setListenerBoxClickable(groupRankings, 1);
+        setListenerBoxClickable(groupTechnical, 2);
+        setListenerBoxClickable(groupCreative, 3);
+        
         addAncestorListener(new AncestorListener() {
             
+            
+
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 
@@ -330,7 +449,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                 
                 
                 
-                if (!MainWindow.isRankings() && !MainWindow.isTechnical())
+                if (!MainWindow.isRankings() && !MainWindow.isTechnical() && !MainWindow.isCreative())
                 {
                     JLabel l = new JLabel("Nothing to choose for the selected modules");
                     l.setBounds(0,170,SettingsChoicePanel.PANEL_WIDTH,60);
@@ -363,6 +482,15 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                     tabbedPane.remove(panelTechnical);
                 
                 
+                if (MainWindow.isCreative()) {
+                    tabbedPane.addTab("Creative", null, panelCreative, null);
+                    
+                    tabbedPane.setSelectedIndex(0);
+                }
+                else
+                    tabbedPane.remove(panelCreative);
+                
+                
             }
         });
         
@@ -381,24 +509,30 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     }
 
     private void setListenerBoxClickable(List<JCheckBox> buttons,
-            final boolean rankings) {
+            int rankings) {
         for (final JCheckBox c : buttons) {
             c.addItemListener(new ItemListener() {
+
+                
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
 
                     if (c.isSelected()) {
-                        if (rankings)
+                        if (rankings == 1)
                             cptRankingsChecked++;
-                        else
+                        else if (rankings == 2)
                             cptTechnicalChecked++;
+                        else if (rankings == 3)
+                            cptCreativeChecked++;
 
                     } else {
-                        if (rankings)
+                        if (rankings==1) 
                             cptRankingsChecked--;
-                        else
+                        else if (rankings == 2)
                             cptTechnicalChecked--;
+                        else if (rankings == 3)
+                            cptCreativeChecked--;
                     }
                     disableCheckBoxesIfNecessary();
                 }

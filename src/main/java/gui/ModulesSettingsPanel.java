@@ -97,7 +97,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectRankings());
 
                 if (!checkOneBoxFilled())
                     chckbxRankings.setSelected(true);
@@ -115,7 +114,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setTechnical(chckbxTechnical.isSelected());
                 if (!checkOneBoxFilled())
                     chckbxTechnical.setSelected(true);
 
@@ -145,7 +143,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectRankings());
                 if (!checkOneBoxFilled())
                     chckbxMonthlyRankings.setSelected(true);
 
@@ -159,7 +156,6 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectRankings());
                 if (!checkOneBoxFilled())
                     chckbxWeeklyRankings.setSelected(true);
 
@@ -174,7 +170,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectCreative());
+               
                 if (!checkOneBoxFilled())
                     chckbxCreative.setSelected(true);
 
@@ -188,7 +184,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectCreative());
+               
                 if (!checkOneBoxFilled())
                     chckbxMonthlyCreative.setSelected(true);
 
@@ -202,10 +198,9 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainWindow.setRankings(detectCreative());
                 if (!checkOneBoxFilled())
                     chckbxWeeklyCreative.setSelected(true);
-
+                
             }
         });
 
@@ -237,9 +232,9 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
     @Override
     public boolean isEveryThingOk() {
-        MainWindow.setRankings(chckbxRankings.isSelected());
+        MainWindow.setRankings(detectRankings());
         MainWindow.setTechnical(chckbxTechnical.isSelected());
-
+        MainWindow.setCreative(detectCreative());
         return true;
     }
 

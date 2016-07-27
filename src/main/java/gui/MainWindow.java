@@ -70,6 +70,8 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static boolean isRankings;
 
     private static boolean isTechnical;
+    
+    private static boolean isCreative;
 
     public static boolean isRankings() {
         return isRankings;
@@ -101,6 +103,16 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     public void setDownload(boolean download) {
         this.download = download;
+    }
+
+    
+    
+    public static boolean isCreative() {
+        return isCreative;
+    }
+
+    public static void setCreative(boolean isCreative) {
+        MainWindow.isCreative = isCreative;
     }
 
     public MainWindow() {
@@ -203,7 +215,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         for (final Language lang : Language.values()) {
 
             final JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(
-                    lang.getName());
+                    lang.toString());
             rdbtnmntm.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
@@ -451,10 +463,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         }
 
         if (msp.detectCreative()) {
-//            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
-//            if (c3 == null)
-//                error = true;
-            //TODO MERG
+            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
+            if (c3 == null)
+                error = true;
         }
         
         if (error) {
@@ -464,8 +475,16 @@ public class MainWindow extends JFrame implements IMainFrame {
             return;
         }
 
-        Campaign commonInfos = (c1 == null) ? c2 : c1;
+        
+        Campaign commonInfos = null;
 
+        if (c1 != null)
+            commonInfos = c1;
+        else if (c2 != null)
+            commonInfos = c2;
+        else if (c3!=null)
+            commonInfos = c3;
+        
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
@@ -578,7 +597,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         summaryPage.setStructure(hfContent);
         sections.add(summaryPage);
 
-        if (msp.getChckbxRankings().isSelected()) {
+        if (msp.detectRankings()) {
             ContentPage contentPage = new ContentPage(
                     csp.getChckbxImpressionsRankings().isSelected(),
                     csp.getChckbxFrequencyRankings().isSelected(),
@@ -592,6 +611,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage.setStructure(hfContent);
             c1.setColumsLabels(labels);
             contentPage.setCampaign(c1);
+            contentPage.setMonthly(msp.getChckbxMonthlyRankings().isSelected());
+            contentPage.setWeekly(msp.getChckbxWeeklyRankings().isSelected());
             sections.add(contentPage);
         }
 
@@ -613,6 +634,24 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         }
 
+        
+        if (msp.detectCreative()) {
+            ContentPage contentPage3 = new ContentPage(
+                    csp.getChckbxImpressionsCreative().isSelected(),
+                    csp.getChckbxFrequencyCreative().isSelected(),
+                    csp.getChckbxClicksCreative().isSelected(),
+                    csp.getChckbxClickingUsersCreative().isSelected(),
+                    csp.getChckbxClickThroughRateCreative().isSelected(),
+                    csp.getChckbxUniqueCTRCreative().isSelected());
+
+            contentPage3.setReach(csp.getChckbxReachCreative().isSelected());
+            contentPage3.setStructure(hfContent);
+            c3.setColumsLabels(labels);
+            contentPage3.setCampaign(c3);
+            sections.add(contentPage3);
+
+        }
+        
         try {
             etpd.createPdfDownload(
                     Utils.getPdfName(
@@ -735,5 +774,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         currentPanel = 0;
     }
+
+   
 
 }
