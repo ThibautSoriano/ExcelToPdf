@@ -309,10 +309,10 @@ public class XmlReader {
 		
 		
 		if (!"".equals(xmlPeriodWeek)) {
-			c.setWeeklyData(getPeriod(xmlPeriodWeek));
+			c.setWeeklyData(getPeriod(xmlPeriodWeek, ranking));
 		}
 		if (!"".equals(xmlPeriodMonth)) {
-			c.setMonthlyData(getPeriod(xmlPeriodMonth));
+			c.setMonthlyData(getPeriod(xmlPeriodMonth, ranking));
 		}
 		
 		
@@ -491,7 +491,7 @@ public class XmlReader {
 		}
 	}
 	
-	public PeriodData getPeriod(String xmlPeriodData) throws LoginException {
+	public PeriodData getPeriod(String xmlPeriodData, boolean ranking) throws LoginException {
 	    
 		CampaignRowPeriod all = new CampaignRowPeriod();
 		List<CampaignRowPeriod> rows = new ArrayList<>();
@@ -523,9 +523,23 @@ public class XmlReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
 					Element eElement = (Element) nNode;
-					String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
-					if(placementsNames.containsKey(placementID)) {
-						String placementName = placementsNames.get(placementID);
+					boolean exist = false;
+					String firstColumnName = "";
+					if (ranking) {
+						String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
+						if (placementsNames.containsKey(placementID)) {
+							exist = true;
+							firstColumnName = placementsNames.get(placementID);
+						}
+					}
+					else {
+						String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
+						if (placementsNames.containsKey(creativeID)) {
+							exist = true;
+							firstColumnName = placementsNames.get(creativeID);
+						}
+					}
+					if(exist) {
 						Date startPeriod = new Date(
 								Long.parseLong(eElement.getElementsByTagName("period").item(0).getTextContent()) * 1000);
 						int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
@@ -536,15 +550,15 @@ public class XmlReader {
 						float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
 						float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
 						
-						CampaignRowPeriod currentRow = new CampaignRowPeriod(placementName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR), startPeriod);
+						CampaignRowPeriod currentRow = new CampaignRowPeriod(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR), startPeriod);
 						currentRow.setReach(reach);
-						if ("All".equals(placementName)) {
+						if ("All".equals(firstColumnName)) {
 							all = currentRow;
 						}
 						else {
 							rows.add(currentRow);
 						}
-						System.out.println("zhengqin : " + placementName);
+						System.out.println("zhengqin : " + firstColumnName);
 					}
 				}
 			}
