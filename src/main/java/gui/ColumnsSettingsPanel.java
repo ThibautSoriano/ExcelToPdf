@@ -26,7 +26,7 @@ import main.java.utils.Internationalization;
 public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
     private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    
+
     private boolean download;
 
     private JCheckBox chckbxImpressionsRankings;
@@ -64,7 +64,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     private int cptRankingsChecked = 0;
 
     private int cptTechnicalChecked = 0;
-    
+
     private int cptCreativeChecked = 0;
 
     private List<JCheckBox> groupTechnical;
@@ -73,13 +73,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
     private JCheckBox chckbxReachTechnical;
 
-
-
-
     private JCheckBox chckbxImpressionsCreative;
 
-    
-    
     private List<JCheckBox> groupCreative;
 
     private JCheckBox chckbxUniqueCTRCreative;
@@ -156,9 +151,6 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         return chckbxUniqueCookiesTechnical;
     }
 
-    
-    
-    
     public JCheckBox getChckbxImpressionsCreative() {
         return chckbxImpressionsCreative;
     }
@@ -198,10 +190,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
     public ColumnsSettingsPanel(boolean download) {
         super(Internationalization.getKey("Columns Settings"));
 
-        
-        
         this.download = download;
-        
+
         groupRankings = new ArrayList<JCheckBox>();
         groupTechnical = new ArrayList<JCheckBox>();
         groupCreative = new ArrayList<JCheckBox>();
@@ -248,10 +238,10 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         add(tabbedPane);
 
         JPanel panelRankings = new JPanel();
-        
-//        if (MainWindow.isRankings())
-//            tabbedPane.addTab("Rankings", null, panelRankings, null);
-        
+
+        // if (MainWindow.isRankings())
+        // tabbedPane.addTab("Rankings", null, panelRankings, null);
+
         panelRankings.setLayout(null);
 
         chckbxImpressionsRankings = new JCheckBox("Impressions");
@@ -289,7 +279,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         panelRankings.add(separator);
 
         if (download) {
-            
+
             chckbxReach = new JCheckBox("Reach");
             chckbxReach.setBounds(93, 131, 150, 23);
             panelRankings.add(chckbxReach);
@@ -307,195 +297,173 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         separator_1.setBounds(93, 252, 397, 2);
         panelRankings.add(separator_1);
 
-        
-            JPanel panelTechnical = new JPanel();
-            
-//            if (MainWindow.isTechnical())
-//                tabbedPane.addTab("Technical", null, panelTechnical, null);
-            
-            panelTechnical.setLayout(null);
+        JPanel panelTechnical = new JPanel();
 
-            chckbxImpressionsTechnical = new JCheckBox("Impressions");
-            chckbxImpressionsTechnical.setBounds(93, 57, 150, 23);
-            panelTechnical.add(chckbxImpressionsTechnical);
-            groupTechnical.add(chckbxImpressionsTechnical);
+        // if (MainWindow.isTechnical())
+        // tabbedPane.addTab("Technical", null, panelTechnical, null);
 
-            chckbxClicksTechnical = new JCheckBox("Clicks");
-            chckbxClicksTechnical.setBounds(243, 57, 150, 23);
-            panelTechnical.add(chckbxClicksTechnical);
-            groupTechnical.add(chckbxClicksTechnical);
+        panelTechnical.setLayout(null);
 
-            chckbxUniqueCTRTechnical = new JCheckBox("Unique CTR");
-            chckbxUniqueCTRTechnical.setBounds(393, 57, 150, 23);
-            panelTechnical.add(chckbxUniqueCTRTechnical);
-            groupTechnical.add(chckbxUniqueCTRTechnical);
+        chckbxImpressionsTechnical = new JCheckBox("Impressions");
+        chckbxImpressionsTechnical.setBounds(93, 57, 150, 23);
+        panelTechnical.add(chckbxImpressionsTechnical);
+        groupTechnical.add(chckbxImpressionsTechnical);
 
-            chckbxClickingUsersTechnical = new JCheckBox("Clicking users");
-            chckbxClickingUsersTechnical.setBounds(243, 131, 150, 23);
-            panelTechnical.add(chckbxClickingUsersTechnical);
-            groupTechnical.add(chckbxClickingUsersTechnical);
+        chckbxClicksTechnical = new JCheckBox("Clicks");
+        chckbxClicksTechnical.setBounds(243, 57, 150, 23);
+        panelTechnical.add(chckbxClicksTechnical);
+        groupTechnical.add(chckbxClicksTechnical);
 
-            chckbxClickThroughRateTechnical = new JCheckBox(
-                    "Click through rate");
-            chckbxClickThroughRateTechnical.setBounds(243, 199, 150, 23);
-            panelTechnical.add(chckbxClickThroughRateTechnical);
-            groupTechnical.add(chckbxClickThroughRateTechnical);
+        chckbxUniqueCTRTechnical = new JCheckBox("Unique CTR");
+        chckbxUniqueCTRTechnical.setBounds(393, 57, 150, 23);
+        panelTechnical.add(chckbxUniqueCTRTechnical);
+        groupTechnical.add(chckbxUniqueCTRTechnical);
 
-            chckbxFrequencyTechnical = new JCheckBox("Frequency");
-            chckbxFrequencyTechnical.setBounds(93, 199, 150, 23);
-            panelTechnical.add(chckbxFrequencyTechnical);
-            groupTechnical.add(chckbxFrequencyTechnical);
+        chckbxClickingUsersTechnical = new JCheckBox("Clicking users");
+        chckbxClickingUsersTechnical.setBounds(243, 131, 150, 23);
+        panelTechnical.add(chckbxClickingUsersTechnical);
+        groupTechnical.add(chckbxClickingUsersTechnical);
 
-            JSeparator separator_2 = new JSeparator();
-            separator_2.setBounds(93, 33, 397, 2);
-            panelTechnical.add(separator_2);
+        chckbxClickThroughRateTechnical = new JCheckBox("Click through rate");
+        chckbxClickThroughRateTechnical.setBounds(243, 199, 150, 23);
+        panelTechnical.add(chckbxClickThroughRateTechnical);
+        groupTechnical.add(chckbxClickThroughRateTechnical);
 
-            if (download) {
-                chckbxReachTechnical = new JCheckBox("Reach");
-                chckbxReachTechnical.setBounds(93, 131, 150, 23);
-                panelTechnical.add(chckbxReachTechnical);
-                groupTechnical.add(chckbxReachTechnical);
-            }
-            else {
+        chckbxFrequencyTechnical = new JCheckBox("Frequency");
+        chckbxFrequencyTechnical.setBounds(93, 199, 150, 23);
+        panelTechnical.add(chckbxFrequencyTechnical);
+        groupTechnical.add(chckbxFrequencyTechnical);
+
+        JSeparator separator_2 = new JSeparator();
+        separator_2.setBounds(93, 33, 397, 2);
+        panelTechnical.add(separator_2);
+
+        if (download) {
+            chckbxReachTechnical = new JCheckBox("Reach");
+            chckbxReachTechnical.setBounds(93, 131, 150, 23);
+            panelTechnical.add(chckbxReachTechnical);
+            groupTechnical.add(chckbxReachTechnical);
+        } else {
             chckbxUniqueCookiesTechnical = new JCheckBox("Unique cookies");
             chckbxUniqueCookiesTechnical.setBounds(93, 131, 150, 23);
             panelTechnical.add(chckbxUniqueCookiesTechnical);
             groupTechnical.add(chckbxUniqueCookiesTechnical);
-            }
-            JSeparator separator_3 = new JSeparator();
-            separator_3.setBounds(93, 252, 397, 2);
-            panelTechnical.add(separator_3);
-            
-            
-            
-            //Creative columns choice
-             JPanel panelCreative = new JPanel();
-            
-//          
-          panelCreative.setLayout(null);
+        }
+        JSeparator separator_3 = new JSeparator();
+        separator_3.setBounds(93, 252, 397, 2);
+        panelTechnical.add(separator_3);
 
-          chckbxImpressionsCreative = new JCheckBox("Impressions");
-          chckbxImpressionsCreative.setBounds(93, 57, 150, 23);
-          panelCreative.add(chckbxImpressionsCreative);
-          groupCreative.add(chckbxImpressionsCreative);
+        // Creative columns choice
+        JPanel panelCreative = new JPanel();
 
-          chckbxClicksCreative = new JCheckBox("Clicks");
-          chckbxClicksCreative.setBounds(243, 57, 150, 23);
-          panelCreative.add(chckbxClicksCreative);
-          groupCreative.add(chckbxClicksCreative);
+        //
+        panelCreative.setLayout(null);
 
-          chckbxUniqueCTRCreative = new JCheckBox("Unique CTR");
-          chckbxUniqueCTRCreative.setBounds(393, 57, 150, 23);
-          panelCreative.add(chckbxUniqueCTRCreative);
-          groupCreative.add(chckbxUniqueCTRCreative);
+        chckbxImpressionsCreative = new JCheckBox("Impressions");
+        chckbxImpressionsCreative.setBounds(93, 57, 150, 23);
+        panelCreative.add(chckbxImpressionsCreative);
+        groupCreative.add(chckbxImpressionsCreative);
 
-          chckbxClickingUsersCreative = new JCheckBox("Clicking users");
-          chckbxClickingUsersCreative.setBounds(243, 131, 150, 23);
-          panelCreative.add(chckbxClickingUsersCreative);
-          groupCreative.add(chckbxClickingUsersCreative);
+        chckbxClicksCreative = new JCheckBox("Clicks");
+        chckbxClicksCreative.setBounds(243, 57, 150, 23);
+        panelCreative.add(chckbxClicksCreative);
+        groupCreative.add(chckbxClicksCreative);
 
-          chckbxClickThroughRateCreative = new JCheckBox(
-                  "Click through rate");
-          chckbxClickThroughRateCreative.setBounds(243, 199, 150, 23);
-          panelCreative.add(chckbxClickThroughRateCreative);
-          groupCreative.add(chckbxClickThroughRateCreative);
+        chckbxUniqueCTRCreative = new JCheckBox("Unique CTR");
+        chckbxUniqueCTRCreative.setBounds(393, 57, 150, 23);
+        panelCreative.add(chckbxUniqueCTRCreative);
+        groupCreative.add(chckbxUniqueCTRCreative);
 
-          chckbxFrequencyCreative = new JCheckBox("Frequency");
-          chckbxFrequencyCreative.setBounds(93, 199, 150, 23);
-          panelCreative.add(chckbxFrequencyCreative);
-          groupCreative.add(chckbxFrequencyCreative);
+        chckbxClickingUsersCreative = new JCheckBox("Clicking users");
+        chckbxClickingUsersCreative.setBounds(243, 131, 150, 23);
+        panelCreative.add(chckbxClickingUsersCreative);
+        groupCreative.add(chckbxClickingUsersCreative);
 
-          JSeparator separator_4 = new JSeparator();
-          separator_4.setBounds(93, 33, 397, 2);
-          panelCreative.add(separator_4);
+        chckbxClickThroughRateCreative = new JCheckBox("Click through rate");
+        chckbxClickThroughRateCreative.setBounds(243, 199, 150, 23);
+        panelCreative.add(chckbxClickThroughRateCreative);
+        groupCreative.add(chckbxClickThroughRateCreative);
 
-          if (download) {
-              chckbxReachCreative = new JCheckBox("Reach");
-              chckbxReachCreative.setBounds(93, 131, 150, 23);
-              panelCreative.add(chckbxReachCreative);
-              groupCreative.add(chckbxReachCreative);
-          }
-          else {
-          chckbxUniqueCookiesCreative = new JCheckBox("Unique cookies");
-          chckbxUniqueCookiesCreative.setBounds(93, 131, 150, 23);
-          panelCreative.add(chckbxUniqueCookiesCreative);
-          groupCreative.add(chckbxUniqueCookiesCreative);
-          }
-          JSeparator separator_5 = new JSeparator();
-          separator_5.setBounds(93, 252, 397, 2);
-          panelCreative.add(separator_5);
-        
+        chckbxFrequencyCreative = new JCheckBox("Frequency");
+        chckbxFrequencyCreative.setBounds(93, 199, 150, 23);
+        panelCreative.add(chckbxFrequencyCreative);
+        groupCreative.add(chckbxFrequencyCreative);
+
+        JSeparator separator_4 = new JSeparator();
+        separator_4.setBounds(93, 33, 397, 2);
+        panelCreative.add(separator_4);
+
+        if (download) {
+            chckbxReachCreative = new JCheckBox("Reach");
+            chckbxReachCreative.setBounds(93, 131, 150, 23);
+            panelCreative.add(chckbxReachCreative);
+            groupCreative.add(chckbxReachCreative);
+        } else {
+            chckbxUniqueCookiesCreative = new JCheckBox("Unique cookies");
+            chckbxUniqueCookiesCreative.setBounds(93, 131, 150, 23);
+            panelCreative.add(chckbxUniqueCookiesCreative);
+            groupCreative.add(chckbxUniqueCookiesCreative);
+        }
+        JSeparator separator_5 = new JSeparator();
+        separator_5.setBounds(93, 252, 397, 2);
+        panelCreative.add(separator_5);
 
         setListenerBoxClickable(groupRankings, 1);
         setListenerBoxClickable(groupTechnical, 2);
         setListenerBoxClickable(groupCreative, 3);
-        
+
         addAncestorListener(new AncestorListener() {
-            
-            
 
             @Override
             public void ancestorRemoved(AncestorEvent event) {
-                
+
             }
-            
+
             @Override
             public void ancestorMoved(AncestorEvent event) {
-                
+
             }
-            
+
             @Override
             public void ancestorAdded(AncestorEvent event) {
-                
-                
-                
-                if (!MainWindow.isRankings() && !MainWindow.isTechnical() && !MainWindow.isCreative())
-                {
-                    JLabel l = new JLabel("Nothing to choose for the selected modules");
-                    l.setBounds(0,170,SettingsChoicePanel.PANEL_WIDTH,60);
-                    l.setFont(new Font("Tahoma",Font.BOLD,16));
+
+                if (!MainWindow.isRankings() && !MainWindow.isTechnical()
+                        && !MainWindow.isCreative()) {
+                    JLabel l = new JLabel(
+                            "Nothing to choose for the selected modules");
+                    l.setBounds(0, 170, SettingsChoicePanel.PANEL_WIDTH, 60);
+                    l.setFont(new Font("Tahoma", Font.BOLD, 16));
                     l.setHorizontalAlignment(SwingConstants.CENTER);
                     add(l);
                     return;
                 }
-                
-                
-                
-                
+
                 if (MainWindow.isRankings()) {
                     tabbedPane.addTab("Rankings", null, panelRankings, null);
                     tabbedPane.setSelectedIndex(0);
-                    
-                    
-                }
-                else {
-                    
+
+                } else {
+
                     tabbedPane.remove(panelRankings);
                 }
-                
+
                 if (MainWindow.isTechnical()) {
                     tabbedPane.addTab("Technical", null, panelTechnical, null);
-                    
+
                     tabbedPane.setSelectedIndex(0);
-                }
-                else
+                } else
                     tabbedPane.remove(panelTechnical);
-                
-                
+
                 if (MainWindow.isCreative()) {
                     tabbedPane.addTab("Creative", null, panelCreative, null);
-                    
+
                     tabbedPane.setSelectedIndex(0);
-                }
-                else
+                } else
                     tabbedPane.remove(panelCreative);
-                
-                
+
             }
         });
-        
 
-       
     }
 
     @Override
@@ -513,8 +481,6 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         for (final JCheckBox c : buttons) {
             c.addItemListener(new ItemListener() {
 
-                
-
                 @Override
                 public void itemStateChanged(ItemEvent e) {
 
@@ -527,7 +493,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                             cptCreativeChecked++;
 
                     } else {
-                        if (rankings==1) 
+                        if (rankings == 1)
                             cptRankingsChecked--;
                         else if (rankings == 2)
                             cptTechnicalChecked--;
@@ -557,6 +523,18 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                         }
                     } else {
                         for (JCheckBox c : groupTechnical) {
+                            if (!c.isSelected())
+                                c.setEnabled(true);
+                        }
+                    }
+                    
+                    if (cptCreativeChecked >= MAX_BOX_CHECKED) {
+                        for (JCheckBox c : groupCreative) {
+                            if (!c.isSelected())
+                                c.setEnabled(false);
+                        }
+                    } else {
+                        for (JCheckBox c : groupCreative) {
                             if (!c.isSelected())
                                 c.setEnabled(true);
                         }
