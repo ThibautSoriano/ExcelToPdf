@@ -219,8 +219,13 @@ public class XmlReader {
 	
 	public Campaign getCampaign(String campaignID, String xmlCampaignDatas, String xmlPlacementList, String xmlCreatives, String xmlPeriodWeek, String xmlPeriodMonth, boolean ranking) throws LoginException {
 	    
-		fillMapCreativesNames(xmlCreatives);
-	    fillMapPlacementsNames(xmlPlacementList);
+		if (!"".equals(xmlCreatives)) {
+			fillMapCreativesNames(xmlCreatives);
+		}
+		if (!"".equals(xmlPlacementList)) {
+			fillMapPlacementsNames(xmlPlacementList);
+		}
+	    
 		Campaign c;
 		List<CampaignRow> rows = new ArrayList<>();
 		CampaignRow all = new CampaignRow();
