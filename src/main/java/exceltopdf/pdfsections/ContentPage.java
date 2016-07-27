@@ -23,6 +23,10 @@ public class ContentPage extends Section {
 	private boolean clickThroughRate;
 	
 	private boolean uniqueCTR;
+	
+	private boolean weekly;
+	
+	private boolean monthly;
 
 	public ContentPage(boolean impressions, boolean frequency, boolean clicks,
 			boolean clickingUsers, boolean clickThroughRate, boolean uniqueCTR) {
@@ -113,5 +117,21 @@ public class ContentPage extends Section {
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
     }
+
+	public boolean isWeekly() {
+		return weekly;
+	}
+
+	public void setWeekly(boolean weekly) {
+		this.weekly = weekly;
+	}
+
+	public boolean isMonthly() {
+		return monthly;
+	}
+
+	public void setMonthly(boolean monthly) {
+		this.monthly = monthly;
+	}
 
 }

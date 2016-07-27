@@ -13,6 +13,10 @@ public class Campaign {
 	
 	private CampaignRow all;
 	
+	private PeriodData monthlyData;
+	
+	private PeriodData weeklyData;
+	
 	private List<String> columsLabels;
 	
 	private boolean isTechnicalCampaign;
@@ -65,6 +69,21 @@ public class Campaign {
 	public void setTechnicalCampaign(boolean isTechnicalCampaign) {
 		this.isTechnicalCampaign = isTechnicalCampaign;
 	}
-	
+
+	public PeriodData getMonthlyData() {
+		return monthlyData;
+	}
+
+	public void setMonthlyData(PeriodData monthlyData) {
+		this.monthlyData = monthlyData;
+	}
+
+	public PeriodData getWeeklyData() {
+		return weeklyData;
+	}
+
+	public void setWeeklyData(PeriodData weeklyData) {
+		this.weeklyData = weeklyData;
+	}
 
 }
