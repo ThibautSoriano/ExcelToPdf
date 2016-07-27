@@ -301,12 +301,12 @@ public class ExcelToPdf {
         };
         
         if (contentPage.isWeekly()) {
-        	document.add(new Paragraph("\nWeekly statistics"));
+        	document.add(new Paragraph("\nWeekly statistics\n"));
         	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true));
         }
         
         if (contentPage.isMonthly()) {
-        	document.add(new Paragraph("\nMonthly statistics"));
+        	document.add(new Paragraph("\nMonthly statistics\n"));
         	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true));
         }
         

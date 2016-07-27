@@ -108,11 +108,11 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
 
         txtrCreatedBy = new JTextArea();
         txtrCreatedBy.setWrapStyleWord(true);
-        txtrCreatedBy.setText("k\u00E9sz\u00EDtette :");
-        txtrCreatedBy.setLineWrap(true);
-        txtrCreatedBy.setBounds(239, 280, 241, 69);
         txtrCreatedBy.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrCreatedBy.setDocument(new JTextFieldLimit(50));
+        txtrCreatedBy.setText("k\u00E9sz\u00EDtette :\n");
+        txtrCreatedBy.setLineWrap(true);
+        txtrCreatedBy.setBounds(239, 280, 241, 69);
         add(txtrCreatedBy);
 
         scrollPane = new JScrollPane();

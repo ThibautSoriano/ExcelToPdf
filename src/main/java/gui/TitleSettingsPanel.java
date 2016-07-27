@@ -52,11 +52,8 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
     }
 
     public TitleSettingsPanel() {
-        
 
         super(Internationalization.getKey("Title page settings"));
-
-        
         
         chckbxSeparatorLineAboveFooter = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxSeparatorLineAboveFooter.setSelected(true);
@@ -96,29 +93,19 @@ public class TitleSettingsPanel extends SettingsChoicePanel{
         separator_3.setBounds(93, 297, 397, 2);
         add(separator_3);
         
-        
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(238, 209, 243, 71);
         
         add(scrollPane);
         
-        
         txtrBelowTitle = new JTextArea();
         scrollPane.setViewportView(txtrBelowTitle);
-
-        txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
-        
-        
         txtrBelowTitle.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrBelowTitle.setDocument(new JTextFieldLimit(50));
-        
-        
+        txtrBelowTitle.setText("Online kamp\u00E1ny elemz\u00E9se");
         txtrBelowTitle.setWrapStyleWord(true);
         txtrBelowTitle.setLineWrap(true);
-
         txtrBelowTitle.setVisible(true);
-        
-        
     }
     
     @Override

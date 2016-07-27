@@ -31,8 +31,6 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     private JCheckBox chckbxHeader;
     private JCheckBox chckbxFooter;
     
-    
-    
     public JTextField getTxtLogo() {
         return txtLogo;
     }

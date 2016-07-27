@@ -222,83 +222,91 @@ public class XmlReader {
 		if (!"".equals(xmlCreatives)) {
 			fillMapCreativesNames(xmlCreatives);
 		}
-		if (!"".equals(xmlPlacementList)) {
+		else if (!"".equals(xmlPlacementList)) {
 			fillMapPlacementsNames(xmlPlacementList);
 		}
-	    
-		Campaign c;
-		List<CampaignRow> rows = new ArrayList<>();
-		CampaignRow all = new CampaignRow();
+		else {
+			return null;
+		}
+		Campaign c = new Campaign();
 		
-		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlCampaignDatas.getBytes("utf-8"))));
-
-			doc.getDocumentElement().normalize();
-			// check if request status was ok
-			Node root = doc.getDocumentElement();
-
-			if (root.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element eElement = (Element) root;
-				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
-				if (!"OK".equals(status)) {
-					throw new LoginException(status);
-				}
-			}
-						
-			NodeList nList = doc.getElementsByTagName("statisticsRecord");
-
-			for (int i = 0; i < nList.getLength(); i++) {
-
-				Node nNode = nList.item(i);
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		
+		
+		if (!"".equals(xmlCampaignDatas)) {
+			
+			List<CampaignRow> rows = new ArrayList<>();
+			CampaignRow all = new CampaignRow();
+			try {
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlCampaignDatas.getBytes("utf-8"))));
 	
-					Element eElement = (Element) nNode;
-					boolean exist = false;
-					String firstColumnName = "";
-					if (ranking) {
-						String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
-						if (placementsNames.containsKey(placementID)) {
-							exist = true;
-							firstColumnName = placementsNames.get(placementID);
-						}
+				doc.getDocumentElement().normalize();
+				// check if request status was ok
+				Node root = doc.getDocumentElement();
+	
+				if (root.getNodeType() == Node.ELEMENT_NODE) {
+	
+					Element eElement = (Element) root;
+					String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+					if (!"OK".equals(status)) {
+						throw new LoginException(status);
 					}
-					else {
-						String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
-						if (placementsNames.containsKey(creativeID)) {
-							exist = true;
-							firstColumnName = placementsNames.get(creativeID);
-						}
-					}
-					
-					if(exist) {
-						int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
-						int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
-						float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
-						int clicks = Utils.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
-						int userClicks = Utils.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
-						float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
-						float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
-						
-						CampaignRow currentRow = new CampaignRow(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
-						currentRow.setReach(reach);
-						if ("All".equals(firstColumnName)) {
-							all = currentRow;
+				}
+							
+				NodeList nList = doc.getElementsByTagName("statisticsRecord");
+	
+				for (int i = 0; i < nList.getLength(); i++) {
+	
+					Node nNode = nList.item(i);
+	
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		
+						Element eElement = (Element) nNode;
+						boolean exist = false;
+						String firstColumnName = "";
+						if (ranking) {
+							String placementID = eElement.getElementsByTagName("placementID").item(0).getTextContent();
+							if (placementsNames.containsKey(placementID)) {
+								exist = true;
+								firstColumnName = placementsNames.get(placementID);
+							}
 						}
 						else {
-							rows.add(currentRow);
+							String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
+							if (placementsNames.containsKey(creativeID)) {
+								exist = true;
+								firstColumnName = placementsNames.get(creativeID);
+							}
+						}
+						
+						if(exist) {
+							int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
+							int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
+							float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
+							int clicks = Utils.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
+							int userClicks = Utils.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
+							float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
+							float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
+							
+							CampaignRow currentRow = new CampaignRow(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+							currentRow.setReach(reach);
+							if ("All".equals(firstColumnName)) {
+								all = currentRow;
+							}
+							else {
+								rows.add(currentRow);
+							}
 						}
 					}
 				}
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
 			}
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
+	
+			c = new Campaign(getHeaderByID(campaignID), rows, all);
 		}
-
-		c = new Campaign(getHeaderByID(campaignID), rows, all);
+		
 		
 		if (!"".equals(xmlPeriodWeek)) {
 			c.setWeeklyData(getPeriod(xmlPeriodWeek));
@@ -327,6 +335,7 @@ public class XmlReader {
 		Campaign c;
 		List<CampaignRow> rows = new ArrayList<>();
 		CampaignRow all = new CampaignRow();
+		if (!"".equals(xmlCampaignDatas))
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
