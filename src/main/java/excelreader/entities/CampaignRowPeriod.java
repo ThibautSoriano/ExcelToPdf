@@ -66,6 +66,8 @@ public class CampaignRowPeriod extends CampaignRow {
         List<String> l = new ArrayList<String>();
         if (startPeriod != null)
         	l.add(f.format(startPeriod));
+        else
+        	l.add("NO DATE");
         l.add(firstColumnData);
         l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
     	l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));

@@ -271,9 +271,7 @@ public class XmlReader {
 						}
 						else {
 							String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
-							System.out.println("on cherche " + creativeID);
 							if (creativesNames.containsKey(creativeID)) {
-								System.out.println("trouve");
 								exist = true;
 								firstColumnName = creativesNames.get(creativeID);
 							}
@@ -533,9 +531,9 @@ public class XmlReader {
 					}
 					else {
 						String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
-						if (placementsNames.containsKey(creativeID)) {
+						if (creativesNames.containsKey(creativeID)) {
 							exist = true;
-							firstColumnName = placementsNames.get(creativeID);
+							firstColumnName = creativesNames.get(creativeID);
 						}
 					}
 					if(exist) {

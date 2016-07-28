@@ -503,8 +503,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         tp.setStructure(hfTitle);
         tp.setBelowTitle(Utils
                 .splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
-        System.out.println(Utils
-                .splitLongTextToFitPage(tsp.getTxtrBelowTitle().getText()));
         tp.setCampaignName(commonInfos.getCampaignHeader().getCampaignName());
 
         tp.setDate(ipdf.getDateFromTo(
@@ -610,6 +608,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage.setCampaign(c1);
             contentPage.setMonthly(msp.getChckbxMonthlyRankings().isSelected());
             contentPage.setWeekly(msp.getChckbxWeeklyRankings().isSelected());
+            contentPage.setGeneral(msp.getChckbxRankings().isSelected());
             sections.add(contentPage);
         }
 
@@ -625,6 +624,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
             contentPage2.setChartType(ContentPage.PIE_CHART);
             contentPage2.setStructure(hfContent);
+            contentPage2.setGeneral(msp.getChckbxTechnical().isSelected());
             c2.setColumsLabels(labels);
             contentPage2.setCampaign(c2);
             sections.add(contentPage2);
@@ -645,6 +645,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage3.setStructure(hfContent);
             c3.setColumsLabels(labels);
             contentPage3.setCampaign(c3);
+            contentPage3.setGeneral(msp.getChckbxCreative().isSelected());
             contentPage3.setMonthly(msp.getChckbxMonthlyCreative().isSelected());
             contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
             sections.add(contentPage3);
