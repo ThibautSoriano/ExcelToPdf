@@ -35,7 +35,7 @@ public class NavigationPanel extends JPanel implements ActionListener{
         
        this.mainFrame = mainFrame;
         
-        
+        setOpaque(false);
         setLayout(null);
         setBounds(0, SettingsChoicePanel.PANEL_HEIGHT+10, NAVIGATION_WIDTH, NAVIGATION_HEIGHT);
         

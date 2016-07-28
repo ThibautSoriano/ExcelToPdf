@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import main.java.utils.Internationalization;
 
@@ -17,12 +18,20 @@ public class MainMenuPanel extends SettingsChoicePanel {
     private MainWindow mainWindow;
 
     public MainMenuPanel(MainWindow mainWindow) {
-        super("Excel to pdf converter");
+        super("Pdf Generator");
 
         this.mainWindow = mainWindow;
 
         title.setBounds(0, 20, PANEL_WIDTH, 30);
         setBounds(0, 0, 600, 490);
+        
+        title.setFont(new Font("Narkisim", Font.PLAIN, 45));
+        title.setBounds(44, 34, 504, 98);
+
+        
+        
+        
+        
 
         JButton btnFromAnExcel = new JButton(
                 Internationalization.getKey("From an excel file on your computer"));
@@ -53,19 +62,19 @@ public class MainMenuPanel extends SettingsChoicePanel {
         JLabel lblChooseMode = new JLabel(Internationalization.getKey("Select how to import your files"));
         lblChooseMode.setForeground(Color.BLACK);
         lblChooseMode.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblChooseMode.setBounds(44, 130, 308, 67);
+        lblChooseMode.setBounds(44, 150, 308, 67);
         add(lblChooseMode);
 
-        JLabel lblBackground = new JLabel("");
+//        JLabel lblBackground = new JLabel("");
 
 //        lblBackground.setIcon(
 //                new ImageIcon(getClass().getResource("/background2.png")));
         
-        lblBackground.setIcon(
-              new ImageIcon(getClass().getResource("/blue.png")));
-        
-        lblBackground.setBounds(0, -23, 600, 490);
-        add(lblBackground);
+//        lblBackground.setIcon(
+//              new ImageIcon(getClass().getResource("/blue.png")));
+//        
+//        lblBackground.setBounds(0, -23, 600, 490);
+//        add(lblBackground);
 
     }
 
