@@ -46,17 +46,17 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
 
     public ExcelChoicePanel() {
 
-        super(Internationalization.getKey("Excel to pdf converter"));
+        super(Internationalization.getKey("Choose excel file(s)"));
 
         fields = new ArrayList<JTextField>();
 
-        JLabel lblChooseExcel = new JLabel(
-                Internationalization.getKey("Choose an excel file"));
-        lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblChooseExcel.setBounds(30, 70, 400, 22);
-        add(lblChooseExcel);
-
-        lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//        JLabel lblChooseExcel = new JLabel(
+//                Internationalization.getKey("Choose an excel file"));
+//        lblChooseExcel.setHorizontalAlignment(SwingConstants.CENTER);
+//        lblChooseExcel.setBounds(30, 70, 400, 22);
+//        add(lblChooseExcel);
+//
+//        lblChooseExcel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
         txtExcel = new JTextField();
         txtExcel.setBounds(30, 118, 389, 20);
@@ -77,13 +77,13 @@ public class ExcelChoicePanel extends SettingsChoicePanel {
             }
         });
 
-        JLabel lblExcel2 = new JLabel(
-                Internationalization.getKey("Choose an excel file"));
-        lblExcel2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblExcel2.setBounds(30, 180, 400, 22);
-
-        lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        add(lblExcel2);
+//        JLabel lblExcel2 = new JLabel(
+//                Internationalization.getKey("Choose an excel file"));
+//        lblExcel2.setHorizontalAlignment(SwingConstants.CENTER);
+//        lblExcel2.setBounds(30, 180, 400, 22);
+//
+//        lblExcel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//        add(lblExcel2);
 
         txtExcel2 = new JTextField();
         txtExcel2.setBounds(30, 220, 389, 20);

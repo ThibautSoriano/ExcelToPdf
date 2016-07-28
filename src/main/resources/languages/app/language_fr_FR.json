@@ -1,7 +1,7 @@
 {
 "Browse" : "Parcourir",
 "Converter" : "Convertisseur",
-"Excel to pdf converter" : "Convertisseur Excel vers Pdf",
+"Choose excel file(s)" : "Choisir un (des) fichier(s) excel",
 "Choose an excel file" : "Choisir un fichier Excel",
 "Specify your logo (optional)" : "Choisissez un logo (optionnel)",
 "Please put an Excel file as input (.xls)" :  "Choisissez un fichier Excel (.xls) s'il vous plaît",

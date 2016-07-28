@@ -17,6 +17,7 @@ public abstract class SettingsChoicePanel extends JPanel{
     
     protected SettingsChoicePanel(String titleText){
         
+        setOpaque(false); //for the background image of the main window
         setLayout(null);
         setBounds(0, 20, PANEL_WIDTH, PANEL_HEIGHT);
         

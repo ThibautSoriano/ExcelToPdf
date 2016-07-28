@@ -21,10 +21,12 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -59,6 +61,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     private List<SettingsChoicePanel> panels;
     private int currentPanel = 0;
     private NavigationPanel np;
+    private BackgroundPanel backgroundPanel;
     private boolean download;
 
     public static final int WINDOW_HEIGHT = 500;
@@ -132,23 +135,17 @@ public class MainWindow extends JFrame implements IMainFrame {
         setBounds(200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
         setTitle(Internationalization.getKey("Converter"));
 
-        getContentPane().setLayout(null);
+//        getContentPane().setLayout(null);
+        backgroundPanel = new BackgroundPanel();
+        backgroundPanel.setLayout(null);
+        setContentPane(backgroundPanel);
+        
 
         showFirstPanel();
-
-        //
 
         addMenu();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-
-        // JLabel lblBackground = new JLabel("");
-        // lblBackground.setIcon(
-        // new ImageIcon(getClass().getResource("/blue.png")));
-        //
-        // lblBackground.setBounds(0, -23, 600, 490);
-        //
-        // add(lblBackground);
 
     }
 
@@ -769,7 +766,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         panels = new LinkedList<SettingsChoicePanel>();
         MainMenuPanel mmp = new MainMenuPanel(this);
         panels.add(mmp);
-
+        
         getContentPane().add(panels.get(0));
 
         currentPanel = 0;

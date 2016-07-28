@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.SwingConstants;
 
 public class MainMenuWindow {
 
@@ -101,11 +102,20 @@ public class MainMenuWindow {
         lblChooseMode.setBounds(44, 130, 308, 67);
         panel.add(lblChooseMode);
         
+        
+        JLabel lblPdfGenerator = new JLabel("Pdf Generator");
+        lblPdfGenerator.setHorizontalAlignment(SwingConstants.CENTER);
+        lblPdfGenerator.setFont(new Font("Narkisim", Font.PLAIN, 45));
+        lblPdfGenerator.setBounds(44, 34, 504, 98);
+        panel.add(lblPdfGenerator);
+        
         JLabel lblBackground = new JLabel("");
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
        
         lblBackground.setIcon(new ImageIcon(getClass().getResource("/background2.png")));
         lblBackground.setBounds(0, 0, 584, 463);
         panel.add(lblBackground);
+        
+       
 	}
 }
