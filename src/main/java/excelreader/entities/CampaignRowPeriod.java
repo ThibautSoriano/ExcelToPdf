@@ -64,7 +64,8 @@ public class CampaignRowPeriod extends CampaignRow {
 	public List<String> toList() {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy. MM. dd.");
         List<String> l = new ArrayList<String>();
-        l.add(f.format(startPeriod));
+        if (startPeriod != null)
+        	l.add(f.format(startPeriod));
         l.add(firstColumnData);
         l.add(getSpacesBetweenThousands(String.valueOf(impressions)));
     	l.add(getSpacesBetweenThousands(String.valueOf(uniqueCookies)));

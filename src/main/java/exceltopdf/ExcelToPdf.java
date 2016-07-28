@@ -174,7 +174,7 @@ public class ExcelToPdf {
 		
 		rows = contentPage.getCampaign().getCampaignContent();	
 		
-		if (!contentPage.getCampaign().isTechnicalCampaign()) {
+		if (contentPage.getChartType() == ContentPage.BAR_CHART) {
 			if (contentPage.isImpressions()) {
 			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
 			    if (impressionsChart != null)
@@ -215,9 +215,7 @@ public class ExcelToPdf {
 			    if (uniqueCTRChart != null)
 				document.add(getImageBar(uniqueCTRChart, writer));
 			}
-		}		
-		
-		if (contentPage.getCampaign().isTechnicalCampaign()) {
+		} else if (contentPage.getChartType() == ContentPage.PIE_CHART) {
 			if (contentPage.isImpressions()) {
 				JFreeChart impressionsChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
 			    if (impressionsChart != null)

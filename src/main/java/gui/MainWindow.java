@@ -451,8 +451,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         Campaign c1 = null, c2 = null, c3 =null;
         boolean error = false;
 
-        if (msp.detectRankings()) {
-            c1 = session.getCampaignRankingsById(campaignID,msp.getChckbxRankings().isSelected(),msp.getChckbxMonthlyRankings().isSelected(),msp.getChckbxWeeklyRankings().isSelected());
+        if (msp.detectRankings() || msp.getChckbxSummary().isSelected()) {
+            c1 = session.getCampaignRankingsById(campaignID, (msp.getChckbxRankings().isSelected() || msp.getChckbxSummary().isSelected()),msp.getChckbxMonthlyRankings().isSelected(),msp.getChckbxWeeklyRankings().isSelected());
             if (c1 == null)
                 error = true;
         }
@@ -607,7 +607,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxUniqueCTRRankings().isSelected());
 
             contentPage.setReach(csp.getChckbxReach().isSelected());
-            c1.setTechnicalCampaign(false);
+            contentPage.setChartType(ContentPage.BAR_CHART);
             contentPage.setStructure(hfContent);
             c1.setColumsLabels(labels);
             contentPage.setCampaign(c1);
@@ -626,7 +626,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     csp.getChckbxUniqueCTRTechnical().isSelected());
 
             contentPage2.setReach(csp.getChckbxReachTechnical().isSelected());
-            c2.setTechnicalCampaign(true);
+            contentPage2.setChartType(ContentPage.PIE_CHART);
             contentPage2.setStructure(hfContent);
             c2.setColumsLabels(labels);
             contentPage2.setCampaign(c2);
@@ -648,6 +648,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage3.setStructure(hfContent);
             c3.setColumsLabels(labels);
             contentPage3.setCampaign(c3);
+            contentPage3.setMonthly(msp.getChckbxMonthlyCreative().isSelected());
+            contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
             sections.add(contentPage3);
 
         }

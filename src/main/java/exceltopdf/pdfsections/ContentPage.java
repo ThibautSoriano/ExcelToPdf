@@ -3,7 +3,15 @@ package main.java.exceltopdf.pdfsections;
 import main.java.datasdownloading.entities.Campaign;
 import main.java.excelreader.entities.ExcelSheet;
 
-public class ContentPage extends Section {	
+public class ContentPage extends Section {
+	public static final int NO_CHART = 0;
+	
+	public static final int PIE_CHART = 1;
+	
+	public static final int BAR_CHART = 2;
+	
+	private int chartType;
+	
 	private ExcelSheet excelSheet;
 	
 	private Campaign campaign;
@@ -142,6 +150,14 @@ public class ContentPage extends Section {
 
 	public void setGeneral(boolean general) {
 		this.general = general;
+	}
+
+	public int getChartType() {
+		return chartType;
+	}
+
+	public void setChartType(int chartType) {
+		this.chartType = chartType;
 	}
 
 }

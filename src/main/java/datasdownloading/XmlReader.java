@@ -230,10 +230,7 @@ public class XmlReader {
 		}
 		Campaign c = new Campaign();
 		
-		
-		
 		if (!"".equals(xmlCampaignDatas)) {
-			
 			List<CampaignRow> rows = new ArrayList<>();
 			CampaignRow all = new CampaignRow();
 			try {
@@ -274,9 +271,11 @@ public class XmlReader {
 						}
 						else {
 							String creativeID = eElement.getElementsByTagName("creativeID").item(0).getTextContent();
-							if (placementsNames.containsKey(creativeID)) {
+							System.out.println("on cherche " + creativeID);
+							if (creativesNames.containsKey(creativeID)) {
+								System.out.println("trouve");
 								exist = true;
-								firstColumnName = placementsNames.get(creativeID);
+								firstColumnName = creativesNames.get(creativeID);
 							}
 						}
 						
@@ -306,7 +305,6 @@ public class XmlReader {
 	
 			c = new Campaign(getHeaderByID(campaignID), rows, all);
 		}
-		
 		
 		if (!"".equals(xmlPeriodWeek)) {
 			c.setWeeklyData(getPeriod(xmlPeriodWeek, ranking));
@@ -559,7 +557,6 @@ public class XmlReader {
 						else {
 							rows.add(currentRow);
 						}
-						System.out.println("zhengqin : " + firstColumnName);
 					}
 				}
 			}
