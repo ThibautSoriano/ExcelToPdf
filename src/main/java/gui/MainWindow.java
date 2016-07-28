@@ -674,8 +674,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         for (SettingsChoicePanel settingsChoicePanel : panels) {
             panels2.add(settingsChoicePanel.getNewInstance());
         }
+        
         getContentPane().remove(panels.get(currentPanel));
         panels = panels2;
+        currentPanel = 0;
         getContentPane().add(panels.get(currentPanel));
     }
 
