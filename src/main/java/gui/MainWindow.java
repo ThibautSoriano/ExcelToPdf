@@ -19,15 +19,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
@@ -595,7 +592,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         if (msp.getChckbxSummary().isSelected()) {
             DecimalFormat df = new DecimalFormat("#.##");
             df.setRoundingMode(RoundingMode.CEILING);
-            SimpleDateFormat hungarianF = new SimpleDateFormat("yyyy. MM. dd.");
+            SimpleDateFormat hungarianF = new SimpleDateFormat(msp.getSelectedLanguage().getDateFormat());
 
             summary.add(new SummaryData("campaign name:",
                     c1.getCampaignHeader().getCampaignName()));
