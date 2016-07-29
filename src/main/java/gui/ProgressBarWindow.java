@@ -73,7 +73,7 @@ public class ProgressBarWindow extends JFrame {
         
         
         progressBar = new JProgressBar(0,maxValue);
-        progressBar.setBounds(10,40,this.width-25,40);
+        progressBar.setBounds(10,45,this.width-25,30);
         
         label = new JLabel("In progress...");
         label.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -89,7 +89,7 @@ public class ProgressBarWindow extends JFrame {
         
         
         
-        setVisible(true);
+        setVisible(false);
     }
 
     public static void main(String[] args) {
@@ -103,6 +103,7 @@ public class ProgressBarWindow extends JFrame {
         }
         
         ProgressBarWindow pbw = new ProgressBarWindow();
+        pbw.setVisible(true);
         for (int i = 0;i< 101;i++) 
         {
                     pbw.setValue(i);
@@ -135,15 +136,8 @@ public class ProgressBarWindow extends JFrame {
     
     public void setValue(int value) {
         progressBar.setValue(value);
-        progressBar.repaint();
         if (value >= maxValue) {
-            label.setText("Done");
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
+//            label.setText("Done");
             dispose();
         }
     }

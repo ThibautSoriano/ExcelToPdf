@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -63,7 +65,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     private NavigationPanel np;
     private BackgroundPanel backgroundPanel;
     private boolean download;
-    
+
     public static int progress = 0;
 
     public static final int WINDOW_HEIGHT = 500;
@@ -75,9 +77,13 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static boolean isRankings;
 
     private static boolean isTechnical;
-    
+
     private static boolean isCreative;
 
+    public static  ProgressBarWindow pbw;
+    
+    
+    
     public static boolean isRankings() {
         return isRankings;
     }
@@ -110,8 +116,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         this.download = download;
     }
 
-    
-    
     public static boolean isCreative() {
         return isCreative;
     }
@@ -122,6 +126,8 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     public MainWindow() {
 
+        pbw = new ProgressBarWindow();
+                
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -137,11 +143,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         setBounds(200, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
         setTitle(Internationalization.getKey("Converter"));
 
-//        getContentPane().setLayout(null);
+        // getContentPane().setLayout(null);
         backgroundPanel = new BackgroundPanel();
         backgroundPanel.setLayout(null);
         setContentPane(backgroundPanel);
-        
 
         showFirstPanel();
 
@@ -231,7 +236,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
                         getContentPane().add(np);
                     }
-                    
+
                     rdbtnmntm.setSelected(true);
                     repaint();
                     setVisible(true);
@@ -288,6 +293,28 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     @Override
     public void validation() {
+
+       SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+
+        @Override
+        protected Boolean doInBackground() throws Exception {
+            doValidationInSwingWorker();
+            return true;
+
+        }
+        
+        @Override
+        protected void done(){
+            
+        }
+           
+    };
+       pbw.setVisible(true);
+       worker.execute();
+             
+    }
+      private void doValidationInSwingWorker() {
+
         if (download) {
             validationDownload();
         } else {
@@ -429,8 +456,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     private void validationDownload() {
 
-        
-        
         List<SummaryData> summary = new ArrayList<>();
 
         List<Section> sections = new ArrayList<Section>();
@@ -449,48 +474,36 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         String campaignID = ccp.getSelectedId();
 
-        Campaign c1 = null, c2 = null, c3 =null;
+        Campaign c1 = null, c2 = null, c3 = null;
         boolean error = false;
 
-        
-        Thread t = new Thread(new Runnable() {
-            
-            @Override
-            public void run() {
-                ProgressBarWindow pbw = new ProgressBarWindow();
-                while (progress <=99){
-                    System.out.println("merg "+progress);
-                    pbw.setValue(progress);
-                    pbw.repaint();
-                    pbw.revalidate();
-                    
-                }
-                pbw.setValue(100);
-            }
-        });
-        
-        t.start();
-        
-        progress = 10;
+        pbw.setValue(10);
         if (msp.detectRankings() || msp.getChckbxSummary().isSelected()) {
-            c1 = session.getCampaignRankingsById(campaignID, (msp.getChckbxRankings().isSelected() || msp.getChckbxSummary().isSelected()),msp.getChckbxMonthlyRankings().isSelected(),msp.getChckbxWeeklyRankings().isSelected());
+            c1 = session.getCampaignRankingsById(campaignID,
+                    (msp.getChckbxRankings().isSelected()
+                            || msp.getChckbxSummary().isSelected()),
+                    msp.getChckbxMonthlyRankings().isSelected(),
+                    msp.getChckbxWeeklyRankings().isSelected());
             if (c1 == null)
                 error = true;
         }
-        progress = 30 ;
+        pbw.setValue(30);
         if (msp.getChckbxTechnical().isSelected()) {
             c2 = session.getCampaignTechnicalById(campaignID);
             if (c2 == null)
                 error = true;
         }
 
-        progress = 40 ;
+        pbw.setValue(50);
         if (msp.detectCreative()) {
-            c3 = session.getCampaignCreativeById(campaignID,msp.getChckbxCreative().isSelected(),msp.getChckbxMonthlyCreative().isSelected(),msp.getChckbxWeeklyCreative().isSelected());
+            c3 = session.getCampaignCreativeById(campaignID,
+                    msp.getChckbxCreative().isSelected(),
+                    msp.getChckbxMonthlyCreative().isSelected(),
+                    msp.getChckbxWeeklyCreative().isSelected());
             if (c3 == null)
                 error = true;
         }
-        progress = 50 ;
+        pbw.setValue(70);
         if (error) {
             JOptionPane.showMessageDialog(null,
                     "The connection with the server failed", "ERROR",
@@ -498,16 +511,15 @@ public class MainWindow extends JFrame implements IMainFrame {
             return;
         }
 
-        
         Campaign commonInfos = null;
 
         if (c1 != null)
             commonInfos = c1;
         else if (c2 != null)
             commonInfos = c2;
-        else if (c3!=null)
+        else if (c3 != null)
             commonInfos = c3;
-        
+
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
                 : HeaderFooter.PAGE_COUNT_RIGHT;
@@ -555,7 +567,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         ip.setStructure(hfInsert);
 
         sections.add(ip);
-        progress = 60 ;
+        pbw.setValue(75);
 
         // it is the same for the two possible content pages
         HeaderFooter hfContent = new HeaderFooter(
@@ -618,7 +630,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         summaryPage.setStructure(hfContent);
         sections.add(summaryPage);
-        progress = 70 ;
+        pbw.setValue(80);
 
         if (msp.detectRankings()) {
             ContentPage contentPage = new ContentPage(
@@ -659,7 +671,6 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         }
 
-        
         if (msp.detectCreative()) {
             ContentPage contentPage3 = new ContentPage(
                     csp.getChckbxImpressionsCreative().isSelected(),
@@ -674,18 +685,19 @@ public class MainWindow extends JFrame implements IMainFrame {
             c3.setColumsLabels(labels);
             contentPage3.setCampaign(c3);
             contentPage3.setGeneral(msp.getChckbxCreative().isSelected());
-            contentPage3.setMonthly(msp.getChckbxMonthlyCreative().isSelected());
+            contentPage3
+                    .setMonthly(msp.getChckbxMonthlyCreative().isSelected());
             contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
             sections.add(contentPage3);
 
         }
-        progress = 80 ;
+        pbw.setValue(85);
         try {
             etpd.createPdfDownload(
                     Utils.getPdfName(
                             commonInfos.getCampaignHeader().getCampaignName()),
                     sections, isp.getRdbtnOn().isSelected());
-            progress = 100 ;
+            pbw.setValue(100);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
@@ -693,18 +705,18 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     private void reloadPanels() {
-        
-        if (panels.size()==0) {
+
+        if (panels.size() == 0) {
             getContentPane().remove(panels.get(0));
             showFirstPanel();
             return;
         }
-            
+
         LinkedList<SettingsChoicePanel> panels2 = new LinkedList<SettingsChoicePanel>();
         for (SettingsChoicePanel settingsChoicePanel : panels) {
             panels2.add(settingsChoicePanel.getNewInstance());
         }
-        
+
         getContentPane().remove(panels.get(currentPanel));
         panels = panels2;
         currentPanel = 0;
@@ -800,12 +812,10 @@ public class MainWindow extends JFrame implements IMainFrame {
         panels = new LinkedList<SettingsChoicePanel>();
         MainMenuPanel mmp = new MainMenuPanel(this);
         panels.add(mmp);
-        
+
         getContentPane().add(panels.get(0));
 
         currentPanel = 0;
     }
-
-   
 
 }
