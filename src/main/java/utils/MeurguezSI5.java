@@ -30,7 +30,7 @@ public class MeurguezSI5 {
         String $_MERG = "MERG MERG MERG MERG MERG MERG MERG";
         
         
-        $_MERG = Utils.splitLongTextToFitPage($_MERG);
+        $_MERG = Utils.splitLongTextToFitPage("k\u00E9sz\u00EDtette :");
 //        Paragraph p = new Paragraph(Utils.splitLongTextToFitPage(
 //                "MERG MERG MERG MERG MERG MERG MERG MERG MERG MERG MERG "
 //                + "MERG MERG MERG MERG MERG MERG MERG MERG MERG MERG MERG "

@@ -135,6 +135,7 @@ public class ProgressBarWindow extends JFrame {
     
     public void setValue(int value) {
         progressBar.setValue(value);
+        progressBar.repaint();
         if (value >= maxValue) {
             label.setText("Done");
 //            try {
