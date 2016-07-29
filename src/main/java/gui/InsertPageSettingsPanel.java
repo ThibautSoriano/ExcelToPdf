@@ -110,7 +110,7 @@ public class InsertPageSettingsPanel extends SettingsChoicePanel {
         txtrCreatedBy.setWrapStyleWord(true);
         txtrCreatedBy.setFont(new Font("Tahoma", Font.PLAIN, 11));
         txtrCreatedBy.setDocument(new JTextFieldLimit(50));
-        txtrCreatedBy.setText("k\u00E9sz\u00EDtette :\n");
+        txtrCreatedBy.setText("k\u00E9sz\u00EDtette :");
         txtrCreatedBy.setLineWrap(true);
         txtrCreatedBy.setBounds(239, 280, 241, 69);
         add(txtrCreatedBy);
