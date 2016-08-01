@@ -9,6 +9,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 public class LoginWindow {
 
@@ -80,5 +81,9 @@ public class LoginWindow {
         txtPassword.setColumns(10);
         txtPassword.setBounds(211, 197, 173, 20);
         panel.add(txtPassword);
+        
+        JCheckBox chckbxRememberTheLogin = new JCheckBox("Remember the login");
+        chckbxRememberTheLogin.setBounds(211, 247, 173, 23);
+        panel.add(chckbxRememberTheLogin);
 	}
 }

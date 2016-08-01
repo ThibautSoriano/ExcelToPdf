@@ -1,5 +1,6 @@
 package main.java.gui;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -8,12 +9,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import main.java.datasdownloading.HttpDownload;
+import main.java.utils.SaveSettings;
 
 @SuppressWarnings("serial")
 public class LoginPanel extends SettingsChoicePanel {
 
     private JTextField txtLogin;
     private JPasswordField txtPassword;
+    private JCheckBox chckbxRememberTheLogin;
 
     
 
@@ -43,12 +46,25 @@ public class LoginPanel extends SettingsChoicePanel {
         txtLogin = new JTextField();
         txtLogin.setBounds(211, 136, 173, 20);
         add(txtLogin);
+        
+        if (SaveSettings.loginHasToBeRemembered())
+            txtLogin.setText(SaveSettings.getLogin());
+        
+        
         txtLogin.setColumns(10);
 
         txtPassword = new JPasswordField();
         txtPassword.setColumns(10);
         txtPassword.setBounds(211, 197, 173, 20);
         add(txtPassword);
+        
+        
+        chckbxRememberTheLogin = new JCheckBox("Remember the login");
+        chckbxRememberTheLogin.setBounds(211, 247, 173, 23);
+        chckbxRememberTheLogin.setOpaque(false);
+        chckbxRememberTheLogin.setSelected(true);
+        add(chckbxRememberTheLogin);
+        
 
     }
 
@@ -72,11 +88,18 @@ public class LoginPanel extends SettingsChoicePanel {
 
         try {
             
+            SaveSettings.changeLoginHasToBeRemembered(chckbxRememberTheLogin.isSelected());
+            if (chckbxRememberTheLogin.isSelected()) {
+                SaveSettings.saveLoginName(txtLogin.getText());
+            }
+               
+            
             if (MainWindow.getSession() == null || !MainWindow.getSession().isSameLogin(login, password)) {
                 HttpDownload htpdl = new HttpDownload(login, password);
                 MainWindow.setSession(htpdl);
             }
             
+
             return true;
         } catch (Exception e) {
 //            e.printStackTrace();

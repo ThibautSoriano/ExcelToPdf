@@ -684,6 +684,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage3.setGeneral(msp.getChckbxCreative().isSelected());
             contentPage3
                     .setMonthly(msp.getChckbxMonthlyCreative().isSelected());
+            contentPage3.setChartType(ContentPage.BAR_CHART);
             contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
             sections.add(contentPage3);
 
