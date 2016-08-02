@@ -42,9 +42,12 @@ public class ExcelToPdf {
 	public static int CURRENT_PAGE_NUMBER = 0;
 	
 	private String encoding = "";
+	
+	private boolean wholeTotal;
 
-    public ExcelToPdf(String encoding) {
+    public ExcelToPdf(String encoding, boolean wholeTotal) {
 		this.encoding = encoding;
+		this.wholeTotal = wholeTotal;
 	}
 
 	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
@@ -129,7 +132,7 @@ public class ExcelToPdf {
    
    private void createSummaryPage(SummaryPage summaryPage) throws DocumentException, IOException {
 		Document document = new Document();
-		TabCreator tc = new TabCreator();
+		TabCreator tc = new TabCreator(wholeTotal);
 		document.setMargins(85, 85, 85, 113);
 		String fileName = TEMP_SUMMARY_PAGE;
 		FileOutputStream outputStream = new FileOutputStream(fileName);
@@ -277,7 +280,7 @@ public class ExcelToPdf {
 		document.add(new Paragraph("\n\n"));
 		
 		
-		TabCreator tc = new TabCreator();
+		TabCreator tc = new TabCreator(wholeTotal);
 		
 		if (contentPage.isGeneral()) {
 			document.add(new Paragraph("Full data table"));

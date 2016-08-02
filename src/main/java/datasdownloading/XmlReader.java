@@ -205,7 +205,7 @@ public class XmlReader {
 	
 					Element eElement = (Element) nNode;
 					if ("/".equals(eElement.getElementsByTagName("placementFullPath").item(0).getTextContent())) {
-						placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), "All");
+						//placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), "All");
 					}
 					else if ("N".equals(eElement.getElementsByTagName("isFolder").item(0).getTextContent())) {
 						placementsNames.put(eElement.getElementsByTagName("placementID").item(0).getTextContent(), eElement.getElementsByTagName("placementFullPath").item(0).getTextContent());
@@ -566,4 +566,61 @@ public class XmlReader {
 		return p;
 	}
 	
+	
+	public PeriodData readAllPeriod(String xmlAllData) throws LoginException {
+		CampaignRowPeriod all = new CampaignRowPeriod();
+		List<CampaignRowPeriod> rows = new ArrayList<>();
+		
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new ByteArrayInputStream(xmlAllData.getBytes("utf-8"))));
+
+			doc.getDocumentElement().normalize();
+			// check if request status was ok
+			Node root = doc.getDocumentElement();
+
+			if (root.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) root;
+				String status = eElement.getElementsByTagName("status").item(0).getTextContent();
+				if (!"OK".equals(status)) {
+					throw new LoginException(status);
+				}
+			}
+						
+			NodeList nList = doc.getElementsByTagName("statisticsRecord");
+
+			for (int i = 0; i < nList.getLength(); i++) {
+
+				Node nNode = nList.item(i);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	
+					Element eElement = (Element) nNode;
+					String firstColumnName = "Period summary";
+						
+					Date startPeriod = new Date(
+							Long.parseLong(eElement.getElementsByTagName("period").item(0).getTextContent()) * 1000);
+					int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
+					int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
+					float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
+					int clicks = Utils.parseInt(eElement.getElementsByTagName("clicks").item(0).getTextContent());
+					int userClicks = Utils.parseInt(eElement.getElementsByTagName("userClicks").item(0).getTextContent());
+					float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
+					float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
+					
+					CampaignRowPeriod currentRow = new CampaignRowPeriod(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR), startPeriod);
+					currentRow.setReach(reach);
+					
+					rows.add(currentRow);
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		PeriodData p = new PeriodData(rows, all);
+		
+		return p;
+	}
 }
