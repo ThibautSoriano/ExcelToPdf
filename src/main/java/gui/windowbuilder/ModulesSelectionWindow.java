@@ -75,7 +75,7 @@ public class ModulesSelectionWindow {
 		
 		JCheckBox chckbxSummary = new JCheckBox("Summary");
 		chckbxSummary.setSelected(true);
-		chckbxSummary.setBounds(152, 79, 181, 23);
+		chckbxSummary.setBounds(93, 64, 203, 23);
 		panelDefineStructure.add(chckbxSummary);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -89,7 +89,7 @@ public class ModulesSelectionWindow {
 		
 		JCheckBox chckbxTechnical = new JCheckBox("Technical");
 		chckbxTechnical.setSelected(true);
-		chckbxTechnical.setBounds(335, 79, 189, 23);
+		chckbxTechnical.setBounds(93, 96, 203, 23);
 		panelDefineStructure.add(chckbxTechnical);
 		
 		JSeparator separator_3 = new JSeparator();
@@ -151,6 +151,14 @@ public class ModulesSelectionWindow {
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(93, 123, 397, 2);
 		panelDefineStructure.add(separator_4);
+		
+		JCheckBox chckbxWholeTotal = new JCheckBox("Whole Total");
+		chckbxWholeTotal.setBounds(308, 64, 182, 23);
+		panelDefineStructure.add(chckbxWholeTotal);
+		
+		JCheckBox chckbxTimePeriodTotal = new JCheckBox("Time Period Total");
+		chckbxTimePeriodTotal.setBounds(308, 96, 182, 23);
+		panelDefineStructure.add(chckbxTimePeriodTotal);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

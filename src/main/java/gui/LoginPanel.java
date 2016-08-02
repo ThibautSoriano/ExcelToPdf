@@ -114,7 +114,7 @@ public class LoginPanel extends SettingsChoicePanel {
     @Override
     public SettingsChoicePanel getNewInstance() {
         // TODO Auto-generated method stub
-        return null;
+        return new LoginPanel();
     }
 
 }

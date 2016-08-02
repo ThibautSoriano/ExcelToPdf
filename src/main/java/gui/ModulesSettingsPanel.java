@@ -33,6 +33,10 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
     private JCheckBox chckbxCreative;
 
+    private JCheckBox chckbxWholeTotal;
+
+    private JCheckBox chckbxTimePeriodTotal;
+
     public JCheckBox getChckbxMonthlyRankings() {
         return chckbxMonthlyRankings;
     }
@@ -71,7 +75,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
   
         chckbxSummary = new JCheckBox("Summary");
         chckbxSummary.setSelected(true);
-        chckbxSummary.setBounds(152, 79, 181, 23);
+        chckbxSummary.setBounds(93, 64, 203, 23);
         chckbxSummary.addActionListener(new ActionListener() {
 
 
@@ -108,7 +112,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
         chckbxTechnical = new JCheckBox("Technical");
         chckbxTechnical.setSelected(true);
-        chckbxTechnical.setBounds(335, 79, 189, 23);
+        chckbxTechnical.setBounds(93, 96, 203, 23);
         chckbxTechnical.addActionListener(new ActionListener() {
 
 
@@ -227,6 +231,15 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
         JSeparator separator_4 = new JSeparator();
         separator_4.setBounds(93, 123, 397, 2);
         add(separator_4);
+        
+        
+         chckbxWholeTotal = new JCheckBox("Whole Total");
+        chckbxWholeTotal.setBounds(308, 64, 182, 23);
+        add(chckbxWholeTotal);
+        
+         chckbxTimePeriodTotal = new JCheckBox("Time Period Total");
+        chckbxTimePeriodTotal.setBounds(308, 96, 182, 23);
+        add(chckbxTimePeriodTotal);
 
     }
 

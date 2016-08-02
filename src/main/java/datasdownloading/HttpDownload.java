@@ -152,6 +152,9 @@ public class HttpDownload {
         return getCampaignData(campaignID, timeDivision, "1%2C40");
     }
     
+    private HttpMessage getXmlAllData(String campaignID,String timeDivision){
+        return getCampaignData(campaignID, timeDivision, "1");
+    }
     
 
     private HttpMessage getXmlPlacementList(String campaignID) {
@@ -319,13 +322,7 @@ public class HttpDownload {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        HttpDownload a = new HttpDownload();
-        Campaign c = a.getCampaignTechnicalById("557150106");
-
-        // System.out.println(/c.getCampaignContent());
-        System.out.println(c.getAll());
-    }
+   
 
     public boolean isSameLogin(HttpDownload other) {
         if (other == null)
@@ -368,6 +365,30 @@ public class HttpDownload {
                 return new HttpMessage(false, m.getErrorMessage(), "");
         }
         return new HttpMessage(true, "", "");
+    }
+    
+    
+    public HttpMessage getFilsDePuteById(String campaignID,String timeDivision){
+        String url = "https://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
+                + sessionId
+                + "&dimensionIDs=1"+
+                "&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="+ campaignID + 
+                "&timeDivision=" + timeDivision;
+
+        HttpMessage m = sendGet(url);
+        if (m.isOk())
+            return new HttpMessage(true, "", m.getContent());
+        return m;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        HttpDownload a = new HttpDownload();
+//        Campaign c = a.getCampaignTechnicalById("557150106");
+
+        // System.out.println(/c.getCampaignContent());
+//        System.out.println(c.getAll());
+        HttpMessage m = a.getXmlAllData("557150106", "Week");
+        System.out.println(m.getContent());
     }
 
 }

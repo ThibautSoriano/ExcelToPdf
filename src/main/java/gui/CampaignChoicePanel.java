@@ -242,7 +242,9 @@ public class CampaignChoicePanel extends SettingsChoicePanel {
 
     @Override
     public SettingsChoicePanel getNewInstance() {
-        return new CampaignChoicePanel(this.table);
+        if (table != null)
+            return new CampaignChoicePanel(this.table);
+        return new CampaignChoicePanel();
     }
 
     public String getSelectedId() {
