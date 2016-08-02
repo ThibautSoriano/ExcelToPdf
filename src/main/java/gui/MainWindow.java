@@ -328,7 +328,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             InternationalizationPDF ipdf = new InternationalizationPDF(
                     ecp.getSelectedLanguage());
             ExcelToPdf etpd = new ExcelToPdf(
-                    ecp.getSelectedLanguage().getEncoding());
+                    ecp.getSelectedLanguage().getEncoding(),true);
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -467,7 +467,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         InternationalizationPDF ipdf = new InternationalizationPDF(
                 msp.getSelectedLanguage());
         ExcelToPdf etpd = new ExcelToPdf(
-                msp.getSelectedLanguage().getEncoding());
+                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected());
 
         String campaignID = ccp.getSelectedId();
 

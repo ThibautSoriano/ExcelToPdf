@@ -243,6 +243,14 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
 
     }
 
+    public JCheckBox getChckbxWholeTotal() {
+        return chckbxWholeTotal;
+    }
+
+    public JCheckBox getChckbxTimePeriodTotal() {
+        return chckbxTimePeriodTotal;
+    }
+
     @Override
     public boolean isEveryThingOk() {
         MainWindow.setRankings(detectRankings());

@@ -219,11 +219,20 @@ public class HttpDownload {
 
         if (!placementList.isOk())
             return null;
+        
+        
+        
+        HttpMessage wholeTotal = getXmlAllData(campaignId, "General");
+        if (!wholeTotal.isOk())
+            return null;
+        String wholeTotalStr = wholeTotal.getContent();
+        
+        
 
         try {
             return xmlReader.getCampaign(campaignId, generalDataStr,
                     placementList.getContent(), "", weeklyDataStr,
-                    monthlyDataStr, true);
+                    monthlyDataStr, true,wholeTotalStr);
         } catch (LoginException e) {
             // e.printStackTrace();
             login(userName, password);
@@ -283,8 +292,8 @@ public class HttpDownload {
         if (!m.isOk())
             return null;
 
-        HttpMessage generalData, monthlyData, weeklyData;
-        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "";
+        HttpMessage generalData, monthlyData, weeklyData,wholeTotal;
+        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "",wholeTotalStr="";
 
         if (general) {
             generalData = getXmlCreativeData(campaignID, "General");
@@ -305,6 +314,13 @@ public class HttpDownload {
             weeklyDataStr = weeklyData.getContent();
         }
 
+        
+        wholeTotal = getXmlAllData(campaignID, "General");
+        if (!wholeTotal.isOk())
+            return null;
+        wholeTotalStr = wholeTotal.getContent();
+        
+        
         HttpMessage creativesList = getXmlCreativesList(campaignID);
 
         if (!creativesList.isOk())
@@ -313,7 +329,7 @@ public class HttpDownload {
         try {
             return xmlReader.getCampaign(campaignID, generalDataStr,
                     "",creativesList.getContent() , weeklyDataStr,
-                    monthlyDataStr, false);
+                    monthlyDataStr, false,wholeTotalStr);
         } catch (LoginException e) {
             // e.printStackTrace();
             login(userName, password);
@@ -368,18 +384,7 @@ public class HttpDownload {
     }
     
     
-    public HttpMessage getFilsDePuteById(String campaignID,String timeDivision){
-        String url = "https://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
-                + sessionId
-                + "&dimensionIDs=1"+
-                "&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="+ campaignID + 
-                "&timeDivision=" + timeDivision;
-
-        HttpMessage m = sendGet(url);
-        if (m.isOk())
-            return new HttpMessage(true, "", m.getContent());
-        return m;
-    }
+   
     
     public static void main(String[] args) throws Exception {
         HttpDownload a = new HttpDownload();
