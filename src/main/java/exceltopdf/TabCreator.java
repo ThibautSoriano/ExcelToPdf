@@ -22,16 +22,19 @@ public class TabCreator {
     private BaseColor lastLineColor;
     private BaseColor bestRowsColor;
     private BaseColor worstRowsColor;
+    private BaseColor interSumsColor;
     private boolean wholeTotal;
-    
+//    private boolean timePeriodTotal;
 
-    public TabCreator(boolean wholeTotal) {
+    public TabCreator(boolean wholeTotal) {//, boolean timePeriodTotal) {
         super();
         this.wholeTotal = wholeTotal;
+//        this.timePeriodTotal = timePeriodTotal;
         headerColor = new BaseColor(7, 167, 227);
         lastLineColor = new BaseColor(7, 167, 227);
         bestRowsColor = new BaseColor(255,255,255);
         worstRowsColor = new BaseColor(190, 190, 190);
+        interSumsColor = new BaseColor(116, 208, 241);
         
     }
 
@@ -156,9 +159,7 @@ public class TabCreator {
     }
     
     public PdfPTable createTabPeriod(List<CampaignRowPeriod> campaignRows, List<String> headers,CampaignRow all,boolean[] colsToPrint,
-            boolean hideEmptyLines) {
-
-//        CampaignRowPeriod.sortBy(campaignRows, getIndexFromColsToPrint(colsToPrint));
+            boolean hideEmptyLines, boolean interSums, List<CampaignRowPeriod> interData) {
         
         if (colsToPrint.length < CampaignRowPeriod.MAX_COLUMNS_PERIOD) {
             System.err.println("Wrong tab size in createTabPeriod. Must be "
@@ -174,7 +175,6 @@ public class TabCreator {
         
 
         // For the headers
-        
         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
             if (colsToPrint[j]) {
 
@@ -200,8 +200,42 @@ public class TabCreator {
 
         // For all the rows
         for (int i = 0, countColor = 0; i < campaignRows.size(); i++) {
+        	
 
             if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
+            	if (interSums) {
+            		if ((i+1) == campaignRows.size() || !campaignRows.get(i).getStartPeriod().equals(campaignRows.get(i+1).getStartPeriod())) {
+            			List<String> l = CampaignRowPeriod.getRowByDate(campaignRows.get(i).getStartPeriod(), interData).toList();
+            			
+                        for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+                            if (colsToPrint[j]) {
+	            			Font font = new Font(FontFamily.HELVETICA, 8,
+	                                Font.UNDEFINED);
+	                        
+	                        
+	                        PdfPCell cell = new PdfPCell();
+	                        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	                        
+	                        cell.setPaddingBottom(10);
+	                        cell.setPaddingTop(0);
+	
+	                                       
+	                        
+	                        Paragraph p = new Paragraph(splitFirstColumnData(l.get(i),getMaxLength(colsNumber)),font);
+	                       
+	                            
+	
+	                        
+	                        cell.setBackgroundColor(interSumsColor);
+	                        
+	                        cell.addElement(p);
+	                        
+	                        
+	                        table.addCell(cell);
+                            }
+            		}
+            	}
 
                 List<String> l = campaignRows.get(i).toList();
                 for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
@@ -219,7 +253,7 @@ public class TabCreator {
 
                         
                         if (j==0)
-                            cell.setColspan(2);                      
+                            cell.setColspan(2);                  
                         
                         Paragraph p = null;
    
@@ -268,6 +302,7 @@ public class TabCreator {
                 
                 table.addCell(cell);
             }
+        }
         }
 
         return table;

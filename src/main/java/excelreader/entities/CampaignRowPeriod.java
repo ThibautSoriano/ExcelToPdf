@@ -87,4 +87,14 @@ public class CampaignRowPeriod extends CampaignRow {
         
         return l;
     }
+	
+	public static CampaignRowPeriod getRowByDate(Date date, List<CampaignRowPeriod> content) {
+		for (int i = 0; i < content.size(); i++) {
+			if (content.get(i).getStartPeriod().equals(date)) {
+				return content.get(i);
+			}
+		}
+		
+		return null;
+	}
 }

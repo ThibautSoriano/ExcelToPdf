@@ -1,6 +1,7 @@
 package main.java.datasdownloading.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import main.java.excelreader.entities.CampaignRowPeriod;
