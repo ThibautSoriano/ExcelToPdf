@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.Normalizer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -72,19 +75,7 @@ public class Utils {
 	}
 	
 	
-	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
-	    while (true) {
-	    String brazil = getPdfName("or.be öàç@&{'($¤**µ§<>go_ zéù%ccc-");
-	    System.out.println(brazil);
-	    
-	    PrintWriter writer = new PrintWriter(brazil, "UTF-8");
-	    writer.println("The first line");
-	    
-	    writer.close();
-	    
-	    }
-	    
-	}
+	
 	
 	public static String deAccent(String str) {
 	    String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD); 
@@ -127,5 +118,35 @@ public class Utils {
 	        return res.toString();
 	        
 	    }
+
+	
+	public static String convertDateToTimePeriod(Date date, String dateFormat){
+	    SimpleDateFormat f = new SimpleDateFormat(dateFormat);
+
+	    int noOfDays = 7; 
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date);            
+	    int weekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
+	    calendar.add(Calendar.DAY_OF_YEAR, noOfDays);
+	    Date dateEnd = calendar.getTime();
+	    
+	    return f.format(date) + " - " +f.format(dateEnd) + " ("+weekNumber+")";
+	}
+	
+	
+	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+//            while (true) {
+//            String brazil = getPdfName("or.be öàç@&{'($¤**µ§<>go_ zéù%ccc-");
+//            System.out.println(brazil);
+//            
+//            PrintWriter writer = new PrintWriter(brazil, "UTF-8");
+//            writer.println("The first line");
+//            
+//            writer.close();
+            
+	    System.out.println(convertDateToTimePeriod(new Date(Long.parseLong("1442188800")*1000),"yyyy. MM. dd"));
+            
+            
+        }
 	
 }

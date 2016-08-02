@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import main.java.utils.Internationalization;
 import main.java.utils.Percentage;
+import main.java.utils.Utils;
 
 public class CampaignRowPeriod extends CampaignRow {
 	
@@ -62,10 +64,10 @@ public class CampaignRowPeriod extends CampaignRow {
 	
 	@Override
 	public List<String> toList() {
-		SimpleDateFormat f = new SimpleDateFormat("yyyy. MM. dd.");
+		
         List<String> l = new ArrayList<String>();
         if (startPeriod != null)
-        	l.add(f.format(startPeriod));
+        	l.add(Utils.convertDateToTimePeriod(startPeriod,Internationalization.getCurrentLanguage().getDateFormat()));
         else
         	l.add("NO DATE");
         l.add(firstColumnData);
