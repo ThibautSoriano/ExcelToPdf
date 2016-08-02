@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.CampaignHeader;
+import main.java.datasdownloading.entities.PeriodData;
 
 public class HttpDownload {
 
@@ -126,36 +127,33 @@ public class HttpDownload {
 
     }
 
-    
-    private HttpMessage getCampaignData(String campaignID,String timeDivision,String dimensionID){
+    private HttpMessage getCampaignData(String campaignID, String timeDivision,
+            String dimensionID) {
         String url = "https://gdeapi.gemius.com/GetBasicStats.php?ignoreEmptyParams=Y&sessionID="
-                + sessionId
-                + "&dimensionIDs="+dimensionID+
-                "&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="+ campaignID + 
-                "&timeDivision=" + timeDivision;
+                + sessionId + "&dimensionIDs=" + dimensionID
+                + "&indicatorIDs=4%2C28%2C16%2C2%2C30%2C120%2C99&campaignIDs="
+                + campaignID + "&timeDivision=" + timeDivision;
 
         HttpMessage m = sendGet(url);
         if (m.isOk())
             return new HttpMessage(true, "", m.getContent());
         return m;
     }
-    
+
     private HttpMessage getXmlRankingsDatas(String campaignID,
             String timeDivision) {
-        
+
         return getCampaignData(campaignID, timeDivision, "1%2C20");
     }
-    
-    
+
     private HttpMessage getXmlCreativeData(String campaignID,
             String timeDivision) {
         return getCampaignData(campaignID, timeDivision, "1%2C40");
     }
-    
-    private HttpMessage getXmlAllData(String campaignID,String timeDivision){
+
+    private HttpMessage getXmlAllData(String campaignID, String timeDivision) {
         return getCampaignData(campaignID, timeDivision, "1");
     }
-    
 
     private HttpMessage getXmlPlacementList(String campaignID) {
         String url = "https://gdeapi.gemius.com/GetPlacementsList.php?ignoreEmptyParams=Y&sessionID="
@@ -168,13 +166,10 @@ public class HttpDownload {
         return m;
     }
 
-    
-
     private HttpMessage getXmlCreativesList(String campaignID) {
         String url = "https://gdeapi.gemius.com/GetCreativesList.php?ignoreEmptyParams=Y&"
-                + "sessionID="+sessionId
-                +"&campaignIDs="+campaignID;
-        
+                + "sessionID=" + sessionId + "&campaignIDs=" + campaignID;
+
         HttpMessage m = sendGet(url);
 
         if (m.isOk())
@@ -182,9 +177,6 @@ public class HttpDownload {
         return m;
     }
 
-    
-    
-    
     public Campaign getCampaignRankingsById(String campaignId, boolean general,
             boolean monthly, boolean weekly) {
 
@@ -219,20 +211,16 @@ public class HttpDownload {
 
         if (!placementList.isOk())
             return null;
-        
-        
-        
+
         HttpMessage wholeTotal = getXmlAllData(campaignId, "General");
         if (!wholeTotal.isOk())
             return null;
         String wholeTotalStr = wholeTotal.getContent();
-        
-        
 
         try {
             return xmlReader.getCampaign(campaignId, generalDataStr,
                     placementList.getContent(), "", weeklyDataStr,
-                    monthlyDataStr, true,wholeTotalStr);
+                    monthlyDataStr, true, wholeTotalStr);
         } catch (LoginException e) {
             // e.printStackTrace();
             login(userName, password);
@@ -292,8 +280,9 @@ public class HttpDownload {
         if (!m.isOk())
             return null;
 
-        HttpMessage generalData, monthlyData, weeklyData,wholeTotal;
-        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "",wholeTotalStr="";
+        HttpMessage generalData, monthlyData, weeklyData, wholeTotal;
+        String generalDataStr = "", monthlyDataStr = "", weeklyDataStr = "",
+                wholeTotalStr = "";
 
         if (general) {
             generalData = getXmlCreativeData(campaignID, "General");
@@ -314,22 +303,20 @@ public class HttpDownload {
             weeklyDataStr = weeklyData.getContent();
         }
 
-        
         wholeTotal = getXmlAllData(campaignID, "General");
         if (!wholeTotal.isOk())
             return null;
         wholeTotalStr = wholeTotal.getContent();
-        
-        
+
         HttpMessage creativesList = getXmlCreativesList(campaignID);
 
         if (!creativesList.isOk())
             return null;
 
         try {
-            return xmlReader.getCampaign(campaignID, generalDataStr,
-                    "",creativesList.getContent() , weeklyDataStr,
-                    monthlyDataStr, false,wholeTotalStr);
+            return xmlReader.getCampaign(campaignID, generalDataStr, "",
+                    creativesList.getContent(), weeklyDataStr, monthlyDataStr,
+                    false, wholeTotalStr);
         } catch (LoginException e) {
             // e.printStackTrace();
             login(userName, password);
@@ -337,8 +324,6 @@ public class HttpDownload {
                     weekly);
         }
     }
-
-   
 
     public boolean isSameLogin(HttpDownload other) {
         if (other == null)
@@ -382,16 +367,46 @@ public class HttpDownload {
         }
         return new HttpMessage(true, "", "");
     }
-    
-    
-   
-    
+
+   public PeriodData getPeriodData(String timeDivision,String campaignID) {
+       HttpMessage m = checkXmlReader();
+
+       if (!m.isOk())
+           return null;
+       
+       
+       String xmlAllDataStr = "",xmlWholeTotalStr = "";
+       
+           HttpMessage xmlAllData = getXmlAllData(campaignID, timeDivision);
+           if (!xmlAllData.isOk())
+               return null;
+           xmlAllDataStr = xmlAllData.getContent();
+       
+           HttpMessage xmlWholeTotal = getXmlAllData(campaignID, "General");
+           if (!xmlWholeTotal.isOk())
+               return null;
+           xmlWholeTotalStr = xmlWholeTotal.getContent();
+           
+           
+       
+    // xmlAllData dimension1 timeDivision month ou week
+       // xmlWhole dimension 1 timeDivision general 
+       
+        try {
+            return xmlReader.readAllPeriod(xmlAllDataStr, xmlWholeTotalStr);
+        } catch (LoginException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+   }
+
     public static void main(String[] args) throws Exception {
         HttpDownload a = new HttpDownload();
-//        Campaign c = a.getCampaignTechnicalById("557150106");
+        // Campaign c = a.getCampaignTechnicalById("557150106");
 
         // System.out.println(/c.getCampaignContent());
-//        System.out.println(c.getAll());
+        // System.out.println(c.getAll());
         HttpMessage m = a.getXmlAllData("557150106", "Week");
         System.out.println(m.getContent());
     }

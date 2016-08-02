@@ -328,7 +328,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             InternationalizationPDF ipdf = new InternationalizationPDF(
                     ecp.getSelectedLanguage());
             ExcelToPdf etpd = new ExcelToPdf(
-                    ecp.getSelectedLanguage().getEncoding(),true);
+                    ecp.getSelectedLanguage().getEncoding(),true,false);
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -467,9 +467,21 @@ public class MainWindow extends JFrame implements IMainFrame {
         InternationalizationPDF ipdf = new InternationalizationPDF(
                 msp.getSelectedLanguage());
         ExcelToPdf etpd = new ExcelToPdf(
-                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected());
+                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected(),msp.getChckbxTimePeriodTotal().isSelected());
 
         String campaignID = ccp.getSelectedId();
+        
+        
+        //TODO optimiser ca
+        if (msp.getChckbxTimePeriodTotal().isSelected()) {
+            etpd.setMonthlyData(session.getPeriodData("Week", campaignID));
+        etpd.setWeeklyData(session.getPeriodData("Month", campaignID));
+        }
+        
+        //
+        
+        
+        
 
         Campaign c1 = null, c2 = null, c3 = null;
         boolean error = false;

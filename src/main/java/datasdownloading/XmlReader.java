@@ -573,7 +573,8 @@ public class XmlReader {
 		return p;
 	}
 	
-	
+	// xmlAllData dimension1 timeDivision month ou week
+	// xmlWhole dimension 1 timeDivision general 
 	public PeriodData readAllPeriod(String xmlAllData, String xmlWholeTotal) throws LoginException {
 		List<CampaignRowPeriod> rows = new ArrayList<>();
 		
