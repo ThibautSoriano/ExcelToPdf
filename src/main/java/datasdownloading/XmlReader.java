@@ -217,7 +217,7 @@ public class XmlReader {
 		}
 	}
 	
-	public Campaign getCampaign(String campaignID, String xmlCampaignDatas, String xmlPlacementList, String xmlCreatives, String xmlPeriodWeek, String xmlPeriodMonth, boolean ranking) throws LoginException {
+	public Campaign getCampaign(String campaignID, String xmlCampaignDatas, String xmlPlacementList, String xmlCreatives, String xmlPeriodWeek, String xmlPeriodMonth, boolean ranking, String xmlWholeTotal) throws LoginException {
 	    
 		if (!"".equals(xmlCreatives)) {
 			fillMapCreativesNames(xmlCreatives);
@@ -289,7 +289,7 @@ public class XmlReader {
 							CampaignRow currentRow = new CampaignRow(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
 							currentRow.setReach(reach);
 							if ("All".equals(firstColumnName)) {
-								all = currentRow;
+								
 							}
 							else {
 								rows.add(currentRow);
@@ -301,14 +301,14 @@ public class XmlReader {
 				e.printStackTrace();
 			}
 	
-			c = new Campaign(getHeaderByID(campaignID), rows, all);
+			c = new Campaign(getHeaderByID(campaignID), rows, getAll(xmlWholeTotal, false));
 		}
 		
 		if (!"".equals(xmlPeriodWeek)) {
-			c.setWeeklyData(getPeriod(xmlPeriodWeek, ranking));
+			c.setWeeklyData(getPeriod(xmlPeriodWeek, ranking, xmlWholeTotal));
 		}
 		if (!"".equals(xmlPeriodMonth)) {
-			c.setMonthlyData(getPeriod(xmlPeriodMonth, ranking));
+			c.setMonthlyData(getPeriod(xmlPeriodMonth, ranking, xmlWholeTotal));
 		}
 		c.setCampaignHeader(getHeaderByID(campaignID));
 		
@@ -496,9 +496,8 @@ public class XmlReader {
 		}
 	}
 	
-	public PeriodData getPeriod(String xmlPeriodData, boolean ranking) throws LoginException {
+	public PeriodData getPeriod(String xmlPeriodData, boolean ranking, String xmlWholeData) throws LoginException {
 	    
-		CampaignRowPeriod all = new CampaignRowPeriod();
 		List<CampaignRowPeriod> rows = new ArrayList<>();
 		
 		try {
@@ -558,7 +557,7 @@ public class XmlReader {
 						CampaignRowPeriod currentRow = new CampaignRowPeriod(firstColumnName, impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR), startPeriod);
 						currentRow.setReach(reach);
 						if ("All".equals(firstColumnName)) {
-							all = currentRow;
+							
 						}
 						else {
 							rows.add(currentRow);
@@ -569,7 +568,7 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		PeriodData p = new PeriodData(rows, all);
+		PeriodData p = new PeriodData(rows, (CampaignRowPeriod) getAll(xmlWholeData, false));
 		
 		return p;
 	}
