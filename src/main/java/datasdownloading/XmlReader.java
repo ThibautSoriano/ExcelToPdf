@@ -386,14 +386,14 @@ public class XmlReader {
 			e.printStackTrace();
 		}
 		
-		all = getAll(xmlSummaryData);
+		all = getAll(xmlSummaryData, true);
 		
 		c = new Campaign(getHeaderByID(campaignID), rows, all);
 		
 		return c;
 	}
 	
-	private CampaignRow getAll(String xmlSummaryData) throws LoginException {
+	private CampaignRow getAll(String xmlSummaryData, boolean withCountryID) throws LoginException {
 		CampaignRow all = new CampaignRow();
 		
 		try {
@@ -425,8 +425,16 @@ public class XmlReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 	
 					Element eElement = (Element) nNode;
-					String countryID = eElement.getElementsByTagName("countryID").item(0).getTextContent();
-					if ("44".equals(countryID)) {
+					boolean exist = true;
+					
+					if (withCountryID) {
+						String countryID = eElement.getElementsByTagName("countryID").item(0).getTextContent();
+						if (!"44".equals(countryID)) {
+							exist = false;
+						}
+					}
+					
+					if (exist) {
 						int impressions = Utils.parseInt(eElement.getElementsByTagName("impressions").item(0).getTextContent());
 						int reach = Utils.parseInt(eElement.getElementsByTagName("reach").item(0).getTextContent());
 						float frequency = Utils.parseFloat(eElement.getElementsByTagName("frequency").item(0).getTextContent());
@@ -567,8 +575,7 @@ public class XmlReader {
 	}
 	
 	
-	public PeriodData readAllPeriod(String xmlAllData) throws LoginException {
-		CampaignRowPeriod all = new CampaignRowPeriod();
+	public PeriodData readAllPeriod(String xmlAllData, String xmlWholeTotal) throws LoginException {
 		List<CampaignRowPeriod> rows = new ArrayList<>();
 		
 		try {
@@ -619,7 +626,7 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		PeriodData p = new PeriodData(rows, all);
+		PeriodData p = new PeriodData(rows, (CampaignRowPeriod) getAll(xmlWholeTotal, false));
 		
 		return p;
 	}
