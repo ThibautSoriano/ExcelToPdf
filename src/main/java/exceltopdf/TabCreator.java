@@ -22,10 +22,12 @@ public class TabCreator {
     private BaseColor lastLineColor;
     private BaseColor bestRowsColor;
     private BaseColor worstRowsColor;
+    private boolean wholeTotal;
     
 
-    public TabCreator() {
+    public TabCreator(boolean wholeTotal) {
         super();
+        this.wholeTotal = wholeTotal;
         headerColor = new BaseColor(7, 167, 227);
         lastLineColor = new BaseColor(7, 167, 227);
         bestRowsColor = new BaseColor(255,255,255);
@@ -125,29 +127,31 @@ public class TabCreator {
         }
 
         // For the last line (containing the sums usually)
+        if (wholeTotal) {
+        	List<String> a = all.toList();
+	        for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
+	            if (colsToPrint[j]) {
+	
+	                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+	                Paragraph p = new Paragraph(a.get(j), font);
+	                if (j != 0)
+	                    p.setAlignment(Element.ALIGN_CENTER);
+	
+	                PdfPCell cell = new PdfPCell();
+	                cell.addElement(p);
+	                cell.setPaddingBottom(10);
+	                cell.setPaddingTop(0);
+	                cell.setBackgroundColor(lastLineColor);
+	                
+	                if (j==0)
+	                    cell.setColspan(2);
+	                
+	                table.addCell(cell);
+	            }
+	        }
 
-        List<String> a = all.toList();
-        for (int j = 0; j < CampaignRow.MAX_COLUMNS; j++) {
-            if (colsToPrint[j]) {
-
-                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-                Paragraph p = new Paragraph(a.get(j), font);
-                if (j != 0)
-                    p.setAlignment(Element.ALIGN_CENTER);
-
-                PdfPCell cell = new PdfPCell();
-                cell.addElement(p);
-                cell.setPaddingBottom(10);
-                cell.setPaddingTop(0);
-                cell.setBackgroundColor(lastLineColor);
-                
-                if (j==0)
-                    cell.setColspan(2);
-                
-                table.addCell(cell);
-            }
         }
-
+        
         return table;
     }
     
