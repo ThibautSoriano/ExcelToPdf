@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import main.java.datasdownloading.entities.PeriodData;
 import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
@@ -44,10 +45,30 @@ public class ExcelToPdf {
 	private String encoding = "";
 	
 	private boolean wholeTotal;
+	private boolean timePeriodTotal;
+	private PeriodData monthlyData;
+	private PeriodData weeklyData;
+	
+	public PeriodData getMonthlyData() {
+		return monthlyData;
+	}
 
-    public ExcelToPdf(String encoding, boolean wholeTotal) {
+	public void setMonthlyData(PeriodData monthlyData) {
+		this.monthlyData = monthlyData;
+	}
+
+	public PeriodData getWeeklyData() {
+		return weeklyData;
+	}
+
+	public void setWeeklyData(PeriodData weeklyData) {
+		this.weeklyData = weeklyData;
+	}
+
+    public ExcelToPdf(String encoding, boolean wholeTotal, boolean timePeriodTotal) {
 		this.encoding = encoding;
 		this.wholeTotal = wholeTotal;
+		this.timePeriodTotal = timePeriodTotal;
 	}
 
 	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
@@ -308,13 +329,13 @@ public class ExcelToPdf {
         if (contentPage.isWeekly()) {
         	document.add(new Paragraph("\nWeekly statistics"));
         	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent()));
         }
         
         if (contentPage.isMonthly()) {
         	document.add(new Paragraph("\nMonthly statistics"));
         	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true, timePeriodTotal, monthlyData.getContent()));
         }
         
         document.close();
