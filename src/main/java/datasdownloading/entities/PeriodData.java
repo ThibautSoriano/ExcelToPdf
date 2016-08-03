@@ -27,6 +27,7 @@ public class PeriodData {
 		columsLabels.add("Reach");
 		this.content = content;
 		this.all = all;
+		
 	}
 
 	public List<CampaignRowPeriod> getContent() {

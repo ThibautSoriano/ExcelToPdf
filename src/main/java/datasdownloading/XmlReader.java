@@ -568,7 +568,9 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		PeriodData p = new PeriodData(rows, (CampaignRowPeriod) getAll(xmlWholeData, false));
+		PeriodData p = new PeriodData(rows, null);
+		CampaignRow merg = getAll(xmlWholeData, false);
+		
 		
 		return p;
 	}
@@ -626,7 +628,8 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		PeriodData p = new PeriodData(rows, (CampaignRowPeriod) getAll(xmlWholeTotal, false));
+		PeriodData p = new PeriodData(rows, new CampaignRowPeriod());
+		//p.setAll((CampaignRowPeriod) getAll(xmlWholeTotal, false));
 		
 		return p;
 	}

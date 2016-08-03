@@ -474,8 +474,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         
         //TODO optimiser ca
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
-            etpd.setMonthlyData(session.getPeriodData("Week", campaignID));
-        etpd.setWeeklyData(session.getPeriodData("Month", campaignID));
+            etpd.setMonthlyData(session.getPeriodData("Month", campaignID));
+        etpd.setWeeklyData(session.getPeriodData("Week", campaignID));
         }
         
         //

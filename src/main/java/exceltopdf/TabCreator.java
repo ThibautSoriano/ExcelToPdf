@@ -160,7 +160,7 @@ public class TabCreator {
     
     public PdfPTable createTabPeriod(List<CampaignRowPeriod> campaignRows, List<String> headers,CampaignRow all,boolean[] colsToPrint,
             boolean hideEmptyLines, boolean interSums, List<CampaignRowPeriod> interData) {
-        
+    	
         if (colsToPrint.length < CampaignRowPeriod.MAX_COLUMNS_PERIOD) {
             System.err.println("Wrong tab size in createTabPeriod. Must be "
                     + CampaignRowPeriod.MAX_COLUMNS_PERIOD + " at least.");
@@ -279,7 +279,7 @@ public class TabCreator {
                 countColor++;
             }
         }
-
+        }
         // For the last line (containing the sums usually)
 
         List<String> a = all.toList();
@@ -303,7 +303,7 @@ public class TabCreator {
                 table.addCell(cell);
             }
         }
-        }
+        
 
         return table;
     }
