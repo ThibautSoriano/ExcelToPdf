@@ -568,8 +568,8 @@ public class XmlReader {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		PeriodData p = new PeriodData(rows, null);
-		CampaignRow merg = getAll(xmlWholeData, false);
+		PeriodData p = new PeriodData(rows, getAll(xmlWholeData, false));
+		
 		
 		
 		return p;

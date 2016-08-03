@@ -48,6 +48,7 @@ public class ExcelToPdf {
 	private boolean timePeriodTotal;
 	private PeriodData monthlyData;
 	private PeriodData weeklyData;
+    private String dateFormat;
 	
 	public PeriodData getMonthlyData() {
 		return monthlyData;
@@ -65,10 +66,11 @@ public class ExcelToPdf {
 		this.weeklyData = weeklyData;
 	}
 
-    public ExcelToPdf(String encoding, boolean wholeTotal, boolean timePeriodTotal) {
+    public ExcelToPdf(String encoding, boolean wholeTotal, boolean timePeriodTotal,String dateFormat) {
 		this.encoding = encoding;
 		this.wholeTotal = wholeTotal;
 		this.timePeriodTotal = timePeriodTotal;
+		this.dateFormat = dateFormat;
 	}
 
 	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
@@ -329,13 +331,13 @@ public class ExcelToPdf {
         if (contentPage.isWeekly()) {
         	document.add(new Paragraph("\nWeekly statistics"));
         	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent()));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent(),true,dateFormat));
         }
         
         if (contentPage.isMonthly()) {
         	document.add(new Paragraph("\nMonthly statistics"));
         	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true, timePeriodTotal, monthlyData.getContent()));
+        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true, timePeriodTotal, monthlyData.getContent(),false,dateFormat));
         }
         
         document.close();

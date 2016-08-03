@@ -302,12 +302,21 @@ public class MainWindow extends JFrame implements IMainFrame {
         
         @Override
         protected void done(){
-            
+            try {
+                get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
            
     };
        pbw.setVisible(true);
+       try {
        worker.execute();
+       }
+       catch (Exception e) {
+           e.printStackTrace();
+       }
              
     }
       private void doValidationInSwingWorker() {
@@ -328,7 +337,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             InternationalizationPDF ipdf = new InternationalizationPDF(
                     ecp.getSelectedLanguage());
             ExcelToPdf etpd = new ExcelToPdf(
-                    ecp.getSelectedLanguage().getEncoding(),true,false);
+                    ecp.getSelectedLanguage().getEncoding(),true,false,ecp.getSelectedLanguage().getDateFormat());
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -467,7 +476,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         InternationalizationPDF ipdf = new InternationalizationPDF(
                 msp.getSelectedLanguage());
         ExcelToPdf etpd = new ExcelToPdf(
-                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected(),msp.getChckbxTimePeriodTotal().isSelected());
+                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected(),msp.getChckbxTimePeriodTotal().isSelected(),msp.getSelectedLanguage().getDateFormat());
 
         String campaignID = ccp.getSelectedId();
         
@@ -475,7 +484,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         //TODO optimiser ca
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
             etpd.setMonthlyData(session.getPeriodData("Month", campaignID));
-        etpd.setWeeklyData(session.getPeriodData("Week", campaignID));
+            etpd.setWeeklyData(session.getPeriodData("Week", campaignID));
         }
         
         //

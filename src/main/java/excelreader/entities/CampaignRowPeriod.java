@@ -62,12 +62,17 @@ public class CampaignRowPeriod extends CampaignRow {
     	return listToSort;
     }
 	
-	@Override
-	public List<String> toList() {
+	
+	public List<String> toList(boolean weekly, String dateFormat) {
 		
         List<String> l = new ArrayList<String>();
-        if (startPeriod != null)
-        	l.add(Utils.convertDateToTimePeriod(startPeriod,Internationalization.getCurrentLanguage().getDateFormat()));
+        if (startPeriod != null){
+                if (weekly) 
+                    l.add(Utils.convertDateToTimePeriodWeekly(startPeriod,dateFormat));
+                else
+                    l.add(Utils.convertDateToTimePeriodMonthly(startPeriod,dateFormat));
+
+        }
         else
         	l.add("NO DATE");
         l.add(firstColumnData);

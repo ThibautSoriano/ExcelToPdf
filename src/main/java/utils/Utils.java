@@ -120,7 +120,7 @@ public class Utils {
 	    }
 
 	
-	public static String convertDateToTimePeriod(Date date, String dateFormat){
+	public static String convertDateToTimePeriodWeekly(Date date, String dateFormat){
 	    SimpleDateFormat f = new SimpleDateFormat(dateFormat);
 
 	    int noOfDays = 7; 
@@ -134,6 +134,20 @@ public class Utils {
 	}
 	
 	
+	public static String convertDateToTimePeriodMonthly(Date date, String dateFormat){
+            SimpleDateFormat f = new SimpleDateFormat(dateFormat);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);            
+            int monthNumber = calendar.get(Calendar.MONTH);
+            calendar.add(Calendar.MONTH, 1);
+            Date dateEnd = calendar.getTime();
+            
+            return f.format(date) + " - " +f.format(dateEnd) + " ("+(monthNumber+1)+")";
+        }
+	
+	
+	
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 //            while (true) {
 //            String brazil = getPdfName("or.be öàç@&{'($¤**µ§<>go_ zéù%ccc-");
@@ -143,9 +157,18 @@ public class Utils {
 //            writer.println("The first line");
 //            
 //            writer.close();
+            Date d = new Date(Long.parseLong("1451830653")*1000);
+//	    System.out.println(convertDateToTimePeriodWeekly(new Date(Long.parseLong("1442188800")*1000),"yyyy. MM. dd"));
             
-	    System.out.println(convertDateToTimePeriod(new Date(Long.parseLong("1442188800")*1000),"yyyy. MM. dd"));
+	    SimpleDateFormat f = new SimpleDateFormat("yyyy. MM. dd");
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(d);            
+            int monthNumber = calendar.get(Calendar.MONTH);
+            calendar.add(Calendar.MONTH, 1);
+            Date dateEnd = calendar.getTime();
             
+             System.out.println(f.format(d) + " - " +f.format(dateEnd) + " ("+(monthNumber+1)+")");
             
         }
 	

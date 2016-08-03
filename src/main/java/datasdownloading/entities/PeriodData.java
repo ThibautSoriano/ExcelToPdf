@@ -1,20 +1,20 @@
 package main.java.datasdownloading.entities;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import main.java.excelreader.entities.CampaignRow;
 import main.java.excelreader.entities.CampaignRowPeriod;
 
 public class PeriodData {
 	
 	private List<CampaignRowPeriod> content = new ArrayList<>();
 	
-	private CampaignRowPeriod all;
+	private CampaignRow all;
 	
 	private List<String> columsLabels = new ArrayList<>();
 	
-	public PeriodData(List<CampaignRowPeriod> content, CampaignRowPeriod all) {
+	public PeriodData(List<CampaignRowPeriod> content, CampaignRow all) {
 		columsLabels.add("Time period");
 		columsLabels.add("Placement path");		
 		columsLabels.add("Impressions");
@@ -38,11 +38,11 @@ public class PeriodData {
 		this.content = content;
 	}
 
-	public CampaignRowPeriod getAll() {
+	public CampaignRow getAll() {
 		return all;
 	}
 
-	public void setAll(CampaignRowPeriod all) {
+	public void setAll(CampaignRow all) {
 		this.all = all;
 	}
 
