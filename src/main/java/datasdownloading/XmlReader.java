@@ -393,8 +393,8 @@ public class XmlReader {
 		return c;
 	}
 	
-	private CampaignRow getAll(String xmlSummaryData, boolean withCountryID) throws LoginException {
-		CampaignRow all = new CampaignRow();
+	private CampaignRowPeriod getAll(String xmlSummaryData, boolean withCountryID) throws LoginException {
+		CampaignRowPeriod all = new CampaignRowPeriod();
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -443,7 +443,7 @@ public class XmlReader {
 						float clickThroughRate = Utils.parseFloat(eElement.getElementsByTagName("CTR").item(0).getTextContent());
 						float uniqueCTR = Utils.parseFloat(eElement.getElementsByTagName("UCTR").item(0).getTextContent());
 						
-						CampaignRow currentRow = new CampaignRow("All", impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR));
+						CampaignRowPeriod currentRow = new CampaignRowPeriod("All", impressions, frequency, clicks, userClicks, new Percentage(clickThroughRate), new Percentage(uniqueCTR), new Date());
 						currentRow.setReach(reach);
 						
 						return currentRow;

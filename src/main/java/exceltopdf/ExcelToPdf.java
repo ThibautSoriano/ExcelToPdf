@@ -151,7 +151,7 @@ public class ExcelToPdf {
 		
 		document.open();
 		boolean [] colsToPrint = {
-    			true, true, ptPage.isImpressions(), false, ptPage.isFrequency(),
+    			true, false, ptPage.isImpressions(), false, ptPage.isFrequency(),
     			ptPage.isClicks(), ptPage.isClickingUsers(), ptPage.isClickThroughRate(),
     			ptPage.isUniqueCTR(), ptPage.isReach()
         };
