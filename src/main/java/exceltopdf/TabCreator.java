@@ -157,7 +157,8 @@ public class TabCreator {
     public PdfPTable createTabPeriod(List<CampaignRowPeriod> campaignRows,
             List<String> headers, CampaignRow all, boolean[] colsToPrint,
             boolean hideEmptyLines, boolean interSums,
-            List<CampaignRowPeriod> interData,boolean weekly, String dateFormat) {
+            List<CampaignRowPeriod> interData, boolean weekly,
+            String dateFormat) {
 
         if (colsToPrint.length < CampaignRowPeriod.MAX_COLUMNS_PERIOD) {
             System.err.println("Wrong tab size in createTabPeriod. Must be "
@@ -165,21 +166,11 @@ public class TabCreator {
             return new PdfPTable(1);
         }
 
-        // 2 column are added because two  has a width of 2 columns
+        // 2 column are added because two has a width of 2 columns
         int colsNumber = Utils.countTrueInTab(colsToPrint);
         PdfPTable table = new PdfPTable(colsNumber + 2);
         table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         table.setWidthPercentage(100);
-
-        
-        
-        
-        for (int i = 0; i < interData.size(); i++)
-            System.out.println(interData.get(i).getStartPeriod());
-
-        
-        
-        
 
         // For the headers
         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
@@ -197,7 +188,7 @@ public class TabCreator {
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.addElement(para);
 
-                if (j == 0 || j==1)
+                if (j == 0 || j == 1)
                     cell.setColspan(2);
 
                 table.addCell(cell);
@@ -208,10 +199,9 @@ public class TabCreator {
         // For all the rows
         for (int i = 0; i < campaignRows.size(); i++) {
 
-            
             if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
-                
-                List<String> l = campaignRows.get(i).toList(weekly,dateFormat);
+
+                List<String> l = campaignRows.get(i).toList(weekly, dateFormat);
                 for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
 
                     if (colsToPrint[j]) {
@@ -224,7 +214,7 @@ public class TabCreator {
                         cell.setPaddingBottom(10);
                         cell.setPaddingTop(0);
 
-                        if (j == 0 || j==1)
+                        if (j == 0 || j == 1)
                             cell.setColspan(2);
 
                         Paragraph p = null;
@@ -237,68 +227,49 @@ public class TabCreator {
                             p.setAlignment(Element.ALIGN_CENTER);
                         }
 
-                        
-                            cell.setBackgroundColor(bestRowsColor);
-                        
+                        cell.setBackgroundColor(bestRowsColor);
 
                         cell.addElement(p);
 
                         table.addCell(cell);
                     }
                 }
-                
 
             }
-            
-            
-            
-            
+
             if (interSums) {
-                if ((i + 1) < campaignRows.size()) {
-                   System.out.println("est-ce que : " + campaignRows.get(i).getStartPeriod() + " est different de " + 
-                        campaignRows.get(i + 1).getStartPeriod());
-                System.out.println(!campaignRows.get(i).getStartPeriod().equals(
-                        campaignRows.get(i + 1).getStartPeriod())); 
-                }
-                
+
                 if ((i + 1) == campaignRows.size()
                         || !campaignRows.get(i).getStartPeriod().equals(
                                 campaignRows.get(i + 1).getStartPeriod())) {
                     CampaignRowPeriod zk = CampaignRowPeriod.getRowByDate(
-                            campaignRows.get(i).getStartPeriod(),
-                            interData);
+                            campaignRows.get(i).getStartPeriod(), interData);
 
                     if (zk != null) {
-                        List<String> l = zk.toList(weekly,dateFormat);
+                        List<String> l = zk.toList(weekly, dateFormat);
                         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
 
                             if (colsToPrint[j]) {
-                                Font font = new Font(FontFamily.HELVETICA,
-                                        8, Font.BOLD);
+                                Font font = new Font(FontFamily.HELVETICA, 8,
+                                        Font.BOLD);
 
                                 PdfPCell cell = new PdfPCell();
-                                cell.setVerticalAlignment(
-                                        Element.ALIGN_MIDDLE);
+                                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 
                                 cell.setPaddingBottom(10);
                                 cell.setPaddingTop(0);
-                                
+
                                 Paragraph p = new Paragraph(
                                         splitFirstColumnData(l.get(j),
                                                 getMaxLength(colsNumber)),
                                         font);
-                                
-                                if (j == 0 || j==1)
+
+                                if (j == 0 || j == 1)
                                     cell.setColspan(2);
-                                
-                                    
-                                
-                                if (j!=0)
+
+                                if (j != 0)
                                     p.setAlignment(Element.ALIGN_CENTER);
 
-                                
-
-                               
                                 cell.setBackgroundColor(interSumsColor);
 
                                 cell.addElement(p);
@@ -311,37 +282,33 @@ public class TabCreator {
 
                 }
             }
-            
-            
-            
-            
-            
+
         }
         // For the last line (containing the sums usually)
 
-         List<String> a = all.toList();
-         a.add(0, "MERGUEZ");
-         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
-        
-         if (colsToPrint[j]) {
-        
-         Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-         Paragraph p = new Paragraph(a.get(j), font);
-         if (j != 0)
-         p.setAlignment(Element.ALIGN_CENTER);
-        
-         PdfPCell cell = new PdfPCell();
-         cell.addElement(p);
-         cell.setPaddingBottom(10);
-         cell.setPaddingTop(0);
-         cell.setBackgroundColor(lastLineColor);
-        
-         if (j == 0 || j==1)
-         cell.setColspan(2);
-        
-         table.addCell(cell);
-         }
-         }
+        List<String> a = all.toList();
+        a.add(0, "MERGUEZ");
+        for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+            if (colsToPrint[j]) {
+
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+                Paragraph p = new Paragraph(a.get(j), font);
+                if (j != 0)
+                    p.setAlignment(Element.ALIGN_CENTER);
+
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(p);
+                cell.setPaddingBottom(10);
+                cell.setPaddingTop(0);
+                cell.setBackgroundColor(lastLineColor);
+
+                if (j == 0 || j == 1)
+                    cell.setColspan(2);
+
+                table.addCell(cell);
+            }
+        }
 
         return table;
     }
@@ -411,7 +378,7 @@ public class TabCreator {
         return table;
 
     }
-    
+
     public PdfPTable createTabPeriodTotal(List<CampaignRowPeriod> campaignRows,
             List<String> headers, CampaignRow all, boolean[] colsToPrint,
             boolean hideEmptyLines, boolean weekly, String dateFormat) {
@@ -422,17 +389,11 @@ public class TabCreator {
             return new PdfPTable(1);
         }
 
-        // 2 column are added because two  has a width of 2 columns
+        // 2 column are added because two has a width of 2 columns
         int colsNumber = Utils.countTrueInTab(colsToPrint);
-        PdfPTable table = new PdfPTable(colsNumber + 2);
+        PdfPTable table = new PdfPTable(colsNumber + 1);
         table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
         table.setWidthPercentage(100);
-
-        
-        
-        
-        
-        
 
         // For the headers
         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
@@ -450,7 +411,7 @@ public class TabCreator {
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.addElement(para);
 
-                if (j == 0 || j==1)
+                if (j == 0 || j == 1)
                     cell.setColspan(2);
 
                 table.addCell(cell);
@@ -461,10 +422,9 @@ public class TabCreator {
         // For all the rows
         for (int i = 0; i < campaignRows.size(); i++) {
 
-            
             if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
-                
-                List<String> l = campaignRows.get(i).toList(weekly,dateFormat);
+
+                List<String> l = campaignRows.get(i).toList(weekly, dateFormat);
                 for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
 
                     if (colsToPrint[j]) {
@@ -477,7 +437,7 @@ public class TabCreator {
                         cell.setPaddingBottom(10);
                         cell.setPaddingTop(0);
 
-                        if (j == 0 || j==1)
+                        if (j == 0 || j == 1)
                             cell.setColspan(2);
 
                         Paragraph p = null;
@@ -490,48 +450,43 @@ public class TabCreator {
                             p.setAlignment(Element.ALIGN_CENTER);
                         }
 
-                        
                         cell.setBackgroundColor(interSumsColor);
-                        
 
                         cell.addElement(p);
-                        System.out.println("yu"+i);
                         table.addCell(cell);
                     }
                 }
-                
 
             }
-            
-                 
+
         }
         // For the last line (containing the sums usually)
         if (all != null) {
-        	
-         List<String> a = all.toList();
-         a.add(0, "MERGUEZ");
-         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
-        
-         if (colsToPrint[j]) {
-        
-         Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-         Paragraph p = new Paragraph(a.get(j), font);
-         if (j != 0)
-         p.setAlignment(Element.ALIGN_CENTER);
-        
-         PdfPCell cell = new PdfPCell();
-         cell.addElement(p);
-         cell.setPaddingBottom(10);
-         cell.setPaddingTop(0);
-         cell.setBackgroundColor(lastLineColor);
-        
-         if (j == 0 || j==1)
-         cell.setColspan(2);
-        
-         table.addCell(cell);
-         }
-         }
-    }
+
+            List<String> a = all.toList();
+            a.add(0, "Total");
+            for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+                if (colsToPrint[j]) {
+
+                    Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+                    Paragraph p = new Paragraph(a.get(j), font);
+                    if (j != 0)
+                        p.setAlignment(Element.ALIGN_CENTER);
+
+                    PdfPCell cell = new PdfPCell();
+                    cell.addElement(p);
+                    cell.setPaddingBottom(10);
+                    cell.setPaddingTop(0);
+                    cell.setBackgroundColor(lastLineColor);
+
+                    if (j == 0 || j == 1)
+                        cell.setColspan(2);
+
+                    table.addCell(cell);
+                }
+            }
+        }
 
         return table;
     }

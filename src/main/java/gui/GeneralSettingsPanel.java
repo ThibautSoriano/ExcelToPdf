@@ -117,9 +117,9 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         add(lblYourCompanyWebsite);
         
         txtWebsite = new JTextField();
-        txtWebsite.setText("www.gemius.hu");
         txtWebsite.setColumns(10);
         txtWebsite.setDocument(new JTextFieldLimit(30));
+        txtWebsite.setText("www.gemius.hu");
         txtWebsite.setBounds(284, 115, 177, 20);
         add(txtWebsite);
         

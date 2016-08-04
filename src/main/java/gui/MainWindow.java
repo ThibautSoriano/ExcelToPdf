@@ -678,7 +678,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             ptp.setUniqueCTR(csp.getChckbxUniqueCTRRankings().isSelected());
             
             ptp.setStructure(hfContent);
-            ptp.setAll(new CampaignRowPeriod());
+            if (msp.getChckbxWholeTotal().isSelected())
+                ptp.setAll(session.getAll(campaignID));
             ptp.setMonthlyData(monthlyData);
             ptp.setWeeklyData(weeklyData);
             sections.add(ptp);

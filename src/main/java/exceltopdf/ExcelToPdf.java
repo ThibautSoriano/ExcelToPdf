@@ -33,507 +33,586 @@ import main.java.exceltopdf.pdfsections.TitlePage;
 import main.java.utils.Utils;
 
 public class ExcelToPdf {
-	
+
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
     public static final String TEMP_SUMMARY_PAGE = "tmp_summary_page.pdf";
     public static final String TEMP_PERIOD_TOTAL_PAGE = "tmp_period_total_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
-    public  List<String> FILES = new ArrayList<>();
-	private static final int TITLE_PAGE = 0;
-	private static final int INSERT_PAGE = 1;
-	private static final int SUMMARY_PAGE = 2;
-	private static final int PERIOD_TOTAL_PAGE = 3;
-	public static int CURRENT_PAGE_NUMBER = 0;
-	
-	private String encoding = "";
-	
-	private boolean wholeTotal;
-	private boolean timePeriodTotal;
-	private PeriodData monthlyData;
-	private PeriodData weeklyData;
+    public List<String> FILES = new ArrayList<>();
+    private static final int TITLE_PAGE = 0;
+    private static final int INSERT_PAGE = 1;
+    private static final int SUMMARY_PAGE = 2;
+    private static final int PERIOD_TOTAL_PAGE = 3;
+    public static int CURRENT_PAGE_NUMBER = 0;
+
+    private String encoding = "";
+
+    private boolean wholeTotal;
+    private boolean timePeriodTotal;
+    private PeriodData monthlyData;
+    private PeriodData weeklyData;
     private String dateFormat;
-	
-	public PeriodData getMonthlyData() {
-		return monthlyData;
-	}
 
-	public void setMonthlyData(PeriodData monthlyData) {
-		this.monthlyData = monthlyData;
-	}
+    public PeriodData getMonthlyData() {
+        return monthlyData;
+    }
 
-	public PeriodData getWeeklyData() {
-		return weeklyData;
-	}
+    public void setMonthlyData(PeriodData monthlyData) {
+        this.monthlyData = monthlyData;
+    }
 
-	public void setWeeklyData(PeriodData weeklyData) {
-		this.weeklyData = weeklyData;
-	}
+    public PeriodData getWeeklyData() {
+        return weeklyData;
+    }
 
-    public ExcelToPdf(String encoding, boolean wholeTotal, boolean timePeriodTotal,String dateFormat) {
-		this.encoding = encoding;
-		this.wholeTotal = wholeTotal;
-		this.timePeriodTotal = timePeriodTotal;
-		this.dateFormat = dateFormat;
-	}
+    public void setWeeklyData(PeriodData weeklyData) {
+        this.weeklyData = weeklyData;
+    }
 
-	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
-            throws IOException, DocumentException {
-        
+    public ExcelToPdf(String encoding, boolean wholeTotal,
+            boolean timePeriodTotal, String dateFormat) {
+        this.encoding = encoding;
+        this.wholeTotal = wholeTotal;
+        this.timePeriodTotal = timePeriodTotal;
+        this.dateFormat = dateFormat;
+    }
+
+    public void createPdf(String dest, List<Section> sections,
+            boolean insertPageOn) throws IOException, DocumentException {
+
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
 
         createTitlePage(titlePage);
-        
+
         if (insertPageOn) {
             InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
-            
+
             createInsertPage(insertPage);
         }
-                
+
         for (int i = 2; i < sections.size(); i++) {
-     	   createContentPage((ContentPage) sections.get(i), false);
+            createContentPage((ContentPage) sections.get(i), false);
         }
-        
-        
-        
+
         PdfConcat c = new PdfConcat();
         c.concat(FILES, dest);
     }
 
-   public void createPdfDownload(String dest, List<Section> sections, boolean insertPageOn) throws DocumentException, IOException {
-//	   SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-	   TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
-	   
-//	   if (sections.size() > 2) {
-//		titlePage.setCampaignName(((ContentPage) sections.get(2)).getCampaign().getCampaignHeader().getCampaignName());
-//		titlePage.setStartDate(f.format(campaigns.get(0).getCampaignHeader().getStartDate()));
-//		titlePage.setEndDate(f.format(campaigns.get(0).getCampaignHeader().getEndDate()));
-//	   }
-       
-       
-       createTitlePage(titlePage);
-       
-       if (insertPageOn) {
-           InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
-           
-           createInsertPage(insertPage);
-       }
-       
-       SummaryPage summaryPage = (SummaryPage) sections.get(SUMMARY_PAGE);
-       
-       if (summaryPage.isHasToBeDisplayed()) {
-    	   createSummaryPage(summaryPage);
-       }
-       
-       PeriodTotalPage ptPage = (PeriodTotalPage) sections.get(PERIOD_TOTAL_PAGE);
-       
-       createPeriodTotalPage(ptPage);
-       
-       for (int i = 4; i < sections.size(); i++) {
-    	   createContentPage((ContentPage) sections.get(i), true);
-       }
-       
-       
-       
-       PdfConcat c = new PdfConcat();
-       c.concat(FILES, dest);
-   }
-   
-   private void createPeriodTotalPage(PeriodTotalPage ptPage) throws DocumentException, IOException {
-	   Document document = new Document();
-		TabCreator tc = new TabCreator(wholeTotal);
-		document.setMargins(85, 85, 85, 113);
-		String fileName = TEMP_PERIOD_TOTAL_PAGE;
-		FileOutputStream outputStream = new FileOutputStream(fileName);
-		FILES.add(fileName);
-		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		writer.setPageEvent(ptPage.getStructure());
-		
-		document.open();
-		boolean [] colsToPrint = {
-    			true, false, ptPage.isImpressions(), false, ptPage.isFrequency(),
-    			ptPage.isClicks(), ptPage.isClickingUsers(), ptPage.isClickThroughRate(),
-    			ptPage.isUniqueCTR(), ptPage.isReach()
-        };
-		
-		if (ptPage.getMonthlyData() != null) {
-		Paragraph title = new Paragraph("Monthly sums");
-		title.setAlignment(Element.ALIGN_CENTER);
-		title.getFont().setStyle(Font.BOLD);
-		document.add(title);
-		document.add(new Paragraph("\n\n"));
-		
-        document.add(tc.createTabPeriodTotal(ptPage.getMonthlyData().getContent(), ptPage.getMonthlyData().getColumsLabels(), ptPage.getAll(), colsToPrint, true, false, dateFormat));
-        
-		}
-		
-		if (ptPage.getWeeklyData() != null) {
-			Paragraph title = new Paragraph("Weekly sums");
-			title.setAlignment(Element.ALIGN_CENTER);
-			title.getFont().setStyle(Font.BOLD);
-			document.add(title);
-			document.add(new Paragraph("\n\n"));
-			
-	        document.add(tc.createTabPeriodTotal(ptPage.getWeeklyData().getContent(), ptPage.getWeeklyData().getColumsLabels(), ptPage.getAll(), colsToPrint, true, true, dateFormat));
-	        
-			}
+    public void createPdfDownload(String dest, List<Section> sections,
+            boolean insertPageOn) throws DocumentException, IOException {
+        // SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+        TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
+
+        // if (sections.size() > 2) {
+        // titlePage.setCampaignName(((ContentPage)
+        // sections.get(2)).getCampaign().getCampaignHeader().getCampaignName());
+        // titlePage.setStartDate(f.format(campaigns.get(0).getCampaignHeader().getStartDate()));
+        // titlePage.setEndDate(f.format(campaigns.get(0).getCampaignHeader().getEndDate()));
+        // }
+
+        createTitlePage(titlePage);
+
+        if (insertPageOn) {
+            InsertPage insertPage = (InsertPage) sections.get(INSERT_PAGE);
+
+            createInsertPage(insertPage);
+        }
+
+        SummaryPage summaryPage = (SummaryPage) sections.get(SUMMARY_PAGE);
+
+        if (summaryPage.isHasToBeDisplayed()) {
+            createSummaryPage(summaryPage);
+        }
+
+        PeriodTotalPage ptPage = (PeriodTotalPage) sections
+                .get(PERIOD_TOTAL_PAGE);
+
+        createPeriodTotalPage(ptPage);
+
+        for (int i = 4; i < sections.size(); i++) {
+            createContentPage((ContentPage) sections.get(i), true);
+        }
+
+        PdfConcat c = new PdfConcat();
+        c.concat(FILES, dest);
+    }
+
+    private void createPeriodTotalPage(PeriodTotalPage ptPage)
+            throws DocumentException, IOException {
+        Document document = new Document();
+        TabCreator tc = new TabCreator(wholeTotal);
+        document.setMargins(85, 85, 85, 113);
+        String fileName = TEMP_PERIOD_TOTAL_PAGE;
+        FileOutputStream outputStream = new FileOutputStream(fileName);
+        FILES.add(fileName);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        writer.setPageEvent(ptPage.getStructure());
+
+        document.open();
+        boolean[] colsToPrint = { true, false, ptPage.isImpressions(), false,
+                ptPage.isFrequency(), ptPage.isClicks(),
+                ptPage.isClickingUsers(), ptPage.isClickThroughRate(),
+                ptPage.isUniqueCTR(), ptPage.isReach() };
+
+        if (ptPage.getMonthlyData() != null) {
+            Paragraph title = new Paragraph("Monthly sums");
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.getFont().setStyle(Font.BOLD);
+            document.add(title);
+            document.add(new Paragraph("\n\n"));
+
+            document.add(tc.createTabPeriodTotal(
+                    ptPage.getMonthlyData().getContent(),
+                    ptPage.getMonthlyData().getColumsLabels(), ptPage.getAll(),
+                    colsToPrint, true, false, dateFormat));
+            document.add(new Paragraph("\n\n"));
+        }
+
+        if (ptPage.getWeeklyData() != null) {
+            Paragraph title = new Paragraph("Weekly sums");
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.getFont().setStyle(Font.BOLD);
+            document.add(title);
+            document.add(new Paragraph("\n\n"));
+
+            document.add(tc.createTabPeriodTotal(
+                    ptPage.getWeeklyData().getContent(),
+                    ptPage.getWeeklyData().getColumsLabels(), ptPage.getAll(),
+                    colsToPrint, true, true, dateFormat));
+
+        }
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();
         writer.flush();
         writer.close();
         outputStream.flush();
         outputStream.close();
-        
+
         writer = null;
         outputStream = null;
         System.gc();
-	
-}
 
-private void createSummaryPage(SummaryPage summaryPage) throws DocumentException, IOException {
-		Document document = new Document();
-		TabCreator tc = new TabCreator(wholeTotal);
-		document.setMargins(85, 85, 85, 113);
-		String fileName = TEMP_SUMMARY_PAGE;
-		FileOutputStream outputStream = new FileOutputStream(fileName);
-		FILES.add(fileName);
-		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		writer.setPageEvent(summaryPage.getStructure());
-		
-		document.open();
-        
-		Paragraph title = new Paragraph("Summary");
-		title.setAlignment(Element.ALIGN_CENTER);
-		title.getFont().setStyle(Font.BOLD);
-		document.add(title);
-		document.add(new Paragraph("\n\n"));
+    }
+
+    private void createSummaryPage(SummaryPage summaryPage)
+            throws DocumentException, IOException {
+        Document document = new Document();
+        TabCreator tc = new TabCreator(wholeTotal);
+        document.setMargins(85, 85, 85, 113);
+        String fileName = TEMP_SUMMARY_PAGE;
+        FileOutputStream outputStream = new FileOutputStream(fileName);
+        FILES.add(fileName);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        writer.setPageEvent(summaryPage.getStructure());
+
+        document.open();
+
+        Paragraph title = new Paragraph("Summary");
+        title.setAlignment(Element.ALIGN_CENTER);
+        title.getFont().setStyle(Font.BOLD);
+        document.add(title);
+        document.add(new Paragraph("\n\n"));
         document.add(tc.getTabSummary(summaryPage.getSummary()));
-        
+
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();
         writer.flush();
         writer.close();
         outputStream.flush();
         outputStream.close();
-        
+
         writer = null;
         outputStream = null;
         System.gc();
-	   
-   }
 
-    private void createContentPage(ContentPage contentPage, boolean download) throws DocumentException, IOException {
-    	BarChartCreator barChartCreator = new BarChartCreator();
-    	PieChartCreator pieChartCreator = new PieChartCreator();
-    	Document document = new Document();
-    	document.setMargins(85, 85, 85, 113);
-    	String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
-		FileOutputStream outputStream = new FileOutputStream(fileName);
-		FILES.add(fileName);
-		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		writer.setPageEvent(contentPage.getStructure());
-		List<CampaignRow> rows = null;
-		document.open();
-		
-		rows = contentPage.getCampaign().getCampaignContent();	
-		
-		if (contentPage.getChartType() == ContentPage.BAR_CHART) {
-			if (contentPage.isImpressions()) {
-			    JFreeChart impressionsChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
-			    if (impressionsChart != null)
-				document.add(getImageBar(impressionsChart, writer));
-			}
-			if (contentPage.isUniqueCookies()) {
-			    JFreeChart uniqueCookiesChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies", "Ads");
-			    if (uniqueCookiesChart != null)
-				document.add(getImageBar(uniqueCookiesChart, writer));
-			}
-			if (contentPage.isReach()) {
-			    JFreeChart reachChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX), CampaignRow.REACH_INDEX, "Reach", "Ads");
-			    if (reachChart != null)
-				document.add(getImageBar(reachChart, writer));
-			}
-			if (contentPage.isFrequency()) {
-			    JFreeChart frequencyChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads");
-			    if (frequencyChart != null)
-				document.add(getImageBar(frequencyChart, writer));
-			}
-			if (contentPage.isClicks()) {
-			    JFreeChart clicksChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks", "Ads");
-			    if (clicksChart != null)
-				document.add(getImageBar(clicksChart, writer));
-			}
-			if (contentPage.isClickingUsers()) {
-			    JFreeChart clickingUsersChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users", "Ads");
-			    if (clickingUsersChart != null)
-				document.add(getImageBar(clickingUsersChart, writer));
-			}
-			if (contentPage.isClickThroughRate()) {
-			    JFreeChart clickThroughRateChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate", "Ads");
-			    if (clickThroughRateChart != null)
-				document.add(getImageBar(clickThroughRateChart, writer));
-			}
-			if (contentPage.isUniqueCTR()) {
-			    JFreeChart uniqueCTRChart = barChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads");
-			    if (uniqueCTRChart != null)
-				document.add(getImageBar(uniqueCTRChart, writer));
-			}
-		} else if (contentPage.getChartType() == ContentPage.PIE_CHART) {
-			if (contentPage.isImpressions()) {
-				JFreeChart impressionsChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX), CampaignRow.IMPRESSIONS_INDEX, "Impressions per county", false, 0, 0);
-			    if (impressionsChart != null)
-				document.add(getImagePie(impressionsChart, writer));
-			    document.add(new Paragraph("\n"));
-			    }
-			if (contentPage.isUniqueCookies()) {
-				JFreeChart uniqueCookiesChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_COOKIES_INDEX), CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies per county", false, 0, 0);
-			    if (uniqueCookiesChart != null)
-				document.add(getImagePie(uniqueCookiesChart, writer));
-			    document.add(new Paragraph("\n"));
-			    }
-			if (contentPage.isReach()) {
-				JFreeChart reachChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX), CampaignRow.REACH_INDEX, "Reach per county", false, 0, 0);
-			    if (reachChart != null)
-				document.add(getImagePie(reachChart, writer));
-			    document.add(new Paragraph("\n"));
-			    }
-			if (contentPage.isFrequency()) {
-			    int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
-			    if (download) {
-			        indexDenominator = CampaignRow.REACH_INDEX;
-			    }
-			    JFreeChart frequencyChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX), CampaignRow.FREQUENCY_INDEX, "Frequency per county", true, CampaignRow.IMPRESSIONS_INDEX, indexDenominator);
-				if (frequencyChart != null)
-					document.add(getImagePie(frequencyChart, writer));
-				document.add(new Paragraph("\n"));
-			}
-			if (contentPage.isClicks()) {
-				JFreeChart clicksChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX), CampaignRow.CLICKS_INDEX, "Clicks per county", false, 0, 0);
-				if (clicksChart != null)
-					document.add(getImagePie(clicksChart, writer));
-				document.add(new Paragraph("\n"));
-			}
-			if (contentPage.isClickingUsers()) {
-				JFreeChart clickingUsersChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICKING_USERS_INDEX), CampaignRow.CLICKING_USERS_INDEX, "Clicking users per county", false, 0, 0);
-				if (clickingUsersChart != null)
-					document.add(getImagePie(clickingUsersChart, writer));
-				document.add(new Paragraph("\n"));
-			}
-			if (contentPage.isClickThroughRate()) {
-				JFreeChart clickThroughRateChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.CLICK_THROUGH_RATE_INDEX), CampaignRow.CLICK_THROUGH_RATE_INDEX, "Click through rate per county", true, CampaignRow.CLICKS_INDEX, CampaignRow.IMPRESSIONS_INDEX);
-				if (clickThroughRateChart != null)
-					document.add(getImagePie(clickThroughRateChart, writer));
-				document.add(new Paragraph("\n"));
-			}
-			if (contentPage.isUniqueCTR()) {
-				int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
-			    if (download) {
-			        indexDenominator = CampaignRow.REACH_INDEX;
-			    }
-				JFreeChart uniqueCTRChart = pieChartCreator.getChart(CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX), CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county", true, CampaignRow.CLICKING_USERS_INDEX, indexDenominator);
-				if (uniqueCTRChart != null)
-					document.add(getImagePie(uniqueCTRChart, writer));
-				document.add(new Paragraph("\n"));
-			}
-		}
-		
-		document.add(new Paragraph("\n\n"));
-		
-		
-		TabCreator tc = new TabCreator(wholeTotal);
-		
-		if (contentPage.isGeneral()) {
-			document.add(new Paragraph("Full data table"));
-			document.add(new Paragraph("\n"));
-			List<String> labels;
-			
-			labels = contentPage.getCampaign().getColumsLabels();
-			
-	    	boolean [] colsToPrint = {
-	    			true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
-	                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
-	                contentPage.isUniqueCTR(), contentPage.isReach()
-	        };
-			
-			document.add(tc.createTabCampaign(rows, labels, contentPage.getCampaign().getAll(),colsToPrint,true));
-		}
-        
-        
-        boolean [] colsPeriod = {
-    			true, true, contentPage.isImpressions(), contentPage.isUniqueCookies(), contentPage.isFrequency(),
-                contentPage.isClicks(), contentPage.isClickingUsers(), contentPage.isClickThroughRate(),
-                contentPage.isUniqueCTR(), contentPage.isReach()
-        };
-        
+    }
+
+    private void createContentPage(ContentPage contentPage, boolean download)
+            throws DocumentException, IOException {
+        BarChartCreator barChartCreator = new BarChartCreator();
+        PieChartCreator pieChartCreator = new PieChartCreator();
+        Document document = new Document();
+        document.setMargins(85, 85, 85, 113);
+        String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
+        FileOutputStream outputStream = new FileOutputStream(fileName);
+        FILES.add(fileName);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        writer.setPageEvent(contentPage.getStructure());
+        List<CampaignRow> rows = null;
+        document.open();
+
+        rows = contentPage.getCampaign().getCampaignContent();
+
+        if (contentPage.getChartType() == ContentPage.BAR_CHART) {
+            if (contentPage.isImpressions()) {
+                JFreeChart impressionsChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX),
+                        CampaignRow.IMPRESSIONS_INDEX, "Impressions", "Ads");
+                if (impressionsChart != null)
+                    document.add(getImageBar(impressionsChart, writer));
+            }
+            if (contentPage.isUniqueCookies()) {
+                JFreeChart uniqueCookiesChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.UNIQUE_COOKIES_INDEX),
+                        CampaignRow.UNIQUE_COOKIES_INDEX, "Unique cookies",
+                        "Ads");
+                if (uniqueCookiesChart != null)
+                    document.add(getImageBar(uniqueCookiesChart, writer));
+            }
+            if (contentPage.isReach()) {
+                JFreeChart reachChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX),
+                        CampaignRow.REACH_INDEX, "Reach", "Ads");
+                if (reachChart != null)
+                    document.add(getImageBar(reachChart, writer));
+            }
+            if (contentPage.isFrequency()) {
+                JFreeChart frequencyChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX),
+                        CampaignRow.FREQUENCY_INDEX, "Frequency", "Ads");
+                if (frequencyChart != null)
+                    document.add(getImageBar(frequencyChart, writer));
+            }
+            if (contentPage.isClicks()) {
+                JFreeChart clicksChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX),
+                        CampaignRow.CLICKS_INDEX, "Clicks", "Ads");
+                if (clicksChart != null)
+                    document.add(getImageBar(clicksChart, writer));
+            }
+            if (contentPage.isClickingUsers()) {
+                JFreeChart clickingUsersChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.CLICKING_USERS_INDEX),
+                        CampaignRow.CLICKING_USERS_INDEX, "Clicking users",
+                        "Ads");
+                if (clickingUsersChart != null)
+                    document.add(getImageBar(clickingUsersChart, writer));
+            }
+            if (contentPage.isClickThroughRate()) {
+                JFreeChart clickThroughRateChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.CLICK_THROUGH_RATE_INDEX),
+                        CampaignRow.CLICK_THROUGH_RATE_INDEX,
+                        "Click through rate", "Ads");
+                if (clickThroughRateChart != null)
+                    document.add(getImageBar(clickThroughRateChart, writer));
+            }
+            if (contentPage.isUniqueCTR()) {
+                JFreeChart uniqueCTRChart = barChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX),
+                        CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR", "Ads");
+                if (uniqueCTRChart != null)
+                    document.add(getImageBar(uniqueCTRChart, writer));
+            }
+        } else if (contentPage.getChartType() == ContentPage.PIE_CHART) {
+            if (contentPage.isImpressions()) {
+                JFreeChart impressionsChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.IMPRESSIONS_INDEX),
+                        CampaignRow.IMPRESSIONS_INDEX, "Impressions per county",
+                        false, 0, 0);
+                if (impressionsChart != null)
+                    document.add(getImagePie(impressionsChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isUniqueCookies()) {
+                JFreeChart uniqueCookiesChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.UNIQUE_COOKIES_INDEX),
+                        CampaignRow.UNIQUE_COOKIES_INDEX,
+                        "Unique cookies per county", false, 0, 0);
+                if (uniqueCookiesChart != null)
+                    document.add(getImagePie(uniqueCookiesChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isReach()) {
+                JFreeChart reachChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.REACH_INDEX),
+                        CampaignRow.REACH_INDEX, "Reach per county", false, 0,
+                        0);
+                if (reachChart != null)
+                    document.add(getImagePie(reachChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isFrequency()) {
+                int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
+                if (download) {
+                    indexDenominator = CampaignRow.REACH_INDEX;
+                }
+                JFreeChart frequencyChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.FREQUENCY_INDEX),
+                        CampaignRow.FREQUENCY_INDEX, "Frequency per county",
+                        true, CampaignRow.IMPRESSIONS_INDEX, indexDenominator);
+                if (frequencyChart != null)
+                    document.add(getImagePie(frequencyChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isClicks()) {
+                JFreeChart clicksChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.CLICKS_INDEX),
+                        CampaignRow.CLICKS_INDEX, "Clicks per county", false, 0,
+                        0);
+                if (clicksChart != null)
+                    document.add(getImagePie(clicksChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isClickingUsers()) {
+                JFreeChart clickingUsersChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.CLICKING_USERS_INDEX),
+                        CampaignRow.CLICKING_USERS_INDEX,
+                        "Clicking users per county", false, 0, 0);
+                if (clickingUsersChart != null)
+                    document.add(getImagePie(clickingUsersChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isClickThroughRate()) {
+                JFreeChart clickThroughRateChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows,
+                                CampaignRow.CLICK_THROUGH_RATE_INDEX),
+                        CampaignRow.CLICK_THROUGH_RATE_INDEX,
+                        "Click through rate per county", true,
+                        CampaignRow.CLICKS_INDEX,
+                        CampaignRow.IMPRESSIONS_INDEX);
+                if (clickThroughRateChart != null)
+                    document.add(getImagePie(clickThroughRateChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+            if (contentPage.isUniqueCTR()) {
+                int indexDenominator = CampaignRow.UNIQUE_COOKIES_INDEX;
+                if (download) {
+                    indexDenominator = CampaignRow.REACH_INDEX;
+                }
+                JFreeChart uniqueCTRChart = pieChartCreator.getChart(
+                        CampaignRow.sortBy(rows, CampaignRow.UNIQUE_CTR_INDEX),
+                        CampaignRow.UNIQUE_CTR_INDEX, "Unique CTR per county",
+                        true, CampaignRow.CLICKING_USERS_INDEX,
+                        indexDenominator);
+                if (uniqueCTRChart != null)
+                    document.add(getImagePie(uniqueCTRChart, writer));
+                document.add(new Paragraph("\n"));
+            }
+        }
+
+        document.add(new Paragraph("\n\n"));
+
+        TabCreator tc = new TabCreator(wholeTotal);
+
+        if (contentPage.isGeneral()) {
+            document.add(new Paragraph("Full data table"));
+            document.add(new Paragraph("\n"));
+            List<String> labels;
+
+            labels = contentPage.getCampaign().getColumsLabels();
+
+            boolean[] colsToPrint = { true, contentPage.isImpressions(),
+                    contentPage.isUniqueCookies(), contentPage.isFrequency(),
+                    contentPage.isClicks(), contentPage.isClickingUsers(),
+                    contentPage.isClickThroughRate(), contentPage.isUniqueCTR(),
+                    contentPage.isReach() };
+
+            document.add(tc.createTabCampaign(rows, labels,
+                    contentPage.getCampaign().getAll(), colsToPrint, true));
+        }
+
+        boolean[] colsPeriod = { true, true, contentPage.isImpressions(),
+                contentPage.isUniqueCookies(), contentPage.isFrequency(),
+                contentPage.isClicks(), contentPage.isClickingUsers(),
+                contentPage.isClickThroughRate(), contentPage.isUniqueCTR(),
+                contentPage.isReach() };
+
         if (contentPage.isWeekly()) {
-        	document.add(new Paragraph("\nWeekly statistics"));
-        	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent(),true,dateFormat));
+            document.add(new Paragraph("\nWeekly statistics"));
+            document.add(new Paragraph("\n"));
+            document.add(tc.createTabPeriod(
+                    contentPage.getCampaign().getWeeklyData().getContent(),
+                    contentPage.getCampaign().getWeeklyData().getColumsLabels(),
+                    contentPage.getCampaign().getWeeklyData().getAll(),
+                    colsPeriod, true, timePeriodTotal, weeklyData.getContent(),
+                    true, dateFormat));
         }
-        
+
         if (contentPage.isMonthly()) {
-        	document.add(new Paragraph("\nMonthly statistics"));
-        	document.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getMonthlyData().getContent(), contentPage.getCampaign().getMonthlyData().getColumsLabels(), contentPage.getCampaign().getMonthlyData().getAll(), colsPeriod, true, timePeriodTotal, monthlyData.getContent(),false,dateFormat));
+            document.add(new Paragraph("\nMonthly statistics"));
+            document.add(new Paragraph("\n"));
+            document.add(tc.createTabPeriod(
+                    contentPage.getCampaign().getMonthlyData().getContent(),
+                    contentPage.getCampaign().getMonthlyData()
+                            .getColumsLabels(),
+                    contentPage.getCampaign().getMonthlyData().getAll(),
+                    colsPeriod, true, timePeriodTotal, monthlyData.getContent(),
+                    false, dateFormat));
         }
-        
+
         document.close();
         CURRENT_PAGE_NUMBER += writer.getPageNumber();
         writer.flush();
         writer.close();
         outputStream.flush();
         outputStream.close();
-        
+
         writer = null;
         outputStream = null;
         System.gc();
-		
-	}
 
-	public void createInsertPage(InsertPage insertPage) throws DocumentException, IOException {
-		Document document = new Document();
-		document.setMargins(85, 85, 85, 113);
-		FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
-		FILES.add(TEMP_INSERT_PAGE);
-		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		
-		writer.setPageEvent(insertPage.getStructure());
-		
-		document.open();
-		
-		// custom text area
-		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding, BaseFont.EMBEDDED);
-		PdfContentByte cb = writer.getDirectContent();
-		String customArea = insertPage.getCustomTextArea();
-		Paragraph custom = new Paragraph(customArea);
-		custom.setAlignment(Element.ALIGN_CENTER);
-		
-	    Chunk toMeasureCustom = new Chunk(customArea);
-		
-		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
-		cb.saveState();
-		cb.beginText();
-		cb.moveText(xPositionCustom, 320);
-		cb.setFontAndSize(bf, 12);
-		cb.showText(customArea);
-		cb.endText();
-		cb.restoreState();
-		
-		
-		cb.closePathEoFillStroke();
-                
+    }
+
+    public void createInsertPage(InsertPage insertPage)
+            throws DocumentException, IOException {
+        Document document = new Document();
+        document.setMargins(85, 85, 85, 113);
+        FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
+        FILES.add(TEMP_INSERT_PAGE);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+
+        writer.setPageEvent(insertPage.getStructure());
+
+        document.open();
+
+        // custom text area
+        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding,
+                BaseFont.EMBEDDED);
+        PdfContentByte cb = writer.getDirectContent();
+        String customArea = insertPage.getCustomTextArea();
+        Paragraph custom = new Paragraph(customArea);
+        custom.setAlignment(Element.ALIGN_CENTER);
+
+        Chunk toMeasureCustom = new Chunk(customArea);
+
+        float xPositionCustom = (PageSize.A4.getWidth()
+                - toMeasureCustom.getWidthPoint()) / 2;
+        cb.saveState();
+        cb.beginText();
+        cb.moveText(xPositionCustom, 320);
+        cb.setFontAndSize(bf, 12);
+        cb.showText(customArea);
+        cb.endText();
+        cb.restoreState();
+
+        cb.closePathEoFillStroke();
+
         document.close();
-        
+
         writer.flush();
         writer.close();
         outputStream.flush();
         outputStream.close();
-        
+
         writer = null;
         outputStream = null;
         System.gc();
     }
-    
-    public void createTitlePage(TitlePage titlePage) throws DocumentException, IOException {
-		Document document = new Document();
-		document.setMargins(85, 85, 85, 113);
-		FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
-		FILES.add(TEMP_TITLE_PAGE);
-		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-		
-		writer.setPageEvent(titlePage.getStructure());
-		document.open();
-		
-		// campaignName
-		Paragraph campaignName = new Paragraph(titlePage.getCampaignName());
-		campaignName.setAlignment(Element.ALIGN_CENTER);
-		
-		PdfContentByte cb = writer.getDirectContent();
-	    BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, encoding, BaseFont.EMBEDDED);
-	    Chunk toMeasureSize = new Chunk(titlePage.getCampaignName());
-	    Font fontTitle = new Font();
-	    fontTitle.setStyle(Font.BOLD);
-	    fontTitle.setSize(16);
-		toMeasureSize.setFont(fontTitle);
-		
-		float xPosition = (PageSize.A4.getWidth() - toMeasureSize.getWidthPoint()) / 2;
-		cb.saveState();
-		cb.beginText();
-		cb.moveText(xPosition, 490);
-		cb.setFontAndSize(bfBold, 16);
-		cb.showText(titlePage.getCampaignName());
-		cb.endText();
-		cb.restoreState();
-		
-		// dates
-		String datesString = titlePage.getDate();
-		Paragraph dates = new Paragraph(datesString);
-		dates.setAlignment(Element.ALIGN_CENTER);
-		
-	    BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding, BaseFont.EMBEDDED);
-	    Chunk toMeasureDates = new Chunk(datesString);
-		
-		float xPositionDates = (PageSize.A4.getWidth() - toMeasureDates.getWidthPoint()) / 2;
-		cb.saveState();
-		cb.beginText();
-		cb.moveText(xPositionDates, 460);
-		cb.setFontAndSize(bf, 12);
-		cb.showText(datesString);
-		cb.endText();
-		cb.restoreState();
-		
-		// custom text area
-		String customArea = titlePage.getBelowTitle();
-		Paragraph custom = new Paragraph(customArea);
-		custom.setAlignment(Element.ALIGN_CENTER);
-		
-	    Chunk toMeasureCustom = new Chunk(customArea);
-		
-		float xPositionCustom = (PageSize.A4.getWidth() - toMeasureCustom.getWidthPoint()) / 2;
-		cb.saveState();
-		cb.beginText();
-		cb.moveText(xPositionCustom, 430);
-		cb.setFontAndSize(bf, 12);
-		cb.showText(customArea);
-		cb.endText();
-		cb.restoreState();
-		
-		cb.closePathEoFillStroke();
-		
-		document.close();
-		
-		writer.flush();
-		writer.close();
-		outputStream.flush();
-		outputStream.close();
-		
-		writer = null;
-		outputStream = null;
-		System.gc();
+
+    public void createTitlePage(TitlePage titlePage)
+            throws DocumentException, IOException {
+        Document document = new Document();
+        document.setMargins(85, 85, 85, 113);
+        FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
+        FILES.add(TEMP_TITLE_PAGE);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+
+        writer.setPageEvent(titlePage.getStructure());
+        document.open();
+
+        // campaignName
+        Paragraph campaignName = new Paragraph(titlePage.getCampaignName());
+        campaignName.setAlignment(Element.ALIGN_CENTER);
+
+        PdfContentByte cb = writer.getDirectContent();
+        BaseFont bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, encoding,
+                BaseFont.EMBEDDED);
+        Chunk toMeasureSize = new Chunk(titlePage.getCampaignName());
+        Font fontTitle = new Font();
+        fontTitle.setStyle(Font.BOLD);
+        fontTitle.setSize(16);
+        toMeasureSize.setFont(fontTitle);
+
+        float xPosition = (PageSize.A4.getWidth()
+                - toMeasureSize.getWidthPoint()) / 2;
+        cb.saveState();
+        cb.beginText();
+        cb.moveText(xPosition, 490);
+        cb.setFontAndSize(bfBold, 16);
+        cb.showText(titlePage.getCampaignName());
+        cb.endText();
+        cb.restoreState();
+
+        // dates
+        String datesString = titlePage.getDate();
+        Paragraph dates = new Paragraph(datesString);
+        dates.setAlignment(Element.ALIGN_CENTER);
+
+        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, encoding,
+                BaseFont.EMBEDDED);
+        Chunk toMeasureDates = new Chunk(datesString);
+
+        float xPositionDates = (PageSize.A4.getWidth()
+                - toMeasureDates.getWidthPoint()) / 2;
+        cb.saveState();
+        cb.beginText();
+        cb.moveText(xPositionDates, 460);
+        cb.setFontAndSize(bf, 12);
+        cb.showText(datesString);
+        cb.endText();
+        cb.restoreState();
+
+        // custom text area
+        String customArea = titlePage.getBelowTitle();
+        Paragraph custom = new Paragraph(customArea);
+        custom.setAlignment(Element.ALIGN_CENTER);
+
+        Chunk toMeasureCustom = new Chunk(customArea);
+
+        float xPositionCustom = (PageSize.A4.getWidth()
+                - toMeasureCustom.getWidthPoint()) / 2;
+        cb.saveState();
+        cb.beginText();
+        cb.moveText(xPositionCustom, 430);
+        cb.setFontAndSize(bf, 12);
+        cb.showText(customArea);
+        cb.endText();
+        cb.restoreState();
+
+        cb.closePathEoFillStroke();
+
+        document.close();
+
+        writer.flush();
+        writer.close();
+        outputStream.flush();
+        outputStream.close();
+
+        writer = null;
+        outputStream = null;
+        System.gc();
     }
-    
-    public Image getImagePie(JFreeChart chart, PdfWriter writer) throws BadElementException, IOException {
-    	int width = 400;
+
+    public Image getImagePie(JFreeChart chart, PdfWriter writer)
+            throws BadElementException, IOException {
+        int width = 400;
         int height = 400;
         BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-		
+
         Image image = Image.getInstance(writer, bufferedImage, 1.0f);
         image.scalePercent(70);
         image.setAlignment(Image.MIDDLE);
-        
+
         return image;
     }
-    
-    public Image getImageBar(JFreeChart chart, PdfWriter writer) throws BadElementException, IOException {
-    	int width = 600;
+
+    public Image getImageBar(JFreeChart chart, PdfWriter writer)
+            throws BadElementException, IOException {
+        int width = 600;
         int height = 450;
         BufferedImage bufferedImage = chart.createBufferedImage(width, height);
-		
+
         Image image = Image.getInstance(writer, bufferedImage, 1.0f);
         image.scalePercent(70);
         image.setAlignment(Image.MIDDLE);
-        
+
         return image;
     }
-    
+
 }
