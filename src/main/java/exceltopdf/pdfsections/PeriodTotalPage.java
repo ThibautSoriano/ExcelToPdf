@@ -11,8 +11,6 @@ public class PeriodTotalPage extends Section {
 	
 	private PeriodData weeklyData;
 	
-	private List<String> headers;
-	
 	private CampaignRowPeriod all;
 	
 	private boolean impressions;
@@ -43,14 +41,6 @@ public class PeriodTotalPage extends Section {
 
 	public void setWeeklyData(PeriodData weeklyData) {
 		this.weeklyData = weeklyData;
-	}
-
-	public List<String> getHeaders() {
-		return headers;
-	}
-
-	public void setHeaders(List<String> headers) {
-		this.headers = headers;
 	}
 
 	public CampaignRowPeriod getAll() {

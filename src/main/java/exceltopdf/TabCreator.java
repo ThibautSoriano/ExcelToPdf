@@ -495,7 +495,7 @@ public class TabCreator {
                         
 
                         cell.addElement(p);
-
+                        System.out.println("yu"+i);
                         table.addCell(cell);
                     }
                 }

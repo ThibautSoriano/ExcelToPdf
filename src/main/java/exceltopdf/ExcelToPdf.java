@@ -151,7 +151,7 @@ public class ExcelToPdf {
 		
 		document.open();
 		boolean [] colsToPrint = {
-    			true, ptPage.isImpressions(), false, ptPage.isFrequency(),
+    			true, true, ptPage.isImpressions(), false, ptPage.isFrequency(),
     			ptPage.isClicks(), ptPage.isClickingUsers(), ptPage.isClickThroughRate(),
     			ptPage.isUniqueCTR(), ptPage.isReach()
         };
@@ -163,7 +163,7 @@ public class ExcelToPdf {
 		document.add(title);
 		document.add(new Paragraph("\n\n"));
 		
-        document.add(tc.createTabPeriodTotal(ptPage.getMonthlyData().getContent(), ptPage.getHeaders(), ptPage.getAll(), colsToPrint, true, false, dateFormat));
+        document.add(tc.createTabPeriodTotal(ptPage.getMonthlyData().getContent(), ptPage.getMonthlyData().getColumsLabels(), ptPage.getAll(), colsToPrint, true, false, dateFormat));
         
 		}
 		
@@ -174,7 +174,7 @@ public class ExcelToPdf {
 			document.add(title);
 			document.add(new Paragraph("\n\n"));
 			
-	        document.add(tc.createTabPeriodTotal(ptPage.getWeeklyData().getContent(), ptPage.getHeaders(), ptPage.getAll(), colsToPrint, true, true, dateFormat));
+	        document.add(tc.createTabPeriodTotal(ptPage.getWeeklyData().getContent(), ptPage.getWeeklyData().getColumsLabels(), ptPage.getAll(), colsToPrint, true, true, dateFormat));
 	        
 			}
         document.close();

@@ -36,15 +36,18 @@ import com.itextpdf.text.DocumentException;
 
 import main.java.datasdownloading.HttpDownload;
 import main.java.datasdownloading.entities.Campaign;
+import main.java.datasdownloading.entities.PeriodData;
 import main.java.datasdownloading.entities.SummaryData;
 import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
 import main.java.excelreader.ExcelReaderTechnical;
 import main.java.excelreader.entities.CampaignRow;
+import main.java.excelreader.entities.CampaignRowPeriod;
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.exceltopdf.HeaderFooter;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
+import main.java.exceltopdf.pdfsections.PeriodTotalPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.SummaryPage;
 import main.java.exceltopdf.pdfsections.TitlePage;
@@ -490,11 +493,14 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         String campaignID = ccp.getSelectedId();
         
+        PeriodData weeklyData=null,monthlyData =null;
         
         //TODO optimiser ca
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
-            etpd.setMonthlyData(session.getPeriodData("Month", campaignID));
-            etpd.setWeeklyData(session.getPeriodData("Week", campaignID));
+            monthlyData = session.getPeriodData("Month", campaignID);
+            weeklyData = session.getPeriodData("Week", campaignID);
+            etpd.setMonthlyData(monthlyData);
+            etpd.setWeeklyData(weeklyData);
         }
         
         //
@@ -662,7 +668,20 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
+            PeriodTotalPage ptp = new PeriodTotalPage();
+            ptp.setClickingUsers(csp.getChckbxClickingUsersRankings().isSelected());
+            ptp.setClicks(csp.getChckbxClicksRankings().isSelected());
+            ptp.setClickThroughRate(csp.getChckbxClickThroughRateRankings().isSelected());
+            ptp.setFrequency(csp.getChckbxFrequencyRankings().isSelected());
+            ptp.setImpressions(csp.getChckbxImpressionsRankings().isSelected());
+            ptp.setReach(csp.getChckbxReach().isSelected());
+            ptp.setUniqueCTR(csp.getChckbxUniqueCTRRankings().isSelected());
             
+            ptp.setStructure(hfContent);
+            ptp.setAll(new CampaignRowPeriod());
+            ptp.setMonthlyData(monthlyData);
+            ptp.setWeeklyData(weeklyData);
+            sections.add(ptp);
         }
         
         
