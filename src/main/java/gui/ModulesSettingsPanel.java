@@ -256,6 +256,7 @@ public class ModulesSettingsPanel extends SettingsChoicePanel {
         MainWindow.setRankings(detectRankings());
         MainWindow.setTechnical(chckbxTechnical.isSelected());
         MainWindow.setCreative(detectCreative());
+        MainWindow.setTimePeriodTotal(chckbxTimePeriodTotal.isSelected());
         return true;
     }
 

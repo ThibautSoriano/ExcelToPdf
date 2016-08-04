@@ -76,11 +76,21 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static boolean isTechnical;
 
     private static boolean isCreative;
+    
+    private static boolean isTimePeriodTotal;
 
     public static  ProgressBarWindow pbw;
     
     
     
+    public static boolean isTimePeriodTotal() {
+        return isTimePeriodTotal;
+    }
+
+    public static void setTimePeriodTotal(boolean isTimePeriodTotal) {
+        MainWindow.isTimePeriodTotal = isTimePeriodTotal;
+    }
+
     public static boolean isRankings() {
         return isRankings;
     }
@@ -650,6 +660,13 @@ public class MainWindow extends JFrame implements IMainFrame {
         sections.add(summaryPage);
         pbw.setValue(80);
 
+        
+        if (msp.getChckbxTimePeriodTotal().isSelected()) {
+            
+        }
+        
+        
+        
         if (msp.detectRankings()) {
             ContentPage contentPage = new ContentPage(
                     csp.getChckbxImpressionsRankings().isSelected(),

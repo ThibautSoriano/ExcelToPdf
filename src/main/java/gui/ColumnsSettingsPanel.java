@@ -438,7 +438,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                     return;
                 }
 
-                if (MainWindow.isRankings()) {
+                if (MainWindow.isRankings() || MainWindow.isTimePeriodTotal()) {
                     tabbedPane.addTab("Rankings", null, panelRankings, null);
                     tabbedPane.setSelectedIndex(0);
 
