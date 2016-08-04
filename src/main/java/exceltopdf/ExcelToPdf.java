@@ -1,6 +1,7 @@
 package main.java.exceltopdf;
 
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import main.java.datasdownloading.entities.PeriodData;
 import main.java.excelreader.entities.CampaignRow;
 import main.java.exceltopdf.pdfsections.ContentPage;
 import main.java.exceltopdf.pdfsections.InsertPage;
+import main.java.exceltopdf.pdfsections.PeriodTotalPage;
 import main.java.exceltopdf.pdfsections.Section;
 import main.java.exceltopdf.pdfsections.SummaryPage;
 import main.java.exceltopdf.pdfsections.TitlePage;
@@ -35,11 +37,13 @@ public class ExcelToPdf {
     public static final String TEMP_INSERT_PAGE = "tmp_insert_page.pdf";
     public static final String TEMP_TITLE_PAGE = "tmp_title_page.pdf";
     public static final String TEMP_SUMMARY_PAGE = "tmp_summary_page.pdf";
+    public static final String TEMP_PERIOD_TOTAL_PAGE = "tmp_period_total_page.pdf";
     public static final String TEMP_CONTENT_PAGE = "tmp_content_page.pdf";
     public  List<String> FILES = new ArrayList<>();
 	private static final int TITLE_PAGE = 0;
 	private static final int INSERT_PAGE = 1;
 	private static final int SUMMARY_PAGE = 2;
+	private static final int PERIOD_TOTAL_PAGE = 3;
 	public static int CURRENT_PAGE_NUMBER = 0;
 	
 	private String encoding = "";
@@ -75,31 +79,9 @@ public class ExcelToPdf {
 
 	public void createPdf(String dest, List<Section> sections, boolean insertPageOn)
             throws IOException, DocumentException {
-//        for (int i = 2; i < sections.size(); i++) {
-//        	ContentPage contentPage = (ContentPage) sections.get(i);
-//        	if (contentPage.getExcelReader().getType().equals("Rankings")) {
-//        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
-//        		content.add(contentPage);
-//        		campaignName = contentPage.getExcelSheet().getCampaignName();
-//        		startDate = contentPage.getExcelSheet().getStartDate();
-//        		endDate = contentPage.getExcelSheet().getEndDate();
-//        	} else if (contentPage.getExcelReader().getType().equals("Technical")) {
-//        		contentPage.setExcelSheet(contentPage.getExcelReader().readExcelSheet(src.get((i-2))));
-//        		content.add(contentPage);
-//        		campaignName = contentPage.getExcelSheet().getCampaignName();
-//                        startDate = contentPage.getExcelSheet().getStartDate();
-//                        endDate = contentPage.getExcelSheet().getEndDate();
-//        	}
-//            else {
-//                System.err.println("xls not recognized");
-//            }
-//        }
         
         TitlePage titlePage = (TitlePage) sections.get(TITLE_PAGE);
-//        
-//        titlePage.setCampaignName(campaignName);
-//        titlePage.setStartDate(startDate);
-//        titlePage.setEndDate(endDate);
+
         createTitlePage(titlePage);
         
         if (insertPageOn) {
@@ -143,7 +125,11 @@ public class ExcelToPdf {
     	   createSummaryPage(summaryPage);
        }
        
-       for (int i = 3; i < sections.size(); i++) {
+       PeriodTotalPage ptPage = (PeriodTotalPage) sections.get(PERIOD_TOTAL_PAGE);
+       
+       createPeriodTotalPage(ptPage);
+       
+       for (int i = 4; i < sections.size(); i++) {
     	   createContentPage((ContentPage) sections.get(i), true);
        }
        
@@ -153,7 +139,58 @@ public class ExcelToPdf {
        c.concat(FILES, dest);
    }
    
-   private void createSummaryPage(SummaryPage summaryPage) throws DocumentException, IOException {
+   private void createPeriodTotalPage(PeriodTotalPage ptPage) throws DocumentException, IOException {
+	   Document document = new Document();
+		TabCreator tc = new TabCreator(wholeTotal);
+		document.setMargins(85, 85, 85, 113);
+		String fileName = TEMP_PERIOD_TOTAL_PAGE;
+		FileOutputStream outputStream = new FileOutputStream(fileName);
+		FILES.add(fileName);
+		PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+		writer.setPageEvent(ptPage.getStructure());
+		
+		document.open();
+		boolean [] colsToPrint = {
+    			true, ptPage.isImpressions(), false, ptPage.isFrequency(),
+    			ptPage.isClicks(), ptPage.isClickingUsers(), ptPage.isClickThroughRate(),
+    			ptPage.isUniqueCTR(), ptPage.isReach()
+        };
+		
+		if (ptPage.getMonthlyData() != null) {
+		Paragraph title = new Paragraph("Monthly sums");
+		title.setAlignment(Element.ALIGN_CENTER);
+		title.getFont().setStyle(Font.BOLD);
+		document.add(title);
+		document.add(new Paragraph("\n\n"));
+		
+        document.add(tc.createTabPeriodTotal(ptPage.getMonthlyData().getContent(), ptPage.getHeaders(), ptPage.getAll(), colsToPrint, true, false, dateFormat));
+        
+		}
+		
+		if (ptPage.getWeeklyData() != null) {
+			Paragraph title = new Paragraph("Weekly sums");
+			title.setAlignment(Element.ALIGN_CENTER);
+			title.getFont().setStyle(Font.BOLD);
+			document.add(title);
+			document.add(new Paragraph("\n\n"));
+			
+	        document.add(tc.createTabPeriodTotal(ptPage.getWeeklyData().getContent(), ptPage.getHeaders(), ptPage.getAll(), colsToPrint, true, true, dateFormat));
+	        
+			}
+        document.close();
+        CURRENT_PAGE_NUMBER += writer.getPageNumber();
+        writer.flush();
+        writer.close();
+        outputStream.flush();
+        outputStream.close();
+        
+        writer = null;
+        outputStream = null;
+        System.gc();
+	
+}
+
+private void createSummaryPage(SummaryPage summaryPage) throws DocumentException, IOException {
 		Document document = new Document();
 		TabCreator tc = new TabCreator(wholeTotal);
 		document.setMargins(85, 85, 85, 113);

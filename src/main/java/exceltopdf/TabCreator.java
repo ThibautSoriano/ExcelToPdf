@@ -206,7 +206,7 @@ public class TabCreator {
         }
 
         // For all the rows
-        for (int i = 0, countColor = 0; i < campaignRows.size(); i++) {
+        for (int i = 0; i < campaignRows.size(); i++) {
 
             
             if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
@@ -410,6 +410,130 @@ public class TabCreator {
         }
         return table;
 
+    }
+    
+    public PdfPTable createTabPeriodTotal(List<CampaignRowPeriod> campaignRows,
+            List<String> headers, CampaignRow all, boolean[] colsToPrint,
+            boolean hideEmptyLines, boolean weekly, String dateFormat) {
+
+        if (colsToPrint.length < CampaignRowPeriod.MAX_COLUMNS_PERIOD) {
+            System.err.println("Wrong tab size in createTabPeriod. Must be "
+                    + CampaignRowPeriod.MAX_COLUMNS_PERIOD + " at least.");
+            return new PdfPTable(1);
+        }
+
+        // 2 column are added because two  has a width of 2 columns
+        int colsNumber = Utils.countTrueInTab(colsToPrint);
+        PdfPTable table = new PdfPTable(colsNumber + 2);
+        table.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+        table.setWidthPercentage(100);
+
+        
+        
+        
+        
+        
+
+        // For the headers
+        for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+            if (colsToPrint[j]) {
+
+                Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+                Paragraph para = new Paragraph(headers.get(j), font);
+                para.setAlignment(Element.ALIGN_CENTER);
+
+                PdfPCell cell = new PdfPCell();
+                cell.setPaddingBottom(15);
+
+                cell.setBackgroundColor(headerColor);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.addElement(para);
+
+                if (j == 0 || j==1)
+                    cell.setColspan(2);
+
+                table.addCell(cell);
+
+            }
+        }
+
+        // For all the rows
+        for (int i = 0; i < campaignRows.size(); i++) {
+
+            
+            if (!(hideEmptyLines && !campaignRows.get(i).isRelevant())) {
+                
+                List<String> l = campaignRows.get(i).toList(weekly,dateFormat);
+                for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+
+                    if (colsToPrint[j]) {
+                        Font font = new Font(FontFamily.HELVETICA, 8,
+                                Font.UNDEFINED);
+
+                        PdfPCell cell = new PdfPCell();
+                        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                        cell.setPaddingBottom(10);
+                        cell.setPaddingTop(0);
+
+                        if (j == 0 || j==1)
+                            cell.setColspan(2);
+
+                        Paragraph p = null;
+
+                        if (j == 0)
+                            p = new Paragraph(splitFirstColumnData(l.get(0),
+                                    getMaxLength(colsNumber)), font);
+                        else {
+                            p = new Paragraph(l.get(j), font);
+                            p.setAlignment(Element.ALIGN_CENTER);
+                        }
+
+                        
+                        cell.setBackgroundColor(interSumsColor);
+                        
+
+                        cell.addElement(p);
+
+                        table.addCell(cell);
+                    }
+                }
+                
+
+            }
+            
+                 
+        }
+        // For the last line (containing the sums usually)
+        if (all != null) {
+        	
+         List<String> a = all.toList();
+         a.add(0, "MERGUEZ");
+         for (int j = 0; j < CampaignRowPeriod.MAX_COLUMNS_PERIOD; j++) {
+        
+         if (colsToPrint[j]) {
+        
+         Font font = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+         Paragraph p = new Paragraph(a.get(j), font);
+         if (j != 0)
+         p.setAlignment(Element.ALIGN_CENTER);
+        
+         PdfPCell cell = new PdfPCell();
+         cell.addElement(p);
+         cell.setPaddingBottom(10);
+         cell.setPaddingTop(0);
+         cell.setBackgroundColor(lastLineColor);
+        
+         if (j == 0 || j==1)
+         cell.setColspan(2);
+        
+         table.addCell(cell);
+         }
+         }
+    }
+
+        return table;
     }
 
 }
