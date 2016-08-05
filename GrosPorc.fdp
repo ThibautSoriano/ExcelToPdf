@@ -1,5 +1,3 @@
-- faire un tab pour pouvoir choice les elements � mettre dans la summary page
-
 
 - mettre chaque table sur une page different (utiliser la fonction doc.newPage();)
 
