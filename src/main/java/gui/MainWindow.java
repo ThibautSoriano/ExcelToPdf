@@ -79,13 +79,21 @@ public class MainWindow extends JFrame implements IMainFrame {
     private static boolean isTechnical;
 
     private static boolean isCreative;
-    
+
     private static boolean isTimePeriodTotal;
 
-    public static  ProgressBarWindow pbw;
-    
-    
-    
+    private static boolean isSummary;
+
+    public static ProgressBarWindow pbw;
+
+    public static boolean isSummary() {
+        return isSummary;
+    }
+
+    public static void setSummary(boolean isSummary) {
+        MainWindow.isSummary = isSummary;
+    }
+
     public static boolean isTimePeriodTotal() {
         return isTimePeriodTotal;
     }
@@ -137,7 +145,7 @@ public class MainWindow extends JFrame implements IMainFrame {
     public MainWindow() {
 
         pbw = new ProgressBarWindow();
-                
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -304,35 +312,35 @@ public class MainWindow extends JFrame implements IMainFrame {
     @Override
     public void validation() {
 
-       SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
 
-        @Override
-        protected Boolean doInBackground() throws Exception {
-            doValidationInSwingWorker();
-            return true;
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                doValidationInSwingWorker();
+                return true;
 
-        }
-        
-        @Override
-        protected void done(){
-            try {
-                get();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+        pbw.setVisible(true);
+        try {
+            worker.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-           
-    };
-       pbw.setVisible(true);
-       try {
-       worker.execute();
-       }
-       catch (Exception e) {
-           e.printStackTrace();
-       }
-             
+
     }
-      private void doValidationInSwingWorker() {
+
+    private void doValidationInSwingWorker() {
 
         if (download) {
             validationDownload();
@@ -350,7 +358,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             InternationalizationPDF ipdf = new InternationalizationPDF(
                     ecp.getSelectedLanguage());
             ExcelToPdf etpd = new ExcelToPdf(
-                    ecp.getSelectedLanguage().getEncoding(),true,false,ecp.getSelectedLanguage().getDateFormat());
+                    ecp.getSelectedLanguage().getEncoding(), true, false,
+                    ecp.getSelectedLanguage().getDateFormat());
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -489,24 +498,24 @@ public class MainWindow extends JFrame implements IMainFrame {
         InternationalizationPDF ipdf = new InternationalizationPDF(
                 msp.getSelectedLanguage());
         ExcelToPdf etpd = new ExcelToPdf(
-                msp.getSelectedLanguage().getEncoding(),msp.getChckbxWholeTotal().isSelected(),msp.getChckbxTimePeriodTotal().isSelected(),msp.getSelectedLanguage().getDateFormat());
+                msp.getSelectedLanguage().getEncoding(),
+                msp.getChckbxWholeTotal().isSelected(),
+                msp.getChckbxTimePeriodTotal().isSelected(),
+                msp.getSelectedLanguage().getDateFormat());
 
         String campaignID = ccp.getSelectedId();
-        
-        PeriodData weeklyData=null,monthlyData =null;
-        
-        //TODO optimiser ca
+
+        PeriodData weeklyData = null, monthlyData = null;
+
+        // TODO optimiser ca
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
             monthlyData = session.getPeriodData("Month", campaignID);
             weeklyData = session.getPeriodData("Week", campaignID);
             etpd.setMonthlyData(monthlyData);
             etpd.setWeeklyData(weeklyData);
         }
-        
+
         //
-        
-        
-        
 
         Campaign c1 = null, c2 = null, c3 = null;
         boolean error = false;
@@ -629,7 +638,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         if (msp.getChckbxSummary().isSelected()) {
             DecimalFormat df = new DecimalFormat("#.##");
             df.setRoundingMode(RoundingMode.CEILING);
-            SimpleDateFormat hungarianF = new SimpleDateFormat(msp.getSelectedLanguage().getDateFormat());
+            SimpleDateFormat hungarianF = new SimpleDateFormat(
+                    msp.getSelectedLanguage().getDateFormat());
 
             summary.add(new SummaryData("campaign name:",
                     c1.getCampaignHeader().getCampaignName()));
@@ -639,24 +649,31 @@ public class MainWindow extends JFrame implements IMainFrame {
                     hungarianF.format(c1.getCampaignHeader().getStartDate())));
             summary.add(new SummaryData("campaign end date:",
                     hungarianF.format(c1.getCampaignHeader().getEndDate())));
-            summary.add(new SummaryData("impressions:",
-                    CampaignRow.getSpacesBetweenThousands(
-                            String.valueOf(c1.getAll().getImpressions()))));
-            summary.add(new SummaryData("reach:",
-                    CampaignRow.getSpacesBetweenThousands(
-                            String.valueOf(c1.getAll().getReach()))));
-            summary.add(new SummaryData("frequency:",
-                    df.format(c1.getAll().getFrequency())));
-            summary.add(new SummaryData("clicks:",
-                    CampaignRow.getSpacesBetweenThousands(
-                            String.valueOf(c1.getAll().getClicks()))));
-            summary.add(new SummaryData("clicking users:",
-                    CampaignRow.getSpacesBetweenThousands(
-                            String.valueOf(c1.getAll().getClickingUsers()))));
-            summary.add(new SummaryData("click through rate:",
-                    c1.getAll().getClickThroughRate().toString()));
-            summary.add(new SummaryData("unique CTR:",
-                    c1.getAll().getUniqueCTR().toString()));
+            if (csp.getChckbxImpressionsSummary().isSelected())
+                summary.add(new SummaryData("impressions:",
+                        CampaignRow.getSpacesBetweenThousands(
+                                String.valueOf(c1.getAll().getImpressions()))));
+            if (csp.getChckbxReachSummary().isSelected())
+                summary.add(new SummaryData("reach:",
+                        CampaignRow.getSpacesBetweenThousands(
+                                String.valueOf(c1.getAll().getReach()))));
+            if (csp.getChckbxFrequencySummary().isSelected())
+                summary.add(new SummaryData("frequency:",
+                        df.format(c1.getAll().getFrequency())));
+            if (csp.getChckbxClicksSummary().isSelected())
+                summary.add(new SummaryData("clicks:",
+                        CampaignRow.getSpacesBetweenThousands(
+                                String.valueOf(c1.getAll().getClicks()))));
+            if (csp.getChckbxClickingUsersSummary().isSelected())
+                summary.add(new SummaryData("clicking users:",
+                        CampaignRow.getSpacesBetweenThousands(String
+                                .valueOf(c1.getAll().getClickingUsers()))));
+            if (csp.getChckbxClickThroughRateSummary().isSelected())
+                summary.add(new SummaryData("click through rate:",
+                        c1.getAll().getClickThroughRate().toString()));
+            if (csp.getChckbxUniqueCTRSummary().isSelected())
+                summary.add(new SummaryData("unique CTR:",
+                        c1.getAll().getUniqueCTR().toString()));
         }
 
         SummaryPage summaryPage = new SummaryPage(summary,
@@ -666,17 +683,18 @@ public class MainWindow extends JFrame implements IMainFrame {
         sections.add(summaryPage);
         pbw.setValue(80);
 
-        
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
             PeriodTotalPage ptp = new PeriodTotalPage();
-            ptp.setClickingUsers(csp.getChckbxClickingUsersRankings().isSelected());
+            ptp.setClickingUsers(
+                    csp.getChckbxClickingUsersRankings().isSelected());
             ptp.setClicks(csp.getChckbxClicksRankings().isSelected());
-            ptp.setClickThroughRate(csp.getChckbxClickThroughRateRankings().isSelected());
+            ptp.setClickThroughRate(
+                    csp.getChckbxClickThroughRateRankings().isSelected());
             ptp.setFrequency(csp.getChckbxFrequencyRankings().isSelected());
             ptp.setImpressions(csp.getChckbxImpressionsRankings().isSelected());
             ptp.setReach(csp.getChckbxReach().isSelected());
             ptp.setUniqueCTR(csp.getChckbxUniqueCTRRankings().isSelected());
-            
+
             ptp.setStructure(hfContent);
             if (msp.getChckbxWholeTotal().isSelected())
                 ptp.setAll(session.getAll(campaignID));
@@ -684,9 +702,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             ptp.setWeeklyData(weeklyData);
             sections.add(ptp);
         }
-        
-        
-        
+
         if (msp.detectRankings()) {
             ContentPage contentPage = new ContentPage(
                     csp.getChckbxImpressionsRankings().isSelected(),
