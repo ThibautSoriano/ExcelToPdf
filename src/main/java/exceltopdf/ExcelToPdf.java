@@ -419,7 +419,9 @@ public class ExcelToPdf {
 			PdfWriter writerG = PdfWriter.getInstance(docGeneral, osGeneral);
 			writerG.setPageEvent(contentPage.getStructure());
 			docGeneral.open();
-			docGeneral.add(new Paragraph("Rankings general data", new Font(FontFamily.HELVETICA, 24, Font.UNDERLINE)));
+			Paragraph p = new Paragraph("Rankings general data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+			p.setAlignment(Paragraph.ALIGN_CENTER);
+			docGeneral.add(p);
 			docGeneral.add(new Paragraph("\n"));
 			List<String> labels;
 			
@@ -461,7 +463,9 @@ public class ExcelToPdf {
 			PdfWriter writerW = PdfWriter.getInstance(docWeekly, osWeekly);
 			writerW.setPageEvent(contentPage.getStructure());
 			docWeekly.open();
-			docWeekly.add(new Paragraph("Weekly data", new Font(FontFamily.HELVETICA, 24, Font.UNDERLINE)));
+			Paragraph p = new Paragraph("Weekly data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+			p.setAlignment(Paragraph.ALIGN_CENTER);
+			docWeekly.add(p);
 			docWeekly.add(new Paragraph("\n"));
 			docWeekly.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent(),true,dateFormat));
         	
@@ -487,7 +491,7 @@ public class ExcelToPdf {
 			PdfWriter writerM = PdfWriter.getInstance(docMonthly, osMonthly);
 			writerM.setPageEvent(contentPage.getStructure());
 			docMonthly.open();
-			Paragraph p = new Paragraph("Monthly data", new Font(FontFamily.HELVETICA, 24, Font.UNDERLINE));
+			Paragraph p = new Paragraph("Monthly data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docMonthly.add(p);
 			docMonthly.add(new Paragraph("\n"));
