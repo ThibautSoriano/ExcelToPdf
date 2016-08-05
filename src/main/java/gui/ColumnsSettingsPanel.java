@@ -91,6 +91,56 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
 
     private JCheckBox chckbxUniqueCookiesCreative;
 
+    private ArrayList<JCheckBox> groupSummary;
+
+    private JCheckBox chckbxImpressionsSummary;
+
+    private JCheckBox chckbxClicksSummary;
+
+    private JCheckBox chckbxUniqueCTRSummary;
+
+    private JCheckBox chckbxClickingUsersSummary;
+
+    private JCheckBox chckbxClickThroughRateSummary;
+
+    private JCheckBox chckbxFrequencySummary;
+
+    private JCheckBox chckbxReachSummary;
+
+    private JCheckBox chckbxUniqueCookiesSummary;
+
+    public JCheckBox getChckbxImpressionsSummary() {
+        return chckbxImpressionsSummary;
+    }
+
+    public JCheckBox getChckbxClicksSummary() {
+        return chckbxClicksSummary;
+    }
+
+    public JCheckBox getChckbxUniqueCTRSummary() {
+        return chckbxUniqueCTRSummary;
+    }
+
+    public JCheckBox getChckbxClickingUsersSummary() {
+        return chckbxClickingUsersSummary;
+    }
+
+    public JCheckBox getChckbxClickThroughRateSummary() {
+        return chckbxClickThroughRateSummary;
+    }
+
+    public JCheckBox getChckbxFrequencySummary() {
+        return chckbxFrequencySummary;
+    }
+
+    public JCheckBox getChckbxReachSummary() {
+        return chckbxReachSummary;
+    }
+
+    public JCheckBox getChckbxUniqueCookiesSummary() {
+        return chckbxUniqueCookiesSummary;
+    }
+
     public JCheckBox getChckbxReachTechnical() {
         return chckbxReachTechnical;
     }
@@ -195,6 +245,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         groupRankings = new ArrayList<JCheckBox>();
         groupTechnical = new ArrayList<JCheckBox>();
         groupCreative = new ArrayList<JCheckBox>();
+        groupSummary = new ArrayList<JCheckBox>();
 
         tabbedPane.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
             @Override
@@ -206,7 +257,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             @Override
             protected int calculateTabWidth(int tabPlacement, int tabIndex,
                     FontMetrics metrics) {
-                return SettingsChoicePanel.PANEL_WIDTH / 3 - 3;
+                return SettingsChoicePanel.PANEL_WIDTH / 4 - 3;
             }
 
             @Override
@@ -408,9 +459,84 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         separator_5.setBounds(93, 252, 397, 2);
         panelCreative.add(separator_5);
 
+        
+        
+        //Panel summary
+        JPanel panelSummary = new JPanel();
+
+        
+        panelSummary.setLayout(null);
+
+        chckbxImpressionsSummary = new JCheckBox("Impressions");
+        chckbxImpressionsSummary.setBounds(93, 57, 150, 23);
+        panelSummary.add(chckbxImpressionsSummary);
+        groupSummary.add(chckbxImpressionsSummary);
+        chckbxImpressionsSummary.setSelected(true);
+
+        chckbxClicksSummary = new JCheckBox("Clicks");
+        chckbxClicksSummary.setBounds(243, 57, 150, 23);
+        panelSummary.add(chckbxClicksSummary);
+        groupSummary.add(chckbxClicksSummary);
+        chckbxClicksSummary.setSelected(true);
+
+        chckbxUniqueCTRSummary = new JCheckBox("Unique CTR");
+        chckbxUniqueCTRSummary.setBounds(393, 57, 150, 23);
+        panelSummary.add(chckbxUniqueCTRSummary);
+        groupSummary.add(chckbxUniqueCTRSummary);
+        chckbxUniqueCTRSummary.setSelected(true);
+
+        chckbxClickingUsersSummary = new JCheckBox("Clicking users");
+        chckbxClickingUsersSummary.setBounds(243, 131, 150, 23);
+        panelSummary.add(chckbxClickingUsersSummary);
+        groupSummary.add(chckbxClickingUsersSummary);
+        chckbxClickingUsersSummary.setSelected(true);
+
+        chckbxClickThroughRateSummary = new JCheckBox("Click through rate");
+        chckbxClickThroughRateSummary.setBounds(243, 199, 150, 23);
+        panelSummary.add(chckbxClickThroughRateSummary);
+        groupSummary.add(chckbxClickThroughRateSummary);
+        chckbxClickThroughRateSummary.setSelected(true);
+
+        chckbxFrequencySummary = new JCheckBox("Frequency");
+        chckbxFrequencySummary.setBounds(93, 199, 150, 23);
+        panelSummary.add(chckbxFrequencySummary);
+        groupSummary.add(chckbxFrequencySummary);
+        chckbxFrequencySummary.setSelected(true);
+
+        JSeparator separator_6 = new JSeparator();
+        separator_6.setBounds(93, 33, 397, 2);
+        panelSummary.add(separator_6);
+
+        if (download) {
+            chckbxReachSummary = new JCheckBox("Reach");
+            chckbxReachSummary.setBounds(93, 131, 150, 23);
+            panelSummary.add(chckbxReachSummary);
+            groupSummary.add(chckbxReachSummary);
+            chckbxReachSummary.setSelected(true);
+        } else {
+            chckbxUniqueCookiesSummary = new JCheckBox("Unique cookies");
+            chckbxUniqueCookiesSummary.setBounds(93, 131, 150, 23);
+            panelSummary.add(chckbxUniqueCookiesSummary);
+            groupSummary.add(chckbxUniqueCookiesSummary);
+            chckbxUniqueCookiesSummary.setSelected(true);
+        }
+        JSeparator separator_7 = new JSeparator();
+        separator_7.setBounds(93, 252, 397, 2);
+        panelSummary.add(separator_7);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         setListenerBoxClickable(groupRankings, 1);
         setListenerBoxClickable(groupTechnical, 2);
         setListenerBoxClickable(groupCreative, 3);
+        setListenerBoxClickable(groupCreative, 4);
 
         addAncestorListener(new AncestorListener() {
 
@@ -428,7 +554,7 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
             public void ancestorAdded(AncestorEvent event) {
 
                 if (!MainWindow.isRankings() && !MainWindow.isTechnical()
-                        && !MainWindow.isCreative()) {
+                        && !MainWindow.isCreative() && !MainWindow.isSummary()) {
                     JLabel l = new JLabel(
                             "Nothing to choose for the selected modules");
                     l.setBounds(0, 170, SettingsChoicePanel.PANEL_WIDTH, 60);
@@ -460,6 +586,13 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                     tabbedPane.setSelectedIndex(0);
                 } else
                     tabbedPane.remove(panelCreative);
+                
+                if (MainWindow.isSummary()) {
+                    tabbedPane.addTab("Summary", null, panelSummary, null);
+
+                    tabbedPane.setSelectedIndex(0);
+                } else
+                    tabbedPane.remove(panelSummary);
 
             }
         });
@@ -481,6 +614,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
         for (final JCheckBox c : buttons) {
             c.addItemListener(new ItemListener() {
 
+                private int cptSummaryChecked;
+
                 @Override
                 public void itemStateChanged(ItemEvent e) {
 
@@ -491,6 +626,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                             cptTechnicalChecked++;
                         else if (rankings == 3)
                             cptCreativeChecked++;
+                        else
+                            cptSummaryChecked++;
 
                     } else {
                         if (rankings == 1)
@@ -499,6 +636,8 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                             cptTechnicalChecked--;
                         else if (rankings == 3)
                             cptCreativeChecked--;
+                        else
+                            cptSummaryChecked--;
                     }
                     disableCheckBoxesIfNecessary();
                 }
@@ -535,6 +674,19 @@ public class ColumnsSettingsPanel extends SettingsChoicePanel {
                         }
                     } else {
                         for (JCheckBox c : groupCreative) {
+                            if (!c.isSelected())
+                                c.setEnabled(true);
+                        }
+                    }
+                    
+                    
+                    if (cptSummaryChecked >= MAX_BOX_CHECKED) {
+                        for (JCheckBox c : groupSummary) {
+                            if (!c.isSelected())
+                                c.setEnabled(false);
+                        }
+                    } else {
+                        for (JCheckBox c : groupSummary) {
                             if (!c.isSelected())
                                 c.setEnabled(true);
                         }

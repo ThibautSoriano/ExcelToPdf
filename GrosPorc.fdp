@@ -1,14 +1,5 @@
-- faire un tab pour pouvoir choice les elements à mettre dans la summary page
-
-- mettre la page technical à la fin
 
 - mettre chaque table sur une page different (utiliser la fonction doc.newPage();)
 
-- prévoir 2 nouvelles check boxes pour choisir time period summary and total summary (tout sur la meme page si possible)
-
-- si on coche time period alors il y a une page juste après summary qui contient les summary des periods
-et en dessous de chaque period dans les weekly monthly il y a une ligne bleu clair qui contient le sum up de cette period
-
 - sauvegarder tous les panels (hyper casse burnes)
 
-- quand on écrit une time period weekly faut écrire : date gitane - date gitane de fin (numéro semaine)

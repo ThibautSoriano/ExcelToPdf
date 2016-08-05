@@ -16,6 +16,7 @@ import org.apache.http.util.EntityUtils;
 import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.CampaignHeader;
 import main.java.datasdownloading.entities.PeriodData;
+import main.java.excelreader.entities.CampaignRowPeriod;
 
 public class HttpDownload {
 
@@ -401,6 +402,26 @@ public class HttpDownload {
         return null;
    }
 
+   
+   public CampaignRowPeriod getAll(String campaignId) {
+       HttpMessage m = checkXmlReader();
+
+       if (!m.isOk())
+           return null;
+       
+       HttpMessage merguez =getXmlAllData(campaignId, "General");
+       
+       if (!merguez.isOk())
+           return new CampaignRowPeriod();
+       try {
+        return xmlReader.getAll(merguez.getContent(), false);
+    } catch (LoginException e) {
+        e.printStackTrace();
+        login(userName,password);
+        return getAll(campaignId);
+    }
+   }
+   
     public static void main(String[] args) throws Exception {
         HttpDownload a = new HttpDownload();
         // Campaign c = a.getCampaignTechnicalById("557150106");
@@ -410,5 +431,7 @@ public class HttpDownload {
         HttpMessage m = a.getXmlAllData("557150106", "Week");
         System.out.println(m.getContent());
     }
+
+   
 
 }

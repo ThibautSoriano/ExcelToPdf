@@ -393,7 +393,7 @@ public class XmlReader {
 		return c;
 	}
 	
-	private CampaignRowPeriod getAll(String xmlSummaryData, boolean withCountryID) throws LoginException {
+	public CampaignRowPeriod getAll(String xmlSummaryData, boolean withCountryID) throws LoginException {
 		CampaignRowPeriod all = new CampaignRowPeriod();
 		
 		try {
