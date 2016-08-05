@@ -463,7 +463,7 @@ public class ExcelToPdf {
 			docWeekly.open();
 			docWeekly.add(new Paragraph("Weekly data", new Font(FontFamily.HELVETICA, 24, Font.UNDERLINE)));
 			docWeekly.add(new Paragraph("\n"));
-        	document.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent(),true,dateFormat));
+			docWeekly.add(tc.createTabPeriod(contentPage.getCampaign().getWeeklyData().getContent(), contentPage.getCampaign().getWeeklyData().getColumsLabels(), contentPage.getCampaign().getWeeklyData().getAll(), colsPeriod, true, timePeriodTotal, weeklyData.getContent(),true,dateFormat));
         	
         	docWeekly.close();
 	        CURRENT_PAGE_NUMBER += writerW.getPageNumber();
