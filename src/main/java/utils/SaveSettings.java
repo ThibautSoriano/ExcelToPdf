@@ -57,6 +57,15 @@ public class SaveSettings {
         map.put("login", loginName);
         saveFile();
     }
+    
+    public static void changeAppLanguage(String language) {
+    	map.put("language", language);
+        saveFile();
+    }
+    
+    public static String getKey(String key) {
+        return (String) map.get(key);
+    }
 
     public static boolean loginHasToBeRemembered() {
         return (Boolean) map.get("remember_login");

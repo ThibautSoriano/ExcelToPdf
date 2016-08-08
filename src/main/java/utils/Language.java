@@ -34,5 +34,9 @@ public enum Language {
     public String toString(){
         return name+" "+"("+language+" "+country+")";
     }
+
+	public String getLanguage() {
+		return language;
+	}
     
 }

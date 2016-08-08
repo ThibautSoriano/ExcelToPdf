@@ -55,6 +55,7 @@ import main.java.utils.FileType;
 import main.java.utils.Internationalization;
 import main.java.utils.InternationalizationPDF;
 import main.java.utils.Language;
+import main.java.utils.SaveSettings;
 import main.java.utils.Utils;
 
 @SuppressWarnings("serial")
@@ -235,13 +236,16 @@ public class MainWindow extends JFrame implements IMainFrame {
         ButtonGroup g = new ButtonGroup();
 
         for (final Language lang : Language.values()) {
-
+        	
             final JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(
                     lang.toString());
+            if (lang == Internationalization.getCurrentLanguage())
+            	rdbtnmntm.setSelected(true);
             rdbtnmntm.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     Internationalization.loadLanguage(lang);
+                    SaveSettings.changeAppLanguage(lang.getLanguage().toUpperCase());
 
                     reloadPanels();
 
@@ -260,9 +264,6 @@ public class MainWindow extends JFrame implements IMainFrame {
                     setVisible(true);
                 }
             });
-
-            if (lang == Language.EN)
-                rdbtnmntm.setSelected(true);
 
             g.add(rdbtnmntm);
             mnLanguage.add(rdbtnmntm);

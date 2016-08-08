@@ -16,7 +16,7 @@ public class Internationalization {
     private static Language currentLanguage = Language.EN;
     
     static {
-        loadLanguage(Language.EN);        
+        loadLanguage(Language.valueOf(SaveSettings.getKey("language")));        
     }
     
 
