@@ -1,5 +1,7 @@
 package main.java.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,6 +32,11 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     private JTextField txtWebsite;
     private JCheckBox chckbxHeader;
     private JCheckBox chckbxFooter;
+    private JRadioButton rdbtnTop;
+    private JRadioButton rdbtnBottom;
+    private JLabel lblTableOfContent;
+    private JLabel lblPageNumerotation;
+    private JLabel lblBottomLeftText;
     
     public JTextField getTxtLogo() {
         return txtLogo;
@@ -78,12 +85,13 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         
         
         rdbtnBottomCenter = new JRadioButton(Internationalization.getKey("Bottom center"));
-        rdbtnBottomCenter.setBounds(223, 321, 109, 23);
-        add(rdbtnBottomCenter);
+        rdbtnBottomCenter.setBounds(245, 281, 152, 23);add(rdbtnBottomCenter);
+        rdbtnBottomCenter.setOpaque(false);
         rdbtnBottomCenter.setSelected(true);
         
         rdbtnBottomRight = new JRadioButton(Internationalization.getKey("Bottom right"));
-        rdbtnBottomRight.setBounds(364, 321, 109, 23);
+        rdbtnBottomRight.setBounds(399, 281, 152, 23);
+        rdbtnBottomRight.setOpaque(false);
         add(rdbtnBottomRight);
         
         pagesNumGroup = new ButtonGroup();
@@ -92,12 +100,14 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         
         chckbxFooterLine = new JCheckBox(Internationalization.getKey("Separator line above footer"));
         chckbxFooterLine.setSelected(true);
-        chckbxFooterLine.setBounds(284, 229, 189, 23);
+        chckbxFooterLine.setBounds(284, 201, 189, 23);
+        chckbxFooterLine.setOpaque(false);
         add(chckbxFooterLine);
         
         chckbxHeaderLine = new JCheckBox(Internationalization.getKey("Separator line below header"));
         chckbxHeaderLine.setSelected(true);
         chckbxHeaderLine.setBounds(284, 70, 189, 23);
+        chckbxHeaderLine.setOpaque(false);
         add(chckbxHeaderLine);
         
         JSeparator separator = new JSeparator();
@@ -109,29 +119,44 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         add(separator_1);
         
         JSeparator separator_2 = new JSeparator();
-        separator_2.setBounds(93, 208, 397, 2);
+        separator_2.setBounds(93, 183, 397, 2);
         add(separator_2);
         
         JLabel lblYourCompanyWebsite = new JLabel(Internationalization.getKey("Your company website"));
-        lblYourCompanyWebsite.setBounds(93, 116, 159, 19);
+        lblYourCompanyWebsite.setBounds(93, 111, 159, 19);
         add(lblYourCompanyWebsite);
         
         txtWebsite = new JTextField();
         txtWebsite.setColumns(10);
         txtWebsite.setDocument(new JTextFieldLimit(30));
         txtWebsite.setText("www.gemius.hu");
-        txtWebsite.setBounds(284, 115, 177, 20);
-        add(txtWebsite);
+        txtWebsite.setBounds(284, 110, 177, 20);
+         add(txtWebsite);
         
         chckbxHeader = new JCheckBox(Internationalization.getKey("Header"));
         chckbxHeader.setSelected(true);
         chckbxHeader.setBounds(93, 70, 189, 23);
+        chckbxHeader.setOpaque(false);
         add(chckbxHeader);
         
         chckbxFooter = new JCheckBox(Internationalization.getKey("Footer"));
         chckbxFooter.setSelected(true);
-        chckbxFooter.setBounds(93, 229, 189, 23);
+        chckbxFooter.setBounds(93, 201, 189, 23);
+        chckbxFooter.setOpaque(false);
         add(chckbxFooter);
+        
+        chckbxFooter.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chckbxFooter.isSelected())
+                    setVisibilityFooterOptions(true);
+                else
+                    setVisibilityFooterOptions(false);
+                
+            }
+        });
+        
         
         JButton btnBrowse = new JButton("");
         btnBrowse.addMouseListener(new MouseAdapter() {
@@ -143,28 +168,28 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
                 }
         });
         btnBrowse.setIcon(new ImageIcon(getClass().getResource("/Browse.png")));
-        btnBrowse.setBounds(471, 158, 25, 25);
+        btnBrowse.setBounds(471, 142, 25, 25);
         btnBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
         
         add(btnBrowse);
         
         txtLogo = new JTextField();
         txtLogo.setColumns(10);
-        txtLogo.setBounds(284, 161, 177, 20);
+        txtLogo.setBounds(284, 145, 177, 20);
         add(txtLogo);
         
         JLabel lblYourCompanyLogo = new JLabel(Internationalization.getKey("Your company logo"));
-        lblYourCompanyLogo.setBounds(93, 160, 168, 22);
+        lblYourCompanyLogo.setBounds(93, 145, 168, 22);
         add(lblYourCompanyLogo);
         
-        JLabel lblBottomLeftText = new JLabel(Internationalization.getKey("Bottom left text"));
-        lblBottomLeftText.setBounds(93, 278, 159, 19);
+         lblBottomLeftText = new JLabel(Internationalization.getKey("Bottom left text"));
+        lblBottomLeftText.setBounds(93, 245, 159, 19);
         
         add(lblBottomLeftText);
         
         txtBottomLeftText = new JTextField();
         txtBottomLeftText.setColumns(10);
-        txtBottomLeftText.setBounds(284, 277, 177, 20);
+        txtBottomLeftText.setBounds(284, 244, 177, 20);
         txtBottomLeftText.setDocument(new JTextFieldLimit(25));
         add(txtBottomLeftText);
         
@@ -173,9 +198,32 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
         add(separator_3);
         
         
-        JLabel lblPageNumerotation = new JLabel(Internationalization.getKey("Page numerotation"));
-        lblPageNumerotation.setBounds(93, 323, 115, 19);
+         lblPageNumerotation = new JLabel(Internationalization.getKey("Page numerotation"));
+        lblPageNumerotation.setBounds(93, 283, 115, 19);
         add(lblPageNumerotation);
+        
+        
+         lblTableOfContent = new JLabel("Table of content position");
+        lblTableOfContent.setBounds(93, 324, 159, 14);
+        add(lblTableOfContent);
+        
+         rdbtnTop = new JRadioButton("Top");
+        rdbtnTop.setBounds(287, 320, 109, 23);
+        rdbtnTop.setSelected(true);
+        rdbtnTop.setOpaque(false);
+        add(rdbtnTop);
+        
+         rdbtnBottom = new JRadioButton("Bottom");
+        rdbtnBottom.setBounds(398, 320, 109, 23);
+        rdbtnBottom.setOpaque(false);
+        add(rdbtnBottom);
+        
+     
+        
+        
+        ButtonGroup groupTableOfContent = new ButtonGroup();
+        groupTableOfContent.add(rdbtnTop);
+        groupTableOfContent.add(rdbtnBottom);
         
     }
     
@@ -188,6 +236,20 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     public SettingsChoicePanel getNewInstance() {
        
         return new GeneralSettingsPanel();
+    }
+    
+    private void setVisibilityFooterOptions(boolean visible){
+        lblTableOfContent.setVisible(visible);
+        rdbtnTop.setVisible(visible);
+        rdbtnBottom.setVisible(visible);
+        
+        lblBottomLeftText.setVisible(visible);
+        txtBottomLeftText.setVisible(visible);
+
+        lblPageNumerotation.setVisible(visible);
+        rdbtnBottomCenter.setVisible(visible);
+        rdbtnBottomRight.setVisible(visible);
+
     }
 
 }

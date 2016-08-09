@@ -19,6 +19,9 @@ import javax.swing.border.EmptyBorder;
 
 import main.java.gui.MainWindow;
 import main.java.utils.FileType;
+import main.java.utils.Language;
+
+import javax.swing.JComboBox;
 
 public class PdfStructureSettingsWindow {
 
@@ -71,16 +74,16 @@ public class PdfStructureSettingsWindow {
 		panelDefineStructure.setLayout(null);
 		
 		JLabel lblPageNumerotation = new JLabel("Page numerotation");
-		lblPageNumerotation.setBounds(93, 323, 115, 19);
+		lblPageNumerotation.setBounds(93, 283, 115, 19);
 		panelDefineStructure.add(lblPageNumerotation);
 		
 		JRadioButton rdbtnBottomCenter = new JRadioButton("Bottom center");
-		rdbtnBottomCenter.setBounds(223, 321, 109, 23);
+		rdbtnBottomCenter.setBounds(245, 281, 152, 23);
 		panelDefineStructure.add(rdbtnBottomCenter);
 		rdbtnBottomCenter.setSelected(true);
 		
 		JRadioButton rdbtnBottomRight = new JRadioButton("Bottom right");
-		rdbtnBottomRight.setBounds(364, 321, 109, 23);
+		rdbtnBottomRight.setBounds(399, 281, 152, 23);
 		panelDefineStructure.add(rdbtnBottomRight);
 		
 		ButtonGroup pagesNumGroup = new ButtonGroup();
@@ -89,7 +92,7 @@ public class PdfStructureSettingsWindow {
 		
 		JCheckBox chckbxFooterLine = new JCheckBox("Separator line above footer");
 		chckbxFooterLine.setSelected(true);
-		chckbxFooterLine.setBounds(284, 229, 189, 23);
+		chckbxFooterLine.setBounds(284, 201, 189, 23);
 		panelDefineStructure.add(chckbxFooterLine);
 		
 		JCheckBox chckbxHeaderLine = new JCheckBox("Separator line below header");
@@ -102,17 +105,17 @@ public class PdfStructureSettingsWindow {
 		panelDefineStructure.add(separator_1);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(93, 208, 397, 2);
+		separator_2.setBounds(93, 183, 397, 2);
 		panelDefineStructure.add(separator_2);
 		
 		JLabel lblYourCompanyWebsite = new JLabel("Your company website");
-		lblYourCompanyWebsite.setBounds(93, 116, 159, 19);
+		lblYourCompanyWebsite.setBounds(93, 111, 159, 19);
 		panelDefineStructure.add(lblYourCompanyWebsite);
 		
 		txtWebsite = new JTextField();
 		txtWebsite.setText("www.gemius.hu");
 		txtWebsite.setColumns(10);
-		txtWebsite.setBounds(284, 115, 177, 20);
+		txtWebsite.setBounds(284, 110, 177, 20);
 		panelDefineStructure.add(txtWebsite);
 		
 		JCheckBox chckbxHeader = new JCheckBox("Header");
@@ -122,7 +125,7 @@ public class PdfStructureSettingsWindow {
 		
 		JCheckBox chckbxFooter = new JCheckBox("Footer");
 		chckbxFooter.setSelected(true);
-		chckbxFooter.setBounds(93, 229, 189, 23);
+		chckbxFooter.setBounds(93, 201, 189, 23);
 		panelDefineStructure.add(chckbxFooter);
 		
 		JButton btnBrowse = new JButton("");
@@ -133,31 +136,45 @@ public class PdfStructureSettingsWindow {
 			}
 		});
 		btnBrowse.setIcon(new ImageIcon(".\\src\\main\\resources\\Browse.png"));
-		btnBrowse.setBounds(471, 158, 25, 25);
+		btnBrowse.setBounds(471, 142, 25, 25);
 		btnBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panelDefineStructure.add(btnBrowse);
 		
 		txtLogo = new JTextField();
 		txtLogo.setColumns(10);
-		txtLogo.setBounds(284, 161, 177, 20);
+		txtLogo.setBounds(284, 145, 177, 20);
 		panelDefineStructure.add(txtLogo);
 		
 		JLabel lblYourCompanyLogo = new JLabel("Your company logo");
-		lblYourCompanyLogo.setBounds(93, 160, 168, 22);
+		lblYourCompanyLogo.setBounds(93, 145, 168, 22);
 		panelDefineStructure.add(lblYourCompanyLogo);
 		
 		JLabel lblBottomLeftText = new JLabel("Bottom left text");
-		lblBottomLeftText.setBounds(93, 278, 159, 19);
+		lblBottomLeftText.setBounds(93, 245, 159, 19);
 		panelDefineStructure.add(lblBottomLeftText);
 		
 		txtBottomLeftText = new JTextField();
 		txtBottomLeftText.setColumns(10);
-		txtBottomLeftText.setBounds(284, 277, 177, 20);
+		txtBottomLeftText.setBounds(284, 244, 177, 20);
 		panelDefineStructure.add(txtBottomLeftText);
 		
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setBounds(93, 360, 397, 2);
 		panelDefineStructure.add(separator_3);
+		
+		JLabel lblTableOfContent = new JLabel("Table of content position");
+		lblTableOfContent.setBounds(93, 324, 159, 14);
+		panelDefineStructure.add(lblTableOfContent);
+		
+		JRadioButton rdbtnTop = new JRadioButton("Top");
+		rdbtnTop.setBounds(287, 320, 109, 23);
+		rdbtnTop.setSelected(true);
+		panelDefineStructure.add(rdbtnTop);
+		
+		JRadioButton rdbtnBottom = new JRadioButton("Bottom");
+		rdbtnBottom.setBounds(398, 320, 109, 23);
+		panelDefineStructure.add(rdbtnBottom);
+                
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

@@ -41,6 +41,7 @@ public class LoginPanel extends SettingsChoicePanel {
         JLabel lblPassword = new JLabel("Password");
         lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
         lblPassword.setBounds(200, 167, 200, 19);
+        
         add(lblPassword);
 
         txtLogin = new JTextField();
@@ -56,6 +57,7 @@ public class LoginPanel extends SettingsChoicePanel {
         txtPassword = new JPasswordField();
         txtPassword.setColumns(10);
         txtPassword.setBounds(211, 197, 173, 20);
+        txtPassword.setText("ad12dac");
         add(txtPassword);
         
         
