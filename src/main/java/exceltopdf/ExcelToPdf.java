@@ -600,7 +600,7 @@ public class ExcelToPdf {
             throws DocumentException, IOException {
         Document document = new Document();
         document.setMargins(85, 85, 85, 113);
-        System.out.println("&&&&&&&&&&&&&&&& MERGUEZ");
+        
         FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
         filesNotInTOC.add(TEMP_TITLE_PAGE);
         filesToDelete.add(TEMP_TITLE_PAGE);
