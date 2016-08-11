@@ -13,6 +13,8 @@ public class Campaign {
 	
 	private CampaignRow all;
 	
+	private String title = "";
+	
 	private PeriodData monthlyData;
 	
 	private PeriodData weeklyData;
@@ -84,6 +86,14 @@ public class Campaign {
 
 	public void setWeeklyData(PeriodData weeklyData) {
 		this.weeklyData = weeklyData;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

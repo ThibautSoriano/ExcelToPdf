@@ -512,6 +512,9 @@ public class MainWindow extends JFrame implements IMainFrame {
         if (msp.getChckbxTimePeriodTotal().isSelected()) {
             monthlyData = session.getPeriodData("Month", campaignID);
             weeklyData = session.getPeriodData("Week", campaignID);
+            if (monthlyData == null || weeklyData == null) {
+            	return;
+            }
             etpd.setMonthlyData(monthlyData);
             etpd.setWeeklyData(weeklyData);
         }
@@ -717,11 +720,35 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage.setChartType(ContentPage.BAR_CHART);
             contentPage.setStructure(hfContent);
             c1.setColumsLabels(labels);
+            c1.setTitle("Rankings");
             contentPage.setCampaign(c1);
             contentPage.setMonthly(msp.getChckbxMonthlyRankings().isSelected());
             contentPage.setWeekly(msp.getChckbxWeeklyRankings().isSelected());
             contentPage.setGeneral(msp.getChckbxRankings().isSelected());
             sections.add(contentPage);
+        }
+        
+        if (msp.detectCreative()) {
+            ContentPage contentPage3 = new ContentPage(
+                    csp.getChckbxImpressionsCreative().isSelected(),
+                    csp.getChckbxFrequencyCreative().isSelected(),
+                    csp.getChckbxClicksCreative().isSelected(),
+                    csp.getChckbxClickingUsersCreative().isSelected(),
+                    csp.getChckbxClickThroughRateCreative().isSelected(),
+                    csp.getChckbxUniqueCTRCreative().isSelected());
+
+            contentPage3.setReach(csp.getChckbxReachCreative().isSelected());
+            contentPage3.setStructure(hfContent);
+            c3.setColumsLabels(labels);
+            c3.setTitle("Creative");
+            contentPage3.setCampaign(c3);
+            contentPage3.setGeneral(msp.getChckbxCreative().isSelected());
+            contentPage3
+                    .setMonthly(msp.getChckbxMonthlyCreative().isSelected());
+            contentPage3.setChartType(ContentPage.BAR_CHART);
+            contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
+            sections.add(contentPage3);
+
         }
 
         if (msp.getChckbxTechnical().isSelected()) {
@@ -738,38 +765,19 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage2.setStructure(hfContent);
             contentPage2.setGeneral(msp.getChckbxTechnical().isSelected());
             c2.setColumsLabels(labels);
+            c2.setTitle("Technical");
             contentPage2.setCampaign(c2);
             sections.add(contentPage2);
 
         }
 
-        if (msp.detectCreative()) {
-            ContentPage contentPage3 = new ContentPage(
-                    csp.getChckbxImpressionsCreative().isSelected(),
-                    csp.getChckbxFrequencyCreative().isSelected(),
-                    csp.getChckbxClicksCreative().isSelected(),
-                    csp.getChckbxClickingUsersCreative().isSelected(),
-                    csp.getChckbxClickThroughRateCreative().isSelected(),
-                    csp.getChckbxUniqueCTRCreative().isSelected());
-
-            contentPage3.setReach(csp.getChckbxReachCreative().isSelected());
-            contentPage3.setStructure(hfContent);
-            c3.setColumsLabels(labels);
-            contentPage3.setCampaign(c3);
-            contentPage3.setGeneral(msp.getChckbxCreative().isSelected());
-            contentPage3
-                    .setMonthly(msp.getChckbxMonthlyCreative().isSelected());
-            contentPage3.setChartType(ContentPage.BAR_CHART);
-            contentPage3.setWeekly(msp.getChckbxWeeklyCreative().isSelected());
-            sections.add(contentPage3);
-
-        }
+        
         pbw.setValue(85);
         try {
             etpd.createPdfDownload(
                     Utils.getPdfName(
                             commonInfos.getCampaignHeader().getCampaignName()),
-                    sections, isp.getRdbtnOn().isSelected());
+                    sections, isp.getRdbtnOn().isSelected(), msp.getChckbxTimePeriodTotal().isSelected());
             pbw.setValue(100);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
