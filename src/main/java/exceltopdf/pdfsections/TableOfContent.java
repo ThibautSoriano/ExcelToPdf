@@ -3,6 +3,7 @@ package main.java.exceltopdf.pdfsections;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilterOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -122,8 +123,10 @@ public class TableOfContent {
 	        reader = new PdfReader(baos.toByteArray());
 	        n = reader.getNumberOfPages();
 	        reader.selectPages(String.format("%d, 1-%d", n, n-1));
-	        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(filename));
+	        FileOutputStream merguez = new FileOutputStream(filename);
+	        PdfStamper stamper = new PdfStamper(reader, merguez);
 	        stamper.close();
+	        merguez.close();
 	        
 	        for (int i = 0; i < filesToDelete.size(); i++) {
 	        	File f = new File(filesToDelete.get(i));

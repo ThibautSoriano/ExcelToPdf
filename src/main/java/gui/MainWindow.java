@@ -236,16 +236,17 @@ public class MainWindow extends JFrame implements IMainFrame {
         ButtonGroup g = new ButtonGroup();
 
         for (final Language lang : Language.values()) {
-        	
+
             final JRadioButtonMenuItem rdbtnmntm = new JRadioButtonMenuItem(
                     lang.toString());
             if (lang == Internationalization.getCurrentLanguage())
-            	rdbtnmntm.setSelected(true);
+                rdbtnmntm.setSelected(true);
             rdbtnmntm.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     Internationalization.loadLanguage(lang);
-                    SaveSettings.changeAppLanguage(lang.getLanguage().toUpperCase());
+                    SaveSettings.changeAppLanguage(
+                            lang.getLanguage().toUpperCase());
 
                     reloadPanels();
 
@@ -509,11 +510,15 @@ public class MainWindow extends JFrame implements IMainFrame {
         PeriodData weeklyData = null, monthlyData = null;
 
         // TODO optimiser ca
-        if (msp.getChckbxTimePeriodTotal().isSelected()) {
+        if (msp.getChckbxTimePeriodTotal().isSelected()
+                || msp.getChckbxMonthlyCreative().isSelected()
+                || msp.getChckbxWeeklyCreative().isSelected()
+                || msp.getChckbxMonthlyRankings().isSelected()
+                || msp.getChckbxWeeklyRankings().isSelected()) {
             monthlyData = session.getPeriodData("Month", campaignID);
             weeklyData = session.getPeriodData("Week", campaignID);
             if (monthlyData == null || weeklyData == null) {
-            	return;
+                return;
             }
             etpd.setMonthlyData(monthlyData);
             etpd.setWeeklyData(weeklyData);
@@ -555,6 +560,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             JOptionPane.showMessageDialog(null,
                     "The connection with the server failed", "ERROR",
                     JOptionPane.ERROR_MESSAGE);
+            pbw.dispose();
             return;
         }
 
@@ -566,6 +572,8 @@ public class MainWindow extends JFrame implements IMainFrame {
             commonInfos = c2;
         else if (c3 != null)
             commonInfos = c3;
+
+        System.out.println("common infos" + commonInfos.getCampaignHeader());
 
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -727,7 +735,7 @@ public class MainWindow extends JFrame implements IMainFrame {
             contentPage.setGeneral(msp.getChckbxRankings().isSelected());
             sections.add(contentPage);
         }
-        
+
         if (msp.detectCreative()) {
             ContentPage contentPage3 = new ContentPage(
                     csp.getChckbxImpressionsCreative().isSelected(),
@@ -771,13 +779,13 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         }
 
-        
         pbw.setValue(85);
         try {
             etpd.createPdfDownload(
                     Utils.getPdfName(
                             commonInfos.getCampaignHeader().getCampaignName()),
-                    sections, isp.getRdbtnOn().isSelected(), msp.getChckbxTimePeriodTotal().isSelected());
+                    sections, isp.getRdbtnOn().isSelected(),
+                    msp.getChckbxTimePeriodTotal().isSelected());
             pbw.setValue(100);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
