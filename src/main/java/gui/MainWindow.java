@@ -35,6 +35,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.itextpdf.text.DocumentException;
 
 import main.java.datasdownloading.HttpDownload;
+import main.java.datasdownloading.HttpMessage;
 import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.PeriodData;
 import main.java.datasdownloading.entities.SummaryData;
@@ -485,6 +486,18 @@ public class MainWindow extends JFrame implements IMainFrame {
     }
 
     private void validationDownload() {
+        
+        
+        HttpMessage m = HttpDownload.canDownloadDataFromServer();
+        if (!m.isOk()) {
+            JOptionPane.showMessageDialog(null,m.getErrorMessage(), "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            pbw.setVisible(false);
+            return ;
+        }
+        
+        
+        
 
         List<SummaryData> summary = new ArrayList<>();
 

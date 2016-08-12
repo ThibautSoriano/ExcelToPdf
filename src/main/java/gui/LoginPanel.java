@@ -9,7 +9,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import main.java.datasdownloading.HttpDownload;
+import main.java.datasdownloading.HttpMessage;
 import main.java.utils.SaveSettings;
+import main.java.utils.Utils;
 
 @SuppressWarnings("serial")
 public class LoginPanel extends SettingsChoicePanel {
@@ -96,7 +98,18 @@ public class LoginPanel extends SettingsChoicePanel {
             }
                
             
+            
             if (MainWindow.getSession() == null || !MainWindow.getSession().isSameLogin(login, password)) {
+                
+                
+                
+                HttpMessage m = HttpDownload.canDownloadDataFromServer();
+                if (!m.isOk()) {
+                    JOptionPane.showMessageDialog(null,m.getErrorMessage(), "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+                
                 HttpDownload htpdl = new HttpDownload(login, password);
                 MainWindow.setSession(htpdl);
             }

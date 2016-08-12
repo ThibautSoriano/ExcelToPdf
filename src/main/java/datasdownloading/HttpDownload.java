@@ -1,9 +1,12 @@
 package main.java.datasdownloading;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,6 +20,7 @@ import main.java.datasdownloading.entities.Campaign;
 import main.java.datasdownloading.entities.CampaignHeader;
 import main.java.datasdownloading.entities.PeriodData;
 import main.java.excelreader.entities.CampaignRowPeriod;
+import main.java.utils.Utils;
 
 public class HttpDownload {
 
@@ -30,10 +34,10 @@ public class HttpDownload {
 
     private XmlReader xmlReader;
 
-    private HttpClient client;
+    private static HttpClient client = HttpClientBuilder.create().build();;
 
     public HttpDownload(String userName, String password) throws Exception {
-        client = HttpClientBuilder.create().build();
+       
 
         // RequestConfig requestConfig = RequestConfig.custom()
         // .setConnectTimeout(900).build();
@@ -55,7 +59,7 @@ public class HttpDownload {
         this("zburi_owner", "ad12dac");
     }
 
-    private HttpMessage sendGet(String url) {
+    private static HttpMessage sendGet(String url) {
 
         HttpGet request = null;
         try {
@@ -369,30 +373,27 @@ public class HttpDownload {
         return new HttpMessage(true, "", "");
     }
 
-   public PeriodData getPeriodData(String timeDivision,String campaignID) {
-       HttpMessage m = checkXmlReader();
+    public PeriodData getPeriodData(String timeDivision, String campaignID) {
+        HttpMessage m = checkXmlReader();
 
-       if (!m.isOk())
-           return null;
-       
-       
-       String xmlAllDataStr = "",xmlWholeTotalStr = "";
-       
-           HttpMessage xmlAllData = getXmlAllData(campaignID, timeDivision);
-           if (!xmlAllData.isOk())
-               return null;
-           xmlAllDataStr = xmlAllData.getContent();
-       
-           HttpMessage xmlWholeTotal = getXmlAllData(campaignID, "General");
-           if (!xmlWholeTotal.isOk())
-               return null;
-           xmlWholeTotalStr = xmlWholeTotal.getContent();
-           
-           
-       
-    // xmlAllData dimension1 timeDivision month ou week
-       // xmlWhole dimension 1 timeDivision general 
-       
+        if (!m.isOk())
+            return null;
+
+        String xmlAllDataStr = "", xmlWholeTotalStr = "";
+
+        HttpMessage xmlAllData = getXmlAllData(campaignID, timeDivision);
+        if (!xmlAllData.isOk())
+            return null;
+        xmlAllDataStr = xmlAllData.getContent();
+
+        HttpMessage xmlWholeTotal = getXmlAllData(campaignID, "General");
+        if (!xmlWholeTotal.isOk())
+            return null;
+        xmlWholeTotalStr = xmlWholeTotal.getContent();
+
+        // xmlAllData dimension1 timeDivision month ou week
+        // xmlWhole dimension 1 timeDivision general
+
         try {
             return xmlReader.readAllPeriod(xmlAllDataStr, xmlWholeTotalStr);
         } catch (LoginException e) {
@@ -400,28 +401,27 @@ public class HttpDownload {
             e.printStackTrace();
         }
         return null;
-   }
-
-   
-   public CampaignRowPeriod getAll(String campaignId) {
-       HttpMessage m = checkXmlReader();
-
-       if (!m.isOk())
-           return null;
-       
-       HttpMessage merguez =getXmlAllData(campaignId, "General");
-       
-       if (!merguez.isOk())
-           return new CampaignRowPeriod();
-       try {
-        return xmlReader.getAll(merguez.getContent(), false);
-    } catch (LoginException e) {
-        e.printStackTrace();
-        login(userName,password);
-        return getAll(campaignId);
     }
-   }
-   
+
+    public CampaignRowPeriod getAll(String campaignId) {
+        HttpMessage m = checkXmlReader();
+
+        if (!m.isOk())
+            return null;
+
+        HttpMessage merguez = getXmlAllData(campaignId, "General");
+
+        if (!merguez.isOk())
+            return new CampaignRowPeriod();
+        try {
+            return xmlReader.getAll(merguez.getContent(), false);
+        } catch (LoginException e) {
+            e.printStackTrace();
+            login(userName, password);
+            return getAll(campaignId);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         HttpDownload a = new HttpDownload();
         // Campaign c = a.getCampaignTechnicalById("557150106");
@@ -432,6 +432,51 @@ public class HttpDownload {
         System.out.println(m.getContent());
     }
 
-   
+    public static boolean isInternetConnected() {
 
+        HttpMessage m1 = sendGet("https://www.google.com");
+//        HttpMessage m2 = sendGet("https://www.facebook.com");
+//        HttpMessage m3 = sendGet("https://www.amazon.com");
+
+        if (m1.isOk() /*|| m2.isOk() || m3.isOk()*/)
+            return true;
+
+        return false;
+
+    }
+
+    
+    public static boolean isGemiusReachable(){
+        String url = "https://gdeapi.gemius.com/OpenSession.php?";
+        HttpMessage m1 = sendGet(url);
+        if (!m1.isOk())
+            return false;
+        
+        if ("TechnicalBreak".equals(XmlReader.getStatus(m1.getContent())))
+            return false;
+        
+        return true;
+    }
+    
+    public static HttpMessage canDownloadDataFromServer() {
+        
+        if (!HttpDownload.isInternetConnected()) 
+           return new HttpMessage(false, "No internet connection","");
+            
+        
+        
+        
+        if (!HttpDownload.isGemiusReachable()) {
+            
+            String errorMessage = null;
+            if (Utils.isGemiusServerMaintenanceHour())
+                errorMessage = "gDE system maintance. Try again later";
+            else
+                errorMessage = "Urgent/sustained gDE system maintance. Please contact technical support";
+            
+            return new HttpMessage(false, errorMessage,"");
+        }
+        return new HttpMessage(true, "","");
+    }
+    
 }

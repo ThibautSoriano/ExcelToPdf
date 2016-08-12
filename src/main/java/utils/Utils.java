@@ -6,8 +6,11 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -171,5 +174,19 @@ public class Utils {
              System.out.println(f.format(d) + " - " +f.format(dateEnd) + " ("+(monthNumber+1)+")");
             
         }
+	
+	
+	public static boolean isGemiusServerMaintenanceHour() {
+	        LocalDateTime now = LocalDateTime.now(TimeZone.getTimeZone("GMT+2").toZoneId());
+	        
+	        DayOfWeek day = now.getDayOfWeek();
+	        int hour = now.getHour();
+	        
+	    
+	        return day == DayOfWeek.WEDNESDAY && hour <10 ;
+	        
+	        
+	        
+	    }
 	
 }
