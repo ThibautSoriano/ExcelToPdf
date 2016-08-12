@@ -1,17 +1,20 @@
 package main.java.datasdownloading;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -34,15 +37,18 @@ public class HttpDownload {
 
     private XmlReader xmlReader;
 
-    private static HttpClient client = HttpClientBuilder.create().build();;
+    private static HttpClient client;
+
+    static {
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(4000).setSocketTimeout(4000)
+                .setConnectionRequestTimeout(4000).build();
+
+        client = HttpClientBuilder.create()
+                .setDefaultRequestConfig(requestConfig).build();
+    }
 
     public HttpDownload(String userName, String password) throws Exception {
-       
-
-        // RequestConfig requestConfig = RequestConfig.custom()
-        // .setConnectTimeout(900).build();
-        // client = HttpClientBuilder.create()
-        // .setDefaultRequestConfig(requestConfig).build();
 
         this.userName = userName;
         this.password = password;
@@ -434,49 +440,85 @@ public class HttpDownload {
 
     public static boolean isInternetConnected() {
 
-        HttpMessage m1 = sendGet("https://www.google.com");
-//        HttpMessage m2 = sendGet("https://www.facebook.com");
-//        HttpMessage m3 = sendGet("https://www.amazon.com");
+        Callable<Boolean> callable1 = new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                System.out.println("1");
+                return sendGet("https://www.google.com").isOk();
+            }
+        };
+        Callable<Boolean> callable2 = new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                System.out.println("2");
+                return sendGet("https://www.facebook.com").isOk();
+            }
+        };
+        Callable<Boolean> callable3 = new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                System.out.println("3");
+                return sendGet("https://www.amazon.com").isOk();
+            }
+        };
 
-        if (m1.isOk() /*|| m2.isOk() || m3.isOk()*/)
-            return true;
+        List<Callable<Boolean>> callableList = new ArrayList<Callable<Boolean>>();
+        callableList.add(callable1);
+        callableList.add(callable2);
+        callableList.add(callable3);
 
+        final ExecutorService service = Executors.newFixedThreadPool(3);
+
+        List<Future<Boolean>> futureObjects = null;
+        try {
+            futureObjects = service.invokeAll(callableList);
+        } catch (InterruptedException e) {
+            return false;
+        }
+
+        try {
+            if (futureObjects.get(0).get() || futureObjects.get(1).get() 
+                    || futureObjects.get(2).get()) {
+                
+                return true;
+            
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            
+        }
+        
         return false;
 
     }
 
-    
-    public static boolean isGemiusReachable(){
+    public static boolean isGemiusReachable() {
         String url = "https://gdeapi.gemius.com/OpenSession.php?";
         HttpMessage m1 = sendGet(url);
         if (!m1.isOk())
             return false;
-        
+
         if ("TechnicalBreak".equals(XmlReader.getStatus(m1.getContent())))
             return false;
-        
+
         return true;
     }
-    
+
     public static HttpMessage canDownloadDataFromServer() {
-        
-        if (!HttpDownload.isInternetConnected()) 
-           return new HttpMessage(false, "No internet connection","");
-            
-        
-        
-        
+
+        if (!HttpDownload.isInternetConnected())
+            return new HttpMessage(false, "No internet connection", "");
+
         if (!HttpDownload.isGemiusReachable()) {
-            
+
             String errorMessage = null;
             if (Utils.isGemiusServerMaintenanceHour())
                 errorMessage = "gDE system maintance. Try again later";
             else
                 errorMessage = "Urgent/sustained gDE system maintance. Please contact technical support";
-            
-            return new HttpMessage(false, errorMessage,"");
+
+            return new HttpMessage(false, errorMessage, "");
         }
-        return new HttpMessage(true, "","");
+        return new HttpMessage(true, "", "");
     }
-    
+
 }
