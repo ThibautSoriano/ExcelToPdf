@@ -10,9 +10,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
-import main.java.gui.MainWindow;
-import main.java.gui.ProgressBarWindow;
-
 public class PdfConcat {
 	
 	public  void concat(List<String> filesToConcat, String dest) {

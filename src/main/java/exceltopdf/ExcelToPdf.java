@@ -57,6 +57,7 @@ public class ExcelToPdf {
 
     private boolean wholeTotal;
     private boolean timePeriodTotal;
+    private boolean tocStart;
     private PeriodData monthlyData;
     private PeriodData weeklyData;
     private String dateFormat;
@@ -83,11 +84,12 @@ public class ExcelToPdf {
     }
 
     public ExcelToPdf(String encoding, boolean wholeTotal,
-            boolean timePeriodTotal, String dateFormat) {
+            boolean timePeriodTotal, String dateFormat, boolean tocStart) {
         this.encoding = encoding;
         this.wholeTotal = wholeTotal;
         this.timePeriodTotal = timePeriodTotal;
         this.dateFormat = dateFormat;
+        this.tocStart = tocStart;
     }
 
     public void createPdf(String dest, List<Section> sections,
@@ -148,7 +150,7 @@ public class ExcelToPdf {
 		
 		TableOfContent toc = new TableOfContent();
 		
-		toc.createPdf(dest, TEMP_TOC, filesToMerge, filesToDelete, filesNotInTOC);
+		toc.createPdf(dest, TEMP_TOC, filesToMerge, filesToDelete, filesNotInTOC, tocStart);
 //		FILES.add(TEMP_TOC_DOC);
 //        PdfConcat c = new PdfConcat();
 //        c.concat(FILES, dest);
@@ -173,7 +175,7 @@ public class ExcelToPdf {
                 ptPage.isUniqueCTR(), ptPage.isReach() };
 
         if (ptPage.getMonthlyData() != null) {
-        	Paragraph title = new Paragraph(sectionNumber + ". Monthly Sums", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+        	Paragraph title = new Paragraph(sectionNumber + ". Monthly Sums", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 			sectionNumber++;
 			title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
@@ -187,7 +189,7 @@ public class ExcelToPdf {
         }
 
         if (ptPage.getWeeklyData() != null) {
-        	Paragraph title = new Paragraph(sectionNumber + ". Weekly Sums", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+        	Paragraph title = new Paragraph(sectionNumber + ". Weekly Sums", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 			sectionNumber++;
 			title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
@@ -228,7 +230,7 @@ public class ExcelToPdf {
 
         document.open();
         
-        Paragraph title = new Paragraph(sectionNumber + ". Summary", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+        Paragraph title = new Paragraph(sectionNumber + ". Summary", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 		sectionNumber++;
 		title.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(title);
@@ -263,7 +265,7 @@ public class ExcelToPdf {
         writer.setPageEvent(contentPage.getStructure());
         List<CampaignRow> rows = null;
         document.open();
-        Paragraph title = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " charts", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+        Paragraph title = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " charts", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 		sectionNumber++;
 		title.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(title);
@@ -447,7 +449,7 @@ public class ExcelToPdf {
 			PdfWriter writerG = PdfWriter.getInstance(docGeneral, osGeneral);
 			writerG.setPageEvent(contentPage.getStructure());
 			docGeneral.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " general data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " general data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docGeneral.add(p);
@@ -495,7 +497,7 @@ public class ExcelToPdf {
 			PdfWriter writerW = PdfWriter.getInstance(docWeekly, osWeekly);
 			writerW.setPageEvent(contentPage.getStructure());
 			docWeekly.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " weekly data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " weekly data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docWeekly.add(p);
@@ -526,7 +528,7 @@ public class ExcelToPdf {
 			PdfWriter writerM = PdfWriter.getInstance(docMonthly, osMonthly);
 			writerM.setPageEvent(contentPage.getStructure());
 			docMonthly.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " monthly data", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " monthly data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docMonthly.add(p);
@@ -720,7 +722,7 @@ public class ExcelToPdf {
         
         document.open();
         
-        Paragraph p = new Paragraph("Table of content", new Font(FontFamily.HELVETICA, 22, Font.UNDERLINE));
+        Paragraph p = new Paragraph("Table of content", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		
 		document.add(p);

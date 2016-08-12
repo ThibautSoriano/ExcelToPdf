@@ -3,7 +3,6 @@ package main.java.exceltopdf.pdfsections;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilterOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -30,9 +29,11 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 
 import main.java.datasdownloading.entities.TocElement;
+import main.java.exceltopdf.ExcelToPdf;
 
 
 public class TableOfContent {
+	
 
 //	public static final String SRC1 = "tmp_summary_page.pdf";
 //    public static final String SRC2 = "1tmp_content_page.pdf";
@@ -54,7 +55,7 @@ public class TableOfContent {
 ////        filesToMerge.put("Content page 1", new PdfReader(SRC2));
 //    }
 	
-	 public void createPdf(String filename, String SRC3, List<TocElement> filesToMerge, List<String> filesToDelete, List<String> filesNotInTOC) throws IOException, DocumentException, java.io.IOException {
+	 public void createPdf(String filename, String SRC3, List<TocElement> filesToMerge, List<String> filesToDelete, List<String> filesNotInTOC, boolean tocStart) throws IOException, DocumentException, java.io.IOException {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        Map<Integer, String> toc = new TreeMap<Integer, String>();
 	        Document document = new Document();
@@ -66,13 +67,25 @@ public class TableOfContent {
 	        int pageNo = 0;
 	        PdfImportedPage page;
 	        Chunk chunk;
+//	        FileOutputStream tempConcat = new FileOutputStream("concatStart.pdf");
 	        
+//	        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+//        	Document doc = new Document();
+//        	PdfCopy copy2 = new PdfCopy(doc, baos2);
+        	
 	        for (int i = 0; i < filesNotInTOC.size(); i++) {
+	        	
 	        	PdfReader r = new PdfReader(filesNotInTOC.get(i));
-//	        	n = r.getNumberOfPages();
+//	        	page = copy.getImportedPage(r, 1);
+//	        	copy2.addPage(page);
+//	        	r.close();
 	        	page = copy.getImportedPage(r, 1);
 	        	copy.addPage(page);
+	        	r.close();
 	        }
+	        
+//	       PdfReader starter = new PdfReader(baos.toByteArray());
+//	       doc.close();
 	        
 	        for (TocElement elem : filesToMerge) {
 	            n = elem.getDocToConcat().getNumberOfPages();
@@ -122,17 +135,42 @@ public class TableOfContent {
 	 
 	        reader = new PdfReader(baos.toByteArray());
 	        n = reader.getNumberOfPages();
-	        reader.selectPages(String.format("%d, 1-%d", n, n-1));
-	        FileOutputStream merguez = new FileOutputStream(filename);
-	        PdfStamper stamper = new PdfStamper(reader, merguez);
+	        
+	        
+	        
+	        
+	        FileOutputStream finalPdf = new FileOutputStream(filename);
+//	        PdfReader notInToc = new PdfReader("concatStart.pdf");
+	        if (tocStart) {
+	        	reader.selectPages(String.format("1-%d, %d, %d-%d",filesNotInTOC.size(), n, filesNotInTOC.size(), n-1));
+	        	
+	        	
+//	        	PdfStamper stamp2 = new PdfStamper(reader, finalPdf);
+	        	
+//	        	stamp2.close();
+	        	
+//		        stamper.close();
+	        }
+//	        else {
+//	        	reader.selectPages(String.format("1-%d, %d, %d-%d",filesNotInTOC.size(), n, filesNotInTOC.size(), n-1));
+//	        	PdfStamper stamp2 = new PdfStamper(reader, finalPdf);
+//	        	stamp2.close();
+//	        	stamper.close();
+//	        }
+	        PdfStamper stamper = new PdfStamper(reader, finalPdf);
+//	        PdfStamper stamper = new PdfStamper(reader, finalPdf);
 	        stamper.close();
-	        merguez.close();
+	        finalPdf.close();
+//	        tempConcat.close();
 	        
 	        for (int i = 0; i < filesToDelete.size(); i++) {
 	        	File f = new File(filesToDelete.get(i));
 	        	System.out.println("trying to delete " + filesToDelete.get(i));
 	        	f.delete();
 	        }
+//	        File start = new File("concatStart.pdf");
+//	        start.delete();
+	        ExcelToPdf.CURRENT_PAGE_NUMBER = 0;
 	        
 	        if (Desktop.isDesktopSupported()) {
 			    try {
