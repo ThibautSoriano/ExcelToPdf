@@ -33,10 +33,14 @@ public class GeneralSettingsPanel extends SettingsChoicePanel{
     private JCheckBox chckbxHeader;
     private JCheckBox chckbxFooter;
     private JRadioButton rdbtnTop;
-    private JRadioButton rdbtnBottom;
+	private JRadioButton rdbtnBottom;
     private JLabel lblTableOfContent;
     private JLabel lblPageNumerotation;
     private JLabel lblBottomLeftText;
+    
+    public JRadioButton getRdbtnTop() {
+		return rdbtnTop;
+	}
     
     public JTextField getTxtLogo() {
         return txtLogo;

@@ -43,7 +43,6 @@ import main.java.excelreader.ExcelReader;
 import main.java.excelreader.ExcelReaderRankings;
 import main.java.excelreader.ExcelReaderTechnical;
 import main.java.excelreader.entities.CampaignRow;
-import main.java.excelreader.entities.CampaignRowPeriod;
 import main.java.exceltopdf.ExcelToPdf;
 import main.java.exceltopdf.HeaderFooter;
 import main.java.exceltopdf.pdfsections.ContentPage;
@@ -362,7 +361,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     ecp.getSelectedLanguage());
             ExcelToPdf etpd = new ExcelToPdf(
                     ecp.getSelectedLanguage().getEncoding(), true, false,
-                    ecp.getSelectedLanguage().getDateFormat());
+                    ecp.getSelectedLanguage().getDateFormat(), true);
 
             int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
@@ -516,7 +515,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                 msp.getSelectedLanguage().getEncoding(),
                 msp.getChckbxWholeTotal().isSelected(),
                 msp.getChckbxTimePeriodTotal().isSelected(),
-                msp.getSelectedLanguage().getDateFormat());
+                msp.getSelectedLanguage().getDateFormat(), gsp.getRdbtnTop().isSelected());
 
         String campaignID = ccp.getSelectedId();
 
