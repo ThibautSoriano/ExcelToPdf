@@ -443,21 +443,21 @@ public class HttpDownload {
         Callable<Boolean> callable1 = new Callable<Boolean>() {
             @Override
             public Boolean call() {
-                System.out.println("1");
+                
                 return sendGet("https://www.google.com").isOk();
             }
         };
         Callable<Boolean> callable2 = new Callable<Boolean>() {
             @Override
             public Boolean call() {
-                System.out.println("2");
+               
                 return sendGet("https://www.facebook.com").isOk();
             }
         };
         Callable<Boolean> callable3 = new Callable<Boolean>() {
             @Override
             public Boolean call() {
-                System.out.println("3");
+                
                 return sendGet("https://www.amazon.com").isOk();
             }
         };

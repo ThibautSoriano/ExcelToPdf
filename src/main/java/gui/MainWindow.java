@@ -2,6 +2,7 @@ package main.java.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -318,7 +319,13 @@ public class MainWindow extends JFrame implements IMainFrame {
 
             @Override
             protected Boolean doInBackground() throws Exception {
-                doValidationInSwingWorker();
+                try {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    doValidationInSwingWorker();
+                } finally {
+                    setCursor(Cursor.getDefaultCursor());
+                }
+                
                 return true;
 
             }
@@ -486,16 +493,18 @@ public class MainWindow extends JFrame implements IMainFrame {
 
     private void validationDownload() {
         
+        pbw.setText("Checking internet connection");
         
         HttpMessage m = HttpDownload.canDownloadDataFromServer();
         if (!m.isOk()) {
+            pbw.setVisible(false);
             JOptionPane.showMessageDialog(null,m.getErrorMessage(), "ERROR",
                     JOptionPane.ERROR_MESSAGE);
-            pbw.setVisible(false);
+            
             return ;
         }
         
-        
+        pbw.setText("Downloading data from the Gemius Server");
         
 
         List<SummaryData> summary = new ArrayList<>();
@@ -569,13 +578,16 @@ public class MainWindow extends JFrame implements IMainFrame {
         }
         pbw.setValue(70);
         if (error) {
+            pbw.dispose();
             JOptionPane.showMessageDialog(null,
                     "The connection with the server failed", "ERROR",
                     JOptionPane.ERROR_MESSAGE);
-            pbw.dispose();
+            
             return;
         }
 
+        pbw.setText("Creating the pdf");
+        
         Campaign commonInfos = null;
 
         if (c1 != null)
@@ -853,7 +865,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         panels = new LinkedList<SettingsChoicePanel>();
 
-        panels.add(new LoginPanel());
+        panels.add(new LoginPanel(this));
         panels.add(new CampaignChoicePanel());
         panels.add(new ModulesSettingsPanel());
         panels.add(new GeneralSettingsPanel());
