@@ -341,6 +341,8 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         };
         pbw.setVisible(true);
+        pbw.setValue(0);
+        pbw.setText("");
         try {
             worker.execute();
         } catch (Exception e) {
