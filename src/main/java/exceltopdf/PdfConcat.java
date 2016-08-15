@@ -72,6 +72,7 @@ public class PdfConcat {
 
 		    // Attempt to delete it
 		    boolean success = f.delete();
+		    System.out.println("impossible de supprimer " + f.getName());
 
 		    if (!success)
 		      throw new IllegalArgumentException("Delete: deletion failed");

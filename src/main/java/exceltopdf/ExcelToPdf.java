@@ -259,7 +259,7 @@ public class ExcelToPdf {
         document.setMargins(85, 85, 85, 113);
         String fileName = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
         FileOutputStream outputStream = new FileOutputStream(fileName);
-//        FILES.add(fileName);
+        FILES.add(fileName);
         
         PdfWriter writer = PdfWriter.getInstance(document, outputStream);
         writer.setPageEvent(contentPage.getStructure());
@@ -439,12 +439,12 @@ public class ExcelToPdf {
 		TabCreator tc = new TabCreator(wholeTotal);
 		
 		
-		if (contentPage.isGeneral()) {
+		if (contentPage.isGeneral() || !download) {
 			Document docGeneral = new Document();
 			docGeneral.setMargins(85, 85, 85, 113);
 	    	String fileNameGeneral = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
 			FileOutputStream osGeneral = new FileOutputStream(fileNameGeneral);
-//			FILES.add(fileNameGeneral);
+			FILES.add(fileNameGeneral);
 			
 			PdfWriter writerG = PdfWriter.getInstance(docGeneral, osGeneral);
 			writerG.setPageEvent(contentPage.getStructure());
@@ -487,7 +487,7 @@ public class ExcelToPdf {
                 contentPage.isUniqueCTR(), contentPage.isReach()
         };
         
-        if (contentPage.isWeekly()) {
+        if (contentPage.isWeekly() && download) {
         	Document docWeekly = new Document();
         	docWeekly.setMargins(85, 85, 85, 113);
 	    	String nameWeekly = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
@@ -518,7 +518,7 @@ public class ExcelToPdf {
 	        filesToDelete.add(nameWeekly);
         }
         
-        if (contentPage.isMonthly()) {
+        if (contentPage.isMonthly() && download) {
         	Document docMonthly = new Document();
         	docMonthly.setMargins(85, 85, 85, 113);
 	    	String nameMonthly = Utils.getNewTmpFileName() + TEMP_CONTENT_PAGE;
@@ -556,6 +556,7 @@ public class ExcelToPdf {
         Document document = new Document();
         document.setMargins(85, 85, 85, 113);
         FileOutputStream outputStream = new FileOutputStream(TEMP_INSERT_PAGE);
+        FILES.add(TEMP_INSERT_PAGE);
         filesNotInTOC.add(TEMP_INSERT_PAGE);
         filesToDelete.add(TEMP_INSERT_PAGE);
         PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -604,6 +605,7 @@ public class ExcelToPdf {
         document.setMargins(85, 85, 85, 113);
         
         FileOutputStream outputStream = new FileOutputStream(TEMP_TITLE_PAGE);
+        FILES.add(TEMP_TITLE_PAGE);
         filesNotInTOC.add(TEMP_TITLE_PAGE);
         filesToDelete.add(TEMP_TITLE_PAGE);
         PdfWriter writer = PdfWriter.getInstance(document, outputStream);

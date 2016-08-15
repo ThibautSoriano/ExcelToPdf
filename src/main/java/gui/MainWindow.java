@@ -437,6 +437,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                                 csp.getChckbxUniqueCTRRankings().isSelected());
                         contentPage.setUniqueCookies(csp
                                 .getChckbxUniqueCookiesRankings().isSelected());
+                        contentPage.setChartType(ContentPage.BAR_CHART);
 
                     } else if (src.contains("Technical")) {
                         excelReader = new ExcelReaderTechnical();
@@ -453,6 +454,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                         contentPage.setUniqueCookies(
                                 csp.getChckbxUniqueCookiesTechnical()
                                         .isSelected());
+                        contentPage.setChartType(ContentPage.PIE_CHART);
                     } else {
                         System.err.println("xls not recognized");
                         return;
@@ -599,7 +601,6 @@ public class MainWindow extends JFrame implements IMainFrame {
         else if (c3 != null)
             commonInfos = c3;
 
-        System.out.println("common infos" + commonInfos.getCampaignHeader());
 
         int positionPageCount = gsp.getRdbtnBottomCenter().isSelected()
                 ? HeaderFooter.PAGE_COUNT_MIDDLE
