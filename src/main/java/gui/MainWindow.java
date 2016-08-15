@@ -356,7 +356,8 @@ public class MainWindow extends JFrame implements IMainFrame {
         if (download) {
             validationDownload();
         } else {
-
+            
+            pbw.setText("Parsing the excel file");
             List<Section> sections = new ArrayList<Section>();
 
             ExcelChoicePanel ecp = (ExcelChoicePanel) panels.get(0);
@@ -376,6 +377,7 @@ public class MainWindow extends JFrame implements IMainFrame {
                     ? HeaderFooter.PAGE_COUNT_MIDDLE
                     : HeaderFooter.PAGE_COUNT_RIGHT;
 
+            pbw.setValue(10);
             // Infos for the title page
             TitlePage tp = new TitlePage();
 
@@ -415,14 +417,16 @@ public class MainWindow extends JFrame implements IMainFrame {
             sections.add(ip);
 
             // Columns choice settings
-
+            pbw.setValue(30);
             List<JTextField> fields = ecp.getFields();
             ContentPage contentPage = null;
+            int progress = 20;
             for (JTextField jTextField : fields) {
                 String src = jTextField.getText();
                 if (!src.isEmpty()) {
 
                     ExcelReader excelReader = null;
+                    Campaign zk = null;
 
                     if (src.contains("Rankings")) {
                         excelReader = new ExcelReaderRankings();
@@ -438,6 +442,10 @@ public class MainWindow extends JFrame implements IMainFrame {
                         contentPage.setUniqueCookies(csp
                                 .getChckbxUniqueCookiesRankings().isSelected());
                         contentPage.setChartType(ContentPage.BAR_CHART);
+                        
+                        zk = excelReader.readExcelSheet(src);
+                        zk.setTitle("Rankings");
+                        contentPage.setCampaign(zk);
 
                     } else if (src.contains("Technical")) {
                         excelReader = new ExcelReaderTechnical();
@@ -455,12 +463,16 @@ public class MainWindow extends JFrame implements IMainFrame {
                                 csp.getChckbxUniqueCookiesTechnical()
                                         .isSelected());
                         contentPage.setChartType(ContentPage.PIE_CHART);
+                        
+                        zk = excelReader.readExcelSheet(src);
+                        zk.setTitle("Technical");
+                        contentPage.setCampaign(zk);
+
                     } else {
                         System.err.println("xls not recognized");
                         return;
                     }
-                    Campaign zk = excelReader.readExcelSheet(src);
-                    contentPage.setCampaign(zk);
+                   
 
                     tp.setCampaignName(
                             zk.getCampaignHeader().getCampaignName());
@@ -480,17 +492,25 @@ public class MainWindow extends JFrame implements IMainFrame {
                     hfContent.setLogoInHeader(gsp.getTxtLogo().getText());
                     contentPage.setStructure(hfContent);
                     sections.add(contentPage);
+                    
+                    
                 }
+                pbw.setValue(30+progress/fields.size());
             }
-
+            pbw.setText("Creating the pdf");
             try {
                 etpd.createPdf(
                         Utils.getPdfName(contentPage.getCampaign()
                                 .getCampaignHeader().getCampaignName()),
                         sections, isp.getRdbtnOn().isSelected());
+                pbw.setValue(100);
             } catch (IOException | DocumentException e) {
                 e.printStackTrace();
+                pbw.setValue(0);
+                pbw.setVisible(false);
             }
+            
+            
         }
 
     }
@@ -845,7 +865,7 @@ public class MainWindow extends JFrame implements IMainFrame {
 
         panels = new LinkedList<SettingsChoicePanel>();
         panels.add(new ExcelChoicePanel());
-        panels.add(new GeneralSettingsPanel());
+        panels.add(new GeneralSettingsPanel(false));
         panels.add(new TitleSettingsPanel());
         panels.add(new InsertPageSettingsPanel());
         panels.add(new ColumnsSettingsPanel(false));
@@ -871,7 +891,7 @@ public class MainWindow extends JFrame implements IMainFrame {
         panels.add(new LoginPanel(this));
         panels.add(new CampaignChoicePanel());
         panels.add(new ModulesSettingsPanel());
-        panels.add(new GeneralSettingsPanel());
+        panels.add(new GeneralSettingsPanel(true));
         panels.add(new TitleSettingsPanel());
         panels.add(new InsertPageSettingsPanel());
         panels.add(new ColumnsSettingsPanel(true));
