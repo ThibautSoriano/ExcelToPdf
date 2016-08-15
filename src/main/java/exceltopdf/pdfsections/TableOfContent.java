@@ -88,11 +88,12 @@ public class TableOfContent {
 //	       doc.close();
 	        
 	        for (TocElement elem : filesToMerge) {
-	            n = elem.getDocToConcat().getNumberOfPages();
+	        	PdfReader r = new PdfReader(elem.getDocToConcat());
+	            n = r.getNumberOfPages();
 	            toc.put(pageNo + 1, elem.getChapter());
 	            for (int i = 0; i < n; ) {
 	                pageNo++;
-	                page = copy.getImportedPage(elem.getDocToConcat(), ++i);
+	                page = copy.getImportedPage(r, ++i);
 	                stamp = copy.createPageStamp(page);
 	                chunk = new Chunk(String.format("Goto %d", pageNo), new Font(FontFamily.HELVETICA, 1, Font.UNDERLINE, BaseColor.WHITE));
 	                if (i == 1)
@@ -103,6 +104,7 @@ public class TableOfContent {
 	                stamp.alterContents();
 	                copy.addPage(page);
 	            }
+	            r.close();
 	        }
 	        PdfReader reader = new PdfReader(SRC3);
 	        page = copy.getImportedPage(reader, 1);
@@ -128,9 +130,9 @@ public class TableOfContent {
 	        stamp.alterContents();
 	        copy.addPage(page);
 	        document.close();
-	        for (TocElement t : filesToMerge) {
-	            t.getDocToConcat().close();
-	        }
+//	        for (TocElement t : filesToMerge) {
+//	            t.getDocToConcat().close();
+//	        }
 	        reader.close();
 	 
 	        reader = new PdfReader(baos.toByteArray());

@@ -1,14 +1,12 @@
 package main.java.datasdownloading.entities;
 
-import com.itextpdf.text.pdf.PdfReader;
-
 public class TocElement {
 
 	private String chapter;
 	
-	private PdfReader docToConcat;
+	private String docToConcat;
 
-	public TocElement(String chapter, PdfReader docToConcat) {
+	public TocElement(String chapter, String docToConcat) {
 		this.chapter = chapter;
 		this.docToConcat = docToConcat;
 	}
@@ -21,11 +19,11 @@ public class TocElement {
 		this.chapter = chapter;
 	}
 
-	public PdfReader getDocToConcat() {
+	public String getDocToConcat() {
 		return docToConcat;
 	}
 
-	public void setDocToConcat(PdfReader docToConcat) {
+	public void setDocToConcat(String docToConcat) {
 		this.docToConcat = docToConcat;
 	}
 }

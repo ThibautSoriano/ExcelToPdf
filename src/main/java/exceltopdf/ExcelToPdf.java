@@ -175,7 +175,7 @@ public class ExcelToPdf {
                 ptPage.isUniqueCTR(), ptPage.isReach() };
 
         if (ptPage.getMonthlyData() != null) {
-        	Paragraph title = new Paragraph(sectionNumber + ". Monthly Sums", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+        	Paragraph title = new Paragraph(sectionNumber + ". Monthly Sums", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 			sectionNumber++;
 			title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
@@ -189,7 +189,7 @@ public class ExcelToPdf {
         }
 
         if (ptPage.getWeeklyData() != null) {
-        	Paragraph title = new Paragraph(sectionNumber + ". Weekly Sums", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+        	Paragraph title = new Paragraph(sectionNumber + ". Weekly Sums", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 			sectionNumber++;
 			title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
@@ -211,7 +211,7 @@ public class ExcelToPdf {
         writer = null;
         outputStream = null;
         System.gc();
-        filesToMerge.add(new TocElement("Period sums", new PdfReader(TEMP_PERIOD_TOTAL_PAGE)));
+        filesToMerge.add(new TocElement("Period sums", TEMP_PERIOD_TOTAL_PAGE));
         filesToDelete.add(TEMP_PERIOD_TOTAL_PAGE);
 
     }
@@ -230,7 +230,7 @@ public class ExcelToPdf {
 
         document.open();
         
-        Paragraph title = new Paragraph(sectionNumber + ". Summary", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+        Paragraph title = new Paragraph(sectionNumber + ". Summary", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 		sectionNumber++;
 		title.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(title);
@@ -247,7 +247,7 @@ public class ExcelToPdf {
         writer = null;
         outputStream = null;
         System.gc();
-        filesToMerge.add(new TocElement("Summary", new PdfReader(TEMP_SUMMARY_PAGE)));
+        filesToMerge.add(new TocElement("Summary", TEMP_SUMMARY_PAGE));
         filesToDelete.add(TEMP_SUMMARY_PAGE);
     }
 
@@ -265,7 +265,7 @@ public class ExcelToPdf {
         writer.setPageEvent(contentPage.getStructure());
         List<CampaignRow> rows = null;
         document.open();
-        Paragraph title = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " charts", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+        Paragraph title = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " charts", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 		sectionNumber++;
 		title.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(title);
@@ -434,7 +434,8 @@ public class ExcelToPdf {
         writer = null;
         outputStream = null;
         System.gc();
-        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " charts", new PdfReader(fileName)));
+        
+        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " charts", fileName));
         filesToDelete.add(fileName);
 		TabCreator tc = new TabCreator(wholeTotal);
 		
@@ -449,7 +450,7 @@ public class ExcelToPdf {
 			PdfWriter writerG = PdfWriter.getInstance(docGeneral, osGeneral);
 			writerG.setPageEvent(contentPage.getStructure());
 			docGeneral.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " general data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " general data", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docGeneral.add(p);
@@ -476,7 +477,7 @@ public class ExcelToPdf {
 	        writerG = null;
 	        osGeneral = null;
 	        System.gc();
-	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " general data", new PdfReader(fileNameGeneral)));
+	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " general data", fileNameGeneral));
 	        filesToDelete.add(fileNameGeneral);
 		}
         
@@ -497,7 +498,7 @@ public class ExcelToPdf {
 			PdfWriter writerW = PdfWriter.getInstance(docWeekly, osWeekly);
 			writerW.setPageEvent(contentPage.getStructure());
 			docWeekly.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " weekly data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " weekly data", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docWeekly.add(p);
@@ -514,7 +515,7 @@ public class ExcelToPdf {
 	        writerW = null;
 	        osWeekly = null;
 	        System.gc();
-	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " weekly data", new PdfReader(nameWeekly)));
+	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " weekly data", nameWeekly));
 	        filesToDelete.add(nameWeekly);
         }
         
@@ -528,7 +529,7 @@ public class ExcelToPdf {
 			PdfWriter writerM = PdfWriter.getInstance(docMonthly, osMonthly);
 			writerM.setPageEvent(contentPage.getStructure());
 			docMonthly.open();
-			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " monthly data", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+			Paragraph p = new Paragraph(sectionNumber + ". " + contentPage.getCampaign().getTitle() + " monthly data", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 			sectionNumber++;
 			p.setAlignment(Paragraph.ALIGN_CENTER);
 			docMonthly.add(p);
@@ -545,7 +546,7 @@ public class ExcelToPdf {
 	        writerM = null;
 	        osMonthly = null;
 	        System.gc();
-	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " monthly data", new PdfReader(nameMonthly)));
+	        filesToMerge.add(new TocElement(contentPage.getCampaign().getTitle() + " monthly data", nameMonthly));
 	        filesToDelete.add(nameMonthly);
         }
 
@@ -702,8 +703,8 @@ public class ExcelToPdf {
 
     public Image getImageBar(JFreeChart chart, PdfWriter writer)
             throws BadElementException, IOException {
-        int width = 600;
-        int height = 450;
+        int width = 570;
+        int height = 430;
         BufferedImage bufferedImage = chart.createBufferedImage(width, height);
 
         Image image = Image.getInstance(writer, bufferedImage, 1.0f);
@@ -724,7 +725,7 @@ public class ExcelToPdf {
         
         document.open();
         
-        Paragraph p = new Paragraph("Table of content", new Font(FontFamily.HELVETICA, 18, Font.UNDERLINE));
+        Paragraph p = new Paragraph("Table of content", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		
 		document.add(p);

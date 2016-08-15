@@ -72,10 +72,12 @@ public class PdfConcat {
 
 		    // Attempt to delete it
 		    boolean success = f.delete();
-		    System.out.println("impossible de supprimer " + f.getName());
+		    
 
-		    if (!success)
+		    if (!success) {
+		    	System.out.println("impossible de supprimer " + f.getName());
 		      throw new IllegalArgumentException("Delete: deletion failed");
+		    }
 		  }
 		ExcelToPdf.CURRENT_PAGE_NUMBER = 0;
 		
