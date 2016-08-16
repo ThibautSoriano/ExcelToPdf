@@ -41,8 +41,8 @@ public class HttpDownload {
 
     static {
         RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(4000).setSocketTimeout(4000)
-                .setConnectionRequestTimeout(4000).build();
+                .setConnectTimeout(10000).setSocketTimeout(10000)
+                .setConnectionRequestTimeout(10000).build();
 
         client = HttpClientBuilder.create()
                 .setDefaultRequestConfig(requestConfig).build();
