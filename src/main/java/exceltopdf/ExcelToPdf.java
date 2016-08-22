@@ -722,7 +722,7 @@ public class ExcelToPdf {
         FileOutputStream outputStream = new FileOutputStream(TEMP_TOC);
 //        FILES.add(TEMP_TOC);
         PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-        
+        filesToDelete.add(TEMP_TOC);
         document.open();
         
         Paragraph p = new Paragraph("Table of content", new Font(FontFamily.HELVETICA, 16, Font.UNDERLINE));
