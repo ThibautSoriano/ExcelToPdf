@@ -62,7 +62,7 @@ public class LoginPanel extends SettingsChoicePanel {
         txtPassword = new JPasswordField();
         txtPassword.setColumns(10);
         txtPassword.setBounds(211, 197, 173, 20);
-        txtPassword.setText("ad12dac");
+//        txtPassword.setText("ad12dac");
         add(txtPassword);
 
         chckbxRememberTheLogin = new JCheckBox("Remember the login");

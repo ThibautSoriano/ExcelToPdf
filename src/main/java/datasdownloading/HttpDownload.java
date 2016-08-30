@@ -29,9 +29,9 @@ public class HttpDownload {
 
     public static final int BUDAPEST_ID = 44;
 
-    private String userName; // gpapp
+    private String userName; // gpapp | zburi_owner
 
-    private String password; // Zup38fer
+    private String password; // Zup38fer | ad12dac
 
     private String sessionId;
 
